@@ -1,0 +1,17 @@
+$newline never
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation
+        <span class="icon-bar">
+        <span class="icon-bar">
+        <span class="icon-bar">
+      <a class="navbar-brand" href="@{HomeR}">glot.io
+
+    $# Collect the nav links, forms, and other content for toggling
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav">
+        $#<li :currentPage == HomePage:.active>
+        <li>
+          <a href="@{HomeR}">Home

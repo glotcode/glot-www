@@ -1,0 +1,13 @@
+$newline never
+^{navbarWidget}
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2>Languages
+      $forall lang <- allLanguages
+        <div class="language-badge">
+          <a href="@{LanguageR lang}">
+            <div class="language-icon-large language-badge-icon">
+              <span class="#{languageIconClass lang}">
+            <div class="language-badge-text">#{languageName lang}

@@ -1,0 +1,40 @@
+$newline never
+<div class="editor-widget">
+  <ul class="nav nav-tabs">
+    <li class="settings">
+      <a href="#settings">
+        <i class="fa fa-cog">
+    <li class="active" data-editor="editor-1">
+      <a href="#file-1">untitled
+    <li class="hide" data-editor="editor-2">
+      <a href="#file-2">untitled
+    <li class="hide" data-editor="editor-3">
+      <a href="#file-3">untitled
+    <li class="hide" data-editor="editor-4">
+      <a href="#file-4">untitled
+    <li class="hide" data-editor="editor-5">
+      <a href="#file-5">untitled
+    <li class="hide" data-editor="editor-6">
+      <a href="#file-6">untitled
+    <li class="hide" data-editor="editor-7">
+      <a href="#file-7">untitled
+    <li class="hide" data-editor="editor-8">
+      <a href="#file-8">untitled
+    <li class="hide" data-editor="editor-9">
+      <a href="#file-9">untitled
+    <li class="new-file">
+      <a href="#">
+        <i class="fa fa-plus">
+    <li class="expand">
+      <a href>
+        <i class="fa fa-expand">
+  <div class="editors">
+    <div id="editor-1" class="editor">#{content}
+    <div id="editor-2" class="editor hide">
+    <div id="editor-3" class="editor hide">
+    <div id="editor-4" class="editor hide">
+    <div id="editor-5" class="editor hide">
+    <div id="editor-6" class="editor hide">
+    <div id="editor-7" class="editor hide">
+    <div id="editor-8" class="editor hide">
+    <div id="editor-9" class="editor hide">

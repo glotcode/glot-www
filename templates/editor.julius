@@ -1,0 +1,49 @@
+(function() {
+    function initEditor(id) {
+        var editor = ace.edit(id);
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode(#{toJSON mode});
+        editor.setOptions({
+            minLines: 32,
+            maxLines: 8192,
+        });
+    }
+
+    function setActiveTab(elem) {
+        $(".editor-widget li.active").removeClass("active");
+        elem.removeClass("hide");
+        elem.addClass("active");
+    }
+
+    function showEditor(id) {
+        $(".editors .editor:not(.hide)").addClass("hide");
+        $("#" + id).removeClass("hide");
+    }
+
+    // Handle editor tab clicks
+    $(document).on("click", ".nav-tabs [data-editor]", function(e) {
+        var tab = $(e.target).closest("li");
+        var editorId = tab.data("editor");
+        showEditor(editorId);
+        setActiveTab(tab);
+    });
+
+    // Handle new file clicks
+    $(document).on("click", ".new-file", function(e) {
+        e.preventDefault();
+
+        var tab = $("[data-editor].hide").first();
+        if (tab.length === 0) {
+            return;
+        }
+
+        var editorId = tab.data("editor");
+        initEditor(editorId);
+        showEditor(editorId);
+        setActiveTab(tab);
+    });
+
+    // Initialize first editor
+    // TODO: When loading existing snippet, open 1 tab per file
+    initEditor("editor-1");
+})();

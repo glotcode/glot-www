@@ -1,0 +1,138 @@
+@charset "UTF-8";
+@font-face
+{ 
+    font-family: pictonic;
+    src: url('../font/pictonic.eot');
+    src: url('../font/pictonic.eot?#iefix') format('embedded-opentype'),
+        url('../font/pictonic.ttf') format('truetype'),
+        url('../font/pictonic.woff') format('woff'),
+        url('../font/pictonic.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+ 
+.pictonic
+{
+	font-family: "pictonic";
+	font-weight: normal; font-style: normal;
+	-webkit-font-smoothing:  antialiased !important;
+	-moz-font-smoothing:  antialiased !important;
+	font-smoothing:  antialiased !important;
+	line-height:1em;
+}
+ 
+a.pictonic, span.pictonic, small.pictonic {
+	display: -moz-inline-stack;
+	display:inline-block;
+	zoom: 1;
+	*display: inline;
+}
+ 
+[class^="icon-"], [class*=" icon-"]
+{
+	font-family: "pictonic";
+	font-weight: normal; font-style: normal;
+	-webkit-font-smoothing:  antialiased !important;
+	-moz-font-smoothing:  antialiased !important;
+	font-smoothing:  antialiased !important;
+	line-height:1em;
+}
+ 
+a[class^="icon-"], a[class*=" icon-"], span[class^="icon-"], span[class*=" icon-"], small[class^="icon-"], small[class*=" icon-"] {
+	display: -moz-inline-stack;
+	display:inline-block;
+	zoom: 1;
+	*display: inline;
+}
+  
+.icon-pl-dart:before { content:""; } 
+.icon-pl-clojure:before { content:""; } 
+.icon-pl-groovy-01:before { content:""; } 
+.icon-pl-groovy-02:before { content:""; } 
+.icon-dbs-mysql:before { content:""; } 
+.icon-dbs-postgresql:before { content:""; } 
+.icon-dbs-sqlserver:before { content:""; } 
+.icon-dbs-sqlite:before { content:""; } 
+.icon-dbs-mongodb:before { content:""; } 
+.icon-dbs-riak:before { content:""; } 
+.icon-dbs-couchdb:before { content:""; } 
+.icon-dbs-redis:before { content:""; } 
+.icon-dbs-hadoop:before { content:""; } 
+.icon-dbs-hbase:before { content:""; } 
+.icon-dbs-cassandra:before { content:""; } 
+.icon-dbs-couchbase-01:before { content:""; } 
+.icon-dbs-couchbase-02:before { content:""; } 
+.icon-dbs-neo4j:before { content:""; } 
+.icon-vc-svn:before { content:""; } 
+.icon-vc-git:before { content:""; } 
+.icon-vc-mercurial:before { content:""; } 
+.icon-vc-bitbucket-01:before { content:""; } 
+.icon-vc-bitbucket-02:before { content:""; } 
+.icon-vc-bazaar:before { content:""; } 
+.icon-vc-fossil:before { content:""; } 
+.icon-prog-actionscript:before { content:""; } 
+.icon-prog-php01:before { content:""; } 
+.icon-prog-php02:before { content:""; } 
+.icon-prog-c:before { content:""; } 
+.icon-prog-ruby:before { content:""; } 
+.icon-prog-csharp:before { content:""; } 
+.icon-prog-cplusplus:before { content:""; } 
+.icon-prog-ccplusplus:before { content:""; } 
+.icon-prog-js01:before { content:""; } 
+.icon-prog-objc:before { content:""; } 
+.icon-prog-js02:before { content:""; } 
+.icon-prog-java:before { content:""; } 
+.icon-prog-dotnet:before { content:""; } 
+.icon-prog-vbnet:before { content:""; } 
+.icon-prog-aspnet:before { content:""; } 
+.icon-prog-visualstudio:before { content:""; } 
+.icon-prog-python:before { content:""; } 
+.icon-prog-lua01:before { content:""; } 
+.icon-prog-lua02:before { content:""; } 
+.icon-prog-air01:before { content:""; } 
+.icon-prog-air02:before { content:""; } 
+.icon-prog-jquery:before { content:""; } 
+.icon-prog-mootools:before { content:""; } 
+.icon-prog-nodejs01:before { content:""; } 
+.icon-prog-nodejs02:before { content:""; } 
+.icon-prog-codeign:before { content:""; } 
+.icon-prog-expression:before { content:""; } 
+.icon-prog-symfony:before { content:""; } 
+.icon-prog-yii:before { content:""; } 
+.icon-prog-zendfrm:before { content:""; } 
+.icon-prog-drupal:before { content:""; } 
+.icon-prog-joomla:before { content:""; } 
+.icon-prog-wordpress:before { content:""; } 
+.icon-prog-magento:before { content:""; } 
+.icon-prog-django:before { content:""; } 
+.icon-prog-rails:before { content:""; } 
+.icon-prog-erlang:before { content:""; } 
+.icon-prog-coffeescr:before { content:""; } 
+.icon-prog-perl:before { content:""; } 
+.icon-prog-fortran:before { content:""; } 
+.icon-prog-bash01:before { content:""; } 
+.icon-prog-bash02:before { content:""; } 
+.icon-prog-cobol:before { content:""; } 
+.icon-prog-delphi01:before { content:""; } 
+.icon-prog-matlab:before { content:""; } 
+.icon-prog-delphi02:before { content:""; } 
+.icon-prog-golang01:before { content:""; } 
+.icon-prog-golang02:before { content:""; } 
+.icon-prog-haskell:before { content:""; } 
+.icon-prog-scala:before { content:""; } 
+.icon-prog-lisp:before { content:""; } 
+.icon-prog-basic:before { content:""; } 
+.icon-html5-01:before { content:""; } 
+.icon-html5-02:before { content:""; } 
+.icon-css3-01:before { content:""; } 
+.icon-css3-02:before { content:""; } 
+.icon-angularjs:before { content:""; } 
+.icon-codepen-02:before { content:""; } 
+.icon-codepen-01:before { content:""; } 
+.icon-shopify:before { content:""; } 
+.icon-prog-pylons-02:before { content:""; } 
+.icon-prog-cherrypy:before { content:""; } 
+.icon-prog-backbonejs:before { content:""; } 
+.icon-prog-pylons:before { content:""; } 
+.icon-prog-flask:before { content:""; } 
+.icon-prog-cakephp:before { content:""; }

@@ -1,0 +1,21 @@
+#editor { 
+    height: 800px;
+}
+
+.editor-widget .expand {
+  float: right;
+}
+
+.editor-widget .compress {
+  float: right;
+}
+
+/*
+#settings {
+  padding-left: 50px;
+  padding-top: 30px;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+*/

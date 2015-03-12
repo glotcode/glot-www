@@ -1,0 +1,55 @@
+/* TODO: move to specific templates */
+
+/* Language badge used on the main page */
+.language-badge {
+    float: left;
+    width: 100px;
+    height: 140px;
+    margin-left: 30px;
+    margin-top: 30px;
+}
+
+.language-badge-icon {
+    height: 80px;
+    padding: 10px;
+}
+
+.language-badge-text {
+    margin-top: 42px;
+    text-align: center;
+}
+
+/* Language badge used on author page */
+.language-badge-horizontal {
+    margin-top: 20px;
+}
+
+.language-badge-horizontal-icon {
+    float: left;
+    width: 20px;
+    height: 20px;
+}
+
+.language-badge-horizontal-text {
+    margin-left: 30px;
+}
+
+.language-badge-horizontal-date {
+    margin-top: 4px;
+}
+
+/* Language icon sizes */
+.language-icon-large {
+    font-size: 80px;
+    color: #5c5c5c;
+}
+
+.language-icon-medium {
+    font-size: 40px;
+    color: #5c5c5c;
+}
+
+.language-icon-small {
+    font-size: 20px;
+    color: #5c5c5c;
+}
