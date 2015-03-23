@@ -1,0 +1,3 @@
+Complete the registration by following the link below.
+
+#{url}

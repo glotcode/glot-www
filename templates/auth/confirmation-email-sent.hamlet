@@ -1,0 +1,10 @@
+$newline never
+^{navbarWidget}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h2>Email sent!
+      <p>
+        A confirmation email has been sent to your address. 
+        Click on the link in the email to complete the registration.

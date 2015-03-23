@@ -15,3 +15,26 @@ $newline never
         $#<li :currentPage == HomePage:.active>
         <li>
           <a href="@{HomeR}">Home
+
+      <ul class="nav navbar-nav navbar-right">
+        $maybe Entity _ user <- auth
+          <li :currentPage == AccountPage:.active class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown">#{userEmail user}
+              <b class="caret">
+            <ul class="dropdown-menu">
+              <li>
+                <a href="todo">Profile
+              <li>
+                <a href="todo">Api Token
+              <li class="divider">
+              <li>
+                <a href="@{AuthR LogoutR}">Logout
+        $nothing
+          <li :currentPage == AccountPage:.active class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown">Account
+              <b class="caret">
+            <ul class="dropdown-menu">
+              <li>
+                <a href="@{AuthR registerR}">Register
+              <li>
+                <a href="@{AuthR loginR}">Login
