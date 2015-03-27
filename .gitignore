@@ -13,3 +13,4 @@ cabal.sandbox.config
 .DS_Store
 *.swp
 test
+devel.sh

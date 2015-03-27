@@ -10,11 +10,14 @@ import Yesod.Core.Types     (Logger)
 import qualified Yesod.Core.Unsafe as Unsafe
 
 import Data.ByteString.Lazy (ByteString)
-import Data.ByteString.Base64.URL.Lazy (encode)
 import Network.Mail.Mime (renderMail', simpleMail', Address(..))
 import Util.Shakespare (stextFile)
-import Util.Email (sendEmail)
 import Data.Text.Lazy.Builder (toLazyText)
+
+import Data.UUID.V4 (nextRandom)
+import Data.UUID (toString)
+import Api.Snippets as Snippets
+import Api.Run as Run
 
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -153,9 +156,18 @@ instance YesodAuthSimple App where
     onPasswordUpdated = setMessage $ "Password has been updated"
 
     insertUser email password = do
-
+        uuid <- liftIO $ pack . toString <$> nextRandom
+        snippetsId <- liftIO $ Snippets.addUser uuid
+        runId <- liftIO $ Run.addUser uuid
         now <- liftIO getCurrentTime
-        runDB $ insertUnique $ User email password now now
+        runDB $ do
+            mUserId <- insertUnique $ User email password now now
+            case mUserId of
+                Just userId -> do
+                    _ <- insertUnique $ ApiUser userId snippetsId runId uuid now now
+                    return mUserId
+                Nothing -> do
+                    return mUserId
 
     updateUserPassword uid pass = do
         now <- liftIO getCurrentTime
