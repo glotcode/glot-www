@@ -220,7 +220,7 @@ toAddress email = Address{addressName=Nothing, addressEmail=email}
 fromAddress :: Address
 fromAddress = Address{
     addressName=Just "glot.io",
-    addressEmail="contact@glot.io"}
+    addressEmail="robot@glot.io"}
 
 renderRegisterEmail :: Text -> Text -> IO ByteString
 renderRegisterEmail email url = do
