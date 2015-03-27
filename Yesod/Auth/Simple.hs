@@ -248,7 +248,10 @@ createUser token email pass1 pass2
                 salted <- liftIO $ saltPass pass1
                 mUid <- lift $ insertUser email salted
                 case mUid of
-                    Just _ -> redirect registerSuccessR
+                    Just uid -> do
+                        let creds = Creds "simple" (toPathPiece uid) []
+                        lift $ setCreds False creds
+                        redirect registerSuccessR
                     Nothing -> redirect userExistsR
 
 getConfirmationEmailSentR :: YesodAuthSimple master => AuthHandler master Html
