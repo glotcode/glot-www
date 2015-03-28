@@ -5,4 +5,4 @@
 /robots.txt RobotsR GET
 
 / HomeR GET
-/language/#Language LanguageR GET
+/compose/#Language ComposeR GET

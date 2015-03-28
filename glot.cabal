@@ -22,7 +22,7 @@ library
                      Settings.StaticFiles
                      Handler.Common
                      Handler.Home
-                     Handler.Language
+                     Handler.Compose
                      Model.Language
                      Widget
                      Util.Shakespare

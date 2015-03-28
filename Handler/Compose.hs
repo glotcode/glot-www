@@ -1,10 +1,10 @@
-module Handler.Language where
+module Handler.Compose where
 
 import Import
 import Widget
 
-getLanguageR :: Language -> Handler Html
-getLanguageR lang =
+getComposeR :: Language -> Handler Html
+getComposeR lang =
     defaultLayout $ do
         $(combineScripts 'StaticR [lib_ace_ace_js])
         setTitle $ "glot.io"
