@@ -1,11 +1,7 @@
 module Model.Language where
 
-import Prelude (
-    Maybe(..), String, Show, Read, Eq,
-    show, reads, readsPrec, take, drop, length,
-    (.), ($), (==))
-import Data.Text (pack, unpack, Text)
-import Yesod
+import Prelude (reads, readsPrec)
+import ClassyPrelude.Yesod
 import Util.Multiline (multiline)
 
 data Language = Bash |
