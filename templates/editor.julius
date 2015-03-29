@@ -2,7 +2,7 @@
     function initEditor(id) {
         var editor = ace.edit(id);
         editor.setTheme("ace/theme/monokai");
-        editor.getSession().setMode(#{toJSON mode});
+        editor.getSession().setMode(#{toJSON $ languageAceMode lang});
         editor.setOptions({
             minLines: 32,
             maxLines: 8192,

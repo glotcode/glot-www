@@ -66,6 +66,34 @@ instance Read Language where
 allLanguages :: [Language]
 allLanguages = [Bash, C, Cpp, Erlang, Go, Haskell, Java, Javascript, Perl, Php, Python, Ruby]
 
+languageFileExt :: Language -> Text
+languageFileExt Bash = "sh"
+languageFileExt C = "c"
+languageFileExt Cpp = "cpp"
+languageFileExt Erlang = "erl"
+languageFileExt Go = "go"
+languageFileExt Haskell = "hs"
+languageFileExt Java = "java"
+languageFileExt Javascript = "js"
+languageFileExt Perl = "pl"
+languageFileExt Php = "php"
+languageFileExt Python = "py"
+languageFileExt Ruby = "rb"
+
+languageDefaultFname :: Language -> Text
+languageDefaultFname Bash = "main." ++ languageFileExt Bash
+languageDefaultFname C = "main." ++ languageFileExt C
+languageDefaultFname Cpp = "main." ++ languageFileExt Cpp
+languageDefaultFname Erlang = "main." ++ languageFileExt Erlang
+languageDefaultFname Go = "main." ++ languageFileExt Go
+languageDefaultFname Haskell = "main." ++ languageFileExt Haskell
+languageDefaultFname Java = "Main." ++ languageFileExt Java
+languageDefaultFname Javascript = "main." ++ languageFileExt Javascript
+languageDefaultFname Perl = "main." ++ languageFileExt Perl
+languageDefaultFname Php = "main." ++ languageFileExt Php
+languageDefaultFname Python = "main." ++ languageFileExt Python
+languageDefaultFname Ruby = "main." ++ languageFileExt Ruby
+
 languageIconClass :: Language -> Text
 languageIconClass Bash = "icon-prog-bash02"
 languageIconClass C = "icon-prog-c"

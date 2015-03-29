@@ -26,8 +26,8 @@ defaultSnippet :: Language -> Snippet
 defaultSnippet lang =
     Snippet{
         snippetId="",
-        snippetLanguage="",
-        snippetTitle="",
+        snippetLanguage=pack $ show lang,
+        snippetTitle="Untitled",
         snippetPublic=True,
         snippetUrl="",
         snippetModified="",
@@ -38,6 +38,6 @@ defaultSnippet lang =
 defaultSnippetFiles :: Language -> [SnippetFile]
 defaultSnippetFiles lang =
     [SnippetFile{
-        snippetFileName="main.js",
+        snippetFileName=languageDefaultFname lang,
         snippetFileContent=pack $ languageDefaultContent lang
     }]
