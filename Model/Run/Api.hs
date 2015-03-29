@@ -4,7 +4,7 @@ module Model.Run.Api (
 
 import Import.NoFoundation
 import System.Environment (getEnv)
-import Api
+import Util.Api (createUser)
 
 addUser :: Text -> IO Text
 addUser userToken = do

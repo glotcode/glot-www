@@ -32,9 +32,9 @@ library
                      Util.Shakespare
                      Util.Email
                      Yesod.Auth.Simple
+                     Util.Api
                      Util.Http
                      Util.Multiline
-                     Api
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

@@ -7,7 +7,7 @@ module Model.Snippet.Api (
 
 import Import.NoFoundation hiding (id)
 import System.Environment (getEnv)
-import Api
+import Util.Api (createUser)
 import Util.Http (httpPost, httpGet)
 import Data.Aeson (decode)
 import Data.Maybe (fromJust)

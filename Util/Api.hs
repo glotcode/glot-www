@@ -1,4 +1,4 @@
-module Api (
+module Util.Api (
     createUser
 ) where
 
