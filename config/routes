@@ -5,4 +5,5 @@
 /robots.txt RobotsR GET
 
 / HomeR GET
-/compose/#Language ComposeR GET
+/new/#Language ComposeR GET POST
+/snippets/#Text SnippetR GET

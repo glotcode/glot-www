@@ -1,5 +1,0 @@
-(function() {
-    $(document).on("click", ".save", function(e) {
-        console.log("save");
-    });
-})();

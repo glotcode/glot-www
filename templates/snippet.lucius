@@ -1,0 +1,7 @@
+.actions {
+    margin-top: 16px;
+}
+
+.actions .btn {
+    margin-right: 16px;
+}

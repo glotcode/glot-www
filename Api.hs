@@ -2,14 +2,10 @@ module Api (
     createUser
 ) where
 
-import Network.HTTP.Conduit
-import Network.HTTP.Types.Header
-import Data.Conduit
 import Data.Aeson (encode, decode)
-import Data.Conduit.Binary (sinkLbs)
 import Data.Maybe (fromJust)
-import Import.NoFoundation hiding (newManager)
-import Data.Text (append)
+import Import.NoFoundation
+import Util.Http (httpPost)
 
 
 data CreateUserResponse = CreateUserResponse {
@@ -23,20 +19,6 @@ instance FromJSON CreateUserResponse where
 createUser :: String -> Text -> Text -> IO Text
 createUser url adminToken userToken = do
     let payload = encode $ object ["token" .= userToken]
-    body <- runResourceT $ do
-        req <- parseUrl url
-        let req2 = req {
-                method = "POST",
-                requestBody = RequestBodyLBS payload,
-                redirectCount = 0,
-                requestHeaders = [
-                    (hContentType, "application/json"),
-                    (hAuthorization, authHeader adminToken)]}
-        manager <- liftIO $ newManager conduitManagerSettings
-        res2 <- http req2 manager
-        responseBody res2 $$+- sinkLbs
+    body <- httpPost url (Just adminToken) payload
     let mJson = decode body :: Maybe CreateUserResponse
     return $ createUserResponseId $ fromJust mJson
-
-authHeader :: Text -> ByteString
-authHeader = encodeUtf8 . append "Token "

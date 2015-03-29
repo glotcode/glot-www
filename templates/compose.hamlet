@@ -10,7 +10,7 @@ $newline never
         <div class="snippet-header-language">
           <div class="language-icon-medium snippet-header-language-icon">
             <span class="#{languageIconClass lang}">
-      ^{editorWidget (languageAceMode lang) "function foo(){\n    var bar;\n}"}
+      ^{editorWidget (languageAceMode lang) snippet}
       <div class="actions">
         <button class="btn btn-primary run"><i class="fa fa-play"></i> Run
         <button class="btn btn-success save"><i class="fa fa-save"></i> Save

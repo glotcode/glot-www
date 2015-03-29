@@ -1,21 +1,12 @@
 module Model.Language where
 
 import Prelude (
-    Maybe(..),
-    Show,
-    Read,
-    Eq,
-    show,
-    reads,
-    readsPrec,
-    take,
-    drop,
-    length,
-    (.),
-    ($),
-    (==))
+    Maybe(..), String, Show, Read, Eq,
+    show, reads, readsPrec, take, drop, length,
+    (.), ($), (==))
 import Data.Text (pack, unpack, Text)
 import Yesod
+import Util.Multiline (multiline)
 
 data Language = Bash |
                 C |
@@ -120,3 +111,45 @@ languageName Perl = "Perl"
 languageName Php = "Php"
 languageName Python = "Python"
 languageName Ruby = "Ruby"
+
+languageDefaultContent :: Language -> String
+languageDefaultContent Bash = [multiline|echo Hello World|]
+languageDefaultContent C = [multiline|#include <stdio.h>
+
+int main() {
+    printf("Hello World!\n");
+    return 0;
+}|]
+languageDefaultContent Cpp = [multiline|#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello World!";
+    return 0;
+}|]
+languageDefaultContent Erlang = [multiline|% escript will ignore the first line
+
+main(_) ->
+    io:format("Hello World!~n").|]
+languageDefaultContent Go = [multiline|package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    fmt.Println("Hello World!")
+}|]
+languageDefaultContent Haskell = [multiline|main = putStrLn "Hello World!"|]
+languageDefaultContent Java = [multiline|class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}|]
+languageDefaultContent Javascript = [multiline|console.log("Hello World!");|]
+languageDefaultContent Perl = [multiline|print "Hello World!\n";|]
+languageDefaultContent Php = [multiline|<?php
+
+echo "Hello World\n";|]
+languageDefaultContent Python = [multiline|print("Hello World!")|]
+languageDefaultContent Ruby = [multiline|puts "Hello World!"|]

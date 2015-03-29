@@ -1,0 +1,15 @@
+(function() {
+    $(document).on("click", ".save", function(e) {
+        console.log("save");
+        var data = {
+            "language": "python",
+            "title": "test",
+            "public": true,
+            "files": [
+                {"name": "main.py", "content": "print(42)"}
+            ]
+        };
+
+        XHR.jsonPost("@{ComposeR lang}", data);
+    });
+})();
