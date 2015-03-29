@@ -7,6 +7,7 @@ import Import
 
 editorWidget :: Language -> Snippet -> Widget
 editorWidget lang snippet = do
+    let fileCount = length $ snippetFiles snippet
     addStylesheet $ StaticR lib_ace_ace_js
     $(widgetFile "editor")
 

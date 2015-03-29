@@ -1,4 +1,5 @@
-(function() {
+window.Editor = (function() {
+
     function initEditor(id) {
         var editor = ace.edit(id);
         editor.setTheme("ace/theme/monokai");
@@ -20,12 +21,57 @@
         $("#" + id).removeClass("hide");
     }
 
+    function getFiles() {
+        var editorIds = getEditorIds();
+        var files = editorIds.map(function(id) {
+            return {
+                name: getFilename(id),
+                content: getContent(id),
+            };
+        });
+
+        // Remove files with no content
+        return files.filter(function(file) {
+            return file.content.length > 0;
+        });
+    }
+
+    function getEditorIds() {
+        return $(".editors .editor").map(function() {
+            return $(this).attr('id');
+        }).toArray();
+    }
+
+    function getContent(editorId) {
+        var editor = getEditor(editorId);
+        return editor.getValue();
+    }
+
+    function getFilename(editorId) {
+        var selector = '.nav-tabs [data-editor="' + editorId + '"] a';
+        return $(selector).text();
+    }
+
+    function getEditor(editorId) {
+        return ace.edit(editorId);
+    }
+
+    return {
+        initEditor: initEditor,
+        setActiveTab: setActiveTab,
+        showEditor: showEditor,
+        getFiles: getFiles,
+    };
+
+})();
+
+(function() {
     // Handle editor tab clicks
     $(document).on("click", ".nav-tabs [data-editor]", function(e) {
         var tab = $(e.target).closest("li");
         var editorId = tab.data("editor");
-        showEditor(editorId);
-        setActiveTab(tab);
+        Editor.showEditor(editorId);
+        Editor.setActiveTab(tab);
     });
 
     // Handle new file clicks
@@ -38,12 +84,15 @@
         }
 
         var editorId = tab.data("editor");
-        initEditor(editorId);
-        showEditor(editorId);
-        setActiveTab(tab);
+        Editor.initEditor(editorId);
+        Editor.showEditor(editorId);
+        Editor.setActiveTab(tab);
     });
 
-    // Initialize first editor
-    // TODO: When loading existing snippet, open 1 tab per file
-    initEditor("editor-1");
+    // Initialize editors, 1 per file
+    // Additional editors are loaded when a new file is added
+    var fileCount = #{toJSON $ length $ snippetFiles snippet};
+    for (var i = 1; i <= fileCount; i++) {
+        Editor.initEditor("editor-" + i);
+    }
 })();

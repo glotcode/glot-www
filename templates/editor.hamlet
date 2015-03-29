@@ -9,6 +9,10 @@ $newline never
         <li class="active" data-editor="editor-#{n}">
           <a href="#file-#{n}">
             <span class="filename" contenteditable>#{getFilename lang file n}
+      $elseif n <= fileCount
+        <li data-editor="editor-#{n}">
+          <a href="#file-#{n}">
+            <span class="filename" contenteditable>#{getFilename lang file n}
       $else
         <li class="hide" data-editor="editor-#{n}">
           <a href="#file-#{n}">
