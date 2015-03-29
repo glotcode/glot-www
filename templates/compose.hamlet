@@ -6,7 +6,7 @@ $newline never
     <div class="col-lg-12">
       <div class="snippet-header">
         <div class="snippet-header-title">
-          <h2 contenteditable>Untitled
+          <h2 id="snippet-title" contenteditable>Untitled
         <div class="snippet-header-language">
           <div class="language-icon-medium snippet-header-language-icon">
             <span class="#{languageIconClass lang}">

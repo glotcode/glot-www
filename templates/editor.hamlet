@@ -7,10 +7,12 @@ $newline never
     $forall (n, file) <- enumerateFiles snippet
       $if n == 1
         <li class="active" data-editor="editor-#{n}">
-          <a href="#file-#{n}">#{getFilename lang file n}
+          <a href="#file-#{n}">
+            <span class="filename" contenteditable>#{getFilename lang file n}
       $else
         <li class="hide" data-editor="editor-#{n}">
-          <a href="#file-#{n}">#{getFilename lang file n}
+          <a href="#file-#{n}">
+            <span class="filename" contenteditable>#{getFilename lang file n}
     <li class="new-file">
       <a href="#">
         <i class="fa fa-plus">

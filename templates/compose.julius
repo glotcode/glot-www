@@ -1,15 +1,57 @@
 (function() {
     $(document).on("click", ".save", function(e) {
         console.log("save");
-        var data = {
-            "language": "python",
-            "title": "test",
+        var payload = {
+            "language": #{toJSON $ show lang},
+            "title": getTitle(),
             "public": true,
-            "files": [
-                {"name": "main.py", "content": "print(42)"}
-            ]
+            "files": getFiles(),
         };
 
-        XHR.jsonPost("@{ComposeR lang}", data);
+        XHR.jsonPost("@{ComposeR lang}", payload).done(function(data) {
+          Location.set(data.url);
+        }).fail(function(xhr) {
+          console.log("failed");
+        });
     });
+
+    function getTitle() {
+        return $("#snippet-title").text();
+    }
+
+    function getFiles() {
+        var editorIds = getEditorIds();
+        var files = editorIds.map(function(id) {
+            return {
+                name: getFilename(id),
+                content: getContent(id),
+            };
+        });
+
+        // Remove files with no content
+        return files.filter(function(file) {
+            return file.content.length > 0;
+        });
+    }
+
+    function getEditorIds() {
+        return $(".editors .editor").map(function() {
+            return $(this).attr('id');
+        }).toArray();
+    }
+
+    function getContent(editorId) {
+        var editor = getEditor(editorId);
+        return editor.getValue();
+    }
+
+    function getFilename(editorId) {
+        var selector = '.nav-tabs [data-editor="' + editorId + '"] a';
+        return $(selector).text();
+    }
+
+    function getEditor(editorId) {
+        return ace.edit(editorId);
+    }
+
 })();

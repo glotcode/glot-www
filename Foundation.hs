@@ -78,6 +78,7 @@ instance Yesod App where
             $(combineScripts 'StaticR [
                 lib_jquery_jquery_min_js,
                 lib_bootstrap_bootstrap_min_js,
+                js_location_js,
                 js_xhr_js])
             $(widgetFile "default-layout")
         withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
