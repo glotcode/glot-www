@@ -25,6 +25,9 @@ library
                      Handler.Compose
                      Handler.Snippet
                      Model.Language
+                     Model.Snippet
+                     Model.Snippet.Api
+                     Model.Run.Api
                      Widget
                      Util.Shakespare
                      Util.Email
@@ -32,8 +35,6 @@ library
                      Util.Http
                      Util.Multiline
                      Api
-                     Api.Snippets
-                     Api.Run
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

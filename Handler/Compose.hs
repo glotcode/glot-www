@@ -3,7 +3,7 @@ module Handler.Compose where
 import Import
 import Widget
 import Network.Wai (lazyRequestBody)
-import Api.Snippets (Snippet(..), SnippetFile(..), addSnippet)
+import Model.Snippet.Api (addSnippet)
 
 getComposeR :: Language -> Handler Html
 getComposeR lang = do

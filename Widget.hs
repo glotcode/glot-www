@@ -3,7 +3,6 @@ module Widget (
 ) where
 
 import Import
-import Api.Snippets (Snippet(..), SnippetFile(..))
 
 editorWidget :: Text -> Snippet -> Widget
 editorWidget mode snippet = do

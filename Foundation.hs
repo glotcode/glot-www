@@ -16,8 +16,8 @@ import Data.Text.Lazy.Builder (toLazyText)
 
 import Data.UUID.V4 (nextRandom)
 import Data.UUID (toString)
-import Api.Snippets as Snippets
-import Api.Run as Run
+import qualified Model.Snippet.Api as SnippetApi
+import qualified Model.Run.Api as RunApi
 
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -158,8 +158,8 @@ instance YesodAuthSimple App where
 
     insertUser email password = do
         uuid <- liftIO $ pack . toString <$> nextRandom
-        snippetsId <- liftIO $ Snippets.addUser uuid
-        runId <- liftIO $ Run.addUser uuid
+        snippetsId <- liftIO $ SnippetApi.addUser uuid
+        runId <- liftIO $ RunApi.addUser uuid
         now <- liftIO getCurrentTime
         runDB $ do
             mUserId <- insertUnique $ User email password now now

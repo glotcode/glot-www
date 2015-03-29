@@ -3,7 +3,7 @@ module Handler.Snippet where
 import Prelude (read)
 import Import
 import Widget
-import Api.Snippets (Snippet(..), getSnippet)
+import Model.Snippet.Api (getSnippet)
 
 getSnippetR :: Text -> Handler Html
 getSnippetR snippetId = do

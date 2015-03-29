@@ -1,4 +1,4 @@
-module Api.Run (
+module Model.Run.Api (
     addUser
 ) where
 
