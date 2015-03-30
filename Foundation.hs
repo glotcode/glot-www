@@ -264,12 +264,14 @@ navbarWidget = do
 
 
 data Page = HomePage |
+            SnippetsPage |
             AccountPage |
             None
             deriving Eq
 
 getCurrentPage :: Maybe (Route App) -> Page
 getCurrentPage (Just HomeR) = HomePage
+getCurrentPage (Just SnippetsR) = SnippetsPage
 --getCurrentPage (Just AccountProfileR) = AccountPage
 getCurrentPage (Just r)
     | r == AuthR loginR = AccountPage

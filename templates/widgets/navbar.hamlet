@@ -12,9 +12,10 @@ $newline never
     $# Collect the nav links, forms, and other content for toggling
     <div class="collapse navbar-collapse" id="main-navbar">
       <ul class="nav navbar-nav">
-        $#<li :currentPage == HomePage:.active>
-        <li>
+        <li :currentPage == HomePage:.active>
           <a href="@{HomeR}">Home
+        <li :currentPage == SnippetsPage:.active>
+          <a href="@{SnippetsR}">Snippets
 
       <ul class="nav navbar-nav navbar-right">
         $maybe Entity _ user <- auth
