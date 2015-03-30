@@ -17,10 +17,18 @@ postComposeR :: Language -> Handler Value
 postComposeR _ = do
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ lazyRequestBody req
-    snippet <- liftIO $ addSnippet body Nothing
+    mUserId <- maybeAuthId
+    mAuthToken <- maybeAuthToken mUserId
+    snippet <- liftIO $ addSnippet body mAuthToken
     renderUrl <- getUrlRender
     let url = renderUrl $ SnippetR $ snippetId snippet
     return $ object ["url" .= url]
+
+maybeAuthToken :: Maybe UserId -> Handler (Maybe Text)
+maybeAuthToken Nothing = return Nothing
+maybeAuthToken (Just userId) = do
+    Entity _ apiUser <- runDB $ getBy404 $ UniqueApiUser userId
+    return $ Just $ apiUserToken apiUser
 
 defaultSnippet :: Language -> Snippet
 defaultSnippet lang =

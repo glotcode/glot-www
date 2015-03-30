@@ -13,6 +13,7 @@ ApiUser
     token Text
     created UTCTime
     modified UTCTime
+    UniqueApiUser userId
     UniqueRunId runId
     UniqueSnippetsId snippetsId
     deriving Typeable

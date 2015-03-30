@@ -11,4 +11,5 @@ $newline never
             <span class="#{languageIconClass $ toLanguage $ metaSnippetLanguage snippet}">
           <div class="language-badge-horizontal-text">
             <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
-          <div class="language-badge-horizontal-date">#{metaSnippetModified snippet}
+          <div class="language-badge-horizontal-owner">#{metaSnippetModified snippet}
+          <div class="language-badge-horizontal-owner">#{metaSnippetOwner snippet}
