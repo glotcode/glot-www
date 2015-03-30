@@ -1,6 +1,7 @@
 module Model.Snippet (
     Snippet(..),
-    SnippetFile(..)
+    SnippetFile(..),
+    MetaSnippet(..)
 ) where
 
 import ClassyPrelude.Yesod
@@ -10,7 +11,7 @@ data Snippet = Snippet {
     snippetLanguage :: Text,
     snippetTitle :: Text,
     snippetPublic :: Bool,
-    snippetUrl :: Text,
+    snippetOwner :: Text,
     snippetModified :: Text,
     snippetCreated :: Text,
     snippetFiles :: [SnippetFile]
@@ -19,4 +20,14 @@ data Snippet = Snippet {
 data SnippetFile = SnippetFile {
     snippetFileName :: Text,
     snippetFileContent :: Text
+} deriving (Show)
+
+data MetaSnippet = MetaSnippet {
+    metaSnippetId :: Text,
+    metaSnippetLanguage :: Text,
+    metaSnippetTitle :: Text,
+    metaSnippetPublic :: Bool,
+    metaSnippetOwner :: Text,
+    metaSnippetModified :: Text,
+    metaSnippetCreated :: Text
 } deriving (Show)

@@ -7,3 +7,4 @@
 / HomeR GET
 /new/#Language ComposeR GET POST
 /snippets/#Text SnippetR GET
+/snippets SnippetsR GET

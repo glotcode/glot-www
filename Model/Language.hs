@@ -1,6 +1,6 @@
 module Model.Language where
 
-import Prelude (reads, readsPrec)
+import Prelude (readsPrec)
 import ClassyPrelude.Yesod
 import Util.Multiline (multiline)
 
@@ -15,16 +15,14 @@ data Language = Bash |
                 Perl |
                 Php |
                 Python |
-                Ruby
+                Ruby |
+                Plaintext
                 deriving Eq
 
 
 instance PathPiece Language where
     toPathPiece = pack . show
-    fromPathPiece s =
-        case reads $ unpack s of
-            (lang, _):_ -> Just $ lang
-            [] -> Nothing
+    fromPathPiece s = Just $ toLanguage s
 
 instance Show Language where
     show Bash = "bash"
@@ -39,29 +37,25 @@ instance Show Language where
     show Php = "php"
     show Python = "python"
     show Ruby = "ruby"
+    show Plaintext = "plaintext"
 
 instance Read Language where
-    readsPrec _ value =
-        tryParse [
-            ("bash", Bash),
-            ("cpp", Cpp),
-            ("c", C),
-            ("erlang", Erlang),
-            ("go", Go),
-            ("haskell", Haskell),
-            ("javascript", Javascript),
-            ("java", Java),
-            ("perl", Perl),
-            ("php", Php),
-            ("python", Python),
-            ("ruby", Ruby)
-        ] where
-            tryParse [] = []
-            tryParse ((attempt, result):xs) =
-                if (take (length attempt) value) == attempt
-                then [(result, drop (length attempt) value)]
-                else tryParse xs
+    readsPrec _ value = [(toLanguage $ pack value, value)]
 
+toLanguage :: Text -> Language
+toLanguage "bash" = Bash
+toLanguage "cpp" = Cpp
+toLanguage "c" = C
+toLanguage "erlang" = Erlang
+toLanguage "go" = Go
+toLanguage "haskell" = Haskell
+toLanguage "javascript" = Javascript
+toLanguage "java" = Java
+toLanguage "perl" = Perl
+toLanguage "php" = Php
+toLanguage "python" = Python
+toLanguage "ruby" = Ruby
+toLanguage _ = Plaintext
 
 allLanguages :: [Language]
 allLanguages = [Bash, C, Cpp, Erlang, Go, Haskell, Java, Javascript, Perl, Php, Python, Ruby]
@@ -79,6 +73,7 @@ languageFileExt Perl = "pl"
 languageFileExt Php = "php"
 languageFileExt Python = "py"
 languageFileExt Ruby = "rb"
+languageFileExt Plaintext = "txt"
 
 languageDefaultFname :: Language -> Text
 languageDefaultFname Bash = "main." ++ languageFileExt Bash
@@ -93,6 +88,7 @@ languageDefaultFname Perl = "main." ++ languageFileExt Perl
 languageDefaultFname Php = "main." ++ languageFileExt Php
 languageDefaultFname Python = "main." ++ languageFileExt Python
 languageDefaultFname Ruby = "main." ++ languageFileExt Ruby
+languageDefaultFname Plaintext = "main." ++ languageFileExt Plaintext
 
 languageIconClass :: Language -> Text
 languageIconClass Bash = "icon-prog-bash02"
@@ -107,6 +103,7 @@ languageIconClass Perl = "icon-prog-perl"
 languageIconClass Php = "icon-prog-php02"
 languageIconClass Python = "icon-prog-python"
 languageIconClass Ruby = "icon-prog-ruby"
+languageIconClass Plaintext = ""
 
 languageAceMode :: Language -> Text
 languageAceMode Bash = "ace/mode/sh"
@@ -121,6 +118,7 @@ languageAceMode Perl = "ace/mode/perl"
 languageAceMode Php = "ace/mode/php"
 languageAceMode Python = "ace/mode/python"
 languageAceMode Ruby = "ace/mode/ruby"
+languageAceMode Plaintext = "ace/mode/plain_text"
 
 languageName :: Language -> Text
 languageName Bash = "Bash"
@@ -135,6 +133,7 @@ languageName Perl = "Perl"
 languageName Php = "Php"
 languageName Python = "Python"
 languageName Ruby = "Ruby"
+languageName Plaintext = "Plaintext"
 
 languageDefaultContent :: Language -> String
 languageDefaultContent Bash = [multiline|echo Hello World|]
@@ -177,3 +176,4 @@ languageDefaultContent Php = [multiline|<?php
 echo "Hello World\n";|]
 languageDefaultContent Python = [multiline|print("Hello World!")|]
 languageDefaultContent Ruby = [multiline|puts "Hello World!"|]
+languageDefaultContent Plaintext = [multiline|Hello World!|]

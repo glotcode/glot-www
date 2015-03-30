@@ -1,0 +1,14 @@
+$newline never
+^{navbarWidget}
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h3>Public Snippets
+      $forall snippet <- snippets
+        <div class="language-badge-horizontal">
+          <div class="language-icon-small language-badge-horizontal-icon">
+            <span class="#{languageIconClass $ toLanguage $ metaSnippetLanguage snippet}">
+          <div class="language-badge-horizontal-text">
+            <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
+          <div class="language-badge-horizontal-date">#{metaSnippetModified snippet}

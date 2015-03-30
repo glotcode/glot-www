@@ -1,6 +1,5 @@
 module Handler.Snippet where
 
-import Prelude (read)
 import Import
 import Widget
 import Model.Snippet.Api (getSnippet)
@@ -8,7 +7,7 @@ import Model.Snippet.Api (getSnippet)
 getSnippetR :: Text -> Handler Html
 getSnippetR snippetId = do
     snippet <- liftIO $ getSnippet snippetId Nothing
-    let lang = read $ unpack $ snippetLanguage snippet :: Language
+    let lang = toLanguage $ snippetLanguage snippet
     defaultLayout $ do
         $(combineScripts 'StaticR [lib_ace_ace_js])
         setTitle $ "glot.io"

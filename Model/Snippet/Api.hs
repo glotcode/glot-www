@@ -2,7 +2,8 @@
 module Model.Snippet.Api (
     addUser,
     getSnippet,
-    addSnippet
+    addSnippet,
+    listSnippets
 ) where
 
 import Import.NoFoundation hiding (id)
@@ -18,10 +19,10 @@ data InternalSnippet = InternalSnippet {
     language :: Text,
     title :: Text,
     public :: Bool,
-    url :: Text,
+    owner :: Text,
     modified :: Text,
     created :: Text,
-    files :: [InternalSnippetFile]
+    files :: Maybe [InternalSnippetFile]
 } deriving (Show, Generic)
 
 instance FromJSON InternalSnippet
@@ -42,10 +43,22 @@ toSnippet s =
         snippetLanguage=language s,
         snippetTitle=title s,
         snippetPublic=public s,
-        snippetUrl=url s,
+        snippetOwner=owner s,
         snippetModified=modified s,
         snippetCreated=created s,
-        snippetFiles=map toSnippetFile $ files s
+        snippetFiles=map toSnippetFile $ fromJust $ files s
+    }
+
+toMetaSnippet :: InternalSnippet -> MetaSnippet
+toMetaSnippet s =
+    MetaSnippet{
+        metaSnippetId=id s,
+        metaSnippetLanguage=language s,
+        metaSnippetTitle=title s,
+        metaSnippetPublic=public s,
+        metaSnippetOwner=owner s,
+        metaSnippetModified=modified s,
+        metaSnippetCreated=created s
     }
 
 toSnippetFile :: InternalSnippetFile -> SnippetFile
@@ -75,11 +88,21 @@ getSnippet snippetId authToken = do
     let mJson = decode body :: Maybe InternalSnippet
     return $ toSnippet $ fromJust mJson
 
+listSnippets :: Maybe Text -> IO [MetaSnippet]
+listSnippets authToken = do
+    apiUrl <- getSnippetsUrl <$> getBaseUrl
+    body <- httpGet apiUrl authToken
+    let mJson = decode body :: Maybe [InternalSnippet]
+    return $ map toMetaSnippet $ fromJust mJson
+
 createSnippetUrl :: String -> String
 createSnippetUrl baseUrl = baseUrl ++ "/snippets"
 
 getSnippetUrl :: Text -> String -> String
 getSnippetUrl snippetId baseUrl = baseUrl ++ "/snippets/" ++ unpack snippetId
+
+getSnippetsUrl :: String -> String
+getSnippetsUrl baseUrl = baseUrl ++ "/snippets"
 
 createUserUrl :: String -> String
 createUserUrl baseUrl = baseUrl ++ "/admin/users"
