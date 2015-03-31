@@ -6,17 +6,17 @@ import Util.Handler (maybeApiUser)
 
 getUserSnippetsR :: UserId -> Handler Html
 getUserSnippetsR userId = do
-    mUserId <- maybeAuthId
-    snippets <- fetchSnippets mUserId userId
+    mAuthUserId <- maybeAuthId
+    snippets <- fetchSnippets mAuthUserId userId
     defaultLayout $ do
         setTitle $ "glot.io"
         $(widgetFile "user-snippets")
 
 
 fetchSnippets :: Maybe UserId -> UserId -> Handler [MetaSnippet]
-fetchSnippets (Just uid) userId
-    | userId == uid = do
-        mApiUser <- maybeApiUser $ Just uid
+fetchSnippets (Just authUserId) userId
+    | userId == authUserId = do
+        mApiUser <- maybeApiUser $ Just authUserId
         liftIO $ listSnippets $ apiUserToken <$> mApiUser
 fetchSnippets _ _ =
     -- TODO: listSnippetsByOwner
