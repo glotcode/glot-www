@@ -12,6 +12,8 @@ import qualified Yesod.Core.Unsafe as Unsafe
 import Data.ByteString.Lazy (ByteString)
 import Network.Mail.Mime (renderMail', simpleMail', Address(..))
 import Util.Shakespare (stextFile)
+import Util.Slug (mkSlug)
+import Util (sha1sum)
 import Data.Text.Lazy.Builder (toLazyText)
 
 import Data.UUID.V4 (nextRandom)
@@ -158,12 +160,14 @@ instance YesodAuthSimple App where
     onPasswordUpdated = setMessage $ "Password has been updated"
 
     insertUser email password = do
+        let name = takeWhile (/= '@') email
+        username <- mkUsername email name
         uuid <- liftIO $ pack . toString <$> nextRandom
         snippetsId <- liftIO $ SnippetApi.addUser uuid
         runId <- liftIO $ RunApi.addUser uuid
         now <- liftIO getCurrentTime
         runDB $ do
-            mUserId <- insertUnique $ User email password now now
+            mUserId <- insertUnique $ User email username name password now now
             case mUserId of
                 Just userId -> do
                     _ <- insertUnique $ ApiUser userId snippetsId runId uuid now now
@@ -255,6 +259,15 @@ unsafeHandler = Unsafe.fakeHandlerGetLogger appLogger
 -- https://github.com/yesodweb/yesod/wiki/Sending-email
 -- https://github.com/yesodweb/yesod/wiki/Serve-static-files-from-a-separate-domain
 -- https://github.com/yesodweb/yesod/wiki/i18n-messages-in-the-scaffolding
+
+mkUsername :: Text -> Text -> HandlerT App IO Text
+mkUsername email name = do
+    let slug = mkSlug name
+    mUser <- runDB $ getBy $ UniqueUsername slug
+    return $ case mUser of
+        Just _ -> sha1sum email
+        Nothing -> slug
+
 
 navbarWidget :: Widget
 navbarWidget = do

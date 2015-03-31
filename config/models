@@ -1,9 +1,12 @@
 User
     email Text
+    username Text
+    name Text
     password Text
     created UTCTime
     modified UTCTime
     UniqueUser email
+    UniqueUsername username
     deriving Typeable
 
 ApiUser

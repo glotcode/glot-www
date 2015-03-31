@@ -30,12 +30,14 @@ library
                      Model.Snippet
                      Model.Snippet.Api
                      Model.Run.Api
+                     Util
                      Util.Shakespare
                      Util.Email
                      Util.Handler
                      Util.Api
                      Util.Http
                      Util.Multiline
+                     Util.Slug
                      Widget
                      Yesod.Auth.Simple
 
@@ -110,6 +112,7 @@ library
                  , uuid                          >= 1.3        && < 2.0
                  , conduit-extra                 >= 1.1        && < 2.0
                  , wai                           >= 3.0        && < 4.0
+                 , regex-compat                  >= 0.95       && < 1.0
 
 executable         glot
     if flag(library-only)
