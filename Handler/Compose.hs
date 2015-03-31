@@ -2,6 +2,7 @@ module Handler.Compose where
 
 import Import
 import Widget
+import Util.Handler (maybeApiUser)
 import Network.Wai (lazyRequestBody)
 import Model.Snippet.Api (addSnippet)
 
@@ -18,17 +19,11 @@ postComposeR _ = do
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ lazyRequestBody req
     mUserId <- maybeAuthId
-    mAuthToken <- maybeAuthToken mUserId
-    snippet <- liftIO $ addSnippet body mAuthToken
+    mApiUser <- maybeApiUser mUserId
+    snippet <- liftIO $ addSnippet body $ apiUserToken <$> mApiUser
     renderUrl <- getUrlRender
     let url = renderUrl $ SnippetR $ snippetId snippet
     return $ object ["url" .= url]
-
-maybeAuthToken :: Maybe UserId -> Handler (Maybe Text)
-maybeAuthToken Nothing = return Nothing
-maybeAuthToken (Just userId) = do
-    Entity _ apiUser <- runDB $ getBy404 $ UniqueApiUser userId
-    return $ Just $ apiUserToken apiUser
 
 defaultSnippet :: Language -> Snippet
 defaultSnippet lang =

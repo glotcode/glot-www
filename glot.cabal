@@ -29,13 +29,14 @@ library
                      Model.Snippet
                      Model.Snippet.Api
                      Model.Run.Api
-                     Widget
                      Util.Shakespare
                      Util.Email
-                     Yesod.Auth.Simple
+                     Util.Handler
                      Util.Api
                      Util.Http
                      Util.Multiline
+                     Widget
+                     Yesod.Auth.Simple
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
