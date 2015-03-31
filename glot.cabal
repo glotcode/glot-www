@@ -25,6 +25,7 @@ library
                      Handler.Compose
                      Handler.Snippet
                      Handler.Snippets
+                     Handler.UserSnippets
                      Model.Language
                      Model.Snippet
                      Model.Snippet.Api

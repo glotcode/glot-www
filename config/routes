@@ -8,3 +8,4 @@
 /new/#Language ComposeR GET POST
 /snippets/#Text SnippetR GET PUT
 /snippets SnippetsR GET
+/users/#UserId/snippets UserSnippetsR GET

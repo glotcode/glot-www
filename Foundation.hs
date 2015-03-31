@@ -259,21 +259,25 @@ unsafeHandler = Unsafe.fakeHandlerGetLogger appLogger
 navbarWidget :: Widget
 navbarWidget = do
     auth <- handlerToWidget $ maybeAuth
-    currentPage <- getCurrentPage <$> getCurrentRoute
+    currentPage <- getCurrentPage auth <$> getCurrentRoute
     $(widgetFile "widgets/navbar")
 
 
 data Page = HomePage |
             SnippetsPage |
+            MySnippetsPage |
+            UserSnippetsPage |
             AccountPage |
             None
             deriving Eq
 
-getCurrentPage :: Maybe (Route App) -> Page
-getCurrentPage (Just HomeR) = HomePage
-getCurrentPage (Just SnippetsR) = SnippetsPage
---getCurrentPage (Just AccountProfileR) = AccountPage
-getCurrentPage (Just r)
+getCurrentPage :: Maybe (Entity User) -> Maybe (Route App) -> Page
+getCurrentPage _ (Just HomeR) = HomePage
+getCurrentPage _ (Just SnippetsR) = SnippetsPage
+getCurrentPage (Just (Entity uid _)) (Just (UserSnippetsR userId))
+    | userId == uid = MySnippetsPage
+getCurrentPage _ (Just (UserSnippetsR _)) = UserSnippetsPage
+getCurrentPage _ (Just r)
     | r == AuthR loginR = AccountPage
     | r == AuthR registerR = AccountPage
     | r == AuthR setPasswordR = AccountPage
@@ -283,4 +287,4 @@ getCurrentPage (Just r)
     | r == AuthR userExistsR = AccountPage
     | r == AuthR registerSuccessR = AccountPage
     | r == AuthR confirmationEmailSentR = AccountPage
-getCurrentPage _ = None
+getCurrentPage _ _ = None
