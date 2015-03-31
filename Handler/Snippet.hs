@@ -7,9 +7,9 @@ import Network.Wai (lazyRequestBody)
 
 getSnippetR :: Text -> Handler Html
 getSnippetR snippetId = do
-    snippet <- liftIO $ getSnippet snippetId Nothing
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
+    snippet <- liftIO $ getSnippet snippetId $ apiUserToken <$> mApiUser
     let lang = toLanguage $ snippetLanguage snippet
     defaultLayout $ do
         $(combineScripts 'StaticR [lib_ace_ace_js])
