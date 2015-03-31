@@ -6,12 +6,23 @@ $newline never
     <div class="col-lg-12">
       <div class="snippet-header">
         <div class="snippet-header-title">
-          <h2 contenteditable>Untitled
+          <h2 id="snippet-title" contenteditable>#{snippetTitle snippet}
         <div class="snippet-header-language">
           <div class="language-icon-medium snippet-header-language-icon">
             <span class="#{languageIconClass lang}">
       ^{editorWidget lang snippet}
       <div class="actions">
-        <button class="btn btn-primary run"><i class="fa fa-play"></i> Run
+        <button class="btn btn-primary run">
+          <i class="fa fa-play">
+          \ Run
         $if isSnippetOwner mApiUser snippet
-          <button class="btn btn-success save"><i class="fa fa-save"></i> Save
+          <div class="btn-group">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-save">
+              \ Save #
+              <span class="caret">
+            <ul class="dropdown-menu" role="menu">
+              <li>
+                <a href="#" class="save-public">Save Public
+              <li>
+                <a href="#" class="save-private">Save Private

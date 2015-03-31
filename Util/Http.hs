@@ -1,6 +1,7 @@
 module Util.Http (
     httpGet,
-    httpPost
+    httpPost,
+    httpPut
 ) where
 
 import Network.HTTP.Conduit
@@ -22,13 +23,19 @@ httpGet url authToken = do
         manager <- liftIO $ newManager conduitManagerSettings
         res2 <- http req2 manager
         responseBody res2 $$+- sinkLbs
-    
+
 httpPost :: String -> Maybe Text -> L.ByteString -> IO L.ByteString
-httpPost url authToken payload = do
+httpPost = httpRequest "POST"
+
+httpPut :: String -> Maybe Text -> L.ByteString -> IO L.ByteString
+httpPut = httpRequest "PUT"
+
+httpRequest :: Method -> String -> Maybe Text -> L.ByteString -> IO L.ByteString
+httpRequest method url authToken payload = do
     runResourceT $ do
         req <- parseUrl url
         let req2 = req {
-                method = "POST",
+                method = method,
                 requestBody = RequestBodyLBS payload,
                 redirectCount = 0,
                 requestHeaders = headers authToken}

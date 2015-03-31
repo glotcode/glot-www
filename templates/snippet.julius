@@ -1,15 +1,31 @@
 (function() {
-    $(document).on("click", ".save", function(e) {
-        console.log("save");
-        var data = {
-            "language": "python",
-            "title": "test",
-            "public": true,
-            "files": [
-                {"name": "main.py", "content": "print(42)"}
-            ]
+    $(document).on("click", ".save-public", function(e) {
+        e.preventDefault();
+        save({public: true});
+    });
+
+    $(document).on("click", ".save-private", function(e) {
+        e.preventDefault();
+        save({public: false});
+    });
+
+    function save(options) {
+        var payload = {
+            language: #{toJSON $ show lang},
+            title: getTitle(),
+            public: options.public,
+            files: Editor.getFiles(),
         };
 
-        XHR.jsonPost("@{ComposeR lang}", data);
-    });
+        XHR.jsonPut("@{SnippetR $ snippetId}", payload).done(function(data) {
+          Location.reload();
+        }).fail(function(xhr) {
+          console.log("failed");
+        });
+    }
+
+    function getTitle() {
+        return $("#snippet-title").text();
+    }
+
 })();

@@ -3,10 +3,10 @@
     $(document).on("click", ".save", function(e) {
         console.log("save");
         var payload = {
-            "language": #{toJSON $ show lang},
-            "title": getTitle(),
-            "public": true,
-            "files": Editor.getFiles(),
+            language: #{toJSON $ show lang},
+            title: getTitle(),
+            public: true,
+            files: Editor.getFiles(),
         };
 
         XHR.jsonPost("@{ComposeR lang}", payload).done(function(data) {

@@ -3,13 +3,14 @@ module Model.Snippet.Api (
     addUser,
     getSnippet,
     addSnippet,
+    updateSnippet,
     listSnippets
 ) where
 
 import Import.NoFoundation hiding (id)
 import System.Environment (getEnv)
 import Util.Api (createUser)
-import Util.Http (httpPost, httpGet)
+import Util.Http (httpPost, httpPut, httpGet)
 import Data.Aeson (decode)
 import Data.Maybe (fromJust)
 import qualified Data.ByteString.Lazy as L
@@ -81,16 +82,23 @@ addSnippet payload authToken = do
     let mJson = decode body :: Maybe InternalSnippet
     return $ toSnippet $ fromJust mJson
 
+updateSnippet :: Text -> L.ByteString -> Maybe Text -> IO Snippet
+updateSnippet snippetId payload authToken = do
+    apiUrl <- (snippetUrl snippetId) <$> getBaseUrl
+    body <- httpPut apiUrl authToken payload
+    let mJson = decode body :: Maybe InternalSnippet
+    return $ toSnippet $ fromJust mJson
+
 getSnippet :: Text -> Maybe Text -> IO Snippet
 getSnippet snippetId authToken = do
-    apiUrl <- (getSnippetUrl snippetId) <$> getBaseUrl
+    apiUrl <- (snippetUrl snippetId) <$> getBaseUrl
     body <- httpGet apiUrl authToken
     let mJson = decode body :: Maybe InternalSnippet
     return $ toSnippet $ fromJust mJson
 
 listSnippets :: Maybe Text -> IO [MetaSnippet]
 listSnippets authToken = do
-    apiUrl <- getSnippetsUrl <$> getBaseUrl
+    apiUrl <- snippetsUrl <$> getBaseUrl
     body <- httpGet apiUrl authToken
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ map toMetaSnippet $ fromJust mJson
@@ -98,11 +106,11 @@ listSnippets authToken = do
 createSnippetUrl :: String -> String
 createSnippetUrl baseUrl = baseUrl ++ "/snippets"
 
-getSnippetUrl :: Text -> String -> String
-getSnippetUrl snippetId baseUrl = baseUrl ++ "/snippets/" ++ unpack snippetId
+snippetUrl :: Text -> String -> String
+snippetUrl snippetId baseUrl = baseUrl ++ "/snippets/" ++ unpack snippetId
 
-getSnippetsUrl :: String -> String
-getSnippetsUrl baseUrl = baseUrl ++ "/snippets"
+snippetsUrl :: String -> String
+snippetsUrl baseUrl = baseUrl ++ "/snippets"
 
 createUserUrl :: String -> String
 createUserUrl baseUrl = baseUrl ++ "/admin/users"
