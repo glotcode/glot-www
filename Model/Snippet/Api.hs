@@ -4,7 +4,8 @@ module Model.Snippet.Api (
     getSnippet,
     addSnippet,
     updateSnippet,
-    listSnippets
+    listSnippets,
+    listSnippetsByOwner
 ) where
 
 import Import.NoFoundation hiding (id)
@@ -103,6 +104,13 @@ listSnippets authToken = do
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ map toMetaSnippet $ fromJust mJson
 
+listSnippetsByOwner :: Text -> Maybe Text -> IO [MetaSnippet]
+listSnippetsByOwner userId authToken = do
+    apiUrl <- (snippetsByOwnerUrl userId) <$> getBaseUrl
+    body <- httpGet apiUrl authToken
+    let mJson = decode body :: Maybe [InternalSnippet]
+    return $ map toMetaSnippet $ fromJust mJson
+
 createSnippetUrl :: String -> String
 createSnippetUrl baseUrl = baseUrl ++ "/snippets"
 
@@ -117,6 +125,10 @@ createUserUrl baseUrl = baseUrl ++ "/admin/users"
 
 getBaseUrl :: IO String
 getBaseUrl = getEnv "SNIPPETS_API_BASE_URL"
+
+snippetsByOwnerUrl :: Text -> String -> String
+snippetsByOwnerUrl userId baseUrl =
+    snippetsUrl baseUrl ++ "?owner=" ++ unpack userId
 
 getAdminToken :: IO Text
 getAdminToken = pack <$> getEnv "SNIPPETS_API_ADMIN_TOKEN"

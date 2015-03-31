@@ -1,7 +1,7 @@
 module Handler.UserSnippets where
 
 import Import
-import Model.Snippet.Api (listSnippets)
+import Model.Snippet.Api (listSnippets, listSnippetsByOwner)
 import Util.Handler (maybeApiUser)
 
 getUserSnippetsR :: UserId -> Handler Html
@@ -18,6 +18,6 @@ fetchSnippets (Just authUserId) userId
     | userId == authUserId = do
         mApiUser <- maybeApiUser $ Just authUserId
         liftIO $ listSnippets $ apiUserToken <$> mApiUser
-fetchSnippets _ _ =
-    -- TODO: listSnippetsByOwner
-    liftIO $ listSnippets Nothing
+fetchSnippets _ userId = do
+    Just apiUser <- maybeApiUser $ Just userId
+    liftIO $ listSnippetsByOwner (apiUserSnippetsId apiUser) Nothing
