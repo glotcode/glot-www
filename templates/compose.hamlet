@@ -14,3 +14,20 @@ $newline never
       <div class="actions">
         <button class="btn btn-primary run"><i class="fa fa-play"></i> Run
         <button class="btn btn-success save"><i class="fa fa-save"></i> Save
+      <div class="run-result">
+        <div class="panel panel-info info hide">
+          <div class="panel-heading">Info
+          <div class="panel-body">
+            <pre class="body">
+        <div class="panel panel-success stdout hide">
+          <div class="panel-heading">Stdout
+          <div class="panel-body">
+            <pre class="body">
+        <div class="panel panel-warning stderr hide">
+          <div class="panel-heading">Stderr
+          <div class="panel-body">
+            <pre class="body">
+        <div class="panel panel-danger error hide">
+          <div class="panel-heading">Error
+          <div class="panel-body">
+            <pre class="body">

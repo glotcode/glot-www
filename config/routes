@@ -9,3 +9,4 @@
 /snippets/#Text SnippetR GET PUT
 /snippets SnippetsR GET
 /users/#UserId/snippets UserSnippetsR GET
+/run/#Language RunR POST

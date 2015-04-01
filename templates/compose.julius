@@ -1,5 +1,19 @@
 (function() {
 
+    $(document).on("click", ".run", function(e) {
+        hideAllPanels();
+        showPanel("info", "Running...");
+
+        var payload = Editor.getFiles();
+        XHR.jsonPost("@{RunR lang}", payload).done(function(data) {
+            showRunResult(data);
+        }).fail(function(xhr) {
+            console.log("failed");
+        }).always(function() {
+            hidePanel("info");
+        });
+    });
+
     $(document).on("click", ".save", function(e) {
         console.log("save");
         var payload = {
@@ -15,6 +29,32 @@
           console.log("failed");
         });
     });
+
+    function showRunResult(result) {
+        for (var key in result) {
+            var value = result[key];
+            if (value) {
+                showPanel(key, value);
+            }
+        }
+    }
+
+    function showPanel(name, value) {
+        var selector = ".run-result ." + name;
+        $(selector).removeClass("hide");
+        $(selector + " .body").text(value);
+    }
+
+    function hideAllPanels() {
+        ["info", "stdout", "stderr", "error"].forEach(function(name) {
+            hidePanel(name);
+        });
+    }
+
+    function hidePanel(name) {
+        var selector = ".run-result ." + name;
+        $(selector).addClass("hide");
+    }
 
     function getTitle() {
         return $("#snippet-title").text();
