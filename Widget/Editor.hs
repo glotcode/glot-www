@@ -1,4 +1,4 @@
-module Widget (
+module Widget.Editor (
     editorWidget
 ) where
 

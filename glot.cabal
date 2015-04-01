@@ -39,7 +39,7 @@ library
                      Util.Http
                      Util.Multiline
                      Util.Slug
-                     Widget
+                     Widget.Editor
                      Yesod.Auth.Simple
 
     if flag(dev) || flag(library-only)
