@@ -15,4 +15,4 @@ replaceWithHyphen :: String -> String
 replaceWithHyphen str = ensureSingleHypen $ subRegex (mkRegex "[ _]") str "-"
 
 removeNonEnglish :: String -> String
-removeNonEnglish str = subRegex (mkRegex "[^a-z0-9_ -.]+") str ""
+removeNonEnglish str = subRegex (mkRegex "[^a-z0-9_ -]+") str "-"
