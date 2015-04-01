@@ -1,0 +1,44 @@
+window.RunResult = (function() {
+
+    function show(result) {
+        for (var key in result) {
+            var value = result[key];
+            if (value) {
+                showPanel(key, value);
+            }
+        }
+    }
+
+    function showInfo() {
+        showPanel("info", "Running...");
+    }
+
+    function hideInfo() {
+        hidePanel("info");
+    }
+
+    function clear() {
+        ["info", "stdout", "stderr", "error"].forEach(function(name) {
+            hidePanel(name);
+        });
+    }
+
+    function showPanel(name, value) {
+        var selector = ".run-result ." + name;
+        $(selector).removeClass("hide");
+        $(selector + " .body").text(value);
+    }
+
+    function hidePanel(name) {
+        var selector = ".run-result ." + name;
+        $(selector).addClass("hide");
+    }
+
+    return {
+        show: show,
+        showInfo: showInfo,
+        hideInfo: hideInfo,
+        clear: clear,
+    };
+
+})();

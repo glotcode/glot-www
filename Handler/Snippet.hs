@@ -2,6 +2,7 @@ module Handler.Snippet where
 
 import Import
 import Widget.Editor (editorWidget)
+import Widget.RunResult (runResultWidget)
 import Util.Handler (maybeApiUser)
 import Model.Snippet.Api (getSnippet, updateSnippet)
 import Network.Wai (lazyRequestBody)

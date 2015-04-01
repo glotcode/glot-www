@@ -1,0 +1,10 @@
+.run-result {
+    margin-top: 20px;
+}
+
+.run-result .body {
+    padding: 0px;
+    margin-bottom: 0px;
+    background-color: transparent;
+    border: none;
+}

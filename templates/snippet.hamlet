@@ -26,3 +26,4 @@ $newline never
                 <a href="#" class="save-public">Save Public
               <li>
                 <a href="#" class="save-private">Save Private
+      ^{runResultWidget}

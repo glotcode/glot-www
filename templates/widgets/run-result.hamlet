@@ -1,0 +1,19 @@
+$newline never
+<div class="run-result">
+  <div class="panel panel-info info hide">
+    <div class="panel-heading">Info
+    <div class="panel-body">
+      <pre class="body">
+  <div class="panel panel-success stdout hide">
+    <div class="panel-heading">Stdout
+    <div class="panel-body">
+      <pre class="body">
+  <div class="panel panel-warning stderr hide">
+    <div class="panel-heading">Stderr
+    <div class="panel-body">
+      <pre class="body">
+  <div class="panel panel-danger error hide">
+    <div class="panel-heading">Error
+    <div class="panel-body">
+      <pre class="body">
+

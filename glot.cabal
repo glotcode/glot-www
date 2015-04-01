@@ -40,6 +40,7 @@ library
                      Util.Multiline
                      Util.Slug
                      Widget.Editor
+                     Widget.RunResult
                      Yesod.Auth.Simple
 
     if flag(dev) || flag(library-only)
