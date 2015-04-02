@@ -9,6 +9,7 @@ import Model.Snippet.Api (addSnippet)
 
 getComposeR :: Language -> Handler Html
 getComposeR lang = do
+    auth <- maybeAuth
     let snippet = defaultSnippet lang
     defaultLayout $ do
         $(combineScripts 'StaticR [lib_ace_ace_js])

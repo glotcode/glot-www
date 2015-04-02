@@ -14,12 +14,21 @@
         });
     });
 
-    $(document).on("click", ".save", function(e) {
-        console.log("save");
+    $(document).on("click", ".save-public", function(e) {
+        e.preventDefault();
+        save({public: true});
+    });
+
+    $(document).on("click", ".save-private", function(e) {
+        e.preventDefault();
+        save({public: false});
+    });
+
+    function save(options) {
         var payload = {
             language: #{toJSON $ show lang},
             title: getTitle(),
-            public: true,
+            public: options.public,
             files: Editor.getFiles(),
         };
 
@@ -28,7 +37,7 @@
         }).fail(function(xhr) {
           console.log("failed");
         });
-    });
+    }
 
     function getTitle() {
         return $("#snippet-title").text();

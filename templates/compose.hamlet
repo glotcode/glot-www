@@ -13,5 +13,17 @@ $newline never
       ^{editorWidget lang snippet}
       <div class="actions">
         <button class="btn btn-primary run"><i class="fa fa-play"></i> Run
-        <button class="btn btn-success save"><i class="fa fa-save"></i> Save
+        $maybe _ <- auth
+          <div class="btn-group">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-save">
+              \ Save #
+              <span class="caret">
+            <ul class="dropdown-menu" role="menu">
+              <li>
+                <a href="#" class="save-public">Save Public
+              <li>
+                <a href="#" class="save-private">Save Private
+        $nothing
+          <button class="btn btn-success save-public"><i class="fa fa-save"></i> Save
       ^{runResultWidget Nothing}
