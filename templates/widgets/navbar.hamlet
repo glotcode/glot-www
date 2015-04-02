@@ -27,7 +27,7 @@ $newline never
               <b class="caret">
             <ul class="dropdown-menu">
               <li>
-                <a href="#">Profile
+                <a href="@{AccountProfileR}">Profile
               <li>
                 <a href="#">Api Token
               <li class="divider">

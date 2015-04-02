@@ -10,3 +10,4 @@
 /snippets SnippetsR GET
 /users/#Text/snippets UserSnippetsR GET
 /run/#Language RunR POST
+/account/profile AccountProfileR GET PUT

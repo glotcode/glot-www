@@ -296,6 +296,7 @@ getCurrentPage _ (Just SnippetsR) = SnippetsPage
 getCurrentPage (Just profile) (Just (UserSnippetsR username))
     | profileUsername profile == username = MySnippetsPage
 getCurrentPage _ (Just (UserSnippetsR _)) = UserSnippetsPage
+getCurrentPage _ (Just AccountProfileR) = AccountPage
 getCurrentPage _ (Just r)
     | r == AuthR loginR = AccountPage
     | r == AuthR registerR = AccountPage

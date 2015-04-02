@@ -28,6 +28,7 @@ library
                      Handler.Snippets
                      Handler.UserSnippets
                      Handler.Run
+                     Handler.Account
                      Model.Language
                      Model.Snippet
                      Model.Snippet.Api

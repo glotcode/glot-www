@@ -37,6 +37,7 @@ import Handler.Snippet
 import Handler.Snippets
 import Handler.UserSnippets
 import Handler.Run
+import Handler.Account
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the

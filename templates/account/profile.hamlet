@@ -1,0 +1,18 @@
+$newline never
+^{navbarWidget}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h3>Profile
+      <form class="profile-form">
+        <div class="form-group">
+          <label for="username">Username
+          <input type="text" class="form-control" id="username" value="#{profileUsername profile}" required>
+          <p class="help-block">Allowed characters: [a-z.-]
+        <div class="form-group">
+          <label for="name">Name
+          <input type="text" class="form-control" id="name" value="#{profileName profile}" required>
+        <button type="submit" class="btn btn-primary">
+          <i class="fa fa-save" class="save"> Save
+        <a href="@{AuthR setPasswordR}" class="link">Change password

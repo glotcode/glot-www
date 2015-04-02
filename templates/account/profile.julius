@@ -1,0 +1,33 @@
+(function() {
+
+    $(document).on("submit", ".profile-form", function(e) {
+        e.preventDefault();
+        save();
+    });
+
+    $(document).on("click", ".save", function(e) {
+        e.preventDefault();
+        save();
+    });
+
+    function save() {
+        var payload = {
+            username: getUsername(),
+            name: getName(),
+        };
+
+        XHR.jsonPut("@{AccountProfileR}", payload).done(function(data) {
+          Location.reload();
+        }).fail(function(xhr) {
+          console.log("failed");
+        });
+    }
+
+    function getUsername() {
+        return $("#username").val();
+    }
+
+    function getName() {
+        return $("#name").val();
+    }
+})();
