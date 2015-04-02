@@ -1,11 +1,20 @@
 User
     email Text
-    username Text
-    name Text
     password Text
     created UTCTime
     modified UTCTime
     UniqueUser email
+    deriving Typeable
+
+Profile
+    userId UserId
+    snippetsApiId Text
+    username Text
+    name Text
+    created UTCTime
+    modified UTCTime
+    UniqueProfile userId
+    UniqueSnippetsApiId snippetsApiId
     UniqueUsername username
     deriving Typeable
 

@@ -167,9 +167,10 @@ instance YesodAuthSimple App where
         runId <- liftIO $ RunApi.addUser uuid
         now <- liftIO getCurrentTime
         runDB $ do
-            mUserId <- insertUnique $ User email username name password now now
+            mUserId <- insertUnique $ User email password now now
             case mUserId of
                 Just userId -> do
+                    _ <- insertUnique $ Profile userId snippetsId username name now now
                     _ <- insertUnique $ ApiUser userId snippetsId runId uuid now now
                     return mUserId
                 Nothing -> do

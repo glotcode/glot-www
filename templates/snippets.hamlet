@@ -12,4 +12,4 @@ $newline never
           <div class="language-badge-horizontal-text">
             <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
           <div class="language-badge-horizontal-owner">#{metaSnippetModified snippet}
-          <div class="language-badge-horizontal-owner">#{metaSnippetOwner snippet}
+          <div class="language-badge-horizontal-owner">#{ownerName (metaSnippetOwner snippet) profiles}
