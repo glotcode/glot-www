@@ -34,7 +34,6 @@ library
                      Model.Run.Api
                      Util
                      Util.Shakespare
-                     Util.Email
                      Util.Handler
                      Util.Api
                      Util.Http
