@@ -273,7 +273,12 @@ mkUsername email name = do
 navbarWidget :: Widget
 navbarWidget = do
     auth <- handlerToWidget $ maybeAuth
-    currentPage <- getCurrentPage auth <$> getCurrentRoute
+    mProfile <- case auth of
+        Just (Entity userId _) -> do
+            Entity _ p <- handlerToWidget $ runDB $ getBy404 $ UniqueProfile userId
+            return $ Just p
+        Nothing -> return Nothing
+    currentPage <- getCurrentPage mProfile <$> getCurrentRoute
     $(widgetFile "widgets/navbar")
 
 
@@ -285,11 +290,11 @@ data Page = HomePage |
             None
             deriving Eq
 
-getCurrentPage :: Maybe (Entity User) -> Maybe (Route App) -> Page
+getCurrentPage :: Maybe Profile -> Maybe (Route App) -> Page
 getCurrentPage _ (Just HomeR) = HomePage
 getCurrentPage _ (Just SnippetsR) = SnippetsPage
-getCurrentPage (Just (Entity uid _)) (Just (UserSnippetsR userId))
-    | userId == uid = MySnippetsPage
+getCurrentPage (Just profile) (Just (UserSnippetsR username))
+    | profileUsername profile == username = MySnippetsPage
 getCurrentPage _ (Just (UserSnippetsR _)) = UserSnippetsPage
 getCurrentPage _ (Just r)
     | r == AuthR loginR = AccountPage

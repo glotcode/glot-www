@@ -16,9 +16,9 @@ $newline never
           <a href="@{HomeR}">Home
         <li :currentPage == SnippetsPage:.active>
           <a href="@{SnippetsR}">Public Snippets
-        $maybe Entity userId _ <- auth
+        $maybe profile <- mProfile
           <li :currentPage == MySnippetsPage:.active>
-            <a href="@{UserSnippetsR userId}">My Snippets
+            <a href="@{UserSnippetsR $ profileUsername profile}">My Snippets
 
       <ul class="nav navbar-nav navbar-right">
         $maybe Entity _ user <- auth

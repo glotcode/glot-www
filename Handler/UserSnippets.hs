@@ -4,10 +4,11 @@ import Import
 import Model.Snippet.Api (listSnippets, listSnippetsByOwner)
 import Util.Handler (maybeApiUser)
 
-getUserSnippetsR :: UserId -> Handler Html
-getUserSnippetsR userId = do
+getUserSnippetsR :: Text -> Handler Html
+getUserSnippetsR username = do
+    Entity _ profile <- runDB $ getBy404 $ UniqueUsername username
     mAuthUserId <- maybeAuthId
-    snippets <- fetchSnippets mAuthUserId userId
+    snippets <- fetchSnippets mAuthUserId $ profileUserId profile
     defaultLayout $ do
         setTitle $ "glot.io"
         $(widgetFile "user-snippets")
