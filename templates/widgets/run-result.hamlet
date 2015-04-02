@@ -1,19 +1,38 @@
 $newline never
-<div class="run-result">
-  <div class="panel panel-info info hide">
-    <div class="panel-heading">Info
-    <div class="panel-body">
-      <pre class="body">
-  <div class="panel panel-success stdout hide">
-    <div class="panel-heading">Stdout
-    <div class="panel-body">
-      <pre class="body">
-  <div class="panel panel-warning stderr hide">
-    <div class="panel-heading">Stderr
-    <div class="panel-body">
-      <pre class="body">
-  <div class="panel panel-danger error hide">
-    <div class="panel-heading">Error
-    <div class="panel-body">
-      <pre class="body">
-
+$maybe Entity _ res <- mRunResult
+  $with (runStdout, runStderr, runError) <- (runResultStdout res, runResultStderr res, runResultError res)
+    <div class="run-result">
+      <div class="panel panel-info info hide">
+        <div class="panel-heading">Info
+        <div class="panel-body">
+          <pre class="body">
+      <div class="panel panel-success stdout" :null runStdout:.hide>
+        <div class="panel-heading">Stdout
+        <div class="panel-body">
+          <pre class="body">#{runStdout}
+      <div class="panel panel-warning stderr" :null runStderr:.hide>
+        <div class="panel-heading">Stderr
+        <div class="panel-body">
+          <pre class="body">#{runStderr}
+      <div class="panel panel-danger error" :null runError:.hide>
+        <div class="panel-heading">Error
+        <div class="panel-body">
+          <pre class="body">#{runError}
+$nothing
+  <div class="run-result">
+    <div class="panel panel-info info hide">
+      <div class="panel-heading">Info
+      <div class="panel-body">
+        <pre class="body">
+    <div class="panel panel-success stdout hide">
+      <div class="panel-heading">Stdout
+      <div class="panel-body">
+        <pre class="body">
+    <div class="panel panel-warning stderr hide">
+      <div class="panel-heading">Stderr
+      <div class="panel-body">
+        <pre class="body">
+    <div class="panel panel-danger error hide">
+      <div class="panel-heading">Error
+      <div class="panel-body">
+        <pre class="body">

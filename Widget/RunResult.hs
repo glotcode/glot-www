@@ -4,5 +4,5 @@ module Widget.RunResult (
 
 import Import
 
-runResultWidget :: Widget
-runResultWidget = $(widgetFile "widgets/run-result")
+runResultWidget :: Maybe (Entity RunResult) -> Widget
+runResultWidget mRunResult = $(widgetFile "widgets/run-result")

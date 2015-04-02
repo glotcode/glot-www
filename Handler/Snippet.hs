@@ -12,6 +12,8 @@ getSnippetR snippetId = do
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
     snippet <- liftIO $ getSnippet snippetId $ apiUserToken <$> mApiUser
+    runResult <- runDB $ getBy $ UniqueRunResultHash
+        snippetId $ snippetFilesHash snippet
     let lang = toLanguage $ snippetLanguage snippet
     defaultLayout $ do
         $(combineScripts 'StaticR [lib_ace_ace_js])
