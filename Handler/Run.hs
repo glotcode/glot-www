@@ -5,8 +5,8 @@ import Util.Handler (maybeApiUser)
 import Network.Wai (lazyRequestBody)
 import Model.Run.Api (runSnippet)
 import Model.Snippet.Api (getSnippet)
-import Data.Maybe (fromJust)
 import Util (sha1Lazy)
+import Settings.Environment (runApiAnonymousToken)
 
 postRunR :: Language -> Handler Value
 postRunR lang = do
@@ -14,9 +14,9 @@ postRunR lang = do
     body <- liftIO $ lazyRequestBody req
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
-    -- TODO: use shared token for anonymous users
+    runAnonToken <- liftIO runApiAnonymousToken
     (runStdout, runStderr, runError) <- liftIO $ runSnippet
-        (pack $ show lang) "latest" body $ fromJust (apiUserToken <$> mApiUser)
+        (pack $ show lang) "latest" body $ runApiToken mApiUser runAnonToken
     mSnippetId <- lookupGetParam "snippet"
     persistRunResult lang mSnippetId (apiUserToken <$> mApiUser)
         (sha1Lazy body) (runStdout, runStderr, runError)
@@ -25,6 +25,10 @@ postRunR lang = do
         "stderr" .= runStderr,
         "error" .= runError]
 
+
+runApiToken :: Maybe ApiUser -> Text -> Text
+runApiToken (Just user) _ = apiUserToken user
+runApiToken _ token = token
 
 persistRunResult :: Language -> Maybe Text -> Maybe Text -> Text -> (Text, Text, Text) -> Handler ()
 persistRunResult lang (Just snippetId) mToken filesHash (runStdout, runStderr, runError)

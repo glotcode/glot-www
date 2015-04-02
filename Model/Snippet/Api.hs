@@ -9,9 +9,9 @@ module Model.Snippet.Api (
 ) where
 
 import Import.NoFoundation hiding (id)
-import System.Environment (getEnv)
 import Util.Api (createUser)
 import Util.Http (httpPost, httpPut, httpGet)
+import Settings.Environment (snippetsApiBaseUrl, snippetsApiAdminToken)
 import Data.Aeson (decode)
 import Data.Maybe (fromJust)
 import qualified Data.ByteString.Lazy as L
@@ -74,41 +74,41 @@ toSnippetFile f =
 
 addUser :: Text -> IO Text
 addUser userToken = do
-    url <- createUserUrl <$> getBaseUrl
-    adminToken <- getAdminToken
+    url <- createUserUrl <$> snippetsApiBaseUrl
+    adminToken <- snippetsApiAdminToken
     createUser url adminToken userToken
 
 addSnippet :: L.ByteString -> Maybe Text -> IO Snippet
 addSnippet payload authToken = do
-    apiUrl <- createSnippetUrl <$> getBaseUrl
+    apiUrl <- createSnippetUrl <$> snippetsApiBaseUrl
     body <- httpPost apiUrl authToken payload
     let mJson = decode body :: Maybe InternalSnippet
     return $ toSnippet $ fromJust mJson
 
 updateSnippet :: Text -> L.ByteString -> Maybe Text -> IO Snippet
 updateSnippet snippetId payload authToken = do
-    apiUrl <- (snippetUrl snippetId) <$> getBaseUrl
+    apiUrl <- (snippetUrl snippetId) <$> snippetsApiBaseUrl
     body <- httpPut apiUrl authToken payload
     let mJson = decode body :: Maybe InternalSnippet
     return $ toSnippet $ fromJust mJson
 
 getSnippet :: Text -> Maybe Text -> IO Snippet
 getSnippet snippetId authToken = do
-    apiUrl <- (snippetUrl snippetId) <$> getBaseUrl
+    apiUrl <- (snippetUrl snippetId) <$> snippetsApiBaseUrl
     body <- httpGet apiUrl authToken
     let mJson = decode body :: Maybe InternalSnippet
     return $ toSnippet $ fromJust mJson
 
 listSnippets :: Maybe Text -> IO [MetaSnippet]
 listSnippets authToken = do
-    apiUrl <- snippetsUrl <$> getBaseUrl
+    apiUrl <- snippetsUrl <$> snippetsApiBaseUrl
     body <- httpGet apiUrl authToken
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ map toMetaSnippet $ fromJust mJson
 
 listSnippetsByOwner :: Text -> Maybe Text -> IO [MetaSnippet]
 listSnippetsByOwner userId authToken = do
-    apiUrl <- (snippetsByOwnerUrl userId) <$> getBaseUrl
+    apiUrl <- (snippetsByOwnerUrl userId) <$> snippetsApiBaseUrl
     body <- httpGet apiUrl authToken
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ map toMetaSnippet $ fromJust mJson
@@ -125,12 +125,6 @@ snippetsUrl baseUrl = baseUrl ++ "/snippets"
 createUserUrl :: String -> String
 createUserUrl baseUrl = baseUrl ++ "/admin/users"
 
-getBaseUrl :: IO String
-getBaseUrl = getEnv "SNIPPETS_API_BASE_URL"
-
 snippetsByOwnerUrl :: Text -> String -> String
 snippetsByOwnerUrl userId baseUrl =
     snippetsUrl baseUrl ++ "?owner=" ++ unpack userId
-
-getAdminToken :: IO Text
-getAdminToken = pack <$> getEnv "SNIPPETS_API_ADMIN_TOKEN"

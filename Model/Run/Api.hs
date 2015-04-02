@@ -5,11 +5,11 @@ module Model.Run.Api (
 ) where
 
 import Import.NoFoundation hiding (error, stderr, stdout)
-import System.Environment (getEnv)
 import Util.Api (createUser)
 import Data.Aeson (decode)
 import Data.Maybe (fromJust)
 import Util.Http (httpPost)
+import Settings.Environment (runApiBaseUrl, runApiAdminToken)
 import qualified Data.ByteString.Lazy as L
 
 data InternalRunResult = InternalRunResult {
@@ -22,8 +22,8 @@ instance FromJSON InternalRunResult
 
 addUser :: Text -> IO Text
 addUser userToken = do
-    url <- createUserUrl <$> getBaseUrl
-    adminToken <- getAdminToken
+    url <- createUserUrl <$> runApiBaseUrl
+    adminToken <- runApiAdminToken
     createUser url adminToken userToken
 
 toRunResultTuple :: InternalRunResult -> (Text, Text, Text)
@@ -31,7 +31,7 @@ toRunResultTuple x = (stdout x, stderr x, error x)
 
 runSnippet :: Text -> Text -> L.ByteString -> Text -> IO (Text, Text, Text)
 runSnippet lang version payload authToken = do
-    apiUrl <- (runSnippetUrl lang version) <$> getBaseUrl
+    apiUrl <- (runSnippetUrl lang version) <$> runApiBaseUrl
     body <- httpPost apiUrl (Just authToken) payload
     let mJson = decode body :: Maybe InternalRunResult
     return $ toRunResultTuple $ fromJust mJson
@@ -42,9 +42,3 @@ createUserUrl baseUrl = baseUrl ++ "/admin/users"
 runSnippetUrl :: Text -> Text -> String -> String
 runSnippetUrl lang version baseUrl =
     baseUrl ++ "/languages/" ++ unpack lang ++ "/" ++ unpack version
-
-getBaseUrl :: IO String
-getBaseUrl = getEnv "RUN_API_BASE_URL"
-
-getAdminToken :: IO Text
-getAdminToken = pack <$> getEnv "RUN_API_ADMIN_TOKEN"

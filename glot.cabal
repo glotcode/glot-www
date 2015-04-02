@@ -20,6 +20,7 @@ library
                      Model
                      Settings
                      Settings.StaticFiles
+                     Settings.Environment
                      Handler.Common
                      Handler.Home
                      Handler.Compose
