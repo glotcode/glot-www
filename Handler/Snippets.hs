@@ -24,3 +24,7 @@ ownerName ownerId profiles =
     case find (\x -> profileSnippetsApiId x == ownerId) profiles of
         Just profile -> profileName profile
         Nothing -> "Unknown"
+
+ownerUsername :: Text -> [Profile] -> Maybe Text
+ownerUsername ownerId profiles =
+    profileUsername <$> find (\x -> profileSnippetsApiId x == ownerId) profiles
