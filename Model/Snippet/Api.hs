@@ -22,6 +22,7 @@ data InternalSnippet = InternalSnippet {
     title :: Text,
     public :: Bool,
     owner :: Text,
+    files_hash :: Text,
     modified :: Text,
     created :: Text,
     files :: Maybe [InternalSnippetFile]
@@ -46,6 +47,7 @@ toSnippet s =
         snippetTitle=title s,
         snippetPublic=public s,
         snippetOwner=owner s,
+        snippetFilesHash=files_hash s,
         snippetModified=modified s,
         snippetCreated=created s,
         snippetFiles=map toSnippetFile $ fromJust $ files s

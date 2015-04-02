@@ -34,6 +34,7 @@ defaultSnippet lang =
         snippetTitle="Untitled",
         snippetPublic=True,
         snippetOwner="",
+        snippetFilesHash="",
         snippetModified="",
         snippetCreated="",
         snippetFiles=defaultSnippetFiles lang

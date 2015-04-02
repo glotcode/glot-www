@@ -5,7 +5,7 @@
         RunResult.showInfo("Running...");
 
         var payload = Editor.getFiles();
-        XHR.jsonPost("@{RunR lang}", payload).done(function(data) {
+        XHR.jsonPost("@?{(RunR lang, [("snippet", snippetId)])}", payload).done(function(data) {
             RunResult.show(data);
         }).fail(function(xhr) {
             console.log("failed");

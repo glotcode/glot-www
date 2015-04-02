@@ -13,7 +13,7 @@ import Data.ByteString.Lazy (ByteString)
 import Network.Mail.Mime (renderMail', simpleMail', Address(..))
 import Util.Shakespare (stextFile)
 import Util.Slug (mkSlug)
-import Util (sha1sum)
+import Util (sha1Text)
 import Data.Text.Lazy.Builder (toLazyText)
 
 import Data.UUID.V4 (nextRandom)
@@ -265,7 +265,7 @@ mkUsername email name = do
     let slug = mkSlug name
     mUser <- runDB $ getBy $ UniqueUsername slug
     return $ case mUser of
-        Just _ -> sha1sum email
+        Just _ -> sha1Text email
         Nothing -> slug
 
 

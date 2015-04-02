@@ -12,6 +12,7 @@ data Snippet = Snippet {
     snippetTitle :: Text,
     snippetPublic :: Bool,
     snippetOwner :: Text,
+    snippetFilesHash :: Text,
     snippetModified :: Text,
     snippetCreated :: Text,
     snippetFiles :: [SnippetFile]
