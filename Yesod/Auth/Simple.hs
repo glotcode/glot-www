@@ -280,8 +280,8 @@ getUserExistsR = do
 
 checkPasswordStrength :: Text -> Either Text ()
 checkPasswordStrength x
-    | length x >= 8 = Right ()
-    | otherwise = Left "Password must be at least eight characters"
+    | length x >= 6 = Right ()
+    | otherwise = Left "Password must be at least six characters"
 
 normalizeEmail :: Text -> Text
 normalizeEmail = toLower
