@@ -7,6 +7,12 @@ import Util.Handler (maybeApiUser)
 import Network.Wai (lazyRequestBody)
 import Model.Snippet.Api (addSnippet)
 
+getComposeLanguagesR :: Handler Html
+getComposeLanguagesR = do
+    defaultLayout $ do
+        setTitle $ "glot.io"
+        $(widgetFile "languages")
+
 getComposeR :: Language -> Handler Html
 getComposeR lang = do
     auth <- maybeAuth

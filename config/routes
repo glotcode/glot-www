@@ -5,9 +5,10 @@
 /robots.txt RobotsR GET
 
 / HomeR GET
+/new ComposeLanguagesR GET
 /new/#Language ComposeR GET POST
-/s/#Text SnippetR GET PUT
 /s SnippetsR GET
+/s/#Text SnippetR GET PUT
 /u/#Text/snippets UserSnippetsR GET
 /run/#Language RunR POST
 /account/profile AccountProfileR GET PUT
