@@ -14,6 +14,8 @@ $newline never
       <ul class="nav navbar-nav">
         <li :currentPage == HomePage:.active>
           <a href="@{HomeR}">Home
+        <li :currentPage == ComposeLanguagesPage:.active>
+          <a href="@{ComposeLanguagesR}">New Snippet
         <li :currentPage == SnippetsPage:.active>
           <a href="@{SnippetsR}">Public Snippets
         $maybe profile <- mProfile

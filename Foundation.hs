@@ -282,6 +282,7 @@ navbarWidget = do
 
 
 data Page = HomePage |
+            ComposeLanguagesPage |
             SnippetsPage |
             MySnippetsPage |
             UserSnippetsPage |
@@ -291,6 +292,7 @@ data Page = HomePage |
 
 getCurrentPage :: Maybe Profile -> Maybe (Route App) -> Page
 getCurrentPage _ (Just HomeR) = HomePage
+getCurrentPage _ (Just ComposeLanguagesR) = ComposeLanguagesPage
 getCurrentPage _ (Just SnippetsR) = SnippetsPage
 getCurrentPage (Just profile) (Just (UserSnippetsR username))
     | profileUsername profile == username = MySnippetsPage
