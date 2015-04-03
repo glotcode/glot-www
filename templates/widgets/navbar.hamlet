@@ -13,34 +13,34 @@ $newline never
     <div class="collapse navbar-collapse" id="main-navbar">
       <ul class="nav navbar-nav">
         <li :currentPage == HomePage:.active>
-          <a href="@{HomeR}">Home
+          <a href="@{HomeR}"><i class="fa fa-home"></i> Home
         <li :currentPage == ComposeLanguagesPage:.active>
-          <a href="@{ComposeLanguagesR}">New Snippet
+          <a href="@{ComposeLanguagesR}"><i class="fa fa-edit"></i> New
         <li :currentPage == SnippetsPage:.active>
-          <a href="@{SnippetsR}">Public Snippets
+          <a href="@{SnippetsR}"><i class="fa fa-list"></i> Public
         $maybe profile <- mProfile
           <li :currentPage == MySnippetsPage:.active>
-            <a href="@{UserSnippetsR $ profileUsername profile}">My Snippets
+            <a href="@{UserSnippetsR $ profileUsername profile}"><i class="fa fa-list"></i> Mine
 
       <ul class="nav navbar-nav navbar-right">
         $maybe profile <- mProfile
           <li :currentPage == AccountPage:.active class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{profileName profile}
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> #{profileName profile}
               <b class="caret">
             <ul class="dropdown-menu">
               <li>
-                <a href="@{AccountProfileR}">Profile
+                <a href="@{AccountProfileR}"><i class="fa fa-user"></i> Profile
               <li>
-                <a href="@{AccountTokenR}">Api Token
+                <a href="@{AccountTokenR}"><i class="fa fa-key"></i> Api Token
               <li class="divider">
               <li>
-                <a href="@{AuthR LogoutR}">Logout
+                <a href="@{AuthR LogoutR}"><i class="fa fa-sign-out"></i> Logout
         $nothing
           <li :currentPage == AccountPage:.active class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Account
               <b class="caret">
             <ul class="dropdown-menu">
               <li>
-                <a href="@{AuthR registerR}">Register
+                <a href="@{AuthR registerR}"><i class="fa fa-user"></i> Register
               <li>
-                <a href="@{AuthR loginR}">Login
+                <a href="@{AuthR loginR}"><i class="fa fa-sign-in"></i> Login
