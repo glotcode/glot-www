@@ -1,0 +1,12 @@
+$newline never
+^{navbarWidget}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h3>Api Token
+      <div class="current-token">
+        <h5>Your current token
+        <pre class="token-value">#{apiUserToken apiUser}
+      <button type="button" class="btn btn-primary" class="generate">
+        <i class="fa fa-refresh" class="generate"> Generate new token

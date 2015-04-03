@@ -14,10 +14,9 @@ import Network.Mail.Mime (renderMail', simpleMail', Address(..))
 import Util.Shakespare (stextFile)
 import Util.Slug (mkSlug)
 import Util (sha1Text)
+import Util.User (newToken)
 import Data.Text.Lazy.Builder (toLazyText)
 
-import Data.UUID.V4 (nextRandom)
-import Data.UUID (toString)
 import qualified Model.Snippet.Api as SnippetApi
 import qualified Model.Run.Api as RunApi
 
@@ -162,16 +161,16 @@ instance YesodAuthSimple App where
     insertUser email password = do
         let name = takeWhile (/= '@') email
         username <- mkUsername email name
-        uuid <- liftIO $ pack . toString <$> nextRandom
-        snippetsId <- liftIO $ SnippetApi.addUser uuid
-        runId <- liftIO $ RunApi.addUser uuid
+        token <- liftIO newToken
+        snippetsId <- liftIO $ SnippetApi.addUser token
+        runId <- liftIO $ RunApi.addUser token
         now <- liftIO getCurrentTime
         runDB $ do
             mUserId <- insertUnique $ User email password now now
             case mUserId of
                 Just userId -> do
                     _ <- insertUnique $ Profile userId snippetsId username name now now
-                    _ <- insertUnique $ ApiUser userId snippetsId runId uuid now now
+                    _ <- insertUnique $ ApiUser userId snippetsId runId token now now
                     return mUserId
                 Nothing -> do
                     return mUserId

@@ -40,6 +40,7 @@ library
                      Util.Http
                      Util.Multiline
                      Util.Slug
+                     Util.User
                      Widget.Editor
                      Widget.RunResult
                      Yesod.Auth.Simple

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings, DeriveGeneric #-}
 module Model.Snippet.Api (
     addUser,
+    setUserToken,
     getSnippet,
     addSnippet,
     updateSnippet,
@@ -9,7 +10,7 @@ module Model.Snippet.Api (
 ) where
 
 import Import.NoFoundation hiding (id)
-import Util.Api (createUser)
+import Util.Api (createUser, updateUser)
 import Util.Http (httpPost, httpPut, httpGet)
 import Settings.Environment (snippetsApiBaseUrl, snippetsApiAdminToken)
 import Data.Aeson (decode)
@@ -78,6 +79,12 @@ addUser userToken = do
     adminToken <- snippetsApiAdminToken
     createUser url adminToken userToken
 
+setUserToken :: Text -> Text -> IO ()
+setUserToken userId userToken = do
+    url <- (updateUserUrl userId) <$> snippetsApiBaseUrl
+    adminToken <- snippetsApiAdminToken
+    updateUser url adminToken userToken
+
 addSnippet :: L.ByteString -> Maybe Text -> IO Snippet
 addSnippet payload authToken = do
     apiUrl <- createSnippetUrl <$> snippetsApiBaseUrl
@@ -124,6 +131,9 @@ snippetsUrl baseUrl = baseUrl ++ "/snippets"
 
 createUserUrl :: String -> String
 createUserUrl baseUrl = baseUrl ++ "/admin/users"
+
+updateUserUrl :: Text -> String -> String
+updateUserUrl userId baseUrl = baseUrl ++ "/admin/users/" ++ unpack userId
 
 snippetsByOwnerUrl :: Text -> String -> String
 snippetsByOwnerUrl userId baseUrl =

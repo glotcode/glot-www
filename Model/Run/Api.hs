@@ -1,11 +1,12 @@
 {-# LANGUAGE OverloadedStrings, DeriveGeneric #-}
 module Model.Run.Api (
     addUser,
+    setUserToken,
     runSnippet
 ) where
 
 import Import.NoFoundation hiding (error, stderr, stdout)
-import Util.Api (createUser)
+import Util.Api (createUser, updateUser)
 import Data.Aeson (decode)
 import Data.Maybe (fromJust)
 import Util.Http (httpPost)
@@ -26,6 +27,12 @@ addUser userToken = do
     adminToken <- runApiAdminToken
     createUser url adminToken userToken
 
+setUserToken :: Text -> Text -> IO ()
+setUserToken userId userToken = do
+    url <- (updateUserUrl userId) <$> runApiBaseUrl
+    adminToken <- runApiAdminToken
+    updateUser url adminToken userToken
+
 toRunResultTuple :: InternalRunResult -> (Text, Text, Text)
 toRunResultTuple x = (stdout x, stderr x, error x)
 
@@ -38,6 +45,9 @@ runSnippet lang version payload authToken = do
 
 createUserUrl :: String -> String
 createUserUrl baseUrl = baseUrl ++ "/admin/users"
+
+updateUserUrl :: Text -> String -> String
+updateUserUrl userId baseUrl = baseUrl ++ "/admin/users/" ++ unpack userId
 
 runSnippetUrl :: Text -> Text -> String -> String
 runSnippetUrl lang version baseUrl =

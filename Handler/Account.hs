@@ -4,7 +4,16 @@ module Handler.Account where
 import Import
 import Yesod.Auth.Simple (setPasswordR)
 import Util.Slug (mkSlug)
+import Util.User (newToken)
+import qualified Model.Snippet.Api as SnippetApi
+import qualified Model.Run.Api as RunApi
 
+data ProfileData = ProfileData {
+    name :: Text,
+    username :: Text
+} deriving (Show, Generic)
+
+instance FromJSON ProfileData
 
 getAccountProfileR :: Handler Html
 getAccountProfileR = do
@@ -26,9 +35,21 @@ putAccountProfileR = do
         ProfileModified =. now]
     return $ object []
 
-data ProfileData = ProfileData {
-    name :: Text,
-    username :: Text
-} deriving (Show, Generic)
+getAccountTokenR :: Handler Html
+getAccountTokenR = do
+    userId <- requireAuthId
+    Entity _ apiUser <- runDB $ getBy404 $ UniqueApiUser userId
+    defaultLayout $ do
+        setTitle "glot.io"
+        $(widgetFile "account/token")
 
-instance FromJSON ProfileData
+putAccountTokenR :: Handler Value
+putAccountTokenR = do
+    userId <- requireAuthId
+    Entity apiUserId apiUser <- runDB $ getBy404 $ UniqueApiUser userId
+    token <- liftIO newToken
+    liftIO $ SnippetApi.setUserToken (apiUserSnippetsId apiUser) token
+    liftIO $ RunApi.setUserToken (apiUserRunId apiUser) token
+    now <- liftIO getCurrentTime
+    runDB $ update apiUserId [ApiUserToken =. token, ApiUserModified =. now]
+    return $ object []

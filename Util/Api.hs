@@ -1,11 +1,12 @@
 module Util.Api (
-    createUser
+    createUser,
+    updateUser
 ) where
 
 import Data.Aeson (encode, decode)
 import Data.Maybe (fromJust)
 import Import.NoFoundation
-import Util.Http (httpPost)
+import Util.Http (httpPost, httpPut)
 
 
 data CreateUserResponse = CreateUserResponse {
@@ -22,3 +23,9 @@ createUser url adminToken userToken = do
     body <- httpPost url (Just adminToken) payload
     let mJson = decode body :: Maybe CreateUserResponse
     return $ createUserResponseId $ fromJust mJson
+
+updateUser :: String -> Text -> Text -> IO ()
+updateUser url adminToken userToken = do
+    let payload = encode $ object ["token" .= userToken]
+    _ <- httpPut url (Just adminToken) payload
+    return ()

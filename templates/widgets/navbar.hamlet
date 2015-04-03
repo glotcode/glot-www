@@ -29,7 +29,7 @@ $newline never
               <li>
                 <a href="@{AccountProfileR}">Profile
               <li>
-                <a href="#">Api Token
+                <a href="@{AccountTokenR}">Api Token
               <li class="divider">
               <li>
                 <a href="@{AuthR LogoutR}">Logout
