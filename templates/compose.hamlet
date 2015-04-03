@@ -23,7 +23,7 @@ $newline never
               <li>
                 <a href="#" class="save-public">Save Public
               <li>
-                <a href="#" class="save-private">Save Private
+                <a href="#" class="save-secret">Save Secret
         $nothing
           <button class="btn btn-success save-public"><i class="fa fa-save"></i> Save
       ^{runResultWidget Nothing}

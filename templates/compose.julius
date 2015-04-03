@@ -19,7 +19,7 @@
         save({public: true});
     });
 
-    $(document).on("click", ".save-private", function(e) {
+    $(document).on("click", ".save-secret", function(e) {
         e.preventDefault();
         save({public: false});
     });
