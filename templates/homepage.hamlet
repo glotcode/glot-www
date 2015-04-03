@@ -6,5 +6,4 @@ $newline never
     <span class="header">glot.io
     <p class="lead">an <a href="https://github.com/prasmussen/glot">open source</a> pastebin with runnable snippets and <a href="#todo">API</a>.
     <p class="lead">
-      <a href="@{ComposeLanguagesR}" class="btn btn-primary btn-lg">
-        <i class="fa fa-edit"></i> New Snippet
+      <a href="@{ComposeLanguagesR}" class="btn btn-primary btn-lg"><i class="fa fa-edit"></i> New Snippet

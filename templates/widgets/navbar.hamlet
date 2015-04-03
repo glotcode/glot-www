@@ -17,7 +17,7 @@ $newline never
         <li :currentPage == ComposeLanguagesPage:.active>
           <a href="@{ComposeLanguagesR}"><i class="fa fa-edit"></i> New
         <li :currentPage == SnippetsPage:.active>
-          <a href="@{SnippetsR}"><i class="fa fa-list"></i> Public
+          <a href="@{SnippetsR}"><i class="fa fa-list"></i> Snippets
         $maybe profile <- mProfile
           <li :currentPage == MySnippetsPage:.active>
             <a href="@{UserSnippetsR $ profileUsername profile}"><i class="fa fa-list"></i> Mine
