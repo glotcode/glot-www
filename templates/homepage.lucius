@@ -1,0 +1,63 @@
+nav.navbar {
+    margin-bottom: 0px;
+}
+
+@media (min-width: 768px) {
+    .masthead {
+        padding: 80px 0;
+    }
+}
+
+.masthead {
+    position: relative;
+    padding: 30px 15px;
+    color: #cdbfe3;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(0,0,0,.1);
+    background-color: rgba(43, 48, 58, 1);
+    background-repeat: repeat-x;
+}
+
+.masthead .header {
+    margin-bottom: 10px;
+    height: 144px;
+    font-size: 108px;
+    line-height: 140px;
+    display: block;
+    font-weight: 500;
+    color: #fff;
+    text-align: center;
+    cursor: default;
+}
+
+@media (min-width: 992px) {
+    .masthead .lead {
+        width: 80%;
+        font-size: 30px;
+    }
+}
+
+@media (min-width: 768px) {
+    .masthead .lead {
+        font-size: 24px;
+    }
+}
+
+.masthead .lead {
+    margin: 0 auto 30px;
+    font-size: 20px;
+    color: #fff;
+}
+
+@media (min-width: 768px) {
+    .lead {
+        font-size: 21px;
+    }
+}
+
+.lead {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.4;
+}

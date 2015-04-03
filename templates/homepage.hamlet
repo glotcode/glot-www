@@ -1,13 +1,10 @@
 $newline never
 ^{navbarWidget}
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <h2>Languages
-      $forall lang <- allLanguages
-        <div class="language-badge">
-          <a href="@{ComposeR lang}">
-            <div class="language-icon-large language-badge-icon">
-              <span class="#{languageIconClass lang}">
-            <div class="language-badge-text">#{languageName lang}
+<main class="masthead">
+  <div class="container">
+    <span class="header">glot.io
+    <p class="lead">an <a href="https://github.com/prasmussen/glot">open source</a> pastebin with runnable snippets and <a href="#todo">API</a>.
+    <p class="lead">
+      <a href="@{ComposeLanguagesR}" class="btn btn-primary btn-lg">
+        <i class="fa fa-edit"></i> New Snippet
