@@ -9,7 +9,7 @@ $newline never
         <div class="form-group">
           <label for="username">Username
           <input type="text" class="form-control" id="username" value="#{profileUsername profile}" required>
-          <p class="help-block">Allowed characters: [a-z.-]
+          <p class="help-block">Allowed characters: [a-z0-9.-]
         <div class="form-group">
           <label for="name">Name
           <input type="text" class="form-control" id="name" value="#{profileName profile}" required>

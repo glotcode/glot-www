@@ -6,13 +6,25 @@ import ClassyPrelude.Yesod
 import Text.Regex (subRegex, mkRegex)
 
 mkSlug :: Text -> Text
-mkSlug t = pack . replaceWithHyphen . removeNonEnglish . unpack $ toLower t
+mkSlug t = pack . replaceDotPrefix . replaceHyphenPrefix . ensureSingleDotHypen . ensureSingleDot . ensureSingleHypen . replaceDisallowed . unpack $ toLower t
+
+replaceDotPrefix :: String -> String
+replaceDotPrefix = replace' "^\\." "dot"
+
+replaceHyphenPrefix :: String -> String
+replaceHyphenPrefix = replace' "^-" "hyphen"
+
+ensureSingleDotHypen :: String -> String
+ensureSingleDotHypen = replace' "[-.]{2,}" "-"
+
+ensureSingleDot :: String -> String
+ensureSingleDot = replace' "\\.{2,}" "."
 
 ensureSingleHypen :: String -> String
-ensureSingleHypen str = subRegex (mkRegex "-{2,}") str "-"
+ensureSingleHypen = replace' "-{2,}" "-"
 
-replaceWithHyphen :: String -> String
-replaceWithHyphen str = ensureSingleHypen $ subRegex (mkRegex "[ _]") str "-"
+replaceDisallowed :: String -> String
+replaceDisallowed = replace' "[^a-z0-9.-]+" "-"
 
-removeNonEnglish :: String -> String
-removeNonEnglish str = subRegex (mkRegex "[^a-z0-9_ -]+") str "-"
+replace' :: String -> String -> String -> String
+replace' pattern replacement str = subRegex (mkRegex pattern) str replacement
