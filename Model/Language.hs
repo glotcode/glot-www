@@ -58,7 +58,7 @@ toLanguage "ruby" = Ruby
 toLanguage _ = Plaintext
 
 allLanguages :: [Language]
-allLanguages = [Bash, C, Cpp, Erlang, Go, Haskell, Java, Javascript, Perl, Php, Python, Ruby]
+allLanguages = [Bash, C, Cpp, Erlang, Go, Haskell, Java, Javascript, Perl, Php, Plaintext, Python, Ruby]
 
 languageFileExt :: Language -> Text
 languageFileExt Bash = "sh"
@@ -103,7 +103,7 @@ languageIconClass Perl = "icon-prog-perl"
 languageIconClass Php = "icon-prog-php02"
 languageIconClass Python = "icon-prog-python"
 languageIconClass Ruby = "icon-prog-ruby"
-languageIconClass Plaintext = ""
+languageIconClass Plaintext = "fa fa-file-text-o"
 
 languageAceMode :: Language -> Text
 languageAceMode Bash = "ace/mode/sh"

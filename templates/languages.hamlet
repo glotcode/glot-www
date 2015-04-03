@@ -9,5 +9,5 @@ $newline never
         <div class="language-badge">
           <a href="@{ComposeR lang}">
             <div class="language-icon-large language-badge-icon">
-              <span class="#{languageIconClass lang}">
+              <i class="#{languageIconClass lang}">
             <div class="language-badge-text">#{languageName lang}
