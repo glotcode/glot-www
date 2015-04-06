@@ -6,15 +6,10 @@ module Util.Http (
     httpPut
 ) where
 
-import Network.HTTP.Conduit
-import Network.HTTP.Types.Header
-import Data.Conduit
-import Data.Conduit.Binary (sinkLbs)
-import Import.NoFoundation hiding (newManager)
+import Import.NoFoundation hiding (responseBody)
 import Data.Text (append)
 import qualified Data.ByteString.Lazy as L
-
-import qualified Network.Wreq as W
+import Network.Wreq
 import Control.Lens
 
 data Links = Links {
@@ -24,62 +19,41 @@ data Links = Links {
     relLast :: Maybe Text
 } deriving (Show)
 
-httpGetLink :: String -> Maybe Text -> IO (L.ByteString, Links)
-httpGetLink url authToken = do
-    r <- W.getWith (reqOptions authToken) url
-    return $ (r ^. W.responseBody, toLinks r)
-
 toLinks :: Response body -> Links
 toLinks r =
     Links{
-        relNext=decodeUtf8 <$> (r ^? W.responseLink "rel" "next" . W.linkURL),
-        relPrev=decodeUtf8 <$> (r ^? W.responseLink "rel" "prev" . W.linkURL),
-        relFirst=decodeUtf8 <$> (r ^? W.responseLink "rel" "first" . W.linkURL),
-        relLast=decodeUtf8 <$> (r ^? W.responseLink "rel" "last" . W.linkURL)
+        relNext=decodeUtf8 <$> (r ^? responseLink "rel" "next" . linkURL),
+        relPrev=decodeUtf8 <$> (r ^? responseLink "rel" "prev" . linkURL),
+        relFirst=decodeUtf8 <$> (r ^? responseLink "rel" "first" . linkURL),
+        relLast=decodeUtf8 <$> (r ^? responseLink "rel" "last" . linkURL)
     }
 
 httpGet :: String -> Maybe Text -> IO L.ByteString
 httpGet url authToken = do
-    runResourceT $ do
-        req <- parseUrl url
-        let req2 = req {
-                method = "GET",
-                redirectCount = 0,
-                requestHeaders = headers authToken}
-        manager <- liftIO $ newManager conduitManagerSettings
-        res2 <- http req2 manager
-        responseBody res2 $$+- sinkLbs
+    r <- getWith (reqOptions authToken) url
+    return $ r ^. responseBody
+
+httpGetLink :: String -> Maybe Text -> IO (L.ByteString, Links)
+httpGetLink url authToken = do
+    r <- getWith (reqOptions authToken) url
+    return $ (r ^. responseBody, toLinks r)
 
 httpPost :: String -> Maybe Text -> L.ByteString -> IO L.ByteString
-httpPost = httpRequest "POST"
+httpPost url authToken payload = do
+    r <- postWith (reqOptions authToken) url payload
+    return $ r ^. responseBody
 
 httpPut :: String -> Maybe Text -> L.ByteString -> IO L.ByteString
-httpPut = httpRequest "PUT"
+httpPut url authToken payload = do
+    r <- putWith (reqOptions authToken) url payload
+    return $ r ^. responseBody
 
-httpRequest :: Method -> String -> Maybe Text -> L.ByteString -> IO L.ByteString
-httpRequest method url authToken payload = do
-    runResourceT $ do
-        req <- parseUrl url
-        let req2 = req {
-                method = method,
-                requestBody = RequestBodyLBS payload,
-                redirectCount = 0,
-                requestHeaders = headers authToken}
-        manager <- liftIO $ newManager conduitManagerSettings
-        res2 <- http req2 manager
-        responseBody res2 $$+- sinkLbs
-
-reqOptions :: Maybe Text -> W.Options
-reqOptions Nothing = W.defaults
+reqOptions :: Maybe Text -> Options
+reqOptions Nothing = defaults & header "Content-type" .~ ["application/json"]
 reqOptions (Just authToken) =
-    W.defaults & W.header "Authorization" .~ [authHeader authToken]
-
-headers :: Maybe Text -> RequestHeaders
-headers Nothing = [(hContentType, "application/json")]
-headers (Just authToken) = [
-        (hContentType, "application/json"),
-        (hAuthorization, authHeader authToken)
-    ]
+    defaults &
+        header "Authorization" .~ [authHeader authToken] &
+        header "Content-type" .~ ["application/json"]
 
 authHeader :: Text -> ByteString
 authHeader = encodeUtf8 . append "Token "
