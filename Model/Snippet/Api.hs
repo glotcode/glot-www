@@ -11,11 +11,12 @@ module Model.Snippet.Api (
 
 import Import.NoFoundation hiding (id)
 import Util.Api (createUser, updateUser)
-import Util.Http (httpPost, httpPut, httpGet)
+import Util.Http (Links(..), httpPost, httpPut, httpGet, httpGetLink)
 import Settings.Environment (snippetsApiBaseUrl, snippetsApiAdminToken)
 import Data.Aeson (decode)
 import Data.Maybe (fromJust)
 import qualified Data.ByteString.Lazy as L
+import Network.URI (parseURI, uriQuery)
 
 data InternalSnippet = InternalSnippet {
     id :: Text,
@@ -73,6 +74,27 @@ toSnippetFile f =
         snippetFileContent=content f
     }
 
+linksToPagination :: Links -> Pagination
+linksToPagination links =
+    Pagination{
+        paginationNextPage=parseQsPage $ relNext links,
+        paginationPrevPage=parseQsPage $ relPrev links,
+        paginationFirstPage=parseQsPage $ relFirst links,
+        paginationLastPage=parseQsPage $ relLast links
+    }
+
+parseQsPage :: Maybe Text -> Maybe Text
+parseQsPage (Just url) = join $ lookupQsParam "page" <$> qs
+    where qs = parseSimpleQuery . encodeUtf8 . pack . uriQuery <$> uri
+          uri = parseURI $ unpack url
+parseQsPage Nothing = Nothing
+
+lookupQsParam :: Text -> SimpleQuery -> Maybe Text
+lookupQsParam _ [] = Nothing
+lookupQsParam param ((key, value):xs)
+    | param == decodeUtf8 key = Just $ decodeUtf8 value
+    | otherwise = lookupQsParam param xs
+
 addUser :: Text -> IO Text
 addUser userToken = do
     url <- createUserUrl <$> snippetsApiBaseUrl
@@ -106,19 +128,19 @@ getSnippet snippetId authToken = do
     let mJson = decode body :: Maybe InternalSnippet
     return $ toSnippet $ fromJust mJson
 
-listSnippets :: Maybe Text -> IO [MetaSnippet]
-listSnippets authToken = do
-    apiUrl <- snippetsUrl <$> snippetsApiBaseUrl
-    body <- httpGet apiUrl authToken
+listSnippets :: Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
+listSnippets page authToken = do
+    apiUrl <- (snippetsUrl page) <$> snippetsApiBaseUrl
+    (body, links) <- httpGetLink apiUrl authToken
     let mJson = decode body :: Maybe [InternalSnippet]
-    return $ map toMetaSnippet $ fromJust mJson
+    return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
 
-listSnippetsByOwner :: Text -> Maybe Text -> IO [MetaSnippet]
-listSnippetsByOwner userId authToken = do
-    apiUrl <- (snippetsByOwnerUrl userId) <$> snippetsApiBaseUrl
-    body <- httpGet apiUrl authToken
+listSnippetsByOwner :: Text -> Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
+listSnippetsByOwner userId page authToken = do
+    apiUrl <- (snippetsByOwnerUrl userId page) <$> snippetsApiBaseUrl
+    (body, links) <- httpGetLink apiUrl authToken
     let mJson = decode body :: Maybe [InternalSnippet]
-    return $ map toMetaSnippet $ fromJust mJson
+    return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
 
 createSnippetUrl :: String -> String
 createSnippetUrl baseUrl = baseUrl ++ "/snippets"
@@ -126,8 +148,9 @@ createSnippetUrl baseUrl = baseUrl ++ "/snippets"
 snippetUrl :: Text -> String -> String
 snippetUrl snippetId baseUrl = baseUrl ++ "/snippets/" ++ unpack snippetId
 
-snippetsUrl :: String -> String
-snippetsUrl baseUrl = baseUrl ++ "/snippets"
+snippetsUrl :: Int -> String -> String
+snippetsUrl page baseUrl =
+    baseUrl ++ "/snippets" ++ "?page=" ++ show page  ++ "&per_page=15"
 
 createUserUrl :: String -> String
 createUserUrl baseUrl = baseUrl ++ "/admin/users"
@@ -135,6 +158,6 @@ createUserUrl baseUrl = baseUrl ++ "/admin/users"
 updateUserUrl :: Text -> String -> String
 updateUserUrl userId baseUrl = baseUrl ++ "/admin/users/" ++ unpack userId
 
-snippetsByOwnerUrl :: Text -> String -> String
-snippetsByOwnerUrl userId baseUrl =
-    snippetsUrl baseUrl ++ "?owner=" ++ unpack userId
+snippetsByOwnerUrl :: Text -> Int -> String -> String
+snippetsByOwnerUrl userId page baseUrl =
+    snippetsUrl page baseUrl ++ "?owner=" ++ unpack userId

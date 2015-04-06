@@ -30,6 +30,7 @@ library
                      Handler.Run
                      Handler.Account
                      Model.Language
+                     Model.Pagination
                      Model.Snippet
                      Model.Snippet.Api
                      Model.Run.Api
@@ -43,6 +44,7 @@ library
                      Util.User
                      Widget.Editor
                      Widget.RunResult
+                     Widget.Pagination
                      Yesod.Auth.Simple
 
     if flag(dev) || flag(library-only)
@@ -117,6 +119,9 @@ library
                  , conduit-extra                 >= 1.1        && < 2.0
                  , wai                           >= 3.0        && < 4.0
                  , regex-compat                  >= 0.95       && < 1.0
+                 , wreq                          >= 0.3        && < 1.0
+                 , lens                          >= 4.8        && < 5.0
+                 , network-uri                   >= 2.6        && < 3.0
 
 executable         glot
     if flag(library-only)

@@ -18,3 +18,5 @@ $newline never
                 <a href="@{UserSnippetsR username}">#{ownerName owner profiles}
               $nothing
                 #{ownerName owner profiles}
+      $if paginationRequired pagination
+        ^{paginationWidget SnippetsR pagination currentPage}
