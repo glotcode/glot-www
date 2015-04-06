@@ -160,4 +160,4 @@ updateUserUrl userId baseUrl = baseUrl ++ "/admin/users/" ++ unpack userId
 
 snippetsByOwnerUrl :: Text -> Int -> String -> String
 snippetsByOwnerUrl userId page baseUrl =
-    snippetsUrl page baseUrl ++ "?owner=" ++ unpack userId
+    snippetsUrl page baseUrl ++ "&owner=" ++ unpack userId
