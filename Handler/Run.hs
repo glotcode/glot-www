@@ -33,9 +33,12 @@ runApiToken _ token = token
 persistRunResult :: Language -> Maybe Text -> Maybe Text -> Text -> (Text, Text, Text) -> Handler ()
 persistRunResult lang (Just snippetId) mToken filesHash (runStdout, runStderr, runError)
     | (length runStdout > 0 || length runStderr > 0) && length runError == 0 = do
-        snippet <- liftIO $ getSnippet snippetId mToken
-        persistRunResult' lang snippetId filesHash
-            (snippetFilesHash snippet) (runStdout, runStderr, runError)
+        eSnippet <- liftIO $ safeGetSnippet snippetId mToken
+        case eSnippet of
+            Left _ -> return ()
+            Right snippet -> do
+                persistRunResult' lang snippetId filesHash
+                    (snippetFilesHash snippet) (runStdout, runStderr, runError)
 persistRunResult _ _ _ _ _ = return ()
 
 persistRunResult' :: Language -> Text -> Text -> Text -> (Text, Text, Text) -> Handler ()
@@ -48,3 +51,6 @@ persistRunResult' lang snippetId localHash remoteHash (runStdout, runStderr, run
                 (pack $ show lang) runStdout runStderr runError now
         return ()
 persistRunResult' _ _ _ _ _ = return ()
+
+safeGetSnippet :: Text -> Maybe Text -> IO (Either SomeException Snippet)
+safeGetSnippet snippetId mToken = try $ getSnippet snippetId mToken

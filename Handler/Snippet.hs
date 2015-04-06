@@ -11,14 +11,19 @@ getSnippetR :: Text -> Handler Html
 getSnippetR snippetId = do
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
-    snippet <- liftIO $ getSnippet snippetId $ apiUserToken <$> mApiUser
-    runResult <- runDB $ getBy $ UniqueRunResultHash
-        snippetId $ snippetFilesHash snippet
-    let lang = toLanguage $ snippetLanguage snippet
-    defaultLayout $ do
-        $(combineScripts 'StaticR [lib_ace_ace_js])
-        setTitle $ "glot.io"
-        $(widgetFile "snippet")
+    eSnippet <- liftIO $ try (getSnippet snippetId $ apiUserToken <$> mApiUser)
+    case eSnippet of
+        Left (StatusCodeException s _ _)
+            | statusCode s == 404 -> notFound
+        Left e -> throwIO e
+        Right snippet -> do
+            runResult <- runDB $ getBy $ UniqueRunResultHash
+                snippetId $ snippetFilesHash snippet
+            let lang = toLanguage $ snippetLanguage snippet
+            defaultLayout $ do
+                $(combineScripts 'StaticR [lib_ace_ace_js])
+                setTitle $ "glot.io"
+                $(widgetFile "snippet")
 
 putSnippetR :: Text -> Handler Value
 putSnippetR snippetId = do
