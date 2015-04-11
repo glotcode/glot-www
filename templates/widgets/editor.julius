@@ -117,8 +117,13 @@ window.Editor = (function() {
         Editor.setActiveTab(tab);
     });
 
+    // Handle close file clicks
     $(document).on("click", ".close-file", function(e) {
         e.stopPropagation();
+
+        if (!confirm("Are you sure you want to delete this file?")) {
+            return;
+        }
 
         var tab = $(e.target).parents("li[data-editor]");
         var editorId = tab.data("editor");
