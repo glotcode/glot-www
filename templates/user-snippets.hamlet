@@ -5,14 +5,26 @@ $newline never
   <div class="row">
     <div class="col-lg-12">
       <h3>Snippets by #{profileName profile}
-      $forall snippet <- snippets
-        <div class="language-badge-horizontal">
-          <div class="language-icon-small language-badge-horizontal-icon">
-            <a href="@?{(UserSnippetsR username, [("language", metaSnippetLanguage snippet)])}">
-              <span class="#{languageIconClass $ toLanguage $ metaSnippetLanguage snippet}">
-          <div class="language-badge-horizontal-text">
-            <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
-          <div class="language-badge-horizontal-owner">#{metaSnippetModified snippet}
+      $if null snippets
+        <p>No snippets found
+      $else
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Language
+              <th>Title
+              <th>Created
+              <th>Visibility
+          <tbody>
+          $forall snippet <- snippets
+            <tr>
+              <td>
+                <a href="@?{(UserSnippetsR username, [("language", metaSnippetLanguage snippet)])}">
+                  <span class="#{languageIconClass $ toLanguage $ metaSnippetLanguage snippet}">
+              <td>
+                <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
+              <td>#{iso8601Format $ metaSnippetCreated snippet}
+              <td>#{visibilityFormat $ metaSnippetPublic snippet}
       $if paginationRequired pagination
         $maybe lang <- mLanguage
           ^{paginationWidget (UserSnippetsR username) pagination currentPage [("language", lang)]}

@@ -4,6 +4,7 @@ import Import
 import Model.Snippet.Api (listSnippets, listSnippetsByLanguage)
 import Data.List (nub)
 import Util.Handler (pageNo)
+import Util (iso8601Format)
 import Widget.Pagination (paginationWidget)
 
 getSnippetsR :: Handler Html

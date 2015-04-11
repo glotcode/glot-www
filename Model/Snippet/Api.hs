@@ -166,7 +166,7 @@ snippetUrl snippetId baseUrl = baseUrl ++ "/snippets/" ++ unpack snippetId
 
 snippetsUrl :: Int -> String -> String
 snippetsUrl page baseUrl =
-    baseUrl ++ "/snippets" ++ "?page=" ++ show page  ++ "&per_page=10"
+    baseUrl ++ "/snippets" ++ "?page=" ++ show page  ++ "&per_page=20"
 
 createUserUrl :: String -> String
 createUserUrl baseUrl = baseUrl ++ "/admin/users"

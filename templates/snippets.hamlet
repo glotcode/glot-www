@@ -5,20 +5,31 @@ $newline never
   <div class="row">
     <div class="col-lg-12">
       <h3>Public Snippets
-      $forall snippet <- snippets
-        $with owner <- metaSnippetOwner snippet
-          <div class="language-badge-horizontal">
-            <div class="language-icon-small language-badge-horizontal-icon">
-              <a href="@?{(SnippetsR, [("language", metaSnippetLanguage snippet)])}">
-                <span class="#{languageIconClass $ toLanguage $ metaSnippetLanguage snippet}">
-            <div class="language-badge-horizontal-text">
-              <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
-            <div class="language-badge-horizontal-owner">#{metaSnippetModified snippet}
-            <div class="language-badge-horizontal-owner">
-              $maybe username <- ownerUsername owner profiles
-                <a href="@{UserSnippetsR username}">#{ownerName owner profiles}
-              $nothing
-                #{ownerName owner profiles}
+      $if null snippets
+        <p>No snippets found
+      $else
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Language
+              <th>Title
+              <th>Created
+              <th>Owner
+          <tbody>
+          $forall snippet <- snippets
+            $with owner <- metaSnippetOwner snippet
+              <tr>
+                <td>
+                  <a href="@?{(SnippetsR, [("language", metaSnippetLanguage snippet)])}">
+                    <span class="#{languageIconClass $ toLanguage $ metaSnippetLanguage snippet}">
+                <td>
+                  <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
+                <td>#{iso8601Format $ metaSnippetCreated snippet}
+                <td>
+                  $maybe username <- ownerUsername owner profiles
+                    <a href="@{UserSnippetsR username}">#{ownerName owner profiles}
+                  $nothing
+                    #{ownerName owner profiles}
       $if paginationRequired pagination
         $maybe lang <- mLanguage
           ^{paginationWidget SnippetsR pagination currentPage [("language", lang)]}
