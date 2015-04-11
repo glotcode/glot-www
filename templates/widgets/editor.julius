@@ -11,6 +11,11 @@ window.Editor = (function() {
     }
 
     function setActiveTab(elem) {
+        // Ensure only selected tab is contentediable
+        $(".filename").removeAttr("contenteditable");
+        elem.find(".filename").attr("contenteditable", true);
+
+        // Ensure selected tab is active and visible
         $(".editor-widget li.active").removeClass("active");
         elem.removeClass("hide");
         elem.addClass("active");
