@@ -1,5 +1,13 @@
 (function() {
 
+    // Prevent newline in contenteditable fields
+    $(document).on("keydown", "[contenteditable]", function(e) {
+        if (e.which == 13) {
+            $(e.target).blur();
+            window.getSelection().removeAllRanges();
+        }
+    });
+
     $(document).on("click", ".run", function(e) {
         RunResult.clear();
         RunResult.showInfo("Running...");
