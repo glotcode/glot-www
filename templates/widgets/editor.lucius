@@ -22,6 +22,11 @@
     opacity: 1;
     cursor: pointer;
 }
+
+.container.expand {
+  width: 100%;
+}
+
 /*
 #settings {
   padding-left: 50px;
