@@ -8,9 +8,13 @@ $newline never
       $forall snippet <- snippets
         <div class="language-badge-horizontal">
           <div class="language-icon-small language-badge-horizontal-icon">
-            <span class="#{languageIconClass $ toLanguage $ metaSnippetLanguage snippet}">
+            <a href="@?{(UserSnippetsR username, [("language", metaSnippetLanguage snippet)])}">
+              <span class="#{languageIconClass $ toLanguage $ metaSnippetLanguage snippet}">
           <div class="language-badge-horizontal-text">
             <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
           <div class="language-badge-horizontal-owner">#{metaSnippetModified snippet}
       $if paginationRequired pagination
-        ^{paginationWidget (UserSnippetsR username) pagination currentPage}
+        $maybe lang <- mLanguage
+          ^{paginationWidget (UserSnippetsR username) pagination currentPage [("language", lang)]}
+        $nothing
+          ^{paginationWidget (UserSnippetsR username) pagination currentPage []}

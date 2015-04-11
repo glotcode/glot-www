@@ -9,7 +9,8 @@ $newline never
         $with owner <- metaSnippetOwner snippet
           <div class="language-badge-horizontal">
             <div class="language-icon-small language-badge-horizontal-icon">
-              <span class="#{languageIconClass $ toLanguage $ metaSnippetLanguage snippet}">
+              <a href="@?{(SnippetsR, [("language", metaSnippetLanguage snippet)])}">
+                <span class="#{languageIconClass $ toLanguage $ metaSnippetLanguage snippet}">
             <div class="language-badge-horizontal-text">
               <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
             <div class="language-badge-horizontal-owner">#{metaSnippetModified snippet}
@@ -19,4 +20,7 @@ $newline never
               $nothing
                 #{ownerName owner profiles}
       $if paginationRequired pagination
-        ^{paginationWidget SnippetsR pagination currentPage}
+        $maybe lang <- mLanguage
+          ^{paginationWidget SnippetsR pagination currentPage [("language", lang)]}
+        $nothing
+          ^{paginationWidget SnippetsR pagination currentPage []}

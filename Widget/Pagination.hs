@@ -4,6 +4,9 @@ module Widget.Pagination (
 
 import Import
 
-paginationWidget :: Route App -> Pagination -> Int -> Widget
-paginationWidget route pagination currentPage =
+paginationWidget :: Route App -> Pagination -> Int -> [(Text, Text)] -> Widget
+paginationWidget route pagination currentPage queryExtra =
     $(widgetFile "widgets/pagination")
+
+query :: Text -> [(Text, Text)] -> [(Text, Text)]
+query page queryExtra = ("page", page):queryExtra

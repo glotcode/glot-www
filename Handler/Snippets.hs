@@ -1,7 +1,7 @@
 module Handler.Snippets where
 
 import Import
-import Model.Snippet.Api (listSnippets)
+import Model.Snippet.Api (listSnippets, listSnippetsByLanguage)
 import Data.List (nub)
 import Util.Handler (pageNo)
 import Widget.Pagination (paginationWidget)
@@ -9,7 +9,12 @@ import Widget.Pagination (paginationWidget)
 getSnippetsR :: Handler Html
 getSnippetsR = do
     currentPage <- pageNo <$> lookupGetParam "page"
-    (snippets, pagination) <- liftIO $ listSnippets currentPage Nothing
+    mLanguage <- lookupGetParam "language"
+    (snippets, pagination) <- case mLanguage of
+        Just lang ->
+            liftIO $ listSnippetsByLanguage lang currentPage Nothing
+        Nothing ->
+            liftIO $ listSnippets currentPage Nothing
     profiles <- fetchProfiles $ nub $ map metaSnippetOwner snippets
     defaultLayout $ do
         setTitle $ "glot.io"

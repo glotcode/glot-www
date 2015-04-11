@@ -6,7 +6,9 @@ module Model.Snippet.Api (
     addSnippet,
     updateSnippet,
     listSnippets,
-    listSnippetsByOwner
+    listSnippetsByLanguage,
+    listSnippetsByOwner,
+    listSnippetsByOwnerByLanguage
 ) where
 
 import Import.NoFoundation hiding (id)
@@ -135,9 +137,23 @@ listSnippets page authToken = do
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
 
+listSnippetsByLanguage :: Text -> Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
+listSnippetsByLanguage lang page authToken = do
+    apiUrl <- (snippetsByLanguageUrl lang page) <$> snippetsApiBaseUrl
+    (body, links) <- httpGetLink apiUrl authToken
+    let mJson = decode body :: Maybe [InternalSnippet]
+    return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
+
 listSnippetsByOwner :: Text -> Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
 listSnippetsByOwner userId page authToken = do
     apiUrl <- (snippetsByOwnerUrl userId page) <$> snippetsApiBaseUrl
+    (body, links) <- httpGetLink apiUrl authToken
+    let mJson = decode body :: Maybe [InternalSnippet]
+    return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
+
+listSnippetsByOwnerByLanguage :: Text -> Text -> Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
+listSnippetsByOwnerByLanguage userId lang page authToken = do
+    apiUrl <- (snippetsByOwnerByLanguageUrl userId lang page) <$> snippetsApiBaseUrl
     (body, links) <- httpGetLink apiUrl authToken
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
@@ -161,3 +177,11 @@ updateUserUrl userId baseUrl = baseUrl ++ "/admin/users/" ++ unpack userId
 snippetsByOwnerUrl :: Text -> Int -> String -> String
 snippetsByOwnerUrl userId page baseUrl =
     snippetsUrl page baseUrl ++ "&owner=" ++ unpack userId
+
+snippetsByOwnerByLanguageUrl :: Text -> Text -> Int -> String -> String
+snippetsByOwnerByLanguageUrl userId lang page baseUrl =
+    snippetsUrl page baseUrl ++ "&owner=" ++ unpack userId ++ "&language=" ++ unpack lang
+
+snippetsByLanguageUrl :: Text -> Int -> String -> String
+snippetsByLanguageUrl lang page baseUrl =
+    snippetsUrl page baseUrl ++ "&language=" ++ unpack lang

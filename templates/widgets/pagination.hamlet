@@ -3,7 +3,7 @@ $newline never
   <ul class="pagination">
     $maybe prevPage <- paginationPrevPage pagination
       <li>
-        <a href="@?{(route, [("page", prevPage)])}" aria-label="Previous">
+        <a href="@?{(route, query prevPage queryExtra)}" aria-label="Previous">
           <span aria-hidden="true">--
     $nothing
       <li class="disabled">
@@ -13,7 +13,7 @@ $newline never
       <span>page = #{currentPage}
     $maybe nextPage <- paginationNextPage pagination
       <li>
-        <a href="@?{(route, [("page", nextPage)])}" aria-label="Next">
+        <a href="@?{(route, query nextPage queryExtra)}" aria-label="Next">
           <span aria-hidden="true">++
     $nothing
       <li class="disabled">
