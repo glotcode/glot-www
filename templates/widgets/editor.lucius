@@ -3,13 +3,25 @@
 }
 
 .editor-widget .expand {
-  float: right;
+    float: right;
 }
 
 .editor-widget .compress {
-  float: right;
+    float: right;
 }
 
+.close-file {
+    margin-left: 10px;
+    font-size: 12px;
+    line-height: 22px;
+    color: red;
+    opacity: 0.4;
+}
+
+.close-file:hover {
+    opacity: 1;
+    cursor: pointer;
+}
 /*
 #settings {
   padding-left: 50px;

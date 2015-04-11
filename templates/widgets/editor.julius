@@ -8,6 +8,16 @@ window.Editor = (function() {
             minLines: 32,
             maxLines: 8192,
         });
+
+        // Resize to flush stale content
+        setTimeout(function() {
+            editor.resize();
+        }, 1);
+    }
+
+    function resetEditor(id) {
+        var editor = ace.edit(id);
+        editor.setValue("");
     }
 
     function setActiveTab(elem) {
@@ -19,6 +29,16 @@ window.Editor = (function() {
         $(".editor-widget li.active").removeClass("active");
         elem.removeClass("hide");
         elem.addClass("active");
+    }
+
+    function closeTab(elem) {
+        if (elem.hasClass("active")) {
+            var prevTab = elem.prev();
+            var prevEditorId = prevTab.data("editor");
+            showEditor(prevEditorId);
+            setActiveTab(elem.prev());
+        }
+        elem.addClass("hide");
     }
 
     function showEditor(id) {
@@ -53,7 +73,7 @@ window.Editor = (function() {
     }
 
     function getFilename(editorId) {
-        var selector = '.nav-tabs [data-editor="' + editorId + '"] a';
+        var selector = '.nav-tabs [data-editor="' + editorId + '"] .filename';
         return $(selector).text();
     }
 
@@ -63,7 +83,9 @@ window.Editor = (function() {
 
     return {
         initEditor: initEditor,
+        resetEditor: resetEditor,
         setActiveTab: setActiveTab,
+        closeTab: closeTab,
         showEditor: showEditor,
         getFiles: getFiles,
     };
@@ -92,6 +114,15 @@ window.Editor = (function() {
         Editor.initEditor(editorId);
         Editor.showEditor(editorId);
         Editor.setActiveTab(tab);
+    });
+
+    $(document).on("click", ".close-file", function(e) {
+        e.stopPropagation();
+
+        var tab = $(e.target).parents("li[data-editor]");
+        var editorId = tab.data("editor");
+        Editor.resetEditor(editorId);
+        Editor.closeTab(tab);
     });
 
     // Initialize editors, 1 per file

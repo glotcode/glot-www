@@ -12,7 +12,7 @@ editorWidget lang snippet = do
     $(widgetFile "widgets/editor")
 
 maxFiles :: Int
-maxFiles = 9
+maxFiles = 5
 
 enumerateFiles :: Snippet -> [(Int, Maybe SnippetFile)]
 enumerateFiles s = zip [1..] $ ensureLength maxFiles $ snippetFiles s

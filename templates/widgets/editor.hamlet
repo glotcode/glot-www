@@ -12,11 +12,13 @@ $newline never
       $elseif n <= fileCount
         <li data-editor="editor-#{n}">
           <a href="#file-#{n}">
-            <span class="filename" contenteditable>#{getFilename lang file n}
+            <span class="filename">#{getFilename lang file n}
+            <span class="close-file">✖
       $else
         <li class="hide" data-editor="editor-#{n}">
           <a href="#file-#{n}">
-            <span class="filename" contenteditable>#{getFilename lang file n}
+            <span class="filename">#{getFilename lang file n}
+            <span class="close-file">✖
     <li class="new-file">
       <a href="#">
         <i class="fa fa-plus">
