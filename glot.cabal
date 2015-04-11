@@ -42,6 +42,7 @@ library
                      Util.Multiline
                      Util.Slug
                      Util.User
+                     Util.Hash
                      Widget.Editor
                      Widget.RunResult
                      Widget.Pagination

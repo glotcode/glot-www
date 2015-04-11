@@ -13,7 +13,7 @@ import Data.ByteString.Lazy (ByteString)
 import Network.Mail.Mime (renderMail', simpleMail', Address(..))
 import Util.Shakespare (stextFile)
 import Util.Slug (mkSlug)
-import Util (sha1Text)
+import Util.Hash (sha1Text)
 import Util.User (newToken)
 import Data.Text.Lazy.Builder (toLazyText)
 
