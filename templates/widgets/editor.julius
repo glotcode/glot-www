@@ -167,6 +167,11 @@ window.Editor = (function() {
         Editor.closeTab(tab);
     });
 
+    // Prevent default on # href's
+    $(document).on("click", '.nav-tabs a[href="#"]', function(e) {
+        e.preventDefault();
+    });
+
     // Initialize editors, 1 per file
     // Additional editors are loaded when a new file is added
     var fileCount = #{toJSON $ length $ snippetFiles snippet};
