@@ -26,5 +26,15 @@ getFileContent Nothing = ""
 
 getFilename :: Language -> Maybe SnippetFile -> Int -> Text
 getFilename _ (Just f) _ = snippetFileName f
-getFilename lang Nothing n =
-    concat ["file-", pack $ show n, ".", languageFileExt lang]
+getFilename lang Nothing 2 = addExt lang "duo"
+getFilename lang Nothing 3 = addExt lang "tres"
+getFilename lang Nothing 4 = addExt lang "quattuor"
+getFilename lang Nothing 5 = addExt lang "quinque"
+getFilename lang Nothing 6 = addExt lang "sex"
+getFilename lang Nothing 7 = addExt lang "septem"
+getFilename lang Nothing 8 = addExt lang "octo"
+getFilename lang Nothing 9 = addExt lang "novem"
+getFilename lang Nothing _ = addExt lang "infinitum"
+
+addExt :: Language -> Text -> Text
+addExt lang name = concat [name, ".", languageFileExt lang]
