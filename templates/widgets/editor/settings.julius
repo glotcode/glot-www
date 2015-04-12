@@ -22,13 +22,13 @@ window.Settings = (function() {
         return "";
     }
 
-    function setEditorExpanded(expanded) {
-        localStorage.editorExpanded = (expanded ? "true" : "false");
+    function setFullWidth(fullWidth) {
+        localStorage.fullWidth = (fullWidth ? "true" : "false");
     }
 
-    function getEditorExpanded() {
-        if (localStorage.editorExpanded) {
-            return localStorage.editorExpanded === "true";
+    function getFullWidth() {
+        if (localStorage.fullWidth) {
+            return localStorage.fullWidth === "true";
         }
         return false;
     }
@@ -38,8 +38,8 @@ window.Settings = (function() {
         getTheme: getTheme,
         setKeybindings: setKeybindings,
         getKeybindings: getKeybindings,
-        setEditorExpanded: setEditorExpanded,
-        getEditorExpanded: getEditorExpanded,
+        setFullWidth: setFullWidth,
+        getFullWidth: getFullWidth,
     };
 })();
 
@@ -49,6 +49,7 @@ window.Settings = (function() {
         // Select correct value in dropdowns
         selectOption(".themes", Settings.getTheme());
         selectOption(".keybindings", Settings.getKeybindings());
+        selectOption(".full-width", Settings.getFullWidth());
     }
 
     function selectOption(cls, value) {
@@ -65,6 +66,12 @@ window.Settings = (function() {
         var keybindings = $(e.target).val();
         Settings.setKeybindings(keybindings);
         Editor.setKeybindings(keybindings);
+    });
+
+    $(document).on("change", ".full-width", function(e) {
+        var fullWidth = $(e.target).val() === "true";
+        Settings.setFullWidth(fullWidth);
+        Editor.setFullWidth(fullWidth);
     });
 
     init();

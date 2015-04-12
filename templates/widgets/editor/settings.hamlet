@@ -46,6 +46,12 @@
       <td>Key bindings
       <td>
         <select class="keybindings">
-          <option value="">Default</option>
-          <option value="ace/keyboard/vim">Vim</option>
-          <option value="ace/keyboard/emacs">Emacs</option>
+          <option value="">Default
+          <option value="ace/keyboard/vim">Vim
+          <option value="ace/keyboard/emacs">Emacs
+    <tr>
+      <td>Full width
+      <td>
+        <select class="full-width">
+          <option value="true">True
+          <option value="false">False

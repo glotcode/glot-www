@@ -35,6 +35,14 @@ window.Editor = (function() {
         });
     }
 
+    function setFullWidth(fullWidth) {
+        if (fullWidth) {
+            $(".container").addClass("full-width");
+        } else {
+            $(".container").removeClass("full-width");
+        }
+    }
+
     function resetEditor(id) {
         var editor = ace.edit(id);
         editor.setValue("");
@@ -116,6 +124,7 @@ window.Editor = (function() {
         showSettings: showSettings,
         setTheme: setTheme,
         setKeybindings: setKeybindings,
+        setFullWidth: setFullWidth,
         getFiles: getFiles,
     };
 
@@ -178,54 +187,6 @@ window.Editor = (function() {
     for (var i = 1; i <= fileCount; i++) {
         Editor.initEditor("editor-" + i);
     }
-})();
 
-// Handle editor width
-(function() {
-    $(document).on("click", ".nav-tabs .expand", function(e) {
-        e.preventDefault();
-        expand();
-        Settings.setEditorExpanded(true);
-    });
-
-    $(document).on("click", ".nav-tabs .compress", function(e) {
-        e.preventDefault();
-        compress();
-        Settings.setEditorExpanded(false);
-    });
-
-    function expand() {
-        // Replace action
-        $(".nav-tabs li.expand")
-            .removeClass("expand")
-            .addClass("compress");
-
-        // Replace icon
-        $(".nav-tabs .fa-expand")
-            .removeClass("fa-expand")
-            .addClass("fa-compress");
-
-        // Expand container
-        $(".container").addClass("expand");
-    }
-
-    function compress() {
-        // Replace action
-        $(".nav-tabs li.compress")
-            .removeClass("compress")
-            .addClass("expand");
-
-        // Replace icon
-        $(".nav-tabs .fa-compress")
-            .removeClass("fa-compress")
-            .addClass("fa-expand");
-
-        // Set container to normal size
-        $(".container").removeClass("expand");
-    }
-
-    if (Settings.getEditorExpanded()) {
-        expand();
-    }
-
+    Editor.setFullWidth(Settings.getFullWidth());
 })();

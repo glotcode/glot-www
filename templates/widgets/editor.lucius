@@ -2,12 +2,9 @@
     height: 800px;
 }
 
-.editor-widget .expand {
+.editor-widget .settings {
     float: right;
-}
-
-.editor-widget .compress {
-    float: right;
+    margin-right: -2px;
 }
 
 .close-file {
@@ -23,6 +20,6 @@
     cursor: pointer;
 }
 
-.container.expand {
+.container.full-width {
     width: 100%;
 }

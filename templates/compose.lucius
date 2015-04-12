@@ -5,3 +5,7 @@
 .actions .btn {
     margin-right: 16px;
 }
+
+#snippet-title {
+    margin-bottom: 20px;
+}

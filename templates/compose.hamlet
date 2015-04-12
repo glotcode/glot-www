@@ -7,9 +7,6 @@ $newline never
       <div class="snippet-header">
         <div class="snippet-header-title">
           <h2 id="snippet-title" contenteditable>#{snippetTitle snippet}
-        <div class="snippet-header-language">
-          <div class="language-icon-medium snippet-header-language-icon">
-            <span class="#{languageIconClass lang}">
       ^{editorWidget lang snippet}
       <div class="actions">
         <button class="btn btn-primary run"><i class="fa fa-play"></i> Run
