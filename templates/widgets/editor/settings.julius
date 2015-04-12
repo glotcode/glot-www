@@ -22,11 +22,24 @@ window.Settings = (function() {
         return "";
     }
 
+    function setEditorExpanded(expanded) {
+        localStorage.editorExpanded = (expanded ? "true" : "false");
+    }
+
+    function getEditorExpanded() {
+        if (localStorage.editorExpanded) {
+            return localStorage.editorExpanded === "true";
+        }
+        return false;
+    }
+
     return {
         setTheme: setTheme,
         getTheme: getTheme,
         setKeybindings: setKeybindings,
         getKeybindings: getKeybindings,
+        setEditorExpanded: setEditorExpanded,
+        getEditorExpanded: getEditorExpanded,
     };
 })();
 

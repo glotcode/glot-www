@@ -180,13 +180,13 @@ window.Editor = (function() {
     $(document).on("click", ".nav-tabs .expand", function(e) {
         e.preventDefault();
         expand();
-        // TODO: save setting
+        Settings.setEditorExpanded(true);
     });
 
     $(document).on("click", ".nav-tabs .compress", function(e) {
         e.preventDefault();
         compress();
-        // TODO: save setting
+        Settings.setEditorExpanded(false);
     });
 
     function expand() {
@@ -217,6 +217,10 @@ window.Editor = (function() {
 
         // Set container to normal size
         $(".container").removeClass("expand");
+    }
+
+    if (Settings.getEditorExpanded()) {
+        expand();
     }
 
 })();
