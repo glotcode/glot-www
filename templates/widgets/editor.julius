@@ -1,8 +1,12 @@
 window.Editor = (function() {
 
     function initEditor(id) {
+        var theme = Settings.getTheme();
+        var keybindings = Settings.getKeybindings();
+
         var editor = ace.edit(id);
-        editor.setTheme("ace/theme/monokai");
+        editor.setTheme(theme);
+        editor.setKeyboardHandler(keybindings);
         editor.getSession().setMode(#{toJSON $ languageAceMode lang});
         editor.setOptions({
             minLines: 32,
@@ -13,6 +17,22 @@ window.Editor = (function() {
         setTimeout(function() {
             editor.resize();
         }, 1);
+    }
+
+    function setTheme(theme) {
+        var editorIds = getEditorIds();
+        editorIds.forEach(function(id) {
+            var editor = ace.edit(id);
+            editor.setTheme(theme);
+        });
+    }
+
+    function setKeybindings(keybindings) {
+        var editorIds = getEditorIds();
+        editorIds.forEach(function(id) {
+            var editor = ace.edit(id);
+            editor.setKeyboardHandler(keybindings);
+        });
     }
 
     function resetEditor(id) {
@@ -44,6 +64,12 @@ window.Editor = (function() {
     function showEditor(id) {
         $(".editors .editor:not(.hide)").addClass("hide");
         $("#" + id).removeClass("hide");
+        $("#settings").addClass("hide");
+    }
+
+    function showSettings() {
+        $(".editors .editor:not(.hide)").addClass("hide");
+        $("#settings").removeClass("hide");
     }
 
     function getFiles() {
@@ -87,6 +113,9 @@ window.Editor = (function() {
         setActiveTab: setActiveTab,
         closeTab: closeTab,
         showEditor: showEditor,
+        showSettings: showSettings,
+        setTheme: setTheme,
+        setKeybindings: setKeybindings,
         getFiles: getFiles,
     };
 
@@ -100,6 +129,13 @@ window.Editor = (function() {
         var editorId = tab.data("editor");
         Editor.showEditor(editorId);
         Editor.setActiveTab(tab);
+    });
+
+    // Handle settings tab clicks
+    $(document).on("click", ".nav-tabs .settings", function(e) {
+        var tab = $(e.target).closest("li");
+        Editor.setActiveTab(tab);
+        Editor.showSettings();
     });
 
     // Handle new file clicks

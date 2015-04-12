@@ -1,0 +1,11 @@
+.settings-table {
+    max-width: 600px;
+}
+
+#settings {
+    padding-left: 50px;
+    padding-top: 30px;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+}

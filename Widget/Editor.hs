@@ -1,5 +1,6 @@
 module Widget.Editor (
-    editorWidget
+    editorWidget,
+    settingsWidget
 ) where
 
 import Import
@@ -9,7 +10,12 @@ editorWidget :: Language -> Snippet -> Widget
 editorWidget lang snippet = do
     let fileCount = length $ snippetFiles snippet
     addStylesheet $ StaticR lib_ace_ace_js
+    $(combineScripts 'StaticR [lib_ace_ace_js])
     $(widgetFile "widgets/editor")
+
+settingsWidget :: Widget
+settingsWidget = $(widgetFile "widgets/editor/settings")
+
 
 maxFiles :: Int
 maxFiles = 5

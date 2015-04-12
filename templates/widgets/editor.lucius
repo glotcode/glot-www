@@ -13,7 +13,7 @@
 .close-file {
     margin-left: 10px;
     font-size: 12px;
-    line-height: 22px;
+    line-height: 18px;
     color: red;
     opacity: 0.4;
 }
@@ -24,15 +24,5 @@
 }
 
 .container.expand {
-  width: 100%;
+    width: 100%;
 }
-
-/*
-#settings {
-  padding-left: 50px;
-  padding-top: 30px;
-  border-bottom: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-left: 1px solid #ddd;
-}
-*/

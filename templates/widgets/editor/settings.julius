@@ -1,0 +1,58 @@
+window.Settings = (function() {
+
+    function setTheme(theme) {
+        localStorage.theme = theme;
+    }
+
+    function getTheme() {
+        if (localStorage.theme) {
+            return localStorage.theme;
+        }
+        return "ace/theme/monokai";
+    }
+
+    function setKeybindings(keybindings) {
+        localStorage.keybindings = keybindings;
+    }
+
+    function getKeybindings() {
+        if (localStorage.keybindings) {
+            return localStorage.keybindings;
+        }
+        return "";
+    }
+
+    return {
+        setTheme: setTheme,
+        getTheme: getTheme,
+        setKeybindings: setKeybindings,
+        getKeybindings: getKeybindings,
+    };
+})();
+
+
+(function() {
+    function init() {
+        // Select correct value in dropdowns
+        selectOption(".themes", Settings.getTheme());
+        selectOption(".keybindings", Settings.getKeybindings());
+    }
+
+    function selectOption(cls, value) {
+        $(cls + ' [value="' + value + '"]').attr("selected", "selected");
+    }
+
+    $(document).on("change", ".themes", function(e) {
+        var theme = $(e.target).val();
+        Settings.setTheme(theme);
+        Editor.setTheme(theme);
+    });
+
+    $(document).on("change", ".keybindings", function(e) {
+        var keybindings = $(e.target).val();
+        Settings.setKeybindings(keybindings);
+        Editor.setKeybindings(keybindings);
+    });
+
+    init();
+})();

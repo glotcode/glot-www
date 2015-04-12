@@ -21,7 +21,6 @@ getSnippetR snippetId = do
                 snippetId $ snippetFilesHash snippet
             let lang = toLanguage $ snippetLanguage snippet
             defaultLayout $ do
-                $(combineScripts 'StaticR [lib_ace_ace_js])
                 setTitle $ "glot.io"
                 $(widgetFile "snippet")
 

@@ -31,3 +31,5 @@ $newline never
         <div id="editor-#{n}" class="editor">#{getFileContent file}
       $else
         <div id="editor-#{n}" class="editor hide">#{getFileContent file}
+  <div id="settings" class="hide">
+    ^{settingsWidget}
