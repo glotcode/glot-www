@@ -72,11 +72,19 @@ window.Editor = (function() {
     function showEditor(id) {
         $(".editors .editor:not(.hide)").addClass("hide");
         $("#" + id).removeClass("hide");
+        $("#meta").addClass("hide");
+        $("#settings").addClass("hide");
+    }
+
+    function showMeta() {
+        $(".editors .editor:not(.hide)").addClass("hide");
+        $("#meta").removeClass("hide");
         $("#settings").addClass("hide");
     }
 
     function showSettings() {
         $(".editors .editor:not(.hide)").addClass("hide");
+        $("#meta").addClass("hide");
         $("#settings").removeClass("hide");
     }
 
@@ -121,6 +129,7 @@ window.Editor = (function() {
         setActiveTab: setActiveTab,
         closeTab: closeTab,
         showEditor: showEditor,
+        showMeta: showMeta,
         showSettings: showSettings,
         setTheme: setTheme,
         setKeybindings: setKeybindings,
@@ -139,6 +148,14 @@ window.Editor = (function() {
         Editor.showEditor(editorId);
         Editor.setActiveTab(tab);
     });
+
+    // Handle meta tab clicks
+    $(document).on("click", ".nav-tabs .meta", function(e) {
+        var tab = $(e.target).closest("li");
+        Editor.setActiveTab(tab);
+        Editor.showMeta();
+    });
+
 
     // Handle settings tab clicks
     $(document).on("click", ".nav-tabs .settings", function(e) {

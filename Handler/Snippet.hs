@@ -4,6 +4,7 @@ import Import
 import Widget.Editor (editorWidget)
 import Widget.RunResult (runResultWidget)
 import Util.Handler (maybeApiUser)
+import Util.Snippet (isSnippetOwner)
 import Model.Snippet.Api (getSnippet, updateSnippet)
 import Network.Wai (lazyRequestBody)
 
@@ -32,8 +33,3 @@ putSnippetR snippetId = do
     mApiUser <- maybeApiUser mUserId
     _ <- liftIO $ updateSnippet snippetId body $ apiUserToken <$> mApiUser
     return $ object []
-
-isSnippetOwner :: Maybe ApiUser -> Snippet -> Bool
-isSnippetOwner Nothing _ = False
-isSnippetOwner (Just apiUser) snippet =
-    apiUserSnippetsId apiUser == snippetOwner snippet

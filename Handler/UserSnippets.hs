@@ -3,7 +3,7 @@ module Handler.UserSnippets where
 import Import
 import Model.Snippet.Api (listSnippets, listSnippetsByOwner, listSnippetsByLanguage, listSnippetsByOwnerByLanguage)
 import Util.Handler (maybeApiUser, pageNo)
-import Util (iso8601Format, visibilityFormat)
+import Util.Snippet (iso8601Format, visibilityFormat)
 import Widget.Pagination (paginationWidget)
 
 getUserSnippetsR :: Text -> Handler Html

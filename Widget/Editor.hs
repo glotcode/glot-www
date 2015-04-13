@@ -1,9 +1,10 @@
 module Widget.Editor (
-    editorWidget,
-    settingsWidget
+    editorWidget
 ) where
 
 import Import
+import Util.Handler (maybeApiUser)
+import Util.Snippet (isSnippetOwner, iso8601Format, visibilityFormat)
 
 
 editorWidget :: Language -> Snippet -> Widget
@@ -13,12 +14,19 @@ editorWidget lang snippet = do
     $(combineScripts 'StaticR [lib_ace_ace_js])
     $(widgetFile "widgets/editor")
 
+metaWidget :: Snippet -> Widget
+metaWidget snippet = do
+    mUserId <- handlerToWidget maybeAuthId
+    mApiUser <- handlerToWidget $ maybeApiUser mUserId
+    mProfile <- handlerToWidget . runDB . getBy . UniqueSnippetsApiId $ snippetOwner snippet
+    $(widgetFile "widgets/editor/meta")
+
 settingsWidget :: Widget
 settingsWidget = $(widgetFile "widgets/editor/settings")
 
 
 maxFiles :: Int
-maxFiles = 5
+maxFiles = 6
 
 enumerateFiles :: Snippet -> [(Int, Maybe SnippetFile)]
 enumerateFiles s = zip [1..] $ ensureLength maxFiles $ snippetFiles s
@@ -44,3 +52,10 @@ getFilename lang Nothing _ = addExt lang "infinitum"
 
 addExt :: Language -> Text -> Text
 addExt lang name = concat [name, ".", languageFileExt lang]
+
+isComposing :: Snippet -> Bool
+isComposing s = null $ snippetId s
+
+ownerName :: Maybe (Entity Profile) -> Text
+ownerName (Just (Entity _ profile)) = profileName profile
+ownerName Nothing = "Unknown"

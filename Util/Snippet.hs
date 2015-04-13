@@ -1,9 +1,10 @@
-module Util (
+module Util.Snippet (
+    isSnippetOwner,
+    visibilityFormat,
     iso8601Format,
-    visibilityFormat
 ) where
 
-import ClassyPrelude.Yesod
+import Import
 import Data.Time.ISO8601 (parseISO8601)
 import Data.Maybe (fromJust)
 
@@ -16,3 +17,8 @@ iso8601Format time = utcFormat $ fromJust $ parseISO8601 $ unpack time
 visibilityFormat :: Bool -> Text
 visibilityFormat True = "Public"
 visibilityFormat False = "Secret"
+
+isSnippetOwner :: Maybe ApiUser -> Snippet -> Bool
+isSnippetOwner Nothing _ = False
+isSnippetOwner (Just apiUser) snippet =
+    apiUserSnippetsId apiUser == snippetOwner snippet

@@ -1,0 +1,29 @@
+$newline never
+<table class="meta-table table">
+  <thead>
+    <tr>
+      <th>Meta information
+      <th>
+  <tbody>
+    <tr>
+      <td>Language
+      <td>#{languageName $ toLanguage $ snippetLanguage snippet}
+    $if not $ isComposing snippet
+      <tr>
+        <td>Owner
+        <td>#{ownerName mProfile}
+      <tr>
+        <td>Created
+        <td>#{iso8601Format $ snippetCreated snippet}
+      <tr>
+        <td>Modified
+        <td>#{iso8601Format $ snippetModified snippet}
+      <tr>
+        <td>Visibility
+        <td>
+          $if isSnippetOwner mApiUser snippet
+            <select class="visibility">
+                <option value="public">Public
+                <option value="secret">Secret
+          $else
+            #{visibilityFormat $ snippetPublic snippet}

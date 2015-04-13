@@ -34,7 +34,6 @@ library
                      Model.Snippet
                      Model.Snippet.Api
                      Model.Run.Api
-                     Util
                      Util.Shakespare
                      Util.Handler
                      Util.Api
@@ -43,6 +42,7 @@ library
                      Util.Slug
                      Util.User
                      Util.Hash
+                     Util.Snippet
                      Widget.Editor
                      Widget.RunResult
                      Widget.Pagination

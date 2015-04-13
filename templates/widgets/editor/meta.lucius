@@ -1,0 +1,12 @@
+.meta-table {
+    max-width: 600px;
+}
+
+#meta {
+    padding-left: 50px;
+    padding-top: 30px;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+}
+
