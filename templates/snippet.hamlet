@@ -10,17 +10,8 @@ $newline never
       ^{editorWidget lang snippet}
       <div class="actions">
         <button class="btn btn-primary run">
-          <i class="fa fa-play">
-          \ Run
+          <i class="fa fa-play"> Run
         $if isSnippetOwner mApiUser snippet
-          <div class="btn-group">
-            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              <i class="fa fa-save">
-              \ Save #
-              <span class="caret">
-            <ul class="dropdown-menu" role="menu">
-              <li>
-                <a href="#" class="save-public">Save Public
-              <li>
-                <a href="#" class="save-secret">Save Secret
+          <button class="btn btn-success save">
+            <i class="fa fa-save"> Save
       ^{runResultWidget runResult}

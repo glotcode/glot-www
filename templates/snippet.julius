@@ -22,21 +22,16 @@
         });
     });
 
-    $(document).on("click", ".save-public", function(e) {
+    $(document).on("click", ".save", function(e) {
         e.preventDefault();
-        save({public: true});
+        save();
     });
 
-    $(document).on("click", ".save-secret", function(e) {
-        e.preventDefault();
-        save({public: false});
-    });
-
-    function save(options) {
+    function save() {
         var payload = {
             language: #{toJSON $ show lang},
             title: getTitle(),
-            public: options.public,
+            public: isPublic(),
             files: Editor.getFiles(),
         };
 
@@ -49,6 +44,10 @@
 
     function getTitle() {
         return $("#snippet-title").text();
+    }
+
+    function isPublic() {
+        return $("#public").val() === "true";
     }
 
 })();

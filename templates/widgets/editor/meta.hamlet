@@ -22,8 +22,8 @@ $newline never
         <td>Visibility
         <td>
           $if isSnippetOwner mApiUser snippet
-            <select class="visibility">
-                <option value="public">Public
-                <option value="secret">Secret
+            <select id="public">
+              <option value="true" :snippetPublic snippet == True:selected>Public
+              <option value="false" :snippetPublic snippet == False:selected>Secret
           $else
             #{visibilityFormat $ snippetPublic snippet}
