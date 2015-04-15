@@ -11,7 +11,11 @@ $newline never
     $if not $ isComposing snippet
       <tr>
         <td>Owner
-        <td>#{ownerName mProfile}
+        <td>
+          $maybe Entity _ profile <- mProfile
+            <a href="@{UserSnippetsR $ profileUsername profile}">#{profileName profile}
+          $nothing
+            Unknown
       <tr>
         <td>Created
         <td>#{iso8601Format $ snippetCreated snippet}

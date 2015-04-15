@@ -55,7 +55,3 @@ addExt lang name = concat [name, ".", languageFileExt lang]
 
 isComposing :: Snippet -> Bool
 isComposing s = null $ snippetId s
-
-ownerName :: Maybe (Entity Profile) -> Text
-ownerName (Just (Entity _ profile)) = profileName profile
-ownerName Nothing = "Unknown"
