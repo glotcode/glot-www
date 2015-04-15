@@ -135,6 +135,10 @@ languageName Python = "Python"
 languageName Ruby = "Ruby"
 languageName Plaintext = "Plaintext"
 
+languageIsRunnable :: Language -> Bool
+languageIsRunnable Plaintext = False
+languageIsRunnable _ = True
+
 languageDefaultContent :: Language -> String
 languageDefaultContent Bash = [multiline|echo Hello World|]
 languageDefaultContent C = [multiline|#include <stdio.h>

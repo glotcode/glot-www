@@ -9,7 +9,8 @@ $newline never
           <h2 id="snippet-title" contenteditable>#{snippetTitle snippet}
       ^{editorWidget lang snippet}
       <div class="actions">
-        <button class="btn btn-primary run"><i class="fa fa-play"></i> Run
+        $if languageIsRunnable lang
+          <button class="btn btn-primary run"><i class="fa fa-play"></i> Run
         $maybe _ <- auth
           <div class="btn-group">
             <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
