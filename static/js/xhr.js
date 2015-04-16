@@ -1,4 +1,4 @@
-var XHR = {
+window.XHR = {
   jsonDelete: function(url, data) {
     return $.ajax({
       type: "DELETE",

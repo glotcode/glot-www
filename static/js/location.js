@@ -1,4 +1,4 @@
-var Location = {
+window.Location = {
   set: function(url) {
     if (location.href === url) {
       this.reload();
