@@ -15,6 +15,7 @@ import Util.Shakespare (stextFile)
 import Util.Slug (mkSlug)
 import Util.Hash (sha1Text)
 import Util.User (newToken)
+import Util.Alert (successHtml)
 import Data.Text.Lazy.Builder (toLazyText)
 
 import qualified Model.Snippet.Api as SnippetApi
@@ -82,6 +83,7 @@ instance Yesod App where
                 js_location_js,
                 js_xhr_js])
             $(widgetFile "default-layout")
+            $(widgetFile "widgets/alert")
         withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
 
     -- The page to be redirected to when authentication is required.
@@ -141,6 +143,8 @@ instance YesodAuth App where
     -- Override the above two destinations when a Referer: header is present
     redirectToReferer _ = True
 
+    onLogin = setMessage $ successHtml "You are now logged in"
+
     getAuthId = return . fromPathPiece . credsIdent
 
     -- You can add other plugins like BrowserID, email or OAuth here
@@ -155,8 +159,7 @@ instance YesodAuthSimple App where
 
     afterPasswordRoute _ = HomeR
 
-    --onPasswordUpdated = setMessage $ alertSuccess "Password has been updated"
-    onPasswordUpdated = setMessage $ "Password has been updated"
+    onPasswordUpdated = setMessage $ successHtml "Password has been updated"
 
     insertUser email password = do
         let name = takeWhile (/= '@') email

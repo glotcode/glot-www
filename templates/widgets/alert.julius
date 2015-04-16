@@ -1,0 +1,47 @@
+window.Alert = (function() {
+    function fadeOut(selector, timeout) {
+        var el = $(selector);
+        if (el.length === 0) {
+            return;
+        }
+
+        // Fade out alert after x seconds
+        setTimeout(function() {
+            el.addClass("fade-out");
+        }, timeout);
+
+        // Remove alert from DOM after y seconds
+        setTimeout(function() {
+            el.remove();
+        }, timeout + 3000);
+    }
+
+    function fadeOutAll() {
+        fadeOut(".alert-success", 5000);
+        fadeOut(".alert-info", 5000);
+        fadeOut(".alert-warning", 5000);
+        fadeOut(".alert-danger", 9000);
+    }
+
+    function danger(msg) {
+        render("@{AlertDangerR}", msg);
+    }
+
+    function render(url, msg) {
+        XHR.jsonPost(url, {message: msg}).done(function(res) {
+            show(res.message);
+        });
+    }
+
+    function show(html) {
+        $("body").append(html);
+        fadeOutAll();
+    }
+
+    // Fade out any alerts present in DOM on page load
+    fadeOutAll();
+
+    return {
+        danger: danger
+    };
+})();

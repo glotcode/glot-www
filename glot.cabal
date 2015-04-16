@@ -29,6 +29,7 @@ library
                      Handler.UserSnippets
                      Handler.Run
                      Handler.Account
+                     Handler.Alert
                      Model.Language
                      Model.Pagination
                      Model.Snippet
@@ -43,6 +44,7 @@ library
                      Util.User
                      Util.Hash
                      Util.Snippet
+                     Util.Alert
                      Widget.Editor
                      Widget.RunResult
                      Widget.Pagination
@@ -124,6 +126,7 @@ library
                  , lens                          >= 4.8        && < 5.0
                  , network-uri                   >= 2.6        && < 3.0
                  , iso8601-time                  >= 0.1.3      && < 1.0
+                 , blaze-html                    >= 0.7.1      && < 1.0
 
 executable         glot
     if flag(library-only)
