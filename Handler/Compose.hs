@@ -4,6 +4,7 @@ import Import
 import Widget.Editor (editorWidget)
 import Widget.RunResult (runResultWidget)
 import Util.Handler (maybeApiUser)
+import Util.Alert (successHtml)
 import Network.Wai (lazyRequestBody)
 import Model.Snippet.Api (addSnippet)
 
@@ -29,6 +30,7 @@ postComposeR _ = do
     mApiUser <- maybeApiUser mUserId
     snippet <- liftIO $ addSnippet body $ apiUserToken <$> mApiUser
     renderUrl <- getUrlRender
+    setMessage $ successHtml "Saved snippet"
     let url = renderUrl $ SnippetR $ snippetId snippet
     return $ object ["url" .= url]
 

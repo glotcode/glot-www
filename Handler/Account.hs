@@ -5,6 +5,7 @@ import Import
 import Yesod.Auth.Simple (setPasswordR)
 import Util.Slug (mkSlug)
 import Util.User (newToken)
+import Util.Alert (successHtml)
 import qualified Model.Snippet.Api as SnippetApi
 import qualified Model.Run.Api as RunApi
 
@@ -33,6 +34,7 @@ putAccountProfileR = do
         ProfileName =. name profileData,
         ProfileUsername =. (mkSlug $ username profileData),
         ProfileModified =. now]
+    setMessage $ successHtml "Profile updated"
     return $ object []
 
 getAccountTokenR :: Handler Html
@@ -52,4 +54,5 @@ putAccountTokenR = do
     liftIO $ RunApi.setUserToken (apiUserRunId apiUser) token
     now <- liftIO getCurrentTime
     runDB $ update apiUserId [ApiUserToken =. token, ApiUserModified =. now]
+    setMessage $ successHtml "New token generated"
     return $ object []

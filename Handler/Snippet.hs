@@ -5,6 +5,7 @@ import Widget.Editor (editorWidget)
 import Widget.RunResult (runResultWidget)
 import Util.Handler (maybeApiUser)
 import Util.Snippet (isSnippetOwner)
+import Util.Alert (successHtml)
 import Model.Snippet.Api (getSnippet, updateSnippet)
 import Network.Wai (lazyRequestBody)
 
@@ -32,4 +33,5 @@ putSnippetR snippetId = do
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
     _ <- liftIO $ updateSnippet snippetId body $ apiUserToken <$> mApiUser
+    setMessage $ successHtml "Updated snippet"
     return $ object []
