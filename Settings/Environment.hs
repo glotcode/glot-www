@@ -3,7 +3,8 @@ module Settings.Environment (
     runApiAdminToken,
     runApiAnonymousToken,
     snippetsApiBaseUrl,
-    snippetsApiAdminToken
+    snippetsApiAdminToken,
+    mandrillToken
 ) where
 
 import ClassyPrelude.Yesod
@@ -24,3 +25,6 @@ snippetsApiBaseUrl = getEnv "SNIPPETS_API_BASE_URL"
 
 snippetsApiAdminToken :: IO Text
 snippetsApiAdminToken = pack <$> getEnv "SNIPPETS_API_ADMIN_TOKEN"
+
+mandrillToken :: IO Text
+mandrillToken = pack <$> getEnv "MANDRILL_TOKEN"

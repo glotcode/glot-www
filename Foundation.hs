@@ -9,14 +9,17 @@ import Yesod.Default.Util   (addStaticContentExternal)
 import Yesod.Core.Types     (Logger)
 import qualified Yesod.Core.Unsafe as Unsafe
 
-import Data.ByteString.Lazy (ByteString)
-import Network.Mail.Mime (renderMail', simpleMail', Address(..))
 import Util.Shakespare (stextFile)
 import Util.Slug (mkSlug)
 import Util.Hash (sha1Text)
 import Util.User (newToken)
 import Util.Alert (successHtml)
+import Settings.Environment (mandrillToken)
 import Data.Text.Lazy.Builder (toLazyText)
+import Text.Email.Validate (EmailAddress, emailAddress)
+import Network.API.Mandrill (MandrillResponse(..), runMandrill, sendEmail, newTextMessage)
+import Data.Maybe (fromJust)
+
 
 import qualified Model.Snippet.Api as SnippetApi
 import qualified Model.Run.Api as RunApi
@@ -213,39 +216,38 @@ instance YesodAuthSimple App where
     userExistsTemplate = $(widgetFile "auth/user-exists")
 
     sendVerifyEmail email url = do
-        liftIO $ putStrLn url
-        --msg <- liftIO $ encode <$> renderRegisterEmail email url
-        --liftIO $ sendEmail $ decodeUtf8 msg
+        let toAddress = fromJust $ emailAddress $ encodeUtf8 email
+        let subject = "Registration Link"
+        let msg = registerEmailMsg url
+        liftIO $ mandrillSend fromAddress toAddress subject msg
 
     sendResetPasswordEmail email url = do
-        liftIO $ putStrLn url
-        --msg <- liftIO $ encode <$> renderResetPasswordEmail email url
-        --liftIO $ sendEmail $ decodeUtf8 msg
+        let toAddress = fromJust $ emailAddress $ encodeUtf8 email
+        let subject = "Reset password link"
+        let msg = resetPasswordEmailMsg url
+        liftIO $ mandrillSend fromAddress toAddress subject msg
 
+mandrillSend :: EmailAddress -> EmailAddress -> Text -> Text -> IO ()
+mandrillSend fromAddr toAddr subject msg = do
+    apiKey <- mandrillToken
+    runMandrill apiKey $ do
+        res <- sendEmail (newTextMessage fromAddr [toAddr] subject msg)
+        case res of
+            MandrillSuccess _ -> return ()
+            MandrillFailure f -> do
+                liftIO (print f)
+                error "Failed to send email"
 
-toAddress :: Text -> Address
-toAddress email = Address{addressName=Nothing, addressEmail=email}
+fromAddress :: EmailAddress
+fromAddress = fromJust $ emailAddress "glot@glot.io"
 
-fromAddress :: Address
-fromAddress = Address{
-    addressName=Just "glot.io",
-    addressEmail="robot@glot.io"}
+registerEmailMsg :: Text -> Text
+registerEmailMsg url =
+    toStrict $ toLazyText $(stextFile "templates/email/register.txt")
 
-renderRegisterEmail :: Text -> Text -> IO ByteString
-renderRegisterEmail email url = do
-    renderMail' $ simpleMail'
-        (toAddress email)
-        fromAddress
-        "Registration link"
-        (toLazyText $(stextFile "templates/email/register.txt"))
-
-renderResetPasswordEmail :: Text -> Text -> IO ByteString
-renderResetPasswordEmail email url = do
-    renderMail' $ simpleMail'
-        (toAddress email)
-        fromAddress
-        "Reset password link"
-        (toLazyText $(stextFile "templates/email/reset-password.txt"))
+resetPasswordEmailMsg :: Text -> Text
+resetPasswordEmailMsg url =
+    toStrict $ toLazyText $(stextFile "templates/email/reset-password.txt")
 
 -- This instance is required to use forms. You can modify renderMessage to
 -- achieve customized and internationalized form validation messages.
