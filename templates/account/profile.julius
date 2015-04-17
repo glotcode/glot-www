@@ -17,9 +17,9 @@
         };
 
         XHR.jsonPut("@{AccountProfileR}", payload).done(function(data) {
-          Location.reload();
+            Location.reload();
         }).fail(function(xhr) {
-          console.log("failed");
+            Alert.danger(xhr.responseJSON.message);
         });
     }
 

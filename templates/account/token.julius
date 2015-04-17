@@ -1,7 +1,6 @@
 (function() {
 
     $(document).on("click", ".generate", function(e) {
-        console.log("click");
         e.preventDefault();
         generate();
         return false;
@@ -9,9 +8,9 @@
 
     function generate() {
         XHR.jsonPut("@{AccountTokenR}", {}).done(function(data) {
-          Location.reload();
+            Location.reload();
         }).fail(function(xhr) {
-          console.log("failed");
+            Alert.danger(xhr.responseJSON.message);
         });
     }
 })();

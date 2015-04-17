@@ -16,7 +16,7 @@
         XHR.jsonPost("@?{(RunR lang, [("snippet", snippetId)])}", payload).done(function(data) {
             RunResult.show(data);
         }).fail(function(xhr) {
-            console.log("failed");
+            Alert.danger("Failed to run snippet");
         }).always(function() {
             RunResult.hideInfo();
         });
@@ -36,9 +36,9 @@
         };
 
         XHR.jsonPut("@{SnippetR $ snippetId}", payload).done(function(data) {
-          Location.reload();
+            Location.reload();
         }).fail(function(xhr) {
-          console.log("failed");
+            Alert.danger("Failed to save snippet");
         });
     }
 

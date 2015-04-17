@@ -16,7 +16,7 @@
         XHR.jsonPost("@{RunR lang}", payload).done(function(data) {
             RunResult.show(data);
         }).fail(function(xhr) {
-            console.log("failed");
+            Alert.danger("Failed to run snippet");
         }).always(function() {
             RunResult.hideInfo();
         });
@@ -41,9 +41,9 @@
         };
 
         XHR.jsonPost("@{ComposeR lang}", payload).done(function(data) {
-          Location.set(data.url);
+            Location.set(data.url);
         }).fail(function(xhr) {
-          console.log("failed");
+            Alert.danger("Failed to save snippet");
         });
     }
 
