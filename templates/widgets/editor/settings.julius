@@ -8,7 +8,7 @@ window.Settings = (function() {
         if (localStorage.theme) {
             return localStorage.theme;
         }
-        return "ace/theme/monokai";
+        return "ace/theme/solarized_dark";
     }
 
     function setKeybindings(keybindings) {
