@@ -10,8 +10,7 @@ import Util.Snippet (isSnippetOwner, iso8601Format, visibilityFormat)
 editorWidget :: Language -> Snippet -> Widget
 editorWidget lang snippet = do
     let fileCount = length $ snippetFiles snippet
-    addStylesheet $ StaticR lib_ace_ace_js
-    $(combineScripts 'StaticR [lib_ace_ace_js])
+    addScript $ StaticR lib_ace_ace_js
     $(widgetFile "widgets/editor")
 
 metaWidget :: Snippet -> Widget
