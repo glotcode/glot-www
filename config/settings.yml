@@ -24,6 +24,3 @@ database:
   port:     "_env:PGPORT:5432"
   database: "_env:PGDATABASE:glot"
   poolsize: "_env:PGPOOLSIZE:10"
-
-copyright: Insert copyright statement here
-#analytics: UA-YOURCODE

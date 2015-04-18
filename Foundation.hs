@@ -14,7 +14,7 @@ import Util.Slug (mkSlug)
 import Util.Hash (sha1Text)
 import Util.User (newToken)
 import Util.Alert (successHtml)
-import Settings.Environment (mandrillToken)
+import Settings.Environment (mandrillToken, analyticsId)
 import Data.Text.Lazy.Builder (toLazyText)
 import Text.Email.Validate (EmailAddress, emailAddress)
 import Network.API.Mandrill (MandrillResponse(..), runMandrill, sendEmail, newTextMessage)
@@ -65,8 +65,8 @@ instance Yesod App where
         "config/client_session_key.aes"
 
     defaultLayout widget = do
-        master <- getYesod
         mmsg <- getMessage
+        mAnalytics <- liftIO analyticsId
 
         -- We break up the default layout into two components:
         -- default-layout is the contents of the body tag, and
@@ -87,6 +87,9 @@ instance Yesod App where
                 js_xhr_js])
             $(widgetFile "default-layout")
             $(widgetFile "widgets/alert")
+            case mAnalytics of
+                Just aId -> $(widgetFile "widgets/analytics")
+                Nothing -> return ()
         withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
 
     -- The page to be redirected to when authentication is required.
