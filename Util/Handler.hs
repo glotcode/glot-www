@@ -1,10 +1,24 @@
 module Util.Handler (
+    title,
+    titleConcat,
     maybeApiUser,
     pageNo
 ) where
 
 import Import
 import Prelude (read)
+import Text.Blaze (toMarkup, Markup)
+import Data.Text (append)
+
+title :: Text -> Markup
+title text = toMarkup $ text `append` titleSuffix
+
+titleConcat :: [Text] -> Markup
+titleConcat parts =
+    toMarkup $ (concat parts) `append` titleSuffix
+
+titleSuffix :: Text
+titleSuffix = " - glot.io"
 
 maybeApiUser :: Maybe UserId -> Handler (Maybe ApiUser)
 maybeApiUser Nothing = return Nothing

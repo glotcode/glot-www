@@ -1,9 +1,10 @@
 module Handler.Home where
 
 import Import
+import Util.Handler (title)
 
 getHomeR :: Handler Html
 getHomeR = do
     defaultLayout $ do
-        setTitle "glot.io - home"
+        setTitle $ title "Home"
         $(widgetFile "homepage")

@@ -5,6 +5,7 @@ import Import
 import Yesod.Auth.Simple (setPasswordR)
 import Util.Slug (mkSlug)
 import Util.User (newToken)
+import Util.Handler (title)
 import Util.Alert (successHtml)
 import qualified Model.Snippet.Api as SnippetApi
 import qualified Model.Run.Api as RunApi
@@ -21,7 +22,7 @@ getAccountProfileR = do
     userId <- requireAuthId
     Entity _ profile <- runDB $ getBy404 $ UniqueProfile userId
     defaultLayout $ do
-        setTitle "glot.io"
+        setTitle $ title "Profile"
         $(widgetFile "account/profile")
 
 putAccountProfileR :: Handler Value
@@ -42,7 +43,7 @@ getAccountTokenR = do
     userId <- requireAuthId
     Entity _ apiUser <- runDB $ getBy404 $ UniqueApiUser userId
     defaultLayout $ do
-        setTitle "glot.io"
+        setTitle $ title "Api token"
         $(widgetFile "account/token")
 
 putAccountTokenR :: Handler Value

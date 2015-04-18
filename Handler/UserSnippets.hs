@@ -2,7 +2,7 @@ module Handler.UserSnippets where
 
 import Import
 import Model.Snippet.Api (listSnippets, listSnippetsByOwner, listSnippetsByLanguage, listSnippetsByOwnerByLanguage)
-import Util.Handler (maybeApiUser, pageNo)
+import Util.Handler (maybeApiUser, pageNo, titleConcat)
 import Util.Snippet (iso8601Format, visibilityFormat)
 import Widget.Pagination (paginationWidget)
 
@@ -14,7 +14,7 @@ getUserSnippetsR username = do
     mLanguage <- lookupGetParam "language"
     (snippets, pagination) <- fetchSnippets mAuthUserId (profileUserId profile) mLanguage currentPage
     defaultLayout $ do
-        setTitle $ "glot.io"
+        setTitle $ titleConcat ["Snippets by ", profileName profile]
         $(widgetFile "user-snippets")
 
 fetchSnippets :: Maybe UserId -> UserId -> Maybe Text -> Int -> Handler ([MetaSnippet], Pagination)

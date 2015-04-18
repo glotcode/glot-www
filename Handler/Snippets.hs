@@ -3,7 +3,7 @@ module Handler.Snippets where
 import Import
 import Model.Snippet.Api (listSnippets, listSnippetsByLanguage)
 import Data.List (nub)
-import Util.Handler (pageNo)
+import Util.Handler (pageNo, title)
 import Util.Snippet (iso8601Format)
 import Widget.Pagination (paginationWidget)
 
@@ -18,7 +18,7 @@ getSnippetsR = do
             liftIO $ listSnippets currentPage Nothing
     profiles <- fetchProfiles $ nub $ map metaSnippetOwner snippets
     defaultLayout $ do
-        setTitle $ "glot.io"
+        setTitle $ title "Public snippets"
         $(widgetFile "snippets")
 
 fetchProfiles :: [Text] -> Handler [Profile]

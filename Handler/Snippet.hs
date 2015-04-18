@@ -3,7 +3,7 @@ module Handler.Snippet where
 import Import
 import Widget.Editor (editorWidget)
 import Widget.RunResult (runResultWidget)
-import Util.Handler (maybeApiUser)
+import Util.Handler (maybeApiUser, title)
 import Util.Snippet (isSnippetOwner)
 import Util.Alert (successHtml)
 import Model.Snippet.Api (getSnippet, updateSnippet)
@@ -23,7 +23,7 @@ getSnippetR snippetId = do
                 snippetId $ snippetFilesHash snippet
             let lang = toLanguage $ snippetLanguage snippet
             defaultLayout $ do
-                setTitle $ "glot.io"
+                setTitle $ title $ snippetTitle snippet
                 $(widgetFile "snippet")
 
 putSnippetR :: Text -> Handler Value

@@ -3,7 +3,7 @@ module Handler.Compose where
 import Import
 import Widget.Editor (editorWidget)
 import Widget.RunResult (runResultWidget)
-import Util.Handler (maybeApiUser)
+import Util.Handler (maybeApiUser, title, titleConcat)
 import Util.Alert (successHtml)
 import Network.Wai (lazyRequestBody)
 import Model.Snippet.Api (addSnippet)
@@ -11,7 +11,7 @@ import Model.Snippet.Api (addSnippet)
 getComposeLanguagesR :: Handler Html
 getComposeLanguagesR = do
     defaultLayout $ do
-        setTitle $ "glot.io"
+        setTitle $ title "Languages"
         $(widgetFile "languages")
 
 getComposeR :: Language -> Handler Html
@@ -19,7 +19,7 @@ getComposeR lang = do
     auth <- maybeAuth
     let snippet = defaultSnippet lang
     defaultLayout $ do
-        setTitle $ "glot.io"
+        setTitle $ titleConcat ["New ", pack $ show lang, " snippet"]
         $(widgetFile "compose")
 
 postComposeR :: Language -> Handler Value
