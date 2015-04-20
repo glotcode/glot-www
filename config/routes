@@ -7,9 +7,9 @@
 / HomeR GET
 /new ComposeLanguagesR GET
 /new/#Language ComposeR GET POST
-/s SnippetsR GET
-/s/#Text SnippetR GET PUT
-/u/#Text/snippets UserSnippetsR GET
+/snippets SnippetsR GET
+/snippets/#Text SnippetR GET PUT
+/users/#Text/snippets UserSnippetsR GET
 /run/#Language RunR POST
 /account/profile AccountProfileR GET PUT
 /account/token AccountTokenR GET PUT
