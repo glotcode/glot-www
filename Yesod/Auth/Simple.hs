@@ -417,7 +417,7 @@ saltLength = 5
 -- | Salt a password with a randomly generated salt.
 saltPass :: Text -> IO Text
 saltPass = fmap (decodeUtf8With lenientDecode)
-         . flip PS.makePassword 14
+         . flip PS.makePassword 17
          . encodeUtf8
 
 saltPass' :: String -> String -> String
