@@ -15,7 +15,10 @@ $newline never
           $maybe Entity _ profile <- mProfile
             <a href="@{UserSnippetsR $ profileUsername profile}">#{profileName profile}
           $nothing
-            Unknown
+            $if snippetOwner snippet == "anonymous"
+              Anonymous
+            $else
+              Unknown
       <tr>
         <td>Created
         <td>#{iso8601Format $ snippetCreated snippet}
