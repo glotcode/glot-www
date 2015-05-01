@@ -7,6 +7,7 @@ import Util.Multiline (multiline)
 data Language = Bash |
                 C |
                 Cpp |
+                Csharp |
                 Erlang |
                 Go |
                 Haskell |
@@ -28,6 +29,7 @@ instance Show Language where
     show Bash = "bash"
     show C = "c"
     show Cpp = "cpp"
+    show Csharp = "csharp"
     show Erlang = "erlang"
     show Go = "go"
     show Haskell = "haskell"
@@ -46,6 +48,7 @@ toLanguage :: Text -> Language
 toLanguage "bash" = Bash
 toLanguage "cpp" = Cpp
 toLanguage "c" = C
+toLanguage "csharp" = Csharp
 toLanguage "erlang" = Erlang
 toLanguage "go" = Go
 toLanguage "haskell" = Haskell
@@ -58,12 +61,13 @@ toLanguage "ruby" = Ruby
 toLanguage _ = Plaintext
 
 allLanguages :: [Language]
-allLanguages = [Bash, C, Cpp, Erlang, Go, Haskell, Java, Javascript, Perl, Php, Plaintext, Python, Ruby]
+allLanguages = [Bash, C, Cpp, Csharp, Erlang, Go, Haskell, Java, Javascript, Perl, Php, Plaintext, Python, Ruby]
 
 languageFileExt :: Language -> Text
 languageFileExt Bash = "sh"
 languageFileExt C = "c"
 languageFileExt Cpp = "cpp"
+languageFileExt Csharp = "cs"
 languageFileExt Erlang = "erl"
 languageFileExt Go = "go"
 languageFileExt Haskell = "hs"
@@ -79,6 +83,7 @@ languageDefaultFname :: Language -> Text
 languageDefaultFname Bash = "main." ++ languageFileExt Bash
 languageDefaultFname C = "main." ++ languageFileExt C
 languageDefaultFname Cpp = "main." ++ languageFileExt Cpp
+languageDefaultFname Csharp = "main." ++ languageFileExt Csharp
 languageDefaultFname Erlang = "main." ++ languageFileExt Erlang
 languageDefaultFname Go = "main." ++ languageFileExt Go
 languageDefaultFname Haskell = "main." ++ languageFileExt Haskell
@@ -94,6 +99,7 @@ languageIconClass :: Language -> Text
 languageIconClass Bash = "icon-prog-bash02"
 languageIconClass C = "icon-prog-c"
 languageIconClass Cpp = "icon-prog-cplusplus"
+languageIconClass Csharp = "icon-prog-csharp"
 languageIconClass Erlang = "icon-prog-erlang"
 languageIconClass Go = "icon-prog-golang02"
 languageIconClass Haskell = "icon-prog-haskell"
@@ -109,6 +115,7 @@ languageAceMode :: Language -> Text
 languageAceMode Bash = "ace/mode/sh"
 languageAceMode C = "ace/mode/c_cpp"
 languageAceMode Cpp = "ace/mode/c_cpp"
+languageAceMode Csharp = "ace/mode/csharp"
 languageAceMode Erlang = "ace/mode/erlang"
 languageAceMode Go = "ace/mode/golang"
 languageAceMode Haskell = "ace/mode/haskell"
@@ -124,6 +131,7 @@ languageName :: Language -> Text
 languageName Bash = "Bash"
 languageName C = "C"
 languageName Cpp = "C++"
+languageName Csharp = "C#"
 languageName Erlang = "Erlang"
 languageName Go = "Go"
 languageName Haskell = "Haskell"
@@ -153,6 +161,13 @@ using namespace std;
 int main() {
     cout << "Hello World!";
     return 0;
+}|]
+languageDefaultContent Csharp = [multiline|using System;
+
+class MainClass {
+    static void Main() {
+        Console.WriteLine("Hello World!");
+    }
 }|]
 languageDefaultContent Erlang = [multiline|% escript will ignore the first line
 
