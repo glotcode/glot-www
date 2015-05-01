@@ -17,15 +17,16 @@ $newline never
               <th>Owner
           <tbody>
           $forall snippet <- snippets
-            $with owner <- metaSnippetOwner snippet
-              <tr>
-                <td>
-                  <a href="@?{(SnippetsR, [("language", metaSnippetLanguage snippet)])}">
-                    <span class="#{languageIconClass $ toLanguage $ metaSnippetLanguage snippet}">
-                <td>
-                  <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
-                <td>#{iso8601Format $ metaSnippetCreated snippet}
-                <td>
+            <tr>
+              <td>
+                $with lang <- toLanguage $ metaSnippetLanguage snippet
+                  <i class="#{languageIconClass lang}">
+                  <a class="language" href="@?{(SnippetsR, [("language", metaSnippetLanguage snippet)])}">#{languageName lang}
+              <td>
+                <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
+              <td>#{iso8601Format $ metaSnippetCreated snippet}
+              <td>
+                $with owner <- metaSnippetOwner snippet
                   $maybe username <- ownerUsername owner profiles
                     <a href="@{UserSnippetsR username}">#{ownerName owner profiles}
                   $nothing
