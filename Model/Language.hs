@@ -70,7 +70,25 @@ toLanguage "scala" = Scala
 toLanguage _ = Plaintext
 
 allLanguages :: [Language]
-allLanguages = [Bash, C, Clojure, Cpp, Csharp, Erlang, Fsharp, Go, Haskell, Java, Javascript, Perl, Php, Plaintext, Python, Ruby, Scala]
+allLanguages = [
+        Bash,
+        C,
+        Clojure,
+        Cpp,
+        Csharp,
+        Erlang,
+        Fsharp,
+        Go,
+        Haskell,
+        Java,
+        Javascript,
+        Perl,
+        Php,
+        Plaintext,
+        Python,
+        Ruby,
+        Scala
+    ]
 
 languageFileExt :: Language -> Text
 languageFileExt Bash = "sh"
