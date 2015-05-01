@@ -20,7 +20,7 @@ $newline never
           <a href="@{SnippetsR}"><i class="fa fa-list"></i> Snippets
         $maybe profile <- mProfile
           <li :currentPage == MySnippetsPage:.active>
-            <a href="@{UserSnippetsR $ profileUsername profile}"><i class="fa fa-list"></i> Mine
+            <a href="@{UserSnippetsR $ profileUsername profile}"><i class="fa fa-list"></i> My Snippets
 
       <ul class="nav navbar-nav navbar-right">
         $maybe profile <- mProfile
