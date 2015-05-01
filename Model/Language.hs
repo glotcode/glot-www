@@ -110,23 +110,8 @@ languageFileExt Scala = "scala"
 languageFileExt Plaintext = "txt"
 
 languageDefaultFname :: Language -> Text
-languageDefaultFname Bash = "main." ++ languageFileExt Bash
-languageDefaultFname C = "main." ++ languageFileExt C
-languageDefaultFname Clojure = "main." ++ languageFileExt Clojure
-languageDefaultFname Cpp = "main." ++ languageFileExt Cpp
-languageDefaultFname Csharp = "main." ++ languageFileExt Csharp
-languageDefaultFname Erlang = "main." ++ languageFileExt Erlang
-languageDefaultFname Fsharp = "main." ++ languageFileExt Fsharp
-languageDefaultFname Go = "main." ++ languageFileExt Go
-languageDefaultFname Haskell = "main." ++ languageFileExt Haskell
 languageDefaultFname Java = "Main." ++ languageFileExt Java
-languageDefaultFname Javascript = "main." ++ languageFileExt Javascript
-languageDefaultFname Perl = "main." ++ languageFileExt Perl
-languageDefaultFname Php = "main." ++ languageFileExt Php
-languageDefaultFname Python = "main." ++ languageFileExt Python
-languageDefaultFname Ruby = "main." ++ languageFileExt Ruby
-languageDefaultFname Scala = "main." ++ languageFileExt Scala
-languageDefaultFname Plaintext = "main." ++ languageFileExt Plaintext
+languageDefaultFname lang = "main." ++ languageFileExt lang
 
 languageIconClass :: Language -> Text
 languageIconClass Bash = "icon-prog-bash02"
