@@ -9,6 +9,7 @@ data Language = Bash |
                 Clojure |
                 Cpp |
                 Csharp |
+                Elixir |
                 Erlang |
                 Fsharp |
                 Go |
@@ -34,6 +35,7 @@ instance Show Language where
     show Clojure = "clojure"
     show Cpp = "cpp"
     show Csharp = "csharp"
+    show Elixir = "elixir"
     show Erlang = "erlang"
     show Fsharp = "fsharp"
     show Go = "go"
@@ -56,6 +58,7 @@ toLanguage "clojure" = Clojure
 toLanguage "cpp" = Cpp
 toLanguage "c" = C
 toLanguage "csharp" = Csharp
+toLanguage "elixir" = Elixir
 toLanguage "erlang" = Erlang
 toLanguage "fsharp" = Fsharp
 toLanguage "go" = Go
@@ -76,6 +79,7 @@ allLanguages = [
         Clojure,
         Cpp,
         Csharp,
+        Elixir,
         Erlang,
         Fsharp,
         Go,
@@ -96,6 +100,7 @@ languageFileExt C = "c"
 languageFileExt Clojure = "clj"
 languageFileExt Cpp = "cpp"
 languageFileExt Csharp = "cs"
+languageFileExt Elixir = "ex"
 languageFileExt Erlang = "erl"
 languageFileExt Fsharp = "fs"
 languageFileExt Go = "go"
@@ -119,6 +124,7 @@ languageIconClass C = "icon-prog-c"
 languageIconClass Clojure = "icon-pl-clojure"
 languageIconClass Cpp = "icon-prog-cplusplus"
 languageIconClass Csharp = "icon-prog-csharp"
+languageIconClass Elixir = "fa fa-code"
 languageIconClass Erlang = "icon-prog-erlang"
 languageIconClass Fsharp = "fa fa-code"
 languageIconClass Go = "icon-prog-golang02"
@@ -138,6 +144,7 @@ languageAceMode C = "ace/mode/c_cpp"
 languageAceMode Clojure = "ace/mode/clojure"
 languageAceMode Cpp = "ace/mode/c_cpp"
 languageAceMode Csharp = "ace/mode/csharp"
+languageAceMode Elixir = "ace/mode/elixir"
 languageAceMode Erlang = "ace/mode/erlang"
 languageAceMode Fsharp = "ace/mode/csharp"
 languageAceMode Go = "ace/mode/golang"
@@ -157,6 +164,7 @@ languageName C = "C"
 languageName Clojure = "Clojure"
 languageName Cpp = "C++"
 languageName Csharp = "C#"
+languageName Elixir = "Elixir"
 languageName Erlang = "Erlang"
 languageName Fsharp = "F#"
 languageName Go = "Go"
@@ -197,6 +205,7 @@ class MainClass {
         Console.WriteLine("Hello World!");
     }
 }|]
+languageDefaultContent Elixir = [multiline|IO.puts "Hello World!"|]
 languageDefaultContent Erlang = [multiline|% escript will ignore the first line
 
 main(_) ->
