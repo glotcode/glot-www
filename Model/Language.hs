@@ -224,5 +224,7 @@ languageDefaultContent Php = [multiline|<?php
 echo "Hello World\n";|]
 languageDefaultContent Python = [multiline|print("Hello World!")|]
 languageDefaultContent Ruby = [multiline|puts "Hello World!"|]
-languageDefaultContent Scala = [multiline|println("Hello World!")|]
+languageDefaultContent Scala = [multiline|object Main extends App {
+    println("Hello World!")
+}|]
 languageDefaultContent Plaintext = [multiline|Hello World!|]
