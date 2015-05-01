@@ -9,6 +9,7 @@ data Language = Bash |
                 Cpp |
                 Csharp |
                 Erlang |
+                Fsharp |
                 Go |
                 Haskell |
                 Java |
@@ -31,6 +32,7 @@ instance Show Language where
     show Cpp = "cpp"
     show Csharp = "csharp"
     show Erlang = "erlang"
+    show Fsharp = "fsharp"
     show Go = "go"
     show Haskell = "haskell"
     show Java = "java"
@@ -50,6 +52,7 @@ toLanguage "cpp" = Cpp
 toLanguage "c" = C
 toLanguage "csharp" = Csharp
 toLanguage "erlang" = Erlang
+toLanguage "fsharp" = Fsharp
 toLanguage "go" = Go
 toLanguage "haskell" = Haskell
 toLanguage "javascript" = Javascript
@@ -61,7 +64,7 @@ toLanguage "ruby" = Ruby
 toLanguage _ = Plaintext
 
 allLanguages :: [Language]
-allLanguages = [Bash, C, Cpp, Csharp, Erlang, Go, Haskell, Java, Javascript, Perl, Php, Plaintext, Python, Ruby]
+allLanguages = [Bash, C, Cpp, Csharp, Erlang, Fsharp, Go, Haskell, Java, Javascript, Perl, Php, Plaintext, Python, Ruby]
 
 languageFileExt :: Language -> Text
 languageFileExt Bash = "sh"
@@ -69,6 +72,7 @@ languageFileExt C = "c"
 languageFileExt Cpp = "cpp"
 languageFileExt Csharp = "cs"
 languageFileExt Erlang = "erl"
+languageFileExt Fsharp = "fs"
 languageFileExt Go = "go"
 languageFileExt Haskell = "hs"
 languageFileExt Java = "java"
@@ -85,6 +89,7 @@ languageDefaultFname C = "main." ++ languageFileExt C
 languageDefaultFname Cpp = "main." ++ languageFileExt Cpp
 languageDefaultFname Csharp = "main." ++ languageFileExt Csharp
 languageDefaultFname Erlang = "main." ++ languageFileExt Erlang
+languageDefaultFname Fsharp = "main." ++ languageFileExt Fsharp
 languageDefaultFname Go = "main." ++ languageFileExt Go
 languageDefaultFname Haskell = "main." ++ languageFileExt Haskell
 languageDefaultFname Java = "Main." ++ languageFileExt Java
@@ -101,6 +106,7 @@ languageIconClass C = "icon-prog-c"
 languageIconClass Cpp = "icon-prog-cplusplus"
 languageIconClass Csharp = "icon-prog-csharp"
 languageIconClass Erlang = "icon-prog-erlang"
+languageIconClass Fsharp = "fa fa-code"
 languageIconClass Go = "icon-prog-golang02"
 languageIconClass Haskell = "icon-prog-haskell"
 languageIconClass Java = "icon-prog-java"
@@ -117,6 +123,7 @@ languageAceMode C = "ace/mode/c_cpp"
 languageAceMode Cpp = "ace/mode/c_cpp"
 languageAceMode Csharp = "ace/mode/csharp"
 languageAceMode Erlang = "ace/mode/erlang"
+languageAceMode Fsharp = "ace/mode/csharp"
 languageAceMode Go = "ace/mode/golang"
 languageAceMode Haskell = "ace/mode/haskell"
 languageAceMode Java = "ace/mode/java"
@@ -133,6 +140,7 @@ languageName C = "C"
 languageName Cpp = "C++"
 languageName Csharp = "C#"
 languageName Erlang = "Erlang"
+languageName Fsharp = "F#"
 languageName Go = "Go"
 languageName Haskell = "Haskell"
 languageName Java = "Java"
@@ -173,6 +181,7 @@ languageDefaultContent Erlang = [multiline|% escript will ignore the first line
 
 main(_) ->
     io:format("Hello World!~n").|]
+languageDefaultContent Fsharp = [multiline|printfn "Hello World!"|]
 languageDefaultContent Go = [multiline|package main
 
 import (
