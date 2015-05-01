@@ -19,6 +19,7 @@ data Language = Bash |
                 Php |
                 Python |
                 Ruby |
+                Scala |
                 Plaintext
                 deriving Eq
 
@@ -43,6 +44,7 @@ instance Show Language where
     show Php = "php"
     show Python = "python"
     show Ruby = "ruby"
+    show Scala = "scala"
     show Plaintext = "plaintext"
 
 instance Read Language where
@@ -64,10 +66,11 @@ toLanguage "perl" = Perl
 toLanguage "php" = Php
 toLanguage "python" = Python
 toLanguage "ruby" = Ruby
+toLanguage "scala" = Scala
 toLanguage _ = Plaintext
 
 allLanguages :: [Language]
-allLanguages = [Bash, C, Clojure, Cpp, Csharp, Erlang, Fsharp, Go, Haskell, Java, Javascript, Perl, Php, Plaintext, Python, Ruby]
+allLanguages = [Bash, C, Clojure, Cpp, Csharp, Erlang, Fsharp, Go, Haskell, Java, Javascript, Perl, Php, Plaintext, Python, Ruby, Scala]
 
 languageFileExt :: Language -> Text
 languageFileExt Bash = "sh"
@@ -85,6 +88,7 @@ languageFileExt Perl = "pl"
 languageFileExt Php = "php"
 languageFileExt Python = "py"
 languageFileExt Ruby = "rb"
+languageFileExt Scala = "scala"
 languageFileExt Plaintext = "txt"
 
 languageDefaultFname :: Language -> Text
@@ -103,6 +107,7 @@ languageDefaultFname Perl = "main." ++ languageFileExt Perl
 languageDefaultFname Php = "main." ++ languageFileExt Php
 languageDefaultFname Python = "main." ++ languageFileExt Python
 languageDefaultFname Ruby = "main." ++ languageFileExt Ruby
+languageDefaultFname Scala = "main." ++ languageFileExt Scala
 languageDefaultFname Plaintext = "main." ++ languageFileExt Plaintext
 
 languageIconClass :: Language -> Text
@@ -121,6 +126,7 @@ languageIconClass Perl = "icon-prog-perl"
 languageIconClass Php = "icon-prog-php02"
 languageIconClass Python = "icon-prog-python"
 languageIconClass Ruby = "icon-prog-ruby"
+languageIconClass Scala = "icon-prog-scala"
 languageIconClass Plaintext = "fa fa-file-text-o"
 
 languageAceMode :: Language -> Text
@@ -139,6 +145,7 @@ languageAceMode Perl = "ace/mode/perl"
 languageAceMode Php = "ace/mode/php"
 languageAceMode Python = "ace/mode/python"
 languageAceMode Ruby = "ace/mode/ruby"
+languageAceMode Scala = "ace/mode/scala"
 languageAceMode Plaintext = "ace/mode/plain_text"
 
 languageName :: Language -> Text
@@ -157,6 +164,7 @@ languageName Perl = "Perl"
 languageName Php = "PHP"
 languageName Python = "Python"
 languageName Ruby = "Ruby"
+languageName Scala = "Scala"
 languageName Plaintext = "Plaintext"
 
 languageIsRunnable :: Language -> Bool
@@ -213,4 +221,5 @@ languageDefaultContent Php = [multiline|<?php
 echo "Hello World\n";|]
 languageDefaultContent Python = [multiline|print("Hello World!")|]
 languageDefaultContent Ruby = [multiline|puts "Hello World!"|]
+languageDefaultContent Scala = [multiline|println("Hello World!")|]
 languageDefaultContent Plaintext = [multiline|Hello World!|]
