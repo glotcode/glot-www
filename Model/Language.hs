@@ -6,6 +6,7 @@ import Util.Multiline (multiline)
 
 data Language = Bash |
                 C |
+                Clojure |
                 Cpp |
                 Csharp |
                 Erlang |
@@ -29,6 +30,7 @@ instance PathPiece Language where
 instance Show Language where
     show Bash = "bash"
     show C = "c"
+    show Clojure = "clojure"
     show Cpp = "cpp"
     show Csharp = "csharp"
     show Erlang = "erlang"
@@ -48,6 +50,7 @@ instance Read Language where
 
 toLanguage :: Text -> Language
 toLanguage "bash" = Bash
+toLanguage "clojure" = Clojure
 toLanguage "cpp" = Cpp
 toLanguage "c" = C
 toLanguage "csharp" = Csharp
@@ -64,11 +67,12 @@ toLanguage "ruby" = Ruby
 toLanguage _ = Plaintext
 
 allLanguages :: [Language]
-allLanguages = [Bash, C, Cpp, Csharp, Erlang, Fsharp, Go, Haskell, Java, Javascript, Perl, Php, Plaintext, Python, Ruby]
+allLanguages = [Bash, C, Clojure, Cpp, Csharp, Erlang, Fsharp, Go, Haskell, Java, Javascript, Perl, Php, Plaintext, Python, Ruby]
 
 languageFileExt :: Language -> Text
 languageFileExt Bash = "sh"
 languageFileExt C = "c"
+languageFileExt Clojure = "clj"
 languageFileExt Cpp = "cpp"
 languageFileExt Csharp = "cs"
 languageFileExt Erlang = "erl"
@@ -86,6 +90,7 @@ languageFileExt Plaintext = "txt"
 languageDefaultFname :: Language -> Text
 languageDefaultFname Bash = "main." ++ languageFileExt Bash
 languageDefaultFname C = "main." ++ languageFileExt C
+languageDefaultFname Clojure = "main." ++ languageFileExt Clojure
 languageDefaultFname Cpp = "main." ++ languageFileExt Cpp
 languageDefaultFname Csharp = "main." ++ languageFileExt Csharp
 languageDefaultFname Erlang = "main." ++ languageFileExt Erlang
@@ -103,6 +108,7 @@ languageDefaultFname Plaintext = "main." ++ languageFileExt Plaintext
 languageIconClass :: Language -> Text
 languageIconClass Bash = "icon-prog-bash02"
 languageIconClass C = "icon-prog-c"
+languageIconClass Clojure = "icon-pl-clojure"
 languageIconClass Cpp = "icon-prog-cplusplus"
 languageIconClass Csharp = "icon-prog-csharp"
 languageIconClass Erlang = "icon-prog-erlang"
@@ -120,6 +126,7 @@ languageIconClass Plaintext = "fa fa-file-text-o"
 languageAceMode :: Language -> Text
 languageAceMode Bash = "ace/mode/sh"
 languageAceMode C = "ace/mode/c_cpp"
+languageAceMode Clojure = "ace/mode/clojure"
 languageAceMode Cpp = "ace/mode/c_cpp"
 languageAceMode Csharp = "ace/mode/csharp"
 languageAceMode Erlang = "ace/mode/erlang"
@@ -137,6 +144,7 @@ languageAceMode Plaintext = "ace/mode/plain_text"
 languageName :: Language -> Text
 languageName Bash = "Bash"
 languageName C = "C"
+languageName Clojure = "Clojure"
 languageName Cpp = "C++"
 languageName Csharp = "C#"
 languageName Erlang = "Erlang"
@@ -163,6 +171,7 @@ int main() {
     printf("Hello World!\n");
     return 0;
 }|]
+languageDefaultContent Clojure = [multiline|(println "Hello World!")|]
 languageDefaultContent Cpp = [multiline|#include <iostream>
 using namespace std;
 
