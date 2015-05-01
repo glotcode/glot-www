@@ -21,6 +21,7 @@ data Language = Bash |
                 Php |
                 Python |
                 Ruby |
+                Rust |
                 Scala |
                 Plaintext
                 deriving Eq
@@ -48,6 +49,7 @@ instance Show Language where
     show Php = "php"
     show Python = "python"
     show Ruby = "ruby"
+    show Rust = "rust"
     show Scala = "scala"
     show Plaintext = "plaintext"
 
@@ -72,6 +74,7 @@ toLanguage "perl" = Perl
 toLanguage "php" = Php
 toLanguage "python" = Python
 toLanguage "ruby" = Ruby
+toLanguage "rust" = Rust
 toLanguage "scala" = Scala
 toLanguage _ = Plaintext
 
@@ -95,6 +98,7 @@ allLanguages = [
         Plaintext,
         Python,
         Ruby,
+        Rust,
         Scala
     ]
 
@@ -116,6 +120,7 @@ languageFileExt Perl = "pl"
 languageFileExt Php = "php"
 languageFileExt Python = "py"
 languageFileExt Ruby = "rb"
+languageFileExt Rust = "rs"
 languageFileExt Scala = "scala"
 languageFileExt Plaintext = "txt"
 
@@ -141,6 +146,7 @@ languageIconClass Perl = "icon-prog-perl"
 languageIconClass Php = "icon-prog-php02"
 languageIconClass Python = "icon-prog-python"
 languageIconClass Ruby = "icon-prog-ruby"
+languageIconClass Rust = "fa fa-code"
 languageIconClass Scala = "icon-prog-scala"
 languageIconClass Plaintext = "fa fa-file-text-o"
 
@@ -162,6 +168,7 @@ languageAceMode Perl = "ace/mode/perl"
 languageAceMode Php = "ace/mode/php"
 languageAceMode Python = "ace/mode/python"
 languageAceMode Ruby = "ace/mode/ruby"
+languageAceMode Rust = "ace/mode/rust"
 languageAceMode Scala = "ace/mode/scala"
 languageAceMode Plaintext = "ace/mode/plain_text"
 
@@ -183,6 +190,7 @@ languageName Perl = "Perl"
 languageName Php = "PHP"
 languageName Python = "Python"
 languageName Ruby = "Ruby"
+languageName Rust = "Rust"
 languageName Scala = "Scala"
 languageName Plaintext = "Plaintext"
 
@@ -242,6 +250,9 @@ languageDefaultContent Php = [multiline|<?php
 echo "Hello World\n";|]
 languageDefaultContent Python = [multiline|print("Hello World!")|]
 languageDefaultContent Ruby = [multiline|puts "Hello World!"|]
+languageDefaultContent Rust = [multiline|fn main() {
+    println!("Hello World!");
+}|]
 languageDefaultContent Scala = [multiline|object Main extends App {
     println("Hello World!")
 }|]
