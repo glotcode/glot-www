@@ -4,7 +4,8 @@ import Prelude (readsPrec)
 import ClassyPrelude.Yesod
 import Util.Multiline (multiline)
 
-data Language = Bash |
+data Language = Assembly |
+                Bash |
                 C |
                 Clojure |
                 Cpp |
@@ -32,6 +33,7 @@ instance PathPiece Language where
     fromPathPiece s = Just $ toLanguage s
 
 instance Show Language where
+    show Assembly = "assembly"
     show Bash = "bash"
     show C = "c"
     show Clojure = "clojure"
@@ -57,6 +59,7 @@ instance Read Language where
     readsPrec _ value = [(toLanguage $ pack value, value)]
 
 toLanguage :: Text -> Language
+toLanguage "assembly" = Assembly
 toLanguage "bash" = Bash
 toLanguage "clojure" = Clojure
 toLanguage "cpp" = Cpp
@@ -80,6 +83,7 @@ toLanguage _ = Plaintext
 
 allLanguages :: [Language]
 allLanguages = [
+        Assembly,
         Bash,
         C,
         Clojure,
@@ -103,6 +107,7 @@ allLanguages = [
     ]
 
 languageFileExt :: Language -> Text
+languageFileExt Assembly = "asm"
 languageFileExt Bash = "sh"
 languageFileExt C = "c"
 languageFileExt Clojure = "clj"
@@ -129,6 +134,7 @@ languageDefaultFname Java = "Main." ++ languageFileExt Java
 languageDefaultFname lang = "main." ++ languageFileExt lang
 
 languageIconClass :: Language -> Text
+languageIconClass Assembly = "fa fa-code"
 languageIconClass Bash = "icon-prog-bash02"
 languageIconClass C = "icon-prog-c"
 languageIconClass Clojure = "icon-pl-clojure"
@@ -151,6 +157,7 @@ languageIconClass Scala = "icon-prog-scala"
 languageIconClass Plaintext = "fa fa-file-text-o"
 
 languageAceMode :: Language -> Text
+languageAceMode Assembly = "ace/mode/assembly_x86"
 languageAceMode Bash = "ace/mode/sh"
 languageAceMode C = "ace/mode/c_cpp"
 languageAceMode Clojure = "ace/mode/clojure"
@@ -173,6 +180,7 @@ languageAceMode Scala = "ace/mode/scala"
 languageAceMode Plaintext = "ace/mode/plain_text"
 
 languageName :: Language -> Text
+languageName Assembly = "Assembly"
 languageName Bash = "Bash"
 languageName C = "C"
 languageName Clojure = "Clojure"
@@ -199,6 +207,20 @@ languageIsRunnable Plaintext = False
 languageIsRunnable _ = True
 
 languageDefaultContent :: Language -> String
+languageDefaultContent Assembly = [multiline|section .data
+    msg db "Hello World!", 0ah
+
+section .text
+    global _start
+_start:
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, msg
+    mov rdx, 13
+    syscall
+    mov rax, 60
+    mov rdi, 0
+    syscall|]
 languageDefaultContent Bash = [multiline|echo Hello World|]
 languageDefaultContent C = [multiline|#include <stdio.h>
 
