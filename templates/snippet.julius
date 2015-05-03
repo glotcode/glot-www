@@ -12,8 +12,11 @@
         RunResult.clear();
         RunResult.showInfo("Running...");
 
+        var version = getLanguageVersion();
+        var url = "@?{(RunR lang, [("snippet", snippetId)])}" + "&" + $.param({version: version});
         var payload = Editor.getFiles();
-        XHR.jsonPost("@?{(RunR lang, [("snippet", snippetId)])}", payload).done(function(data) {
+
+        XHR.jsonPost(url, payload).done(function(data) {
             RunResult.show(data);
         }).fail(function(xhr) {
             Alert.danger("Failed to run snippet");
@@ -35,7 +38,10 @@
             files: Editor.getFiles(),
         };
 
-        XHR.jsonPut("@{SnippetR $ snippetId}", payload).done(function(data) {
+        var version = getLanguageVersion();
+        var url = "@{SnippetR snippetId}" + "?" + $.param({version: version});
+
+        XHR.jsonPut(url, payload).done(function(data) {
             Location.reload();
         }).fail(function(xhr) {
             Alert.danger("Failed to save snippet");
@@ -44,6 +50,10 @@
 
     function getTitle() {
         return $("#snippet-title").text();
+    }
+
+    function getLanguageVersion() {
+        return $("#lang-version").val();
     }
 
     function isPublic() {

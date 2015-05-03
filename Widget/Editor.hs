@@ -5,6 +5,17 @@ module Widget.Editor (
 import Import
 import Util.Handler (maybeApiUser)
 import Util.Snippet (isSnippetOwner, iso8601Format, visibilityFormat)
+import Model.Run.Api (listLanguageVersions)
+
+listVersions :: Text -> IO [Text]
+listVersions lang = do
+    res <- safeListVersions lang
+    return $ case res of
+        Left _ -> []
+        Right versions -> versions
+
+safeListVersions :: Text -> IO (Either SomeException [Text])
+safeListVersions lang = try $ listLanguageVersions lang
 
 
 editorWidget :: Language -> Snippet -> Widget
@@ -18,6 +29,11 @@ metaWidget snippet = do
     mUserId <- handlerToWidget maybeAuthId
     mApiUser <- handlerToWidget $ maybeApiUser mUserId
     mProfile <- handlerToWidget . runDB . getBy . UniqueSnippetsApiId $ snippetOwner snippet
+    mCurrentVersion <- handlerToWidget . runDB . getBy . UniqueLanguageVersion $ snippetId snippet
+    versions <- liftIO $ listVersions $ snippetLanguage snippet
+    let currentVersion = case mCurrentVersion of
+            (Just (Entity _ langVersion)) -> languageVersionVersion langVersion
+            Nothing -> "latest"
     $(widgetFile "widgets/editor/meta")
 
 settingsWidget :: Widget

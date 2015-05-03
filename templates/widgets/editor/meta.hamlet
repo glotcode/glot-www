@@ -8,6 +8,15 @@ $newline never
     <tr>
       <td>Language
       <td>#{languageName $ toLanguage $ snippetLanguage snippet}
+    <tr>
+      <td>Language Version
+      <td>
+        $if null versions
+          Unavailable
+        $else
+          <select id="lang-version">
+            $forall version <- versions
+              <option value="#{version}" :currentVersion == version:selected>#{version}
     $if not $ isComposing snippet
       <tr>
         <td>Owner

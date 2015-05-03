@@ -6,17 +6,19 @@ import Network.Wai (lazyRequestBody)
 import Model.Run.Api (runSnippet)
 import Model.Snippet.Api (getSnippet)
 import Util.Hash (sha1Lazy)
+import Util.Snippet (ensureLanguageVersion)
 import Settings.Environment (runApiAnonymousToken)
 
 postRunR :: Language -> Handler Value
 postRunR lang = do
+    langVersion <- ensureLanguageVersion <$> lookupGetParam "version"
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ lazyRequestBody req
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
     runAnonToken <- liftIO runApiAnonymousToken
     (runStdout, runStderr, runError) <- liftIO $ runSnippet
-        (pack $ show lang) "latest" body $ runApiToken mApiUser runAnonToken
+        (pack $ show lang) langVersion body $ runApiToken mApiUser runAnonToken
     mSnippetId <- lookupGetParam "snippet"
     persistRunResult lang mSnippetId (apiUserToken <$> mApiUser)
         (sha1Lazy body) (runStdout, runStderr, runError)

@@ -4,7 +4,7 @@ import Import
 import Widget.Editor (editorWidget)
 import Widget.RunResult (runResultWidget)
 import Util.Handler (maybeApiUser, title)
-import Util.Snippet (isSnippetOwner)
+import Util.Snippet (isSnippetOwner, ensureLanguageVersion, persistLanguageVersion)
 import Util.Alert (successHtml)
 import Model.Snippet.Api (getSnippet, updateSnippet)
 import Network.Wai (lazyRequestBody)
@@ -28,10 +28,12 @@ getSnippetR snippetId = do
 
 putSnippetR :: Text -> Handler Value
 putSnippetR snippetId = do
+    langVersion <- ensureLanguageVersion <$> lookupGetParam "version"
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ lazyRequestBody req
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
     _ <- liftIO $ updateSnippet snippetId body $ apiUserToken <$> mApiUser
+    persistLanguageVersion snippetId langVersion
     setMessage $ successHtml "Updated snippet"
     return $ object []

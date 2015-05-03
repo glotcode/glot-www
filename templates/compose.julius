@@ -13,7 +13,10 @@
         RunResult.showInfo("Running...");
 
         var payload = Editor.getFiles();
-        XHR.jsonPost("@{RunR lang}", payload).done(function(data) {
+        var version = getLanguageVersion();
+        var url = "@{RunR lang}" + "?" + $.param({version: version});
+
+        XHR.jsonPost(url, payload).done(function(data) {
             RunResult.show(data);
         }).fail(function(xhr) {
             Alert.danger("Failed to run snippet");
@@ -40,7 +43,10 @@
             files: Editor.getFiles(),
         };
 
-        XHR.jsonPost("@{ComposeR lang}", payload).done(function(data) {
+        var version = getLanguageVersion();
+        var url = "@{ComposeR lang}" + "?" + $.param({version: version});
+
+        XHR.jsonPost(url, payload).done(function(data) {
             Location.set(data.url);
         }).fail(function(xhr) {
             Alert.danger("Failed to save snippet");
@@ -49,5 +55,9 @@
 
     function getTitle() {
         return $("#snippet-title").text();
+    }
+
+    function getLanguageVersion() {
+        return $("#lang-version").val();
     }
 })();
