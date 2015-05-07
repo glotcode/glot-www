@@ -14,3 +14,4 @@
 /account/profile AccountProfileR GET PUT
 /account/token AccountTokenR GET PUT
 /alert/danger AlertDangerR POST
+/api ApiR GET

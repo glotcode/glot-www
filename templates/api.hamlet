@@ -1,0 +1,17 @@
+$newline never
+^{navbarWidget}
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-offset-3 col-lg-6">
+      <h3>Api
+      <p>
+        There are two available api's – one for managing snippets and one for running code.
+        \ An api token is required for some of the endpoints. If you are logged in you will
+        \ find your token <a href="@{AccountTokenR}">here</a>.
+      <h5>Documentation
+      <ul>
+        <li>
+          <a href="https://github.com/prasmussen/glot-snippets/tree/master/api_docs">snippets.glot.io
+        <li>
+          <a href="https://github.com/prasmussen/glot-run/tree/master/api_docs">run.glot.io

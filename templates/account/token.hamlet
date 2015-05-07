@@ -10,3 +10,5 @@ $newline never
         <pre class="token-value">#{apiUserToken apiUser}
       <button type="button" class="btn btn-primary" class="generate">
         <i class="fa fa-refresh" class="generate"> Generate new token
+      <hr class="divider">
+      <a href="@{ApiR}">Api documentation
