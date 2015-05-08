@@ -8,7 +8,7 @@
 /new ComposeLanguagesR GET
 /new/#Language ComposeR GET POST
 /snippets SnippetsR GET
-/snippets/#Text SnippetR GET PUT
+/snippets/#Text SnippetR GET PUT DELETE
 /users/#Text/snippets UserSnippetsR GET
 /run/#Language RunR POST
 /account/profile AccountProfileR GET PUT

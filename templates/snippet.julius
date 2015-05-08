@@ -30,6 +30,13 @@
         save();
     });
 
+    $(document).on("click", ".delete", function(e) {
+        e.preventDefault();
+        if (confirm("Are you sure you want to delete this snippet?")) {
+            deleteSnippet();
+        }
+    });
+
     function save() {
         var payload = {
             language: #{toJSON $ show lang},
@@ -45,6 +52,14 @@
             Location.reload();
         }).fail(function(xhr) {
             Alert.danger("Failed to save snippet");
+        });
+    }
+
+    function deleteSnippet() {
+        XHR.delete("@{SnippetR snippetId}").done(function(data) {
+            Location.set("@{SnippetsR}");
+        }).fail(function(xhr) {
+            Alert.danger("Failed to delete snippet");
         });
     }
 

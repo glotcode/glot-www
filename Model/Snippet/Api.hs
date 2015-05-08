@@ -5,6 +5,7 @@ module Model.Snippet.Api (
     getSnippet,
     addSnippet,
     updateSnippet,
+    deleteSnippet,
     listSnippets,
     listSnippetsByLanguage,
     listSnippetsByOwner,
@@ -13,7 +14,7 @@ module Model.Snippet.Api (
 
 import Import.NoFoundation hiding (id)
 import Util.Api (createUser, updateUser)
-import Util.Http (Links(..), httpPost, httpPut, httpGet, httpGetLink)
+import Util.Http (Links(..), httpPost, httpPut, httpGet, httpGetLink, httpDelete)
 import Settings.Environment (snippetsApiBaseUrl, snippetsApiAdminToken)
 import Data.Aeson (decode)
 import Data.Maybe (fromJust)
@@ -129,6 +130,12 @@ getSnippet snippetId authToken = do
     body <- httpGet apiUrl authToken
     let mJson = decode body :: Maybe InternalSnippet
     return $ toSnippet $ fromJust mJson
+
+deleteSnippet :: Text -> Maybe Text -> IO Bool
+deleteSnippet snippetId authToken = do
+    apiUrl <- (snippetUrl snippetId) <$> snippetsApiBaseUrl
+    responseCode <- httpDelete apiUrl authToken
+    return $ responseCode == 204
 
 listSnippets :: Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
 listSnippets page authToken = do

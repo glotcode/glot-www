@@ -15,4 +15,6 @@ $newline never
         $if isSnippetOwner mApiUser snippet
           <button class="btn btn-success save">
             <i class="fa fa-save"> Save
+          <button class="btn btn-danger delete">
+            <i class="fa fa-trash"> Delete
       ^{runResultWidget runResult}

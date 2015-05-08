@@ -6,7 +6,7 @@ import Widget.RunResult (runResultWidget)
 import Util.Handler (maybeApiUser, title)
 import Util.Snippet (isSnippetOwner, ensureLanguageVersion, persistLanguageVersion)
 import Util.Alert (successHtml)
-import Model.Snippet.Api (getSnippet, updateSnippet)
+import Model.Snippet.Api (getSnippet, updateSnippet, deleteSnippet)
 import Network.Wai (lazyRequestBody)
 
 getSnippetR :: Text -> Handler Html
@@ -36,4 +36,11 @@ putSnippetR snippetId = do
     _ <- liftIO $ updateSnippet snippetId body $ apiUserToken <$> mApiUser
     persistLanguageVersion snippetId langVersion
     setMessage $ successHtml "Updated snippet"
+    return $ object []
+
+deleteSnippetR :: Text -> Handler Value
+deleteSnippetR snippetId = do
+    mUserId <- maybeAuthId
+    mApiUser <- maybeApiUser mUserId
+    _ <- liftIO $ deleteSnippet snippetId $ apiUserToken <$> mApiUser
     return $ object []

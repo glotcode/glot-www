@@ -1,10 +1,8 @@
 window.XHR = {
-  jsonDelete: function(url, data) {
+  delete: function(url) {
     return $.ajax({
       type: "DELETE",
       url: url,
-      data: JSON.stringify(data),
-      contentType: "application/json",
       dataType: "json",
     });
   },
