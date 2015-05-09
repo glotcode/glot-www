@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="240"
+   height="400"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.44.1"
+   version="1.0"
+   sodipodi:docbase="C:\Documents and Settings\Brittany Boyer\My Documents\Pictures\Work\Wikimedia\Clean up"
+   sodipodi:docname="Greek_lc_lamda_thin.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.3775"
+     inkscape:cx="120"
+     inkscape:cy="200"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     width="240px"
+     height="400px"
+     inkscape:window-width="1280"
+     inkscape:window-height="747"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="font-size:502.57669067px;font-style:normal;font-weight:normal;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Times New Roman"
+       d="M 231.16564,301.71779 L 240,301.71779 C 239.99975,327.56651 235.78708,346.3804 227.36196,358.15951 C 218.93638,369.93865 208.42514,375.82822 195.82822,375.82822 C 185.52128,375.82822 175.62354,371.94274 166.13497,364.17178 C 156.64605,356.40083 148.13891,335.58286 140.6135,301.71779 L 119.5092,206.50307 L 46.380368,372.39264 L -8.1956387e-007,372.39264 L 105.03067,146.13497 C 99.468197,116.85097 92.760637,95.174101 84.907975,81.104294 C 77.055131,67.035069 67.32099,60.000311 55.705521,59.999999 C 46.380315,60.000311 38.241264,63.55859 31.288343,70.674846 C 24.335347,77.791705 20.44987,88.793739 19.631901,103.68098 L 10.797545,103.68098 C 11.288325,79.632194 16.114496,60.368409 25.276073,45.889569 C 34.437587,31.411383 45.889518,24.172126 59.631901,24.171778 C 68.466183,24.172126 76.850632,27.812204 84.785276,35.092023 C 92.719737,42.372517 99.590896,54.806042 105.39877,72.392637 C 111.20643,89.979832 120.24527,126.42151 132.51534,181.71779 L 149.93865,259.5092 C 156.97325,291.73832 164.37611,313.29249 172.14724,324.17178 C 179.91801,335.05116 189.20226,340.49083 200,340.4908 C 218.32288,340.49083 228.71142,327.56651 231.16564,301.71779 L 231.16564,301.71779 z "
+       id="text2160" />
+  </g>
+</svg>
