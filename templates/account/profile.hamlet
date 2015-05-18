@@ -13,6 +13,5 @@ $newline never
         <div class="form-group">
           <label for="name">Name
           <input type="text" class="form-control" id="name" value="#{profileName profile}" required>
-        <button type="submit" class="btn btn-primary">
-          <i class="fa fa-save" class="save"> Save
+        <button type="submit" class="btn btn-primary"><i class="fa fa-save" class="save"></i> Save
         <a href="@{AuthR setPasswordR}" class="link">Change password

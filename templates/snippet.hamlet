@@ -10,11 +10,8 @@ $newline never
       ^{editorWidget lang snippet}
       <div class="actions">
         $if languageIsRunnable lang
-          <button class="btn btn-primary run">
-            <i class="fa fa-play"> Run
+          <button class="btn btn-primary run"><i class="fa fa-play"></i> Run
         $if isSnippetOwner mApiUser snippet
-          <button class="btn btn-success save">
-            <i class="fa fa-save"> Save
-          <button class="btn btn-danger delete">
-            <i class="fa fa-trash"> Delete
+          <button class="btn btn-success save"><i class="fa fa-save"></i> Save
+          <button class="btn btn-danger delete"><i class="fa fa-trash"></i> Delete
       ^{runResultWidget runResult}

@@ -8,7 +8,6 @@ $newline never
       <div class="current-token">
         <h5>Your current token
         <pre class="token-value">#{apiUserToken apiUser}
-      <button type="button" class="btn btn-primary" class="generate">
-        <i class="fa fa-refresh" class="generate"> Generate new token
+      <button type="button" class="btn btn-primary" class="generate"><i class="fa fa-refresh" class="generate"></i> Generate new token
       <hr class="divider">
       <a href="@{ApiR}">Api documentation
