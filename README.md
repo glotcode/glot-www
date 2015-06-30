@@ -3,10 +3,10 @@ glot-www
 
 
 ## Overview
-glot-www is the website hosted at glot.io. Snippets are stored and managed
-in [glot-snippets](https://github.com/prasmussen/glot-snippets) via it's api.
-Snippets are run through [glot-run](https://github.com/prasmussen/glot-run)
-via it's api. PostgreSQL is used to store user profiles, api tokens, etc.
+glot-www is the website hosted at [glot.io](https://glot.io).
+Snippets are stored and managed in [glot-snippets](https://github.com/prasmussen/glot-snippets) via it's api.
+Code are run through [glot-run](https://github.com/prasmussen/glot-run) via it's api.
+PostgreSQL is used to store user profiles, api tokens, etc.
 
 
 ## Environment variables
