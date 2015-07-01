@@ -17,7 +17,7 @@ All vars needs to be set, no default values are provided.
 |:-------------------------|:-----------------------------------|:-------------------------|:---------------------------------------------------|
 | APPROOT                  | &lt;url&gt;                        | https://glot.io          | Base url to where the app is hosted                |
 | PORT                     | 1-65535                            | 3000                     | Listen port                                        |
-| PGHOST                   | &lt;ip&gt; &#124; &lt;hostname&gt; | glot                     | Postgresql host                                    |
+| PGHOST                   | &lt;ip&gt; &#124; &lt;hostname&gt; | 10.0.0.12                | Postgresql host                                    |
 | PGPORT                   | 1-65535                            | 5432                     | Postgresql port                                    |
 | PGUSER                   | &lt;string&gt;                     | glot                     | Postgresql username                                |
 | PGPASS                   | &lt;string&gt;                     | secret-password          | Postgresql password                                |
