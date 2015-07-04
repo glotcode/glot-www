@@ -18,6 +18,7 @@ data Language = Assembly |
                 Java |
                 Javascript |
                 Lua |
+                Ocaml |
                 Perl |
                 Php |
                 Python |
@@ -47,6 +48,7 @@ instance Show Language where
     show Java = "java"
     show Javascript = "javascript"
     show Lua = "lua"
+    show Ocaml = "ocaml"
     show Perl = "perl"
     show Php = "php"
     show Python = "python"
@@ -72,6 +74,7 @@ toLanguage "go" = Go
 toLanguage "haskell" = Haskell
 toLanguage "javascript" = Javascript
 toLanguage "lua" = Lua
+toLanguage "ocaml" = Ocaml
 toLanguage "java" = Java
 toLanguage "perl" = Perl
 toLanguage "php" = Php
@@ -97,6 +100,7 @@ allLanguages = [
         Java,
         Javascript,
         Lua,
+        Ocaml,
         Perl,
         Php,
         Plaintext,
@@ -121,6 +125,7 @@ languageFileExt Haskell = "hs"
 languageFileExt Java = "java"
 languageFileExt Javascript = "js"
 languageFileExt Lua = "lua"
+languageFileExt Ocaml = "ml"
 languageFileExt Perl = "pl"
 languageFileExt Php = "php"
 languageFileExt Python = "py"
@@ -148,6 +153,7 @@ languageIconClass Haskell = "icon-prog-haskell"
 languageIconClass Java = "icon-prog-java"
 languageIconClass Javascript = "icon-prog-nodejs02"
 languageIconClass Lua = "icon-prog-lua02"
+languageIconClass Ocaml = "fa fa-code"
 languageIconClass Perl = "icon-prog-perl"
 languageIconClass Php = "icon-prog-php02"
 languageIconClass Python = "icon-prog-python"
@@ -171,6 +177,7 @@ languageAceMode Haskell = "ace/mode/haskell"
 languageAceMode Java = "ace/mode/java"
 languageAceMode Javascript = "ace/mode/javascript"
 languageAceMode Lua = "ace/mode/lua"
+languageAceMode Ocaml = "ace/mode/ocaml"
 languageAceMode Perl = "ace/mode/perl"
 languageAceMode Php = "ace/mode/php"
 languageAceMode Python = "ace/mode/python"
@@ -194,6 +201,7 @@ languageName Haskell = "Haskell"
 languageName Java = "Java"
 languageName Javascript = "Javascript"
 languageName Lua = "Lua"
+languageName Ocaml = "Ocaml"
 languageName Perl = "Perl"
 languageName Php = "PHP"
 languageName Python = "Python"
@@ -266,6 +274,7 @@ languageDefaultContent Java = [multiline|class Main {
 }|]
 languageDefaultContent Javascript = [multiline|console.log("Hello World!");|]
 languageDefaultContent Lua = [multiline|print("Hello World!");|]
+languageDefaultContent Ocaml = [multiline|print_endline "Hello World!"|]
 languageDefaultContent Perl = [multiline|print "Hello World!\n";|]
 languageDefaultContent Php = [multiline|<?php
 
