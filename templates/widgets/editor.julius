@@ -48,6 +48,21 @@ window.Editor = (function() {
         editor.setValue("");
     }
 
+    function setFiles(files) {
+        files.forEach(function(file, i) {
+            var editorId = "editor-" + (i + 1);
+            initEditor(editorId);
+            setValue(editorId, file.content);
+            setTabTitle(editorId, file.name);
+            showTab(editorId);
+        });
+    }
+
+    function setValue(id, value) {
+        var editor = ace.edit(id);
+        editor.setValue(value);
+    }
+
     function setActiveTab(elem) {
         // Ensure only selected tab is contentediable
         $(".filename").removeAttr("contenteditable");
@@ -57,6 +72,16 @@ window.Editor = (function() {
         $(".editor-widget li.active").removeClass("active");
         elem.removeClass("hide");
         elem.addClass("active");
+    }
+
+    function showTab(id) {
+        var selector = ".nav-tabs [data-editor='" + id + "']";
+        $(selector).removeClass("hide");
+    }
+
+    function setTabTitle(id, title) {
+        var selector = ".nav-tabs [data-editor='" + id + "'] .filename";
+        $(selector).text(title);
     }
 
     function closeTab(elem) {
@@ -126,6 +151,7 @@ window.Editor = (function() {
     return {
         initEditor: initEditor,
         resetEditor: resetEditor,
+        setFiles: setFiles,
         setActiveTab: setActiveTab,
         closeTab: closeTab,
         showEditor: showEditor,
@@ -137,6 +163,35 @@ window.Editor = (function() {
         getFiles: getFiles,
     };
 
+})();
+
+window.Fork = (function() {
+    function hasFiles() {
+        if (localStorage.forkedFiles) {
+            return true;
+        }
+        return false;
+    }
+
+    function setFiles(files) {
+        localStorage.forkedFiles = JSON.stringify(files);
+    }
+
+    function getFiles() {
+        if (!hasFiles()) {
+            return null;
+        }
+
+        var files = JSON.parse(localStorage.forkedFiles);
+        delete localStorage.forkedFiles;
+        return files;
+    }
+
+    return {
+        hasFiles: hasFiles,
+        setFiles: setFiles,
+        getFiles: getFiles,
+    };
 })();
 
 // Handle editor tab clicks
@@ -198,11 +253,17 @@ window.Editor = (function() {
         e.preventDefault();
     });
 
-    // Initialize editors, 1 per file
-    // Additional editors are loaded when a new file is added
-    var fileCount = #{toJSON $ length $ snippetFiles snippet};
-    for (var i = 1; i <= fileCount; i++) {
-        Editor.initEditor("editor-" + i);
+    if (Fork.hasFiles()) {
+        // Initialize editors with forked files
+        var files = Fork.getFiles();
+        Editor.setFiles(files);
+    } else {
+        // Initialize editors with default content
+        // Additional editors are loaded when a new file is added
+        var fileCount = #{toJSON $ length $ snippetFiles snippet};
+        for (var i = 1; i <= fileCount; i++) {
+            Editor.initEditor("editor-" + i);
+        }
     }
 
     Editor.setFullWidth(Settings.getFullWidth());

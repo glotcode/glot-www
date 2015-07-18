@@ -37,6 +37,12 @@
         }
     });
 
+    $(document).on("click", ".fork", function(e) {
+        var files = Editor.getFiles();
+        Fork.setFiles(files);
+        Location.set("@{ComposeR lang}");
+    });
+
     function save() {
         var payload = {
             language: #{toJSON $ show lang},
