@@ -55,14 +55,14 @@ getFileContent Nothing = ""
 
 getFilename :: Language -> Maybe SnippetFile -> Int -> Text
 getFilename _ (Just f) _ = snippetFileName f
-getFilename lang Nothing 2 = addExt lang "duo"
-getFilename lang Nothing 3 = addExt lang "tres"
-getFilename lang Nothing 4 = addExt lang "quattuor"
-getFilename lang Nothing 5 = addExt lang "quinque"
-getFilename lang Nothing 6 = addExt lang "sex"
-getFilename lang Nothing 7 = addExt lang "septem"
-getFilename lang Nothing 8 = addExt lang "octo"
-getFilename lang Nothing 9 = addExt lang "novem"
+getFilename lang Nothing 2 = addExt lang "dio"
+getFilename lang Nothing 3 = addExt lang "tria"
+getFilename lang Nothing 4 = addExt lang "tessera"
+getFilename lang Nothing 5 = addExt lang "pente"
+getFilename lang Nothing 6 = addExt lang "eksi"
+getFilename lang Nothing 7 = addExt lang "efta"
+getFilename lang Nothing 8 = addExt lang "okto"
+getFilename lang Nothing 9 = addExt lang "enia"
 getFilename lang Nothing _ = addExt lang "infinitum"
 
 addExt :: Language -> Text -> Text
