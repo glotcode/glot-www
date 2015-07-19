@@ -62,6 +62,10 @@ nav.navbar {
     line-height: 1.4;
 }
 
+.lead.subtitle a {
+    color: #4095DF;
+}
+
 .language-badge {
     float: left;
     width: 100px;
