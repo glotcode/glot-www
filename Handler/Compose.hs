@@ -17,7 +17,6 @@ getComposeLanguagesR = do
 
 getComposeR :: Language -> Handler Html
 getComposeR lang = do
-    auth <- maybeAuth
     let snippet = defaultSnippet lang
     defaultLayout $ do
         setTitle $ titleConcat ["New ", pack $ show lang, " snippet"]

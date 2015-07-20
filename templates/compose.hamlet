@@ -11,14 +11,11 @@ $newline never
       <div class="actions">
         $if languageIsRunnable lang
           <button class="btn btn-primary run"><i class="fa fa-play"></i> Run
-        $maybe _ <- auth
-          <div class="btn-group">
-            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-save"></i> Save <span class="caret"></span>
-            <ul class="dropdown-menu" role="menu">
-              <li>
-                <a href="#" class="save-public">Save Public
-              <li>
-                <a href="#" class="save-secret">Save Secret
-        $nothing
-          <button class="btn btn-success save-public"><i class="fa fa-save"></i> Save
+        <div class="btn-group">
+          <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-save"></i> Save <span class="caret"></span>
+          <ul class="dropdown-menu" role="menu">
+            <li>
+              <a href="#" class="save-public">Save Public
+            <li>
+              <a href="#" class="save-secret">Save Secret
       ^{runResultWidget Nothing}
