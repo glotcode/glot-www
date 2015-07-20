@@ -8,17 +8,12 @@ module Util.Handler (
 import Import
 import Prelude (read)
 import Text.Blaze (toMarkup, Markup)
-import Data.Text (append)
 
 title :: Text -> Markup
-title text = toMarkup $ text `append` titleSuffix
+title text = toMarkup $ text
 
 titleConcat :: [Text] -> Markup
-titleConcat parts =
-    toMarkup $ (concat parts) `append` titleSuffix
-
-titleSuffix :: Text
-titleSuffix = " - glot.io"
+titleConcat parts = toMarkup $ concat parts
 
 maybeApiUser :: Maybe UserId -> Handler (Maybe ApiUser)
 maybeApiUser Nothing = return Nothing

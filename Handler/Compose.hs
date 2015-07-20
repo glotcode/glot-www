@@ -19,7 +19,7 @@ getComposeR :: Language -> Handler Html
 getComposeR lang = do
     let snippet = defaultSnippet lang
     defaultLayout $ do
-        setTitle $ titleConcat ["New ", pack $ show lang, " snippet"]
+        setTitle $ titleConcat ["New ", languageName lang, " Snippet"]
         $(widgetFile "compose")
 
 postComposeR :: Language -> Handler Value

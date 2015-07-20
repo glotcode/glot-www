@@ -3,7 +3,7 @@ module Handler.Snippet where
 import Import
 import Widget.Editor (editorWidget)
 import Widget.RunResult (runResultWidget)
-import Util.Handler (maybeApiUser, title)
+import Util.Handler (maybeApiUser, titleConcat)
 import Util.Snippet (isSnippetOwner, ensureLanguageVersion, persistLanguageVersion)
 import Util.Alert (successHtml)
 import Model.Snippet.Api (getSnippet, updateSnippet, deleteSnippet)
@@ -23,7 +23,7 @@ getSnippetR snippetId = do
                 snippetId $ snippetFilesHash snippet
             let lang = toLanguage $ snippetLanguage snippet
             defaultLayout $ do
-                setTitle $ title $ snippetTitle snippet
+                setTitle $ titleConcat [snippetTitle snippet, " - ", languageName lang, " Snippet"]
                 $(widgetFile "snippet")
 
 putSnippetR :: Text -> Handler Value
