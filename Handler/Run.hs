@@ -17,15 +17,17 @@ postRunR lang = do
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
     runAnonToken <- liftIO runApiAnonymousToken
-    (runStdout, runStderr, runError) <- liftIO $ runSnippet
-        (pack $ show lang) langVersion body $ runApiToken mApiUser runAnonToken
-    mSnippetId <- lookupGetParam "snippet"
-    persistRunResult lang mSnippetId (apiUserToken <$> mApiUser)
-        (sha1Lazy body) (runStdout, runStderr, runError)
-    return $ object [
-        "stdout" .= runStdout,
-        "stderr" .= runStderr,
-        "error" .= runError]
+    res <- liftIO $ runSnippet (pack $ show lang) langVersion body $ runApiToken mApiUser runAnonToken
+    case res of
+        Left errorMsg ->
+            sendResponseStatus status400 $ object ["message" .= errorMsg]
+        Right (runStdout, runStderr, runError) -> do
+            mSnippetId <- lookupGetParam "snippet"
+            persistRunResult lang mSnippetId (apiUserToken <$> mApiUser) (sha1Lazy body) (runStdout, runStderr, runError)
+            return $ object [
+                "stdout" .= runStdout,
+                "stderr" .= runStderr,
+                "error" .= runError]
 
 
 runApiToken :: Maybe ApiUser -> Text -> Text

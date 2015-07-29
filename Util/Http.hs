@@ -3,11 +3,12 @@ module Util.Http (
     httpGet,
     httpGetLink,
     httpPost,
+    httpPostStatus,
     httpPut,
     httpDelete
 ) where
 
-import Import.NoFoundation hiding (responseBody, responseStatus, statusCode)
+import Import.NoFoundation hiding (responseBody, responseStatus, statusCode, checkStatus)
 import Data.Text (append)
 import qualified Data.ByteString.Lazy as L
 import Network.Wreq
@@ -44,6 +45,11 @@ httpPost url authToken payload = do
     r <- postWith (reqOptions authToken) url payload
     return $ r ^. responseBody
 
+httpPostStatus :: String -> Maybe Text -> L.ByteString -> IO (Int, L.ByteString)
+httpPostStatus url authToken payload = do
+    r <- postWith (reqOptionsNoCheck authToken) url payload
+    return (r ^. responseStatus . statusCode, r ^. responseBody)
+
 httpPut :: String -> Maybe Text -> L.ByteString -> IO L.ByteString
 httpPut url authToken payload = do
     r <- putWith (reqOptions authToken) url payload
@@ -53,6 +59,10 @@ httpDelete :: String -> Maybe Text -> IO Int
 httpDelete url authToken = do
     r <- deleteWith (reqOptions authToken) url
     return $ r ^. responseStatus . statusCode
+
+reqOptionsNoCheck :: Maybe Text -> Options
+reqOptionsNoCheck authToken =
+    (reqOptions authToken) & checkStatus .~ Just (\_ _ _ -> Nothing)
 
 reqOptions :: Maybe Text -> Options
 reqOptions Nothing = defaults & header "Content-type" .~ ["application/json"]

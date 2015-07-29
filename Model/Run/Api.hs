@@ -10,7 +10,7 @@ import Import.NoFoundation hiding (error, stderr, stdout)
 import Util.Api (createUser, updateUser)
 import Data.Aeson (decode)
 import Data.Maybe (fromJust)
-import Util.Http (httpPost, httpGet)
+import Util.Http (httpPostStatus, httpGet)
 import Settings.Environment (runApiBaseUrl, runApiAdminToken)
 import qualified Data.ByteString.Lazy as L
 
@@ -28,6 +28,12 @@ data InternalVersion = InternalVersion {
 
 instance FromJSON InternalVersion
 
+data InternalErrorResponse = InternalErrorResponse {
+    message :: Text
+} deriving (Show, Generic)
+
+instance FromJSON InternalErrorResponse
+
 addUser :: Text -> IO Text
 addUser userToken = do
     url <- createUserUrl <$> runApiBaseUrl
@@ -43,12 +49,19 @@ setUserToken userId userToken = do
 toRunResultTuple :: InternalRunResult -> (Text, Text, Text)
 toRunResultTuple x = (stdout x, stderr x, error x)
 
-runSnippet :: Text -> Text -> L.ByteString -> Text -> IO (Text, Text, Text)
+runSnippet :: Text -> Text -> L.ByteString -> Text -> IO (Either Text (Text, Text, Text))
 runSnippet lang version payload authToken = do
     apiUrl <- (runSnippetUrl lang version) <$> runApiBaseUrl
-    body <- httpPost apiUrl (Just authToken) payload
-    let mJson = decode body :: Maybe InternalRunResult
-    return $ toRunResultTuple $ fromJust mJson
+    (statusCode, body) <- httpPostStatus apiUrl (Just authToken) payload
+    case statusCode of
+        200 -> do
+            let mJson = decode body :: Maybe InternalRunResult
+            return $ Right (toRunResultTuple $ fromJust mJson)
+        400 -> do
+            let mJson = decode body :: Maybe InternalErrorResponse
+            return $ Left (message $ fromJust mJson)
+        _ ->
+            return $ Left "Got unexpected response"
 
 listLanguageVersions :: Text -> IO [Text]
 listLanguageVersions lang = do
