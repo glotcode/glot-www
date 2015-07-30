@@ -14,7 +14,9 @@
 
         var version = getLanguageVersion();
         var url = "@?{(RunR lang, [("snippet", snippetId)])}" + "&" + $.param({version: version});
-        var payload = Editor.getFiles();
+        var payload = {
+            files: Editor.getFiles(),
+        };
 
         XHR.jsonPost(url, payload).done(function(data) {
             RunResult.show(data);

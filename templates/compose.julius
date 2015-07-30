@@ -12,9 +12,11 @@
         RunResult.clear();
         RunResult.showInfo("Running...");
 
-        var payload = Editor.getFiles();
         var version = getLanguageVersion();
         var url = "@{RunR lang}" + "?" + $.param({version: version});
+        var payload = {
+            files: Editor.getFiles(),
+        };
 
         XHR.jsonPost(url, payload).done(function(data) {
             RunResult.show(data);
