@@ -12,7 +12,7 @@
         RunResult.clear();
         RunResult.showInfo("Running...");
 
-        var version = getLanguageVersion();
+        var version = Meta.getLanguageVersion();
         var url = "@?{(RunR lang, [("snippet", snippetId)])}" + "&" + $.param({version: version});
         var payload = {
             files: Editor.getFiles(),
@@ -50,11 +50,11 @@
         var payload = {
             language: #{toJSON $ show lang},
             title: getTitle(),
-            public: isPublic(),
+            public: Meta.isPublic(),
             files: Editor.getFiles(),
         };
 
-        var version = getLanguageVersion();
+        var version = Meta.getLanguageVersion();
         var url = "@{SnippetR snippetId}" + "?" + $.param({
             version: version,
             command: Meta.getRunCommand(),
@@ -78,13 +78,4 @@
     function getTitle() {
         return $("#snippet-title").text();
     }
-
-    function getLanguageVersion() {
-        return $("#lang-version").val();
-    }
-
-    function isPublic() {
-        return $("#public").val() === "true";
-    }
-
 })();

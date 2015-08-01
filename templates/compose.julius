@@ -12,7 +12,7 @@
         RunResult.clear();
         RunResult.showInfo("Running...");
 
-        var version = getLanguageVersion();
+        var version = Meta.getLanguageVersion();
         var url = "@{RunR lang}" + "?" + $.param({version: version});
         var payload = {
             files: Editor.getFiles(),
@@ -46,7 +46,7 @@
             files: Editor.getFiles(),
         };
 
-        var version = getLanguageVersion();
+        var version = Meta.getLanguageVersion();
         var url = "@{ComposeR lang}" + "?" + $.param({
             version: version,
             command: Meta.getRunCommand(),
@@ -63,7 +63,4 @@
         return $("#snippet-title").text();
     }
 
-    function getLanguageVersion() {
-        return $("#lang-version").val();
-    }
 })();

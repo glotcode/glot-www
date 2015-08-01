@@ -12,8 +12,18 @@ window.Meta = (function() {
         return $("#cmd-checkbox").is(":checked");
     }
 
+    function getLanguageVersion() {
+        return $("#lang-version").val();
+    }
+
+    function isPublic() {
+        return $("#public").val() === "true";
+    }
+
     return {
         getRunCommand: getRunCommand,
+        getLanguageVersion: getLanguageVersion,
+        isPublic: isPublic,
     };
 })();
 
