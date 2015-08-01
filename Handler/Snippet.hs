@@ -19,8 +19,7 @@ getSnippetR snippetId = do
             | statusCode s == 404 -> notFound
         Left e -> throwIO e
         Right snippet -> do
-            runResult <- runDB $ getBy $ UniqueRunResultHash
-                snippetId $ snippetFilesHash snippet
+            runResult <- runDB $ getBy $ UniqueRunResultHash snippetId $ snippetContentHash snippet
             let lang = toLanguage $ snippetLanguage snippet
             defaultLayout $ do
                 setTitle $ titleConcat [snippetTitle snippet, " - ", languageName lang, " Snippet"]
