@@ -48,4 +48,10 @@ LanguageVersion
     UniqueLanguageVersion snippetId
     deriving Typeable
 
+RunCommand
+    snippetId Text
+    command Text
+    UniqueRunCommand snippetId
+    deriving Typeable
+
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)

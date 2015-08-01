@@ -16,6 +16,7 @@
         var url = "@{RunR lang}" + "?" + $.param({version: version});
         var payload = {
             files: Editor.getFiles(),
+            command: Meta.getRunCommand(),
         };
 
         XHR.jsonPost(url, payload).done(function(data) {
@@ -46,7 +47,10 @@
         };
 
         var version = getLanguageVersion();
-        var url = "@{ComposeR lang}" + "?" + $.param({version: version});
+        var url = "@{ComposeR lang}" + "?" + $.param({
+            version: version,
+            command: Meta.getRunCommand(),
+        });
 
         XHR.jsonPost(url, payload).done(function(data) {
             Location.set(data.url);

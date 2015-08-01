@@ -1,4 +1,5 @@
 module Util.Handler (
+    urlDecode',
     title,
     titleConcat,
     maybeApiUser,
@@ -8,6 +9,9 @@ module Util.Handler (
 import Import
 import Prelude (read)
 import Text.Blaze (toMarkup, Markup)
+
+urlDecode' :: Text -> Text
+urlDecode' x = decodeUtf8 $ urlDecode True $ encodeUtf8 x
 
 title :: Text -> Markup
 title text = toMarkup $ text

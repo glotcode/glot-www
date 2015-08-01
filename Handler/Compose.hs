@@ -3,8 +3,8 @@ module Handler.Compose where
 import Import
 import Widget.Editor (editorWidget)
 import Widget.RunResult (runResultWidget)
-import Util.Handler (maybeApiUser, title, titleConcat)
-import Util.Snippet (ensureLanguageVersion, persistLanguageVersion)
+import Util.Handler (maybeApiUser, title, titleConcat, urlDecode')
+import Util.Snippet (persistLanguageVersion, persistRunCommand)
 import Util.Alert (successHtml)
 import Network.Wai (lazyRequestBody)
 import Model.Snippet.Api (addSnippet)
@@ -24,13 +24,15 @@ getComposeR lang = do
 
 postComposeR :: Language -> Handler Value
 postComposeR _ = do
-    langVersion <- ensureLanguageVersion <$> lookupGetParam "version"
+    langVersion <- fromMaybe "latest" <$> lookupGetParam "version"
+    runCommand <- urlDecode' <$> fromMaybe "" <$> lookupGetParam "command"
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ lazyRequestBody req
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
     snippet <- liftIO $ addSnippet body $ apiUserToken <$> mApiUser
     persistLanguageVersion (snippetId snippet) langVersion
+    persistRunCommand (snippetId snippet) runCommand
     renderUrl <- getUrlRender
     setMessage $ successHtml "Saved snippet"
     let url = renderUrl $ SnippetR $ snippetId snippet

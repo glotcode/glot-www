@@ -2,8 +2,8 @@ module Util.Snippet (
     isSnippetOwner,
     visibilityFormat,
     iso8601Format,
-    ensureLanguageVersion,
     persistLanguageVersion,
+    persistRunCommand,
 ) where
 
 import Import
@@ -25,13 +25,20 @@ isSnippetOwner Nothing _ = False
 isSnippetOwner (Just apiUser) snippet =
     apiUserSnippetsId apiUser == snippetOwner snippet
 
-ensureLanguageVersion :: Maybe Text -> Text
-ensureLanguageVersion Nothing = "latest"
-ensureLanguageVersion (Just v) = v
-
 persistLanguageVersion :: Text -> Text -> Handler ()
 persistLanguageVersion snippetId version = do
     _ <- runDB $ do
         deleteBy $ UniqueLanguageVersion snippetId
         insertUnique $ LanguageVersion snippetId version
+    return ()
+
+persistRunCommand :: Text -> Text -> Handler ()
+persistRunCommand snippetId "" = do
+    _ <- runDB $ do
+        deleteBy $ UniqueRunCommand snippetId
+    return ()
+persistRunCommand snippetId cmd = do
+    _ <- runDB $ do
+        deleteBy $ UniqueRunCommand snippetId
+        insertUnique $ RunCommand snippetId cmd
     return ()

@@ -1,5 +1,9 @@
 .meta-table {
-    max-width: 600px;
+    max-width: 95%;
+}
+
+.meta-table .left-col {
+    width: 180px;
 }
 
 #meta {

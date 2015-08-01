@@ -1,0 +1,27 @@
+window.Meta = (function() {
+
+    function getRunCommand() {
+        if (!runCommandEnabled()) {
+            return "";
+        }
+
+        return $("#cmd-input").val();
+    }
+
+    function runCommandEnabled() {
+        return $("#cmd-checkbox").is(":checked");
+    }
+
+    return {
+        getRunCommand: getRunCommand,
+    };
+})();
+
+
+(function() {
+    // Disable / enable command input
+    $(document).on("click", "#cmd-checkbox", function(e) {
+        var checked = $(e.target).is(":checked");
+        $("#cmd-input").prop('disabled', !checked);
+    });
+})();

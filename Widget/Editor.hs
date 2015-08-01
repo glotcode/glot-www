@@ -30,6 +30,7 @@ metaWidget snippet = do
     mApiUser <- handlerToWidget $ maybeApiUser mUserId
     mProfile <- handlerToWidget . runDB . getBy . UniqueSnippetsApiId $ snippetOwner snippet
     mCurrentVersion <- handlerToWidget . runDB . getBy . UniqueLanguageVersion $ snippetId snippet
+    mRunCommand <- handlerToWidget . runDB . getBy . UniqueRunCommand $ snippetId snippet
     versions <- liftIO $ listVersions $ snippetLanguage snippet
     let currentVersion = case mCurrentVersion of
             (Just (Entity _ langVersion)) -> languageVersionVersion langVersion
