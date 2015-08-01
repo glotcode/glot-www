@@ -1,8 +1,8 @@
 $newline never
-<table class="meta-table table">
+<table class="meta-table run-settings table">
   <thead>
     <tr>
-      <th class="left-col">Snippet Information
+      <th class="left-col">Run Settings
       <th>
   <tbody>
     <tr>
@@ -31,7 +31,14 @@ $newline never
             <span class="input-group-addon">
               <input type="checkbox" id="cmd-checkbox">
             <input type="text" class="form-control" id="cmd-input" placeholder="clang main.c && ./a.out" disabled>
-    $if not $ isComposing snippet
+
+$if not $ isComposing snippet
+  <table class="meta-table metadata table">
+    <thead>
+      <tr>
+        <th class="left-col">Snippet Metadata
+        <th>
+    <tbody>
       <tr>
         <td>Owner
         <td>

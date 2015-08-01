@@ -2,6 +2,10 @@
     max-width: 95%;
 }
 
+.meta-table.metadata {
+    margin-top: 40px;
+}
+
 .meta-table .left-col {
     width: 180px;
 }
@@ -13,4 +17,3 @@
     border-right: 1px solid #ddd;
     border-left: 1px solid #ddd;
 }
-
