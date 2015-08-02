@@ -8,29 +8,30 @@ $newline never
     <tr>
       <td>Language
       <td>#{languageName $ toLanguage $ snippetLanguage snippet}
-    <tr>
-      <td>Language Version
-      <td>
-        $if null versions
-          Unavailable
-        $else
-          <select id="lang-version">
-            $forall version <- versions
-              <option value="#{version}" :currentVersion == version:selected>#{version}
-    <tr>
-      <td>Run Command
-      $maybe Entity _ cmd <- mRunCommand
+    $if languageIsRunnable $ toLanguage $ snippetLanguage snippet
+      <tr>
+        <td>Language Version
         <td>
-          <div class="input-group input-group-sm cmd-group">
-            <span class="input-group-addon">
-              <input type="checkbox" id="cmd-checkbox" checked>
-            <input type="text" class="form-control" id="cmd-input" value="#{runCommandCommand cmd}" placeholder="clang main.c && ./a.out">
-      $nothing
-        <td>
-          <div class="input-group input-group-sm cmd-group">
-            <span class="input-group-addon">
-              <input type="checkbox" id="cmd-checkbox">
-            <input type="text" class="form-control" id="cmd-input" placeholder="clang main.c && ./a.out" disabled>
+          $if null versions
+            Unavailable
+          $else
+            <select id="lang-version">
+              $forall version <- versions
+                <option value="#{version}" :currentVersion == version:selected>#{version}
+      <tr>
+        <td>Run Command
+        $maybe Entity _ cmd <- mRunCommand
+          <td>
+            <div class="input-group input-group-sm cmd-group">
+              <span class="input-group-addon">
+                <input type="checkbox" id="cmd-checkbox" checked>
+              <input type="text" class="form-control" id="cmd-input" value="#{runCommandCommand cmd}" placeholder="clang main.c && ./a.out">
+        $nothing
+          <td>
+            <div class="input-group input-group-sm cmd-group">
+              <span class="input-group-addon">
+                <input type="checkbox" id="cmd-checkbox">
+              <input type="text" class="form-control" id="cmd-input" placeholder="clang main.c && ./a.out" disabled>
 
 $if not $ isComposing snippet
   <table class="meta-table metadata table">
