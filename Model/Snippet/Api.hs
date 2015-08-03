@@ -12,12 +12,13 @@ module Model.Snippet.Api (
     listSnippetsByOwnerByLanguage
 ) where
 
-import Import.NoFoundation hiding (id)
+import Import.NoFoundation hiding (id, toLower)
 import Util.Api (createUser, updateUser)
 import Util.Http (Links(..), httpPost, httpPut, httpGet, httpGetLink, httpDelete)
 import Settings.Environment (snippetsApiBaseUrl, snippetsApiAdminToken)
 import Data.Aeson (decode)
 import Data.Maybe (fromJust)
+import Data.Text (toLower)
 import qualified Data.ByteString.Lazy as L
 import Network.URI (parseURI, uriQuery)
 
@@ -139,28 +140,28 @@ deleteSnippet snippetId authToken = do
 
 listSnippets :: Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
 listSnippets page authToken = do
-    apiUrl <- (snippetsUrl page) <$> snippetsApiBaseUrl
+    apiUrl <- (snippetsUrl page False) <$> snippetsApiBaseUrl
     (body, links) <- httpGetLink apiUrl authToken
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
 
 listSnippetsByLanguage :: Text -> Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
 listSnippetsByLanguage lang page authToken = do
-    apiUrl <- (snippetsByLanguageUrl lang page) <$> snippetsApiBaseUrl
+    apiUrl <- (snippetsByLanguageUrl lang page False) <$> snippetsApiBaseUrl
     (body, links) <- httpGetLink apiUrl authToken
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
 
 listSnippetsByOwner :: Text -> Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
 listSnippetsByOwner userId page authToken = do
-    apiUrl <- (snippetsByOwnerUrl userId page) <$> snippetsApiBaseUrl
+    apiUrl <- (snippetsByOwnerUrl userId page False) <$> snippetsApiBaseUrl
     (body, links) <- httpGetLink apiUrl authToken
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
 
 listSnippetsByOwnerByLanguage :: Text -> Text -> Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
 listSnippetsByOwnerByLanguage userId lang page authToken = do
-    apiUrl <- (snippetsByOwnerByLanguageUrl userId lang page) <$> snippetsApiBaseUrl
+    apiUrl <- (snippetsByOwnerByLanguageUrl userId lang page False) <$> snippetsApiBaseUrl
     (body, links) <- httpGetLink apiUrl authToken
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
@@ -171,9 +172,9 @@ createSnippetUrl baseUrl = baseUrl ++ "/snippets"
 snippetUrl :: Text -> String -> String
 snippetUrl snippetId baseUrl = baseUrl ++ "/snippets/" ++ unpack snippetId
 
-snippetsUrl :: Int -> String -> String
-snippetsUrl page baseUrl =
-    baseUrl ++ "/snippets" ++ "?page=" ++ show page  ++ "&per_page=20"
+snippetsUrl :: Int -> Bool -> String -> String
+snippetsUrl page inclUntitled baseUrl =
+    baseUrl ++ "/snippets" ++ "?page=" ++ show page  ++ "&per_page=20&include_untitled=" ++ boolToStr inclUntitled
 
 createUserUrl :: String -> String
 createUserUrl baseUrl = baseUrl ++ "/admin/users"
@@ -181,14 +182,17 @@ createUserUrl baseUrl = baseUrl ++ "/admin/users"
 updateUserUrl :: Text -> String -> String
 updateUserUrl userId baseUrl = baseUrl ++ "/admin/users/" ++ unpack userId
 
-snippetsByOwnerUrl :: Text -> Int -> String -> String
-snippetsByOwnerUrl userId page baseUrl =
-    snippetsUrl page baseUrl ++ "&owner=" ++ unpack userId
+snippetsByOwnerUrl :: Text -> Int -> Bool -> String -> String
+snippetsByOwnerUrl userId page inclUntitled baseUrl =
+    snippetsUrl page inclUntitled baseUrl ++ "&owner=" ++ unpack userId
 
-snippetsByOwnerByLanguageUrl :: Text -> Text -> Int -> String -> String
-snippetsByOwnerByLanguageUrl userId lang page baseUrl =
-    snippetsUrl page baseUrl ++ "&owner=" ++ unpack userId ++ "&language=" ++ unpack lang
+snippetsByOwnerByLanguageUrl :: Text -> Text -> Int -> Bool -> String -> String
+snippetsByOwnerByLanguageUrl userId lang page inclUntitled baseUrl =
+    snippetsUrl page inclUntitled baseUrl ++ "&owner=" ++ unpack userId ++ "&language=" ++ unpack lang
 
-snippetsByLanguageUrl :: Text -> Int -> String -> String
-snippetsByLanguageUrl lang page baseUrl =
-    snippetsUrl page baseUrl ++ "&language=" ++ unpack lang
+snippetsByLanguageUrl :: Text -> Int -> Bool -> String -> String
+snippetsByLanguageUrl lang page inclUntitled baseUrl =
+    snippetsUrl page inclUntitled baseUrl ++ "&language=" ++ unpack lang
+
+boolToStr :: Bool -> String
+boolToStr b = unpack . toLower . pack $ show b
