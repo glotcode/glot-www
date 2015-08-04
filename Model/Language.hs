@@ -17,6 +17,7 @@ data Language = Assembly |
                 Fsharp |
                 Go |
                 Haskell |
+                Idris |
                 Java |
                 Javascript |
                 Lua |
@@ -50,6 +51,7 @@ instance Show Language where
     show Fsharp = "fsharp"
     show Go = "go"
     show Haskell = "haskell"
+    show Idris = "idris"
     show Java = "java"
     show Javascript = "javascript"
     show Lua = "lua"
@@ -80,6 +82,7 @@ toLanguage "erlang" = Erlang
 toLanguage "fsharp" = Fsharp
 toLanguage "go" = Go
 toLanguage "haskell" = Haskell
+toLanguage "idris" = Idris
 toLanguage "javascript" = Javascript
 toLanguage "lua" = Lua
 toLanguage "nim" = Nim
@@ -108,6 +111,7 @@ allLanguages = [
         Fsharp,
         Go,
         Haskell,
+        Idris,
         Java,
         Javascript,
         Lua,
@@ -136,6 +140,7 @@ languageFileExt Erlang = "erl"
 languageFileExt Fsharp = "fs"
 languageFileExt Go = "go"
 languageFileExt Haskell = "hs"
+languageFileExt Idris = "idr"
 languageFileExt Java = "java"
 languageFileExt Javascript = "js"
 languageFileExt Lua = "lua"
@@ -167,6 +172,7 @@ languageIconClass Erlang = "icon-prog-erlang"
 languageIconClass Fsharp = "fa fa-code"
 languageIconClass Go = "icon-prog-golang02"
 languageIconClass Haskell = "icon-prog-haskell"
+languageIconClass Idris = "fa fa-code"
 languageIconClass Java = "icon-prog-java"
 languageIconClass Javascript = "icon-prog-nodejs02"
 languageIconClass Lua = "icon-prog-lua02"
@@ -194,6 +200,7 @@ languageAceMode Erlang = "ace/mode/erlang"
 languageAceMode Fsharp = "ace/mode/csharp"
 languageAceMode Go = "ace/mode/golang"
 languageAceMode Haskell = "ace/mode/haskell"
+languageAceMode Idris = "ace/mode/plain_text"
 languageAceMode Java = "ace/mode/java"
 languageAceMode Javascript = "ace/mode/javascript"
 languageAceMode Lua = "ace/mode/lua"
@@ -221,6 +228,7 @@ languageName Erlang = "Erlang"
 languageName Fsharp = "F#"
 languageName Go = "Go"
 languageName Haskell = "Haskell"
+languageName Idris = "Idris"
 languageName Java = "Java"
 languageName Javascript = "Javascript"
 languageName Lua = "Lua"
@@ -298,6 +306,10 @@ func main() {
     fmt.Println("Hello World!")
 }|]
 languageDefaultContent Haskell = [multiline|main = putStrLn "Hello World!"|]
+languageDefaultContent Idris = [multiline|module Main
+
+main : IO ()
+main = putStrLn "Hello World!"|]
 languageDefaultContent Java = [multiline|class Main {
     public static void main(String[] args) {
         System.out.println("Hello World!");
