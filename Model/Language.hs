@@ -8,6 +8,7 @@ data Language = Assembly |
                 Bash |
                 C |
                 Clojure |
+                Coffeescript |
                 Cpp |
                 Csharp |
                 Elixir |
@@ -39,6 +40,7 @@ instance Show Language where
     show Bash = "bash"
     show C = "c"
     show Clojure = "clojure"
+    show Coffeescript = "coffeescript"
     show Cpp = "cpp"
     show Csharp = "csharp"
     show Elixir = "elixir"
@@ -66,6 +68,7 @@ toLanguage :: Text -> Language
 toLanguage "assembly" = Assembly
 toLanguage "bash" = Bash
 toLanguage "clojure" = Clojure
+toLanguage "coffeescript" = Coffeescript
 toLanguage "cpp" = Cpp
 toLanguage "c" = C
 toLanguage "csharp" = Csharp
@@ -93,6 +96,7 @@ allLanguages = [
         Bash,
         C,
         Clojure,
+        Coffeescript,
         Cpp,
         Csharp,
         Elixir,
@@ -119,6 +123,7 @@ languageFileExt Assembly = "asm"
 languageFileExt Bash = "sh"
 languageFileExt C = "c"
 languageFileExt Clojure = "clj"
+languageFileExt Coffeescript = "coffee"
 languageFileExt Cpp = "cpp"
 languageFileExt Csharp = "cs"
 languageFileExt Elixir = "ex"
@@ -148,6 +153,7 @@ languageIconClass Assembly = "fa fa-code"
 languageIconClass Bash = "icon-prog-bash02"
 languageIconClass C = "icon-prog-c"
 languageIconClass Clojure = "icon-pl-clojure"
+languageIconClass Coffeescript = "icon-prog-coffeescr"
 languageIconClass Cpp = "icon-prog-cplusplus"
 languageIconClass Csharp = "icon-prog-csharp"
 languageIconClass Elixir = "fa fa-code"
@@ -173,6 +179,7 @@ languageAceMode Assembly = "ace/mode/assembly_x86"
 languageAceMode Bash = "ace/mode/sh"
 languageAceMode C = "ace/mode/c_cpp"
 languageAceMode Clojure = "ace/mode/clojure"
+languageAceMode Coffeescript = "ace/mode/coffee"
 languageAceMode Cpp = "ace/mode/c_cpp"
 languageAceMode Csharp = "ace/mode/csharp"
 languageAceMode Elixir = "ace/mode/elixir"
@@ -198,6 +205,7 @@ languageName Assembly = "Assembly"
 languageName Bash = "Bash"
 languageName C = "C"
 languageName Clojure = "Clojure"
+languageName Coffeescript = "Coffeescript"
 languageName Cpp = "C++"
 languageName Csharp = "C#"
 languageName Elixir = "Elixir"
@@ -245,6 +253,7 @@ int main() {
     return 0;
 }|]
 languageDefaultContent Clojure = [multiline|(println "Hello World!")|]
+languageDefaultContent Coffeescript = [multiline|console.log "Hello World!"|]
 languageDefaultContent Cpp = [multiline|#include <iostream>
 using namespace std;
 
