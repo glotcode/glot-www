@@ -11,6 +11,7 @@ data Language = Assembly |
                 Coffeescript |
                 Cpp |
                 Csharp |
+                D |
                 Elixir |
                 Erlang |
                 Fsharp |
@@ -43,6 +44,7 @@ instance Show Language where
     show Coffeescript = "coffeescript"
     show Cpp = "cpp"
     show Csharp = "csharp"
+    show D = "d"
     show Elixir = "elixir"
     show Erlang = "erlang"
     show Fsharp = "fsharp"
@@ -72,6 +74,7 @@ toLanguage "coffeescript" = Coffeescript
 toLanguage "cpp" = Cpp
 toLanguage "c" = C
 toLanguage "csharp" = Csharp
+toLanguage "d" = D
 toLanguage "elixir" = Elixir
 toLanguage "erlang" = Erlang
 toLanguage "fsharp" = Fsharp
@@ -99,6 +102,7 @@ allLanguages = [
         Coffeescript,
         Cpp,
         Csharp,
+        D,
         Elixir,
         Erlang,
         Fsharp,
@@ -126,6 +130,7 @@ languageFileExt Clojure = "clj"
 languageFileExt Coffeescript = "coffee"
 languageFileExt Cpp = "cpp"
 languageFileExt Csharp = "cs"
+languageFileExt D = "d"
 languageFileExt Elixir = "ex"
 languageFileExt Erlang = "erl"
 languageFileExt Fsharp = "fs"
@@ -156,6 +161,7 @@ languageIconClass Clojure = "icon-pl-clojure"
 languageIconClass Coffeescript = "icon-prog-coffeescr"
 languageIconClass Cpp = "icon-prog-cplusplus"
 languageIconClass Csharp = "icon-prog-csharp"
+languageIconClass D = "fa fa-code"
 languageIconClass Elixir = "fa fa-code"
 languageIconClass Erlang = "icon-prog-erlang"
 languageIconClass Fsharp = "fa fa-code"
@@ -182,6 +188,7 @@ languageAceMode Clojure = "ace/mode/clojure"
 languageAceMode Coffeescript = "ace/mode/coffee"
 languageAceMode Cpp = "ace/mode/c_cpp"
 languageAceMode Csharp = "ace/mode/csharp"
+languageAceMode D = "ace/mode/d"
 languageAceMode Elixir = "ace/mode/elixir"
 languageAceMode Erlang = "ace/mode/erlang"
 languageAceMode Fsharp = "ace/mode/csharp"
@@ -208,6 +215,7 @@ languageName Clojure = "Clojure"
 languageName Coffeescript = "Coffeescript"
 languageName Cpp = "C++"
 languageName Csharp = "C#"
+languageName D = "D"
 languageName Elixir = "Elixir"
 languageName Erlang = "Erlang"
 languageName Fsharp = "F#"
@@ -267,6 +275,12 @@ class MainClass {
     static void Main() {
         Console.WriteLine("Hello World!");
     }
+}|]
+languageDefaultContent D = [multiline|import std.stdio;
+
+void main()
+{
+    writeln("Hello World!");
 }|]
 languageDefaultContent Elixir = [multiline|IO.puts "Hello World!"|]
 languageDefaultContent Erlang = [multiline|% escript will ignore the first line
