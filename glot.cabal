@@ -30,7 +30,7 @@ library
                      Handler.Run
                      Handler.Account
                      Handler.Alert
-                     Handler.Api
+                     Handler.Meta
                      Model.Language
                      Model.Pagination
                      Model.Snippet

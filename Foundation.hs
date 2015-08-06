@@ -295,6 +295,7 @@ data Page = HomePage |
             MySnippetsPage |
             UserSnippetsPage |
             AccountPage |
+            MetaPage |
             None
             deriving Eq
 
@@ -302,6 +303,8 @@ getCurrentPage :: Maybe Profile -> Maybe (Route App) -> Page
 getCurrentPage _ (Just HomeR) = HomePage
 getCurrentPage _ (Just ComposeLanguagesR) = ComposeLanguagesPage
 getCurrentPage _ (Just SnippetsR) = SnippetsPage
+getCurrentPage _ (Just MetaApiDocsR) = MetaPage
+getCurrentPage _ (Just MetaAboutR) = MetaPage
 getCurrentPage (Just profile) (Just (UserSnippetsR username))
     | profileUsername profile == username = MySnippetsPage
 getCurrentPage _ (Just (UserSnippetsR _)) = UserSnippetsPage

@@ -4,7 +4,7 @@ $newline never
 <main class="masthead">
   <div class="container">
     <span class="header">glot.io
-    <p class="lead subtitle">an <a href="https://github.com/prasmussen/glot">open source</a> pastebin with runnable snippets and <a href="@{ApiR}">API</a>.
+    <p class="lead subtitle">an <a href="https://github.com/prasmussen/glot">open source</a> pastebin with runnable snippets and <a href="@{MetaApiDocsR}">API</a>.
 <div class="container">
   <div class="row">
     <div class="col-lg-12">

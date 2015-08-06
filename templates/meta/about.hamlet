@@ -1,0 +1,12 @@
+$newline never
+^{navbarWidget}
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-offset-3 col-lg-6">
+      <h3>About
+      <p>glot.io lets you run and share snippets.
+      <p>Snippets can be saved as either public or secret. Public snippets will show up in <a href="@{SnippetsR}">/snippets</a> and will be found be search engines. Secret snippets can only be accessed by those who know the url.
+      <p>Code is executed inside a temporary container without a network connection. Execution time is limited to 15 seconds and the output can not exceed 100KiB.
+      <p><a href="http://ace.c9.io/">Ace</a> is used as the code editor. Make sure to check out the leftmost and rightmost tabs, where you can select language version, set a custom run command and change the editor keybindings.
+      <p>Are you missing your favorite library or language? Issues and pull requests are glady accepted <a href="https://github.com/prasmussen/glot">here</a>.
