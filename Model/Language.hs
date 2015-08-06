@@ -20,6 +20,7 @@ data Language = Assembly |
                 Idris |
                 Java |
                 Javascript |
+                Julia |
                 Lua |
                 Nim |
                 Ocaml |
@@ -54,6 +55,7 @@ instance Show Language where
     show Idris = "idris"
     show Java = "java"
     show Javascript = "javascript"
+    show Julia = "julia"
     show Lua = "lua"
     show Nim = "nim"
     show Ocaml = "ocaml"
@@ -84,6 +86,7 @@ toLanguage "go" = Go
 toLanguage "haskell" = Haskell
 toLanguage "idris" = Idris
 toLanguage "javascript" = Javascript
+toLanguage "julia" = Julia
 toLanguage "lua" = Lua
 toLanguage "nim" = Nim
 toLanguage "ocaml" = Ocaml
@@ -114,6 +117,7 @@ allLanguages = [
         Idris,
         Java,
         Javascript,
+        Julia,
         Lua,
         Nim,
         Ocaml,
@@ -143,6 +147,7 @@ languageFileExt Haskell = "hs"
 languageFileExt Idris = "idr"
 languageFileExt Java = "java"
 languageFileExt Javascript = "js"
+languageFileExt Julia = "jl"
 languageFileExt Lua = "lua"
 languageFileExt Nim = "nim"
 languageFileExt Ocaml = "ml"
@@ -175,6 +180,7 @@ languageIconClass Haskell = "icon-prog-haskell"
 languageIconClass Idris = "fa fa-code"
 languageIconClass Java = "icon-prog-java"
 languageIconClass Javascript = "icon-prog-nodejs02"
+languageIconClass Julia = "fa fa-code"
 languageIconClass Lua = "icon-prog-lua02"
 languageIconClass Nim = "fa fa-code"
 languageIconClass Ocaml = "fa fa-code"
@@ -203,6 +209,7 @@ languageAceMode Haskell = "ace/mode/haskell"
 languageAceMode Idris = "ace/mode/plain_text"
 languageAceMode Java = "ace/mode/java"
 languageAceMode Javascript = "ace/mode/javascript"
+languageAceMode Julia = "ace/mode/julia"
 languageAceMode Lua = "ace/mode/lua"
 languageAceMode Nim = "ace/mode/plain_text"
 languageAceMode Ocaml = "ace/mode/ocaml"
@@ -231,6 +238,7 @@ languageName Haskell = "Haskell"
 languageName Idris = "Idris"
 languageName Java = "Java"
 languageName Javascript = "Javascript"
+languageName Julia = "Julia"
 languageName Lua = "Lua"
 languageName Nim = "Nim"
 languageName Ocaml = "Ocaml"
@@ -316,6 +324,7 @@ languageDefaultContent Java = [multiline|class Main {
     }
 }|]
 languageDefaultContent Javascript = [multiline|console.log("Hello World!");|]
+languageDefaultContent Julia = [multiline|println("Hello world!")|]
 languageDefaultContent Lua = [multiline|print("Hello World!");|]
 languageDefaultContent Nim = [multiline|echo("Hello World!")|]
 languageDefaultContent Ocaml = [multiline|print_endline "Hello World!"|]
