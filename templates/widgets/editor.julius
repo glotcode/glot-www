@@ -8,15 +8,25 @@ window.Editor = (function() {
         editor.setTheme(theme);
         editor.setKeyboardHandler(keybindings);
         editor.getSession().setMode(#{toJSON $ languageAceMode lang});
+        var lineCount = calcLineCount();
         editor.setOptions({
-            minLines: 32,
-            maxLines: 8192,
+            minLines: lineCount,
+            maxLines: lineCount,
         });
 
         // Resize to flush stale content
         setTimeout(function() {
             editor.resize();
         }, 1);
+    }
+
+    function calcLineCount() {
+        var editorY = $(".editors").offset().top;
+        var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        var lineHeight = 16;
+        var bottomOffset = 200;
+        var lineCount = (browserHeight - editorY - bottomOffset) / lineHeight;
+        return Math.max(lineCount, 10);
     }
 
     function setTheme(theme) {
