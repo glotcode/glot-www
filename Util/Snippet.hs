@@ -1,4 +1,5 @@
 module Util.Snippet (
+    metaDescription,
     isSnippetOwner,
     visibilityFormat,
     iso8601Format,
@@ -9,6 +10,10 @@ module Util.Snippet (
 import Import
 import Data.Time.ISO8601 (parseISO8601)
 import Data.Maybe (fromJust)
+
+metaDescription :: Snippet -> Int -> Text
+metaDescription s maxChars =
+    take maxChars $ concat $ map snippetFileContent $ snippetFiles s
 
 utcFormat :: UTCTime -> Text
 utcFormat time = pack $ formatTime defaultTimeLocale "%c" time

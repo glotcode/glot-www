@@ -4,7 +4,6 @@ $newline never
     <meta charset="UTF-8">
 
     <title>#{pageTitle pc}
-    <meta name="description" content="glot.io - an open source pastebin with runnable snippets and API">
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
     ^{pageHead pc}

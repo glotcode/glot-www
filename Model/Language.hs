@@ -193,6 +193,35 @@ languageLogo Rust = img_rust_svg
 languageLogo Scala = img_scala_svg
 languageLogo Plaintext = img_plaintext_svg
 
+languageLogoPng :: Language -> StaticRoute
+languageLogoPng Assembly = img_generic_svg_png
+languageLogoPng Bash = img_bash_svg_png
+languageLogoPng C = img_c_svg_png
+languageLogoPng Clojure = img_clojure_svg_png
+languageLogoPng Coffeescript = img_coffeescript_svg_png
+languageLogoPng Cpp = img_cpp_svg_png
+languageLogoPng Csharp = img_csharp_svg_png
+languageLogoPng D = img_d_svg_png
+languageLogoPng Elixir = img_generic_svg_png
+languageLogoPng Erlang = img_erlang_svg_png
+languageLogoPng Fsharp = img_fsharp_svg_png
+languageLogoPng Go = img_go_svg_png
+languageLogoPng Haskell = img_haskell_svg_png
+languageLogoPng Idris = img_idris_svg_png
+languageLogoPng Java = img_java_svg_png
+languageLogoPng Javascript = img_javascript_svg_png
+languageLogoPng Julia = img_julia_svg_png
+languageLogoPng Lua = img_lua_svg_png
+languageLogoPng Nim = img_nim_svg_png
+languageLogoPng Ocaml = img_ocaml_svg_png
+languageLogoPng Perl = img_perl_svg_png
+languageLogoPng Php = img_php_svg_png
+languageLogoPng Python = img_python_svg_png
+languageLogoPng Ruby = img_ruby_svg_png
+languageLogoPng Rust = img_rust_svg_png
+languageLogoPng Scala = img_scala_svg_png
+languageLogoPng Plaintext = img_plaintext_svg_png
+
 languageAceMode :: Language -> Text
 languageAceMode Assembly = "ace/mode/assembly_x86"
 languageAceMode Bash = "ace/mode/sh"

@@ -4,10 +4,12 @@ import Import
 import Widget.Editor (editorWidget)
 import Widget.RunResult (runResultWidget)
 import Util.Handler (maybeApiUser, titleConcat, urlDecode')
-import Util.Snippet (isSnippetOwner, persistLanguageVersion, persistRunCommand)
+import Util.Snippet (isSnippetOwner, persistLanguageVersion, persistRunCommand, metaDescription)
 import Util.Alert (successHtml)
 import Model.Snippet.Api (getSnippet, updateSnippet, deleteSnippet)
 import Network.Wai (lazyRequestBody)
+import Text.Hamlet (hamletFile)
+
 
 getSnippetR :: Text -> Handler Html
 getSnippetR snippetId = do
@@ -23,6 +25,8 @@ getSnippetR snippetId = do
             let lang = toLanguage $ snippetLanguage snippet
             defaultLayout $ do
                 setTitle $ titleConcat [snippetTitle snippet, " - ", languageName lang, " Snippet"]
+                toWidgetHead $(hamletFile "templates/snippet/opengraph.hamlet")
+                toWidgetHead $(hamletFile "templates/snippet/twitter-card.hamlet")
                 $(widgetFile "snippet")
 
 putSnippetR :: Text -> Handler Value
