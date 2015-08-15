@@ -1,4 +1,4 @@
 $newline never
 <meta property="og:title" content="#{snippetTitle snippet}">
-<meta property="og:description" content="#{metaDescription snippet 600}">
+<meta property="og:description" content="#{metaDescription snippet 400}">
 <meta property="og:image" content="@{StaticR $ languageLogoPng lang}">
