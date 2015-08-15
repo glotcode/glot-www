@@ -3,6 +3,7 @@ module Handler.Compose where
 import Import
 import Widget.Editor (editorWidget)
 import Widget.RunResult (runResultWidget)
+import Widget.Languages (languagesWidget)
 import Util.Handler (maybeApiUser, title, titleConcat, urlDecode')
 import Util.Snippet (persistLanguageVersion, persistRunCommand)
 import Util.Alert (successHtml)
@@ -12,8 +13,8 @@ import Model.Snippet.Api (addSnippet)
 getComposeLanguagesR :: Handler Html
 getComposeLanguagesR = do
     defaultLayout $ do
-        setTitle $ title "Languages"
-        $(widgetFile "languages")
+        setTitle $ title "New snippet - Choose language"
+        $(widgetFile "new")
 
 getComposeR :: Language -> Handler Html
 getComposeR lang = do

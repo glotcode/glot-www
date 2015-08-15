@@ -48,6 +48,7 @@ library
                      Util.Alert
                      Widget.Editor
                      Widget.RunResult
+                     Widget.Languages
                      Widget.Pagination
                      Yesod.Auth.Simple
 
