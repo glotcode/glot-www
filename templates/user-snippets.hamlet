@@ -20,7 +20,7 @@ $newline never
             <tr>
               <td>
                 $with lang <- toLanguage $ metaSnippetLanguage snippet
-                  <i class="#{languageIconClass lang}">
+                  <img class="logo" src=@{StaticR $ languageLogo lang} alt="#{languageName lang} logo">
                   <a class="language" href="@?{(UserSnippetsR username, [("language", metaSnippetLanguage snippet)])}">#{languageName lang}
               <td>
                 <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}

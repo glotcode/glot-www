@@ -3,6 +3,7 @@ module Model.Language where
 import Prelude (readsPrec)
 import ClassyPrelude.Yesod
 import Util.Multiline (multiline)
+import Settings.StaticFiles
 
 data Language = Assembly |
                 Bash |
@@ -163,34 +164,34 @@ languageDefaultFname :: Language -> Text
 languageDefaultFname Java = "Main." ++ languageFileExt Java
 languageDefaultFname lang = "main." ++ languageFileExt lang
 
-languageIconClass :: Language -> Text
-languageIconClass Assembly = "fa fa-code"
-languageIconClass Bash = "icon-prog-bash02"
-languageIconClass C = "icon-prog-c"
-languageIconClass Clojure = "icon-pl-clojure"
-languageIconClass Coffeescript = "icon-prog-coffeescr"
-languageIconClass Cpp = "icon-prog-cplusplus"
-languageIconClass Csharp = "icon-prog-csharp"
-languageIconClass D = "fa fa-code"
-languageIconClass Elixir = "fa fa-code"
-languageIconClass Erlang = "icon-prog-erlang"
-languageIconClass Fsharp = "fa fa-code"
-languageIconClass Go = "icon-prog-golang02"
-languageIconClass Haskell = "icon-prog-haskell"
-languageIconClass Idris = "fa fa-code"
-languageIconClass Java = "icon-prog-java"
-languageIconClass Javascript = "icon-prog-nodejs02"
-languageIconClass Julia = "fa fa-code"
-languageIconClass Lua = "icon-prog-lua02"
-languageIconClass Nim = "fa fa-code"
-languageIconClass Ocaml = "fa fa-code"
-languageIconClass Perl = "icon-prog-perl"
-languageIconClass Php = "icon-prog-php02"
-languageIconClass Python = "icon-prog-python"
-languageIconClass Ruby = "icon-prog-ruby"
-languageIconClass Rust = "fa fa-code"
-languageIconClass Scala = "icon-prog-scala"
-languageIconClass Plaintext = "fa fa-file-text-o"
+languageLogo :: Language -> StaticRoute
+languageLogo Assembly = img_generic_svg
+languageLogo Bash = img_bash_svg
+languageLogo C = img_c_svg
+languageLogo Clojure = img_clojure_svg
+languageLogo Coffeescript = img_coffeescript_svg
+languageLogo Cpp = img_cpp_svg
+languageLogo Csharp = img_csharp_svg
+languageLogo D = img_d_svg
+languageLogo Elixir = img_generic_svg
+languageLogo Erlang = img_erlang_svg
+languageLogo Fsharp = img_fsharp_svg
+languageLogo Go = img_go_svg
+languageLogo Haskell = img_haskell_svg
+languageLogo Idris = img_idris_svg
+languageLogo Java = img_java_svg
+languageLogo Javascript = img_javascript_svg
+languageLogo Julia = img_julia_svg
+languageLogo Lua = img_lua_svg
+languageLogo Nim = img_nim_svg
+languageLogo Ocaml = img_ocaml_svg
+languageLogo Perl = img_perl_svg
+languageLogo Php = img_php_svg
+languageLogo Python = img_python_svg
+languageLogo Ruby = img_ruby_svg
+languageLogo Rust = img_rust_svg
+languageLogo Scala = img_scala_svg
+languageLogo Plaintext = img_plaintext_svg
 
 languageAceMode :: Language -> Text
 languageAceMode Assembly = "ace/mode/assembly_x86"

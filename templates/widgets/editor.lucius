@@ -25,3 +25,8 @@
 .container.full-width {
     width: 100%;
 }
+
+.meta .logo {
+    width: 14px;
+    height: 14px;
+}

@@ -3,11 +3,11 @@ $newline never
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12 languages">
       <h2>Choose a language
       $forall lang <- allLanguages
-        <div class="language-badge">
-          <a href="@{ComposeR lang}">
+        <a href="@{ComposeR lang}">
+          <div class="language-badge">
             <div class="language-icon-large language-badge-icon">
-              <i class="#{languageIconClass lang}">
+              <img class="logo" src=@{StaticR $ languageLogo lang} alt="#{languageName lang} logo">
             <div class="language-badge-text #{show lang}">#{languageName lang}
