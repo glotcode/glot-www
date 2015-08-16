@@ -49,3 +49,17 @@ deleteSnippetR snippetId = do
     mApiUser <- maybeApiUser mUserId
     _ <- liftIO $ deleteSnippet snippetId $ apiUserToken <$> mApiUser
     return $ object []
+
+getSnippetEmbedR :: Text -> Handler Html
+getSnippetEmbedR snippetId = do
+    eSnippet <- liftIO $ try (getSnippet snippetId Nothing)
+    case eSnippet of
+        Left (StatusCodeException s _ _)
+            | statusCode s == 404 -> notFound
+        Left e -> throwIO e
+        Right snippet -> do
+            let runResult = Nothing
+            let lang = toLanguage $ snippetLanguage snippet
+            defaultLayout $ do
+                setTitle $ titleConcat [snippetTitle snippet, " - ", languageName lang, " Snippet"]
+                $(widgetFile "snippet/embed")
