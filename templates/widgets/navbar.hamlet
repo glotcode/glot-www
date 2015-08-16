@@ -12,8 +12,6 @@ $newline never
     $# Collect the nav links, forms, and other content for toggling
     <div class="collapse navbar-collapse" id="main-navbar">
       <ul class="nav navbar-nav">
-        <li :currentPage == HomePage:.active>
-          <a href="@{HomeR}"><i class="fa fa-home"></i> Home
         <li :currentPage == ComposeLanguagesPage:.active>
           <a href="@{ComposeLanguagesR}"><i class="fa fa-edit"></i> New
         <li :currentPage == SnippetsPage:.active>
