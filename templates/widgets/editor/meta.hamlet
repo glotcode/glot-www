@@ -7,8 +7,8 @@ $newline never
   <tbody>
     <tr>
       <td>Language
-      <td>#{languageName $ toLanguage $ snippetLanguage snippet}
-    $if languageIsRunnable $ toLanguage $ snippetLanguage snippet
+      <td>#{languageName lang}
+    $if languageIsRunnable lang
       <tr>
         <td>Language Version
         <td>
@@ -25,13 +25,13 @@ $newline never
             <div class="input-group input-group-sm cmd-group">
               <span class="input-group-addon">
                 <input type="checkbox" id="cmd-checkbox" checked>
-              <input type="text" class="form-control" id="cmd-input" value="#{runCommandCommand cmd}" placeholder="clang main.c && ./a.out">
+              <input type="text" class="form-control" id="cmd-input" value="#{runCommandCommand cmd}">
         $nothing
           <td>
             <div class="input-group input-group-sm cmd-group">
               <span class="input-group-addon">
                 <input type="checkbox" id="cmd-checkbox">
-              <input type="text" class="form-control" id="cmd-input" placeholder="clang main.c && ./a.out" disabled>
+              <input type="text" class="form-control" id="cmd-input" value="#{languageRunCmdExample lang}" disabled>
 
 $if not $ isComposing snippet
   <table class="meta-table metadata table">

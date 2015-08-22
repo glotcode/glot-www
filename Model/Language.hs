@@ -284,6 +284,36 @@ languageIsRunnable :: Language -> Bool
 languageIsRunnable Plaintext = False
 languageIsRunnable _ = True
 
+languageRunCmdExample :: Language -> String
+languageRunCmdExample Assembly = "nasm -f elf64 -o a.o main.asm && ld -o a.out a.o && ./a.out"
+languageRunCmdExample Bash = "bash main.sh"
+languageRunCmdExample C = "clang main.c && ./a.out"
+languageRunCmdExample Clojure = "java -cp /usr/share/java/clojure.jar clojure.main main.clj"
+languageRunCmdExample Coffeescript = "coffee main.coffee"
+languageRunCmdExample Cpp = "clang++ main.cpp && ./a.out"
+languageRunCmdExample Csharp = "mcs -out:a.exe main.cs && mono a.exe"
+languageRunCmdExample D = "dmd -ofa.out main.d && ./a.out"
+languageRunCmdExample Elixir = "elixirc main.ex"
+languageRunCmdExample Erlang = "escript main.erl"
+languageRunCmdExample Fsharp = "fsharpc --out:a.exe main.fs > /dev/null && mono a.exe"
+languageRunCmdExample Go = "go run main.go"
+languageRunCmdExample Haskell = "runghc main.hs"
+languageRunCmdExample Idris = "idris -o a.out main.idr && ./a.out"
+languageRunCmdExample Java = "javac Main.java && java Main"
+languageRunCmdExample Javascript = "node main.js"
+languageRunCmdExample Julia = "julia main.jl"
+languageRunCmdExample Lua = "lua main.lua"
+languageRunCmdExample Nim = "nim --verbosity:0 compile --run main.nim"
+languageRunCmdExample Ocaml = "ocamlc -o a.out main.ml && ./a.out"
+languageRunCmdExample Perl = "perl main.pl"
+languageRunCmdExample Php = "php main.php"
+languageRunCmdExample Python = "python main.py"
+languageRunCmdExample Ruby = "ruby main.rb"
+languageRunCmdExample Rust = "rustc -o a.out main.rs && ./a.out"
+languageRunCmdExample Scala = "scalac main.scala && scala Main"
+languageRunCmdExample _ = ""
+
+
 languageDefaultContent :: Language -> String
 languageDefaultContent Assembly = [multiline|section .data
     msg db "Hello World!", 0ah
