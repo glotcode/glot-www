@@ -11,8 +11,7 @@
     display: inline-block;
 }
 
-#snippet-title[contenteditable]{
+#snippet-title[contenteditable] {
     border-bottom: 1px dashed #ccc;
     padding: 5px;
-    min-width: 300px;
 }
