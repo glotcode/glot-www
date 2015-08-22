@@ -24,8 +24,8 @@ window.Editor = (function() {
         var editorY = $(".editors").offset().top;
         var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
         var lineHeight = 16;
-        var bottomOffset = 200;
-        var lineCount = (browserHeight - editorY - bottomOffset) / lineHeight;
+        var bottomMargin = 250;
+        var lineCount = (browserHeight - editorY - bottomMargin) / lineHeight;
         return Math.max(lineCount, 10);
     }
 
