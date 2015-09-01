@@ -2,6 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE PatternGuards #-}
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE Rank2Types #-}
 
 module Yesod.Auth.Simple (
@@ -38,6 +39,17 @@ import qualified Data.ByteString.Base64.URL as B64Url
 import qualified Data.ByteString.Base64 as B64
 import Data.ByteString (ByteString)
 import Data.Maybe (fromJust)
+import GHC.Generics
+import Network.HTTP.Types (status400)
+
+
+data Passwords = Passwords {
+    pass1 :: Text,
+    pass2 :: Text
+} deriving (Show, Generic)
+
+instance FromJSON Passwords
+
 
 loginR :: AuthRoute
 loginR = PluginR "simple" ["login"]
@@ -136,7 +148,7 @@ dispatch "GET" ["user-exists"] = getUserExistsR >>= sendResponse
 dispatch "GET" ["login"] = getLoginR >>= sendResponse
 dispatch "POST" ["login"] = postLoginR >>= sendResponse
 dispatch "GET" ["set-password"] = getSetPasswordR >>= sendResponse
-dispatch "POST" ["set-password"] = postSetPasswordR >>= sendResponse
+dispatch "PUT" ["set-password"] = putSetPasswordR >>= sendResponse
 dispatch "GET" ["set-password", token] = getSetPasswordTokenR token >>= sendResponse
 dispatch "POST" ["set-password", token] = postSetPasswordTokenR token >>= sendResponse
 dispatch "GET" ["reset-password"] = getResetPasswordR >>= sendResponse
@@ -369,31 +381,27 @@ postSetPasswordTokenR token = do
         Left msg -> invalidTokenHandler msg
         Right uid -> setPasswordToken token uid pass1 pass2
 
-postSetPasswordR :: YesodAuthSimple master => HandlerT Auth (HandlerT master IO) Html
-postSetPasswordR = do
+putSetPasswordR :: YesodAuthSimple master => HandlerT Auth (HandlerT master IO) Value
+putSetPasswordR = do
     clearError
     uid <- requireUserId
-    (pass1, pass2) <- lift $ runInputPost $ (,)
-        <$> ireq textField "password1"
-        <*> ireq textField "password2"
-    setPassword (toSimpleAuthId uid) pass1 pass2
+    passwords <- requireJsonBody :: (HandlerT Auth (HandlerT master IO)) Passwords
+    setPassword (toSimpleAuthId uid) passwords
 
-setPassword :: YesodAuthSimple master => AuthSimpleId master -> Text -> Text -> HandlerT Auth (HandlerT master IO) Html
-setPassword uid pass1 pass2
-    | pass1 /= pass2 = do
-        setError "Passwords does not match"
-        redirect setPasswordR
+setPassword :: YesodAuthSimple master => AuthSimpleId master -> Passwords -> HandlerT Auth (HandlerT master IO) Value
+setPassword uid passwords
+    | (pass1 passwords) /= (pass2 passwords) = do
+        let msg = "Passwords does not match" :: Text
+        sendResponseStatus status400 $ object ["message" .= msg]
     | otherwise = do
-        case checkPasswordStrength pass1 of
-            Left msg -> do
-                setError msg
-                redirect setPasswordR
+        case checkPasswordStrength (pass1 passwords) of
+            Left msg ->
+                sendResponseStatus status400 $ object ["message" .= msg]
             Right _ -> do
-                salted <- liftIO $ saltPass pass1
+                salted <- liftIO $ saltPass (pass1 passwords)
                 _ <- lift $ updateUserPassword uid salted
-                y <- lift getYesod
                 lift onPasswordUpdated
-                lift $ redirect $ afterPasswordRoute y
+                return $ object []
 
 setPasswordToken :: YesodAuthSimple master => Text -> AuthSimpleId master -> Text -> Text -> HandlerT Auth (HandlerT master IO) Html
 setPasswordToken token uid pass1 pass2
