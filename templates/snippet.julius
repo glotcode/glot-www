@@ -43,6 +43,7 @@
     $(document).on("click", ".fork", function(e) {
         var files = Editor.getFiles();
         Fork.setFiles(files);
+        Editor.clean();
         Location.set("@{ComposeR lang}");
     });
 
@@ -61,6 +62,7 @@
         });
 
         XHR.jsonPut(url, payload).done(function(data) {
+            Editor.clean();
             Location.reload();
         }).fail(function(xhr) {
             Alert.danger("Failed to save snippet");
@@ -69,6 +71,7 @@
 
     function deleteSnippet() {
         XHR.delete("@{SnippetR snippetId}").done(function(data) {
+            Editor.clean();
             Location.set("@{SnippetsR}");
         }).fail(function(xhr) {
             Alert.danger("Failed to delete snippet");
@@ -78,4 +81,12 @@
     function getTitle() {
         return $("#snippet-title").text();
     }
+
+    // Require confirmation if user tries to unload page with unsaved changes
+    window.onbeforeunload = function() {
+        if (!Editor.isClean()) {
+            return "You have unsaved changes!";
+        }
+    };
+
 })();

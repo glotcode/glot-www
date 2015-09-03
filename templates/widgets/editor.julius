@@ -37,6 +37,22 @@ window.Editor = (function() {
         });
     }
 
+    function clean() {
+        var editorIds = getEditorIds();
+        return editorIds.forEach(function(id) {
+            var editor = ace.edit(id);
+            editor.session.getUndoManager().reset();
+        });
+    }
+
+    function isClean() {
+        var editorIds = getEditorIds();
+        return editorIds.every(function(id) {
+            var editor = ace.edit(id);
+            return editor.session.getUndoManager().isClean();
+        });
+    }
+
     function setKeybindings(keybindings) {
         var editorIds = getEditorIds();
         editorIds.forEach(function(id) {
@@ -171,6 +187,8 @@ window.Editor = (function() {
         setKeybindings: setKeybindings,
         setFullWidth: setFullWidth,
         getFiles: getFiles,
+        clean: clean,
+        isClean: isClean,
     };
 
 })();
@@ -204,7 +222,7 @@ window.Fork = (function() {
     };
 })();
 
-// Handle editor tab clicks
+
 (function() {
     // Handle editor tab clicks
     $(document).on("click", ".nav-tabs [data-editor]", function(e) {

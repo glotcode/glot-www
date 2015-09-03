@@ -53,6 +53,7 @@
         });
 
         XHR.jsonPost(url, payload).done(function(data) {
+            Editor.clean();
             Location.set(data.url);
         }).fail(function(xhr) {
             Alert.danger("Failed to save snippet");
@@ -62,5 +63,12 @@
     function getTitle() {
         return $("#snippet-title").text();
     }
+
+    // Require confirmation if user tries to unload page with unsaved changes
+    window.onbeforeunload = function() {
+        if (!Editor.isClean()) {
+            return "You have unsaved changes!";
+        }
+    };
 
 })();
