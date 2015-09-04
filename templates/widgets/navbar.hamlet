@@ -24,6 +24,8 @@ $newline never
             <b class="caret">
           <ul class="dropdown-menu">
             <li>
+              <a href="https://twitter.com/glotcode"><i class="fa fa-twitter"></i> News
+            <li>
               <a href="@{MetaAboutR}"><i class="fa fa-info-circle"></i> About
             <li>
               <a href="@{MetaApiDocsR}"><i class="fa fa-exchange"></i> API Docs
