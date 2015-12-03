@@ -31,6 +31,7 @@ data Language = Assembly |
                 Ruby |
                 Rust |
                 Scala |
+                Swift |
                 Plaintext
                 deriving Eq
 
@@ -66,6 +67,7 @@ instance Show Language where
     show Ruby = "ruby"
     show Rust = "rust"
     show Scala = "scala"
+    show Swift = "swift"
     show Plaintext = "plaintext"
 
 instance Read Language where
@@ -98,6 +100,7 @@ toLanguage "python" = Python
 toLanguage "ruby" = Ruby
 toLanguage "rust" = Rust
 toLanguage "scala" = Scala
+toLanguage "swift" = Swift
 toLanguage _ = Plaintext
 
 allLanguages :: [Language]
@@ -128,7 +131,8 @@ allLanguages = [
         Python,
         Ruby,
         Rust,
-        Scala
+        Scala,
+        Swift
     ]
 
 languageFileExt :: Language -> Text
@@ -158,6 +162,7 @@ languageFileExt Python = "py"
 languageFileExt Ruby = "rb"
 languageFileExt Rust = "rs"
 languageFileExt Scala = "scala"
+languageFileExt Swift = "swift"
 languageFileExt Plaintext = "txt"
 
 languageDefaultFname :: Language -> Text
@@ -191,6 +196,7 @@ languageLogo Python = img_python_svg
 languageLogo Ruby = img_ruby_svg
 languageLogo Rust = img_rust_svg
 languageLogo Scala = img_scala_svg
+languageLogo Swift = img_swift_svg
 languageLogo Plaintext = img_plaintext_svg
 
 languageLogoPng :: Language -> StaticRoute
@@ -220,6 +226,7 @@ languageLogoPng Python = img_python_svg_png
 languageLogoPng Ruby = img_ruby_svg_png
 languageLogoPng Rust = img_rust_svg_png
 languageLogoPng Scala = img_scala_svg_png
+languageLogoPng Swift = img_swift_svg_png
 languageLogoPng Plaintext = img_plaintext_svg_png
 
 languageAceMode :: Language -> Text
@@ -249,6 +256,7 @@ languageAceMode Python = "ace/mode/python"
 languageAceMode Ruby = "ace/mode/ruby"
 languageAceMode Rust = "ace/mode/rust"
 languageAceMode Scala = "ace/mode/scala"
+languageAceMode Swift = "ace/mode/plain_text"
 languageAceMode Plaintext = "ace/mode/plain_text"
 
 languageName :: Language -> Text
@@ -278,6 +286,7 @@ languageName Python = "Python"
 languageName Ruby = "Ruby"
 languageName Rust = "Rust"
 languageName Scala = "Scala"
+languageName Swift = "Swift"
 languageName Plaintext = "Plaintext"
 
 languageIsRunnable :: Language -> Bool
@@ -311,6 +320,7 @@ languageRunCmdExample Python = "python main.py"
 languageRunCmdExample Ruby = "ruby main.rb"
 languageRunCmdExample Rust = "rustc -o a.out main.rs && ./a.out"
 languageRunCmdExample Scala = "scalac main.scala && scala Main"
+languageRunCmdExample Swift = "swift main.swift"
 languageRunCmdExample _ = ""
 
 
@@ -400,4 +410,5 @@ languageDefaultContent Rust = [multiline|fn main() {
 languageDefaultContent Scala = [multiline|object Main extends App {
     println("Hello World!")
 }|]
+languageDefaultContent Swift = [multiline|print("Hello World!")|]
 languageDefaultContent Plaintext = [multiline|Hello World!|]
