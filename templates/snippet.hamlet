@@ -17,5 +17,5 @@ $newline never
         $if isSnippetOwner mApiUser snippet
           <button class="btn btn-success save"><i class="fa fa-save"></i> Save
           <button class="btn btn-danger delete"><i class="fa fa-trash"></i> Delete
-        <button class="btn btn-info fork"><i class="fa fa-code-fork"></i> Fork
+        <button class="btn btn-info fork" title="Fork and keep changes"><i class="fa fa-code-fork"></i> Fork
       ^{runResultWidget runResult}
