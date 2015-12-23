@@ -256,7 +256,7 @@ languageAceMode Python = "ace/mode/python"
 languageAceMode Ruby = "ace/mode/ruby"
 languageAceMode Rust = "ace/mode/rust"
 languageAceMode Scala = "ace/mode/scala"
-languageAceMode Swift = "ace/mode/plain_text"
+languageAceMode Swift = "ace/mode/swift"
 languageAceMode Plaintext = "ace/mode/plain_text"
 
 languageName :: Language -> Text
