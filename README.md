@@ -29,3 +29,13 @@ All vars needs to be set, no default values are provided.
 | SNIPPETS_API_ADMIN_TOKEN | &lt;string&gt;                     | some-secret              | Admin token for the snippets api (to create users) |
 | MANDRILL_TOKEN           | &lt;string&gt;                     | secret-mandrill-token    | Mandrill token (to send signup emails, etc)        |
 | ANALYTICS_ID             | &lt;string&gt;                     | secret-id                | Google analytics id (optional)                     |
+
+
+## Compile from source
+```bash
+git clone git@github.com:prasmussen/glot-www.git
+cd glot-www
+cabal sandbox init
+cabal install -j --only-dependencies --max-backjumps=-1 --reorder-goals
+cabal build
+```
