@@ -18,13 +18,8 @@ $newline never
           <button class="btn btn-success save"><i class="fa fa-save"></i> Save
           <button class="btn btn-danger delete"><i class="fa fa-trash"></i> Delete
         <button class="btn btn-info fork" title="Fork and keep changes"><i class="fa fa-code-fork"></i> Fork
-        <div class="btn-group">
-          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-share"></i> Share <span class="caret"></span>
-          <ul class="dropdown-menu" role="menu">
-            <li>
-              <a href="@{SnippetR snippetId}">Direct
-            <li>
-              <a href="@{SnippetRawR snippetId}">Raw
-            <li>
-              <a href="@{SnippetEmbedR snippetId}">Embed
+        <button class="btn btn-info share" data-toggle="popover" title="Share Snippet"><i class="fa fa-share"></i> Share
       ^{runResultWidget runResult}
+      <div class="hide">
+        <div id="share-content">
+          ^{shareWidget snippetId}

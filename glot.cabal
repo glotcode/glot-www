@@ -50,6 +50,7 @@ library
                      Widget.RunResult
                      Widget.Languages
                      Widget.Pagination
+                     Widget.Share
                      Yesod.Auth.Simple
 
     if flag(dev) || flag(library-only)

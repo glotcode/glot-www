@@ -1,0 +1,15 @@
+$newline never
+
+<div class="form-group">
+  <label for="share-direct">Direct link
+  <div class="input-group">
+    <div class="input-group-addon"><i for="share-direct" class="fa fa-link"></i>
+    <input type="text" class="form-control" id="share-direct" value="@{SnippetR snippetId}" readonly>
+  <label for="share-raw">Raw
+  <div class="input-group">
+    <div class="input-group-addon"><i for="share-raw" class="fa fa-link"></i>
+    <input type="text" class="form-control" id="share-raw" value="@{SnippetRawR snippetId}" readonly>
+  <label for="share-embed">Embed
+  <div class="input-group">
+    <div class="input-group-addon"><i for="share-embed" class="fa fa-html5"></i>
+    <input type="text" class="form-control" id="share-embed" value="<iframe src='@{SnippetEmbedR snippetId}' frameborder='0' scrolling='no' sandbox='allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts' width='600' height='400'></iframe>" readonly>

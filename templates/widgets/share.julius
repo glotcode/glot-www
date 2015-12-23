@@ -1,0 +1,10 @@
+(function() {
+    $(document).on("click", ".popover-content label, .popover-content i", function(e) {
+        var inputId = $(e.target).attr("for");
+        var elements = $("#" + inputId);
+        if (elements.length > 0) {
+            var input = elements[0];
+            input.setSelectionRange(0, input.value.length);
+        }
+    });
+})();
