@@ -10,6 +10,8 @@
 /snippets SnippetsR GET
 /snippets/#Text SnippetR GET PUT DELETE
 /snippets/#Text/embed SnippetEmbedR GET
+/snippets/#Text/raw SnippetRawR GET
+/snippets/#Text/raw/#Text SnippetRawFileR GET
 /users/#Text/snippets UserSnippetsR GET
 /run/#Language RunR POST
 /account/profile AccountProfileR GET PUT
