@@ -4,18 +4,18 @@ $newline never
     $maybe prevPage <- paginationPrevPage pagination
       <li>
         <a href="@?{(route, query prevPage queryExtra)}" aria-label="Previous">
-          <span aria-hidden="true">--
+          <span aria-hidden="true">Prev
     $nothing
       <li class="disabled">
         <span aria-label="Previous">
-          <span aria-hidden="true">--
+          <span aria-hidden="true">Prev
     <li class="disabled">
-      <span>page = #{currentPage}
+      <span>Page #{currentPage}
     $maybe nextPage <- paginationNextPage pagination
       <li>
         <a href="@?{(route, query nextPage queryExtra)}" aria-label="Next">
-          <span aria-hidden="true">++
+          <span aria-hidden="true">Next
     $nothing
       <li class="disabled">
         <span aria-label="Next">
-          <span aria-hidden="true">++
+          <span aria-hidden="true">Next
