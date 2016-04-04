@@ -26,6 +26,7 @@ data Language = Assembly |
                 Nim |
                 Ocaml |
                 Perl |
+                Perl6 |
                 Php |
                 Python |
                 Ruby |
@@ -62,6 +63,7 @@ instance Show Language where
     show Nim = "nim"
     show Ocaml = "ocaml"
     show Perl = "perl"
+    show Perl6 = "perl6"
     show Php = "php"
     show Python = "python"
     show Ruby = "ruby"
@@ -95,6 +97,7 @@ toLanguage "nim" = Nim
 toLanguage "ocaml" = Ocaml
 toLanguage "java" = Java
 toLanguage "perl" = Perl
+toLanguage "perl6" = Perl6
 toLanguage "php" = Php
 toLanguage "python" = Python
 toLanguage "ruby" = Ruby
@@ -126,6 +129,7 @@ allLanguages = [
         Nim,
         Ocaml,
         Perl,
+        Perl6,
         Php,
         Plaintext,
         Python,
@@ -157,6 +161,7 @@ languageFileExt Lua = "lua"
 languageFileExt Nim = "nim"
 languageFileExt Ocaml = "ml"
 languageFileExt Perl = "pl"
+languageFileExt Perl6 = "pl6"
 languageFileExt Php = "php"
 languageFileExt Python = "py"
 languageFileExt Ruby = "rb"
@@ -191,6 +196,7 @@ languageLogo Lua = img_lua_svg
 languageLogo Nim = img_nim_svg
 languageLogo Ocaml = img_ocaml_svg
 languageLogo Perl = img_perl_svg
+languageLogo Perl6 = img_perl6_svg
 languageLogo Php = img_php_svg
 languageLogo Python = img_python_svg
 languageLogo Ruby = img_ruby_svg
@@ -221,6 +227,7 @@ languageLogoPng Lua = img_lua_svg_png
 languageLogoPng Nim = img_nim_svg_png
 languageLogoPng Ocaml = img_ocaml_svg_png
 languageLogoPng Perl = img_perl_svg_png
+languageLogoPng Perl6 = img_perl6_svg_png
 languageLogoPng Php = img_php_svg_png
 languageLogoPng Python = img_python_svg_png
 languageLogoPng Ruby = img_ruby_svg_png
@@ -251,6 +258,7 @@ languageAceMode Lua = "ace/mode/lua"
 languageAceMode Nim = "ace/mode/plain_text"
 languageAceMode Ocaml = "ace/mode/ocaml"
 languageAceMode Perl = "ace/mode/perl"
+languageAceMode Perl6 = "ace/mode/perl"
 languageAceMode Php = "ace/mode/php"
 languageAceMode Python = "ace/mode/python"
 languageAceMode Ruby = "ace/mode/ruby"
@@ -315,6 +323,7 @@ languageRunCmdExample Lua = "lua main.lua"
 languageRunCmdExample Nim = "nim --verbosity:0 compile --run main.nim"
 languageRunCmdExample Ocaml = "ocamlc -o a.out main.ml && ./a.out"
 languageRunCmdExample Perl = "perl main.pl"
+languageRunCmdExample Perl6 = "perl6 main.pl6"
 languageRunCmdExample Php = "php main.php"
 languageRunCmdExample Python = "python main.py"
 languageRunCmdExample Ruby = "ruby main.rb"
