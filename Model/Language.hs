@@ -289,6 +289,7 @@ languageName Lua = "Lua"
 languageName Nim = "Nim"
 languageName Ocaml = "Ocaml"
 languageName Perl = "Perl"
+languageName Perl6 = "Perl 6"
 languageName Php = "PHP"
 languageName Python = "Python"
 languageName Ruby = "Ruby"
@@ -408,6 +409,7 @@ languageDefaultContent Lua = [multiline|print("Hello World!");|]
 languageDefaultContent Nim = [multiline|echo("Hello World!")|]
 languageDefaultContent Ocaml = [multiline|print_endline "Hello World!"|]
 languageDefaultContent Perl = [multiline|print "Hello World!\n";|]
+languageDefaultContent Perl6 = [multiline|say 'Hello World!';|]
 languageDefaultContent Php = [multiline|<?php
 
 echo "Hello World\n";|]
