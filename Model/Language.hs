@@ -14,6 +14,7 @@ data Language = Assembly |
                 Csharp |
                 D |
                 Elixir |
+                Elm |
                 Erlang |
                 Fsharp |
                 Go |
@@ -51,6 +52,7 @@ instance Show Language where
     show Csharp = "csharp"
     show D = "d"
     show Elixir = "elixir"
+    show Elm = "elm"
     show Erlang = "erlang"
     show Fsharp = "fsharp"
     show Go = "go"
@@ -85,6 +87,7 @@ toLanguage "c" = C
 toLanguage "csharp" = Csharp
 toLanguage "d" = D
 toLanguage "elixir" = Elixir
+toLanguage "elm" = Elm
 toLanguage "erlang" = Erlang
 toLanguage "fsharp" = Fsharp
 toLanguage "go" = Go
@@ -117,6 +120,7 @@ allLanguages = [
         Csharp,
         D,
         Elixir,
+        Elm,
         Erlang,
         Fsharp,
         Go,
@@ -149,6 +153,7 @@ languageFileExt Cpp = "cpp"
 languageFileExt Csharp = "cs"
 languageFileExt D = "d"
 languageFileExt Elixir = "ex"
+languageFileExt Elm = "elm"
 languageFileExt Erlang = "erl"
 languageFileExt Fsharp = "fs"
 languageFileExt Go = "go"
@@ -172,6 +177,7 @@ languageFileExt Plaintext = "txt"
 
 languageDefaultFname :: Language -> Text
 languageDefaultFname Java = "Main." ++ languageFileExt Java
+languageDefaultFname Elm = "Main." ++ languageFileExt Elm
 languageDefaultFname lang = "main." ++ languageFileExt lang
 
 languageLogo :: Language -> StaticRoute
@@ -184,6 +190,7 @@ languageLogo Cpp = img_cpp_svg
 languageLogo Csharp = img_csharp_svg
 languageLogo D = img_d_svg
 languageLogo Elixir = img_generic_svg
+languageLogo Elm = img_elm_svg
 languageLogo Erlang = img_erlang_svg
 languageLogo Fsharp = img_fsharp_svg
 languageLogo Go = img_go_svg
@@ -215,6 +222,7 @@ languageLogoPng Cpp = img_cpp_svg_png
 languageLogoPng Csharp = img_csharp_svg_png
 languageLogoPng D = img_d_svg_png
 languageLogoPng Elixir = img_generic_svg_png
+languageLogoPng Elm = img_elm_svg_png
 languageLogoPng Erlang = img_erlang_svg_png
 languageLogoPng Fsharp = img_fsharp_svg_png
 languageLogoPng Go = img_go_svg_png
@@ -246,6 +254,7 @@ languageAceMode Cpp = "ace/mode/c_cpp"
 languageAceMode Csharp = "ace/mode/csharp"
 languageAceMode D = "ace/mode/d"
 languageAceMode Elixir = "ace/mode/elixir"
+languageAceMode Elm = "ace/mode/elm"
 languageAceMode Erlang = "ace/mode/erlang"
 languageAceMode Fsharp = "ace/mode/csharp"
 languageAceMode Go = "ace/mode/golang"
@@ -277,6 +286,7 @@ languageName Cpp = "C++"
 languageName Csharp = "C#"
 languageName D = "D"
 languageName Elixir = "Elixir"
+languageName Elm = "Elm"
 languageName Erlang = "Erlang"
 languageName Fsharp = "F#"
 languageName Go = "Go"
@@ -312,6 +322,7 @@ languageRunCmdExample Cpp = "clang++ main.cpp && ./a.out"
 languageRunCmdExample Csharp = "mcs -out:a.exe main.cs && mono a.exe"
 languageRunCmdExample D = "dmd -ofa.out main.d && ./a.out"
 languageRunCmdExample Elixir = "elixirc main.ex"
+languageRunCmdExample Elm = "todo"
 languageRunCmdExample Erlang = "escript main.erl"
 languageRunCmdExample Fsharp = "fsharpc --out:a.exe main.fs > /dev/null && mono a.exe"
 languageRunCmdExample Go = "go run main.go"
@@ -379,6 +390,16 @@ void main()
     writeln("Hello World!");
 }|]
 languageDefaultContent Elixir = [multiline|IO.puts "Hello World!"|]
+languageDefaultContent Elm = [multiline|module Main where
+
+import Console exposing (IO, putStrLn)
+import Task exposing (Task)
+
+main' : IO ()
+main' = putStrLn "Hello World!"
+
+port runner : Signal (Task x ())
+port runner = Console.run main'|]
 languageDefaultContent Erlang = [multiline|% escript will ignore the first line
 
 main(_) ->
