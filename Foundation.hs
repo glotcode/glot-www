@@ -14,11 +14,18 @@ import Util.Slug (mkSlug)
 import Util.Hash (sha1Text)
 import Util.User (newToken)
 import Util.Alert (successHtml)
-import Settings.Environment (mandrillToken, analyticsId)
+import Settings.Environment (mailgunDomain, mailgunApiKey, emailFromAddress, analyticsId)
 import Data.Text.Lazy.Builder (toLazyText)
-import Text.Email.Validate (EmailAddress, emailAddress)
-import Network.API.Mandrill (MandrillResponse(..), runMandrill, sendEmail, newTextMessage)
-import Data.Maybe (fromJust)
+import Data.ByteString (ByteString)
+import Mail.Hailgun (
+    sendEmail,
+    hailgunMessage,
+    emptyMessageRecipients,
+    UnverifiedEmailAddress,
+    HailgunContext(..),
+    MessageContent(..),
+    HailgunErrorResponse(..),
+    MessageRecipients(..))
 
 
 import qualified Model.Snippet.Api as SnippetApi
@@ -218,38 +225,46 @@ instance YesodAuthSimple App where
     userExistsTemplate = $(widgetFile "auth/user-exists")
 
     sendVerifyEmail email url = do
-        let toAddress = fromJust $ emailAddress $ encodeUtf8 email
+        let toAddress = encodeUtf8 email
         let subject = "Registration Link"
         let msg = registerEmailMsg url
-        liftIO $ mandrillSend fromAddress toAddress subject msg
+        liftIO $ sendEmail' [toAddress] subject msg
 
     sendResetPasswordEmail email url = do
-        let toAddress = fromJust $ emailAddress $ encodeUtf8 email
+        let toAddress = encodeUtf8 email
         let subject = "Reset password link"
         let msg = resetPasswordEmailMsg url
-        liftIO $ mandrillSend fromAddress toAddress subject msg
+        liftIO $ sendEmail' [toAddress] subject msg
 
-mandrillSend :: EmailAddress -> EmailAddress -> Text -> Text -> IO ()
-mandrillSend fromAddr toAddr subject msg = do
-    apiKey <- mandrillToken
-    runMandrill apiKey $ do
-        res <- sendEmail (newTextMessage fromAddr [toAddr] subject msg)
-        case res of
-            MandrillSuccess _ -> return ()
-            MandrillFailure f -> do
-                liftIO (print f)
-                error "Failed to send email"
+sendEmail' :: [UnverifiedEmailAddress] -> Text -> ByteString -> IO ()
+sendEmail' toAddrs subject msg = do
+    fromAddr <- encodeUtf8 <$> emailFromAddress
+    domain <- mailgunDomain
+    apiKey <- mailgunApiKey
+    let context = HailgunContext{
+            hailgunDomain = domain,
+            hailgunApiKey = apiKey,
+            hailgunProxy = Nothing}
+    let recipients = emptyMessageRecipients {recipientsTo = toAddrs}
+    case hailgunMessage subject (TextOnly msg) fromAddr recipients [] of
+        Left _ ->
+            error "Failed to compose email"
+        Right mail -> do
+            res <- sendEmail context mail
+            case res of
+                Left errorResponse -> do
+                    liftIO $ print $ herMessage errorResponse
+                    error "Failed to send email"
+                Right _ ->
+                    return ()
 
-fromAddress :: EmailAddress
-fromAddress = fromJust $ emailAddress "glot@glot.io"
-
-registerEmailMsg :: Text -> Text
+registerEmailMsg :: Text -> ByteString
 registerEmailMsg url =
-    toStrict $ toLazyText $(stextFile "templates/email/register.txt")
+    encodeUtf8 $ toStrict $ toLazyText $(stextFile "templates/email/register.txt")
 
-resetPasswordEmailMsg :: Text -> Text
+resetPasswordEmailMsg :: Text -> ByteString
 resetPasswordEmailMsg url =
-    toStrict $ toLazyText $(stextFile "templates/email/reset-password.txt")
+    encodeUtf8 $ toStrict $ toLazyText $(stextFile "templates/email/reset-password.txt")
 
 -- This instance is required to use forms. You can modify renderMessage to
 -- achieve customized and internationalized form validation messages.

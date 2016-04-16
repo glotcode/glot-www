@@ -4,7 +4,9 @@ module Settings.Environment (
     runApiAnonymousToken,
     snippetsApiBaseUrl,
     snippetsApiAdminToken,
-    mandrillToken,
+    mailgunDomain,
+    mailgunApiKey,
+    emailFromAddress,
     analyticsId
 ) where
 
@@ -27,8 +29,14 @@ snippetsApiBaseUrl = getEnv "SNIPPETS_API_BASE_URL"
 snippetsApiAdminToken :: IO Text
 snippetsApiAdminToken = pack <$> getEnv "SNIPPETS_API_ADMIN_TOKEN"
 
-mandrillToken :: IO Text
-mandrillToken = pack <$> getEnv "MANDRILL_TOKEN"
+mailgunDomain :: IO String
+mailgunDomain = getEnv "MAILGUN_DOMAIN"
+
+mailgunApiKey :: IO String
+mailgunApiKey = getEnv "MAILGUN_API_KEY"
+
+emailFromAddress :: IO Text
+emailFromAddress = pack <$> getEnv "EMAIL_FROM_ADDRESS"
 
 analyticsId :: IO (Maybe String)
 analyticsId = lookupEnv "ANALYTICS_ID"
