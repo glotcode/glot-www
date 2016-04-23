@@ -3,7 +3,7 @@
     width: 140px;
     height: 160px;
     margin-left: 20px;
-    margin-top: 20px;
+    margin-bottom: 20px;
 
     padding-left: 20px;
     padding-right: 20px;
@@ -13,6 +13,10 @@
 
 .language-badge:hover {
     background-color: rgba(0, 0, 0, 0.05);
+}
+
+.languages {
+    margin-top: 20px;
 }
 
 .languages a {
