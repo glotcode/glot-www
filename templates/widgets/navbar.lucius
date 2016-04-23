@@ -1,3 +1,9 @@
 .navbar .dropdown-menu i.fa {
     width: 20px;
 }
+.navbar-header a.navbar-brand {
+  padding: 13px;
+}
+.navbar-header img.logo {
+  width: 75px;
+}
