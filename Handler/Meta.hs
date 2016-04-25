@@ -7,7 +7,7 @@ import Util.Handler (title)
 getMetaAboutR :: Handler Html
 getMetaAboutR =
     defaultLayout $ do
-        setTitle $ title "About glot.io"
+        setTitle $ title "About"
         $(widgetFile "meta/about")
 
 getMetaApiDocsR :: Handler Html

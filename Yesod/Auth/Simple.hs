@@ -40,6 +40,7 @@ import Data.ByteString (ByteString)
 import Data.Maybe (fromJust)
 import GHC.Generics
 import Network.HTTP.Types (status400)
+import Util.Handler (addDomainToTitle)
 
 
 data Passwords = Passwords {
@@ -159,21 +160,21 @@ getRegisterR :: YesodAuthSimple master => HandlerT Auth (HandlerT master IO) Htm
 getRegisterR = do
     mErr <- getError
     lift $ authLayout $ do
-        setTitle "Register a new account"
+        setTitle $ addDomainToTitle "Register a new account"
         registerTemplate mErr
 
 getResetPasswordR :: YesodAuthSimple master => HandlerT Auth (HandlerT master IO) Html
 getResetPasswordR = do
     mErr <- getError
     lift $ authLayout $ do
-        setTitle "Reset password"
+        setTitle $ addDomainToTitle "Reset password"
         resetPasswordTemplate mErr
 
 getLoginR :: YesodAuthSimple master => HandlerT Auth (HandlerT master IO) Html
 getLoginR = do
     mErr <- getError
     lift $ authLayout $ do
-        setTitle "Login"
+        setTitle $ addDomainToTitle "Login"
         loginTemplate mErr
 
 postRegisterR :: YesodAuthSimple master => HandlerT Auth (HandlerT master IO) Html
@@ -219,7 +220,7 @@ getConfirmR token = do
 invalidTokenHandler :: YesodAuthSimple master => Text -> AuthHandler master Html
 invalidTokenHandler msg =
     lift $ authLayout $ do
-        setTitle "Invalid key"
+        setTitle $ addDomainToTitle "Invalid key"
         invalidTokenTemplate msg
 
 confirmHandlerHelper :: YesodAuthSimple master => Text -> Email -> AuthHandler master Html
@@ -231,7 +232,7 @@ confirmHandler :: YesodAuthSimple master => Route master -> Email -> AuthHandler
 confirmHandler registerUrl email = do
     mErr <- getError
     lift $ authLayout $ do
-        setTitle "Confirm account"
+        setTitle $ addDomainToTitle "Confirm account"
         confirmTemplate registerUrl email mErr
 
 postConfirmR :: YesodAuthSimple master => Text -> AuthHandler master Html
@@ -268,25 +269,25 @@ createUser token email pass1 pass2
 getConfirmationEmailSentR :: YesodAuthSimple master => AuthHandler master Html
 getConfirmationEmailSentR = do
     lift $ authLayout $ do
-        setTitle "Confirmation email sent"
+        setTitle $ addDomainToTitle "Confirmation email sent"
         confirmationEmailSentTemplate
 
 getResetPasswordEmailSentR :: YesodAuthSimple master => AuthHandler master Html
 getResetPasswordEmailSentR = do
     lift $ authLayout $ do
-        setTitle "Reset password email sent"
+        setTitle $ addDomainToTitle "Reset password email sent"
         resetPasswordEmailSentTemplate
 
 getRegisterSuccessR :: YesodAuthSimple master => AuthHandler master Html
 getRegisterSuccessR = do
     lift $ authLayout $ do
-        setTitle "Account created"
+        setTitle $ addDomainToTitle "Account created"
         registerSuccessTemplate
 
 getUserExistsR :: YesodAuthSimple master => AuthHandler master Html
 getUserExistsR = do
     lift $ authLayout $ do
-        setTitle "User already exists"
+        setTitle $ addDomainToTitle "User already exists"
         userExistsTemplate
 
 checkPasswordStrength :: Text -> Either Text ()
@@ -354,7 +355,7 @@ getSetPasswordR = do
     tp <- getRouteToParent
     mErr <- getError
     lift $ authLayout $ do
-        setTitle "Set password"
+        setTitle $ addDomainToTitle "Set password"
         setPasswordTemplate (tp setPasswordR) mErr
 
 getSetPasswordTokenR :: YesodAuthSimple master => Text -> HandlerT Auth (HandlerT master IO) Html
@@ -366,7 +367,7 @@ getSetPasswordTokenR token = do
             tp <- getRouteToParent
             mErr <- getError
             lift $ authLayout $ do
-                setTitle "Set password"
+                setTitle $ addDomainToTitle "Set password"
                 setPasswordTemplate (tp $ setPasswordTokenR token) mErr
 
 putSetPasswordTokenR :: YesodAuthSimple master => Text -> HandlerT Auth (HandlerT master IO) Value
@@ -519,6 +520,6 @@ redirectTemplate :: YesodAuthSimple master => Route master -> WidgetT master IO 
 redirectTemplate destUrl =
     [whamlet|$newline never
       <script>window.location = "@{destUrl}";
-      <p>Content has moved, click 
+      <p>Content has moved, click
         <a href="@{destUrl}">here
     |]
