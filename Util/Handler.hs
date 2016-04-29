@@ -2,6 +2,7 @@ module Util.Handler (
     urlDecode',
     title,
     titleConcat,
+    addDomainToTitle,
     maybeApiUser,
     pageNo
 ) where
@@ -14,10 +15,13 @@ urlDecode' :: Text -> Text
 urlDecode' x = decodeUtf8 $ urlDecode True $ encodeUtf8 x
 
 title :: Text -> Markup
-title text = toMarkup $ text
+title text = toMarkup $ addDomainToTitle text
 
 titleConcat :: [Text] -> Markup
-titleConcat parts = toMarkup $ concat parts
+titleConcat parts = toMarkup $ addDomainToTitle $ concat parts
+
+addDomainToTitle :: Text -> Text
+addDomainToTitle (text) = text <> " - glot.io"
 
 maybeApiUser :: Maybe UserId -> Handler (Maybe ApiUser)
 maybeApiUser Nothing = return Nothing

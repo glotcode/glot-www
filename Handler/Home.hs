@@ -7,5 +7,5 @@ import Widget.Languages (languagesWidget)
 getHomeR :: Handler Html
 getHomeR = do
     defaultLayout $ do
-        setTitle $ title "Home - glot.io"
+        setTitle $ title "Home"
         $(widgetFile "homepage")
