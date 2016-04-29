@@ -14,8 +14,21 @@ nav.navbar {
     color: #cdbfe3;
     text-align: center;
     text-shadow: 0 1px 0 rgba(0,0,0,.1);
-    background-color: rgba(43, 48, 58, 1);
-    background-repeat: repeat-x;
+    background: url(home_background.jpg) center center no-repeat;
+    background-size: cover;
+    background-color: #1c4fa9;
+}
+
+main.masthead img.logo {
+  width: 300px;
+  max-width: 80%;
+  padding: 20px;
+}
+
+main.masthead .lead.subtitle a {
+  color: white;
+  text-decoration: underline;
+  opacity: .7;
 }
 
 .masthead .header {

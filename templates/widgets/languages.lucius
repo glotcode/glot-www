@@ -1,3 +1,9 @@
+
+.languages-prompt {
+  font-size: 16px;
+  padding-top: 30px;
+}
+
 .language-badge {
     float: left;
     width: 140px;
