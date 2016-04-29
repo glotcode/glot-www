@@ -10,8 +10,8 @@ their respective api's. PostgreSQL is used to store user profiles, api tokens, e
 
 
 ## Environment variables
-glot-www takes it's configuration from environment variables.
-All vars needs to be set, no default values are provided.
+glot-www takes its configuration from environment variables.
+All vars need to be set, no default values are provided.
 
 | Variable name            | Allowed values                     | Example                  | Description                                                  |
 |:-------------------------|:-----------------------------------|:-------------------------|:---------------------------------------------------|
