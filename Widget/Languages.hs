@@ -4,6 +4,6 @@ module Widget.Languages (
 
 import Import
 
-languagesWidget :: Maybe Text -> Widget
-languagesWidget mTitle =
+languagesWidget :: Widget
+languagesWidget =
     $(widgetFile "widgets/languages")
