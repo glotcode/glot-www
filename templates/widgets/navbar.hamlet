@@ -8,7 +8,7 @@ $newline never
         <span class="icon-bar">
         <span class="icon-bar">
       <a class="navbar-brand" href="@{HomeR}">
-        <img src="/static/img/logo-gray.svg" class="logo"/>
+        <img src="@{StaticR img_logo_gray_svg}" class="logo"/>
 
     $# Collect the nav links, forms, and other content for toggling
     <div class="collapse navbar-collapse" id="main-navbar">

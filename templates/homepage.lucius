@@ -14,7 +14,7 @@ nav.navbar {
     color: #cdbfe3;
     text-align: center;
     text-shadow: 0 1px 0 rgba(0,0,0,.1);
-    background: url(home_background.jpg) center center no-repeat;
+    background: url(@{StaticR img_home_background_jpg}) center center no-repeat;
     background-size: cover;
     background-color: #1c4fa9;
 }

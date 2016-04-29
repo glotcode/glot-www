@@ -3,6 +3,6 @@ $newline never
 
 <main class="masthead">
   <div class="container">
-    <img src="/static/img/logo-white.svg" class="logo">
+    <img src="@{StaticR img_logo_white_svg}" class="logo">
     <p class="lead subtitle">an <a href="https://github.com/prasmussen/glot">open source</a> pastebin with runnable snippets and <a href="@{MetaApiDocsR}">API</a>.
 ^{languagesWidget Nothing}
