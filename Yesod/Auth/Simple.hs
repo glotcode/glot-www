@@ -28,6 +28,7 @@ import Data.ByteString.Base16 as B16
 import Data.Text.Encoding (encodeUtf8, decodeUtf8With)
 import Data.Text.Encoding.Error (lenientDecode)
 import Data.Text (Text, unpack, pack, concat, splitOn, toLower, length)
+import ClassyPrelude.Yesod ((<>))
 import Yesod.Core
 import qualified Crypto.PasswordStore as PS
 import Text.Email.Validate (canonicalizeEmail)
@@ -40,7 +41,7 @@ import Data.ByteString (ByteString)
 import Data.Maybe (fromJust)
 import GHC.Generics
 import Network.HTTP.Types (status400)
-import Util.Handler (addDomainToTitle)
+import Text.Blaze (toMarkup, Markup)
 
 
 data Passwords = Passwords {
@@ -523,3 +524,7 @@ redirectTemplate destUrl =
       <p>Content has moved, click
         <a href="@{destUrl}">here
     |]
+
+-- TODO: Get this function through a type class method or something
+addDomainToTitle :: Text -> Markup
+addDomainToTitle title = toMarkup $ title <> " - glot.io"
