@@ -42,6 +42,7 @@ instance PathPiece Language where
     toPathPiece = pack . show
     fromPathPiece s = Just $ toLanguage s
 
+-- Language type to lowercase ascii name, used in urls, etc
 instance Show Language where
     show Assembly = "assembly"
     show Bash = "bash"
@@ -77,6 +78,7 @@ instance Show Language where
 instance Read Language where
     readsPrec _ value = [(toLanguage $ pack value, value)]
 
+-- Lowercase ascii name to language type
 toLanguage :: Text -> Language
 toLanguage "assembly" = Assembly
 toLanguage "bash" = Bash
@@ -109,6 +111,7 @@ toLanguage "scala" = Scala
 toLanguage "swift" = Swift
 toLanguage _ = Plaintext
 
+-- List of all languages, languages in this list will show up on the homepage
 allLanguages :: [Language]
 allLanguages = [
         Assembly,
@@ -143,6 +146,7 @@ allLanguages = [
         Swift
     ]
 
+-- Default file extensions
 languageFileExt :: Language -> Text
 languageFileExt Assembly = "asm"
 languageFileExt Bash = "sh"
@@ -175,11 +179,13 @@ languageFileExt Scala = "scala"
 languageFileExt Swift = "swift"
 languageFileExt Plaintext = "txt"
 
+-- Default file name
 languageDefaultFname :: Language -> Text
 languageDefaultFname Java = "Main." ++ languageFileExt Java
 languageDefaultFname Elm = "Main." ++ languageFileExt Elm
 languageDefaultFname lang = "main." ++ languageFileExt lang
 
+-- Route to svg image in /static/img/ use img_generic_svg if image is not available
 languageLogo :: Language -> StaticRoute
 languageLogo Assembly = img_generic_svg
 languageLogo Bash = img_bash_svg
@@ -212,6 +218,7 @@ languageLogo Scala = img_scala_svg
 languageLogo Swift = img_swift_svg
 languageLogo Plaintext = img_plaintext_svg
 
+-- Route to png image in /static/img/ use img_generic_svg_png if image is not available
 languageLogoPng :: Language -> StaticRoute
 languageLogoPng Assembly = img_generic_svg_png
 languageLogoPng Bash = img_bash_svg_png
@@ -244,6 +251,7 @@ languageLogoPng Scala = img_scala_svg_png
 languageLogoPng Swift = img_swift_svg_png
 languageLogoPng Plaintext = img_plaintext_svg_png
 
+-- Mode to use in the ace editor, check the /static/lib/ace directory for available modes
 languageAceMode :: Language -> Text
 languageAceMode Assembly = "ace/mode/assembly_x86"
 languageAceMode Bash = "ace/mode/sh"
@@ -276,6 +284,7 @@ languageAceMode Scala = "ace/mode/scala"
 languageAceMode Swift = "ace/mode/swift"
 languageAceMode Plaintext = "ace/mode/plain_text"
 
+-- Language name, used in titles, etc
 languageName :: Language -> Text
 languageName Assembly = "Assembly"
 languageName Bash = "Bash"
@@ -308,10 +317,12 @@ languageName Scala = "Scala"
 languageName Swift = "Swift"
 languageName Plaintext = "Plaintext"
 
+-- If the language is runnable or not
 languageIsRunnable :: Language -> Bool
 languageIsRunnable Plaintext = False
 languageIsRunnable _ = True
 
+-- Example of custom run command, not important, use "todo" if you are unsure what to add
 languageRunCmdExample :: Language -> String
 languageRunCmdExample Assembly = "nasm -f elf64 -o a.o main.asm && ld -o a.out a.o && ./a.out"
 languageRunCmdExample Bash = "bash main.sh"
@@ -344,7 +355,7 @@ languageRunCmdExample Scala = "scalac main.scala && scala Main"
 languageRunCmdExample Swift = "swift main.swift"
 languageRunCmdExample _ = ""
 
-
+-- Hello World example code, used as initial code when a new snippet is created
 languageDefaultContent :: Language -> String
 languageDefaultContent Assembly = [multiline|section .data
     msg db "Hello World!", 0ah
