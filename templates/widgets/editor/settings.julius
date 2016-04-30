@@ -1,4 +1,5 @@
 window.Settings = (function() {
+    var MIN_LINE_COUNT = 10;
 
     function setTheme(theme) {
         localStorage.theme = theme;
@@ -33,6 +34,32 @@ window.Settings = (function() {
         return false;
     }
 
+    function setLineCount(lineCount) {
+        localStorage.lineCount = Math.max(lineCount, MIN_LINE_COUNT);
+        $(".line-count .count-value").text(localStorage.lineCount);
+    }
+
+    function clearLineCount(lineCount) {
+        delete localStorage.lineCount;
+        $(".line-count .count-value").text(lineCount);
+    }
+
+    function getLineCount() {
+        if (localStorage.lineCount) {
+            return Math.max(parseInt(localStorage.lineCount) || MIN_LINE_COUNT, MIN_LINE_COUNT);
+        }
+        return undefined;
+    }
+
+    function calcLineCount() {
+        var editorY = $(".editors").offset().top;
+        var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        var lineHeight = 16;
+        var bottomMargin = 250;
+        var lineCount = Math.ceil((browserHeight - editorY - bottomMargin) / lineHeight);
+        return Math.max(lineCount, MIN_LINE_COUNT);
+    }
+
     return {
         setTheme: setTheme,
         getTheme: getTheme,
@@ -40,6 +67,10 @@ window.Settings = (function() {
         getKeybindings: getKeybindings,
         setFullWidth: setFullWidth,
         getFullWidth: getFullWidth,
+        getLineCount: getLineCount,
+        setLineCount: setLineCount,
+        clearLineCount: clearLineCount,
+        calcLineCount: calcLineCount,
     };
 })();
 
@@ -50,6 +81,14 @@ window.Settings = (function() {
         selectOption(".themes", Settings.getTheme());
         selectOption(".keybindings", Settings.getKeybindings());
         selectOption(".full-width", Settings.getFullWidth());
+
+        // Set line count to update label
+        var lineCount = Settings.getLineCount();
+        if (!lineCount) {
+            Settings.clearLineCount(Settings.calcLineCount());
+        } else {
+            Settings.setLineCount(lineCount);
+        }
     }
 
     function selectOption(cls, value) {
@@ -72,6 +111,24 @@ window.Settings = (function() {
         var fullWidth = $(e.target).val() === "true";
         Settings.setFullWidth(fullWidth);
         Editor.setFullWidth(fullWidth);
+    });
+
+    $(document).on("click", ".line-count .increment", function(e) {
+        var lineCount = parseInt($(".line-count .count-value").text()) + 1;
+        Settings.setLineCount(lineCount);
+        Editor.setLineCount(lineCount);
+    });
+
+    $(document).on("click", ".line-count .decrement", function(e) {
+        var lineCount = parseInt($(".line-count .count-value").text()) - 1;
+        Settings.setLineCount(lineCount);
+        Editor.setLineCount(lineCount);
+    });
+
+    $(document).on("click", ".line-count .auto", function(e) {
+        var lineCount = Settings.calcLineCount();
+        Settings.clearLineCount(lineCount);
+        Editor.setLineCount(lineCount);
     });
 
     init();

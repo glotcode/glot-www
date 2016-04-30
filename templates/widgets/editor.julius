@@ -3,30 +3,25 @@ window.Editor = (function() {
     function initEditor(id) {
         var theme = Settings.getTheme();
         var keybindings = Settings.getKeybindings();
+        var lineCount = Settings.getLineCount() || Settings.calcLineCount();
 
         var editor = ace.edit(id);
         editor.setTheme(theme);
         editor.setKeyboardHandler(keybindings);
         editor.getSession().setMode(#{toJSON $ languageAceMode lang});
-        var lineCount = calcLineCount();
         editor.setOptions({
             minLines: lineCount,
             maxLines: lineCount,
         });
 
         // Resize to flush stale content
+        resizeEditor(editor);
+    }
+
+    function resizeEditor(editor) {
         setTimeout(function() {
             editor.resize();
         }, 1);
-    }
-
-    function calcLineCount() {
-        var editorY = $(".editors").offset().top;
-        var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-        var lineHeight = 16;
-        var bottomMargin = 250;
-        var lineCount = (browserHeight - editorY - bottomMargin) / lineHeight;
-        return Math.max(lineCount, 10);
     }
 
     function setTheme(theme) {
@@ -34,6 +29,17 @@ window.Editor = (function() {
         editorIds.forEach(function(id) {
             var editor = ace.edit(id);
             editor.setTheme(theme);
+        });
+    }
+
+    function setLineCount(lineCount) {
+        var editorIds = getEditorIds();
+        editorIds.forEach(function(id) {
+            var editor = ace.edit(id);
+            editor.setOptions({
+                minLines: lineCount,
+                maxLines: lineCount,
+            });
         });
     }
 
@@ -125,6 +131,10 @@ window.Editor = (function() {
         $("#" + id).removeClass("hide");
         $("#meta").addClass("hide");
         $("#settings").addClass("hide");
+
+        // Resize editor
+        var editor = getEditor(id);
+        resizeEditor(editor);
     }
 
     function showMeta() {
@@ -186,6 +196,7 @@ window.Editor = (function() {
         setTheme: setTheme,
         setKeybindings: setKeybindings,
         setFullWidth: setFullWidth,
+        setLineCount: setLineCount,
         getFiles: getFiles,
         clean: clean,
         isClean: isClean,

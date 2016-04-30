@@ -9,3 +9,15 @@
     border-right: 1px solid #ddd;
     border-left: 1px solid #ddd;
 }
+
+.line-count .count-value {
+    margin-left: 15px;
+}
+
+.line-count .increment, .line-count .decrement {
+    width: 22px;
+}
+
+.line-count .auto {
+    width: 44px;
+}

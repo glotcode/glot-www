@@ -56,3 +56,11 @@ $newline never
         <select class="full-width">
           <option value="true">True
           <option value="false">False
+    <tr>
+      <td>Lines
+      <td class="line-count">
+        <div class="btn-group btn-group-xs" role="group">
+          <button type="button" class="btn btn-default decrement">-
+          <button type="button" class="btn btn-default auto">Auto
+          <button type="button" class="btn btn-default increment">+
+        <label class="count-value">
