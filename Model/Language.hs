@@ -6,6 +6,7 @@ import Util.Multiline (multiline)
 import Settings.StaticFiles
 
 data Language = Assembly |
+                Ats |
                 Bash |
                 C |
                 Clojure |
@@ -45,6 +46,7 @@ instance PathPiece Language where
 -- Language type to lowercase ascii name, used in urls, etc
 instance Show Language where
     show Assembly = "assembly"
+    show Ats = "ats"
     show Bash = "bash"
     show C = "c"
     show Clojure = "clojure"
@@ -81,6 +83,7 @@ instance Read Language where
 -- Lowercase ascii name to language type
 toLanguage :: Text -> Language
 toLanguage "assembly" = Assembly
+toLanguage "ats" = Ats
 toLanguage "bash" = Bash
 toLanguage "clojure" = Clojure
 toLanguage "coffeescript" = Coffeescript
@@ -115,6 +118,7 @@ toLanguage _ = Plaintext
 allLanguages :: [Language]
 allLanguages = [
         Assembly,
+        Ats, 
         Bash,
         C,
         Clojure,
@@ -149,6 +153,7 @@ allLanguages = [
 -- Default file extensions
 languageFileExt :: Language -> Text
 languageFileExt Assembly = "asm"
+languageFileExt Ats = "dats"
 languageFileExt Bash = "sh"
 languageFileExt C = "c"
 languageFileExt Clojure = "clj"
@@ -188,6 +193,7 @@ languageDefaultFname lang = "main." ++ languageFileExt lang
 -- Route to svg image in /static/img/ use img_generic_svg if image is not available
 languageLogo :: Language -> StaticRoute
 languageLogo Assembly = img_generic_svg
+languageLogo Ats = img_generic_svg
 languageLogo Bash = img_bash_svg
 languageLogo C = img_c_svg
 languageLogo Clojure = img_clojure_svg
@@ -221,6 +227,7 @@ languageLogo Plaintext = img_plaintext_svg
 -- Route to png image in /static/img/ use img_generic_svg_png if image is not available
 languageLogoPng :: Language -> StaticRoute
 languageLogoPng Assembly = img_generic_svg_png
+languageLogoPng Ats = img_generic_svg_png
 languageLogoPng Bash = img_bash_svg_png
 languageLogoPng C = img_c_svg_png
 languageLogoPng Clojure = img_clojure_svg_png
@@ -254,6 +261,7 @@ languageLogoPng Plaintext = img_plaintext_svg_png
 -- Mode to use in the ace editor, check the /static/lib/ace directory for available modes
 languageAceMode :: Language -> Text
 languageAceMode Assembly = "ace/mode/assembly_x86"
+languageAceMode Ats = "ace/mode/ats"
 languageAceMode Bash = "ace/mode/sh"
 languageAceMode C = "ace/mode/c_cpp"
 languageAceMode Clojure = "ace/mode/clojure"
@@ -287,6 +295,7 @@ languageAceMode Plaintext = "ace/mode/plain_text"
 -- Language name, used in titles, etc
 languageName :: Language -> Text
 languageName Assembly = "Assembly"
+languageName Ats = "ATS"
 languageName Bash = "Bash"
 languageName C = "C"
 languageName Clojure = "Clojure"
@@ -325,6 +334,7 @@ languageIsRunnable _ = True
 -- Example of custom run command, not important, use "todo" if you are unsure what to add
 languageRunCmdExample :: Language -> String
 languageRunCmdExample Assembly = "nasm -f elf64 -o a.o main.asm && ld -o a.out a.o && ./a.out"
+languageRunCmdExample Ats = "make"
 languageRunCmdExample Bash = "bash main.sh"
 languageRunCmdExample C = "clang main.c && ./a.out"
 languageRunCmdExample Clojure = "java -cp /usr/share/java/clojure.jar clojure.main main.clj"
@@ -371,6 +381,9 @@ _start:
     mov rax, 60
     mov rdi, 0
     syscall|]
+
+languageDefaultContent Ats = [multiline|implement main0 () = ()|]
+
 languageDefaultContent Bash = [multiline|echo Hello World|]
 languageDefaultContent C = [multiline|#include <stdio.h>
 
