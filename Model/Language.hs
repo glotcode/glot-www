@@ -118,7 +118,7 @@ toLanguage _ = Plaintext
 allLanguages :: [Language]
 allLanguages = [
         Assembly,
-        Ats, 
+        Ats,
         Bash,
         C,
         Clojure,
@@ -381,9 +381,7 @@ _start:
     mov rax, 60
     mov rdi, 0
     syscall|]
-
-languageDefaultContent Ats = [multiline|implement main0 () = ()|]
-
+languageDefaultContent Ats = [multiline|implement main0 () = print"Hello World!\n"|]
 languageDefaultContent Bash = [multiline|echo Hello World|]
 languageDefaultContent C = [multiline|#include <stdio.h>
 
