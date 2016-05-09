@@ -227,7 +227,7 @@ languageLogo Plaintext = img_plaintext_svg
 -- Route to png image in /static/img/ use img_generic_svg_png if image is not available
 languageLogoPng :: Language -> StaticRoute
 languageLogoPng Assembly = img_generic_svg_png
-languageLogoPng Ats = img_ats_svg
+languageLogoPng Ats = img_ats_svg_png
 languageLogoPng Bash = img_bash_svg_png
 languageLogoPng C = img_c_svg_png
 languageLogoPng Clojure = img_clojure_svg_png
