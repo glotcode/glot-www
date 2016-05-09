@@ -193,7 +193,7 @@ languageDefaultFname lang = "main." ++ languageFileExt lang
 -- Route to svg image in /static/img/ use img_generic_svg if image is not available
 languageLogo :: Language -> StaticRoute
 languageLogo Assembly = img_generic_svg
-languageLogo Ats = img_generic_svg
+languageLogo Ats = img_ats_svg
 languageLogo Bash = img_bash_svg
 languageLogo C = img_c_svg
 languageLogo Clojure = img_clojure_svg
@@ -227,7 +227,7 @@ languageLogo Plaintext = img_plaintext_svg
 -- Route to png image in /static/img/ use img_generic_svg_png if image is not available
 languageLogoPng :: Language -> StaticRoute
 languageLogoPng Assembly = img_generic_svg_png
-languageLogoPng Ats = img_generic_svg_png
+languageLogoPng Ats = img_ats_svg
 languageLogoPng Bash = img_bash_svg_png
 languageLogoPng C = img_c_svg_png
 languageLogoPng Clojure = img_clojure_svg_png
