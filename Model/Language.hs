@@ -19,6 +19,7 @@ data Language = Assembly |
                 Erlang |
                 Fsharp |
                 Go |
+                Groovy |
                 Haskell |
                 Idris |
                 Java |
@@ -59,6 +60,7 @@ instance Show Language where
     show Erlang = "erlang"
     show Fsharp = "fsharp"
     show Go = "go"
+    show Groovy = "groovy"
     show Haskell = "haskell"
     show Idris = "idris"
     show Java = "java"
@@ -96,6 +98,7 @@ toLanguage "elm" = Elm
 toLanguage "erlang" = Erlang
 toLanguage "fsharp" = Fsharp
 toLanguage "go" = Go
+toLanguage "groovy" = Groovy
 toLanguage "haskell" = Haskell
 toLanguage "idris" = Idris
 toLanguage "javascript" = Javascript
@@ -131,6 +134,7 @@ allLanguages = [
         Erlang,
         Fsharp,
         Go,
+        Groovy,
         Haskell,
         Idris,
         Java,
@@ -166,6 +170,7 @@ languageFileExt Elm = "elm"
 languageFileExt Erlang = "erl"
 languageFileExt Fsharp = "fs"
 languageFileExt Go = "go"
+languageFileExt Groovy = "groovy"
 languageFileExt Haskell = "hs"
 languageFileExt Idris = "idr"
 languageFileExt Java = "java"
@@ -206,6 +211,7 @@ languageLogo Elm = img_elm_svg
 languageLogo Erlang = img_erlang_svg
 languageLogo Fsharp = img_fsharp_svg
 languageLogo Go = img_go_svg
+languageLogo Groovy = img_groovy_svg
 languageLogo Haskell = img_haskell_svg
 languageLogo Idris = img_idris_svg
 languageLogo Java = img_java_svg
@@ -240,6 +246,7 @@ languageLogoPng Elm = img_elm_svg_png
 languageLogoPng Erlang = img_erlang_svg_png
 languageLogoPng Fsharp = img_fsharp_svg_png
 languageLogoPng Go = img_go_svg_png
+languageLogoPng Groovy = img_groovy_svg_png
 languageLogoPng Haskell = img_haskell_svg_png
 languageLogoPng Idris = img_idris_svg_png
 languageLogoPng Java = img_java_svg_png
@@ -274,6 +281,7 @@ languageAceMode Elm = "ace/mode/elm"
 languageAceMode Erlang = "ace/mode/erlang"
 languageAceMode Fsharp = "ace/mode/csharp"
 languageAceMode Go = "ace/mode/golang"
+languageAceMode Groovy = "ace/mode/groovy"
 languageAceMode Haskell = "ace/mode/haskell"
 languageAceMode Idris = "ace/mode/plain_text"
 languageAceMode Java = "ace/mode/java"
@@ -308,6 +316,7 @@ languageName Elm = "Elm"
 languageName Erlang = "Erlang"
 languageName Fsharp = "F#"
 languageName Go = "Go"
+languageName Groovy = "Groovy"
 languageName Haskell = "Haskell"
 languageName Idris = "Idris"
 languageName Java = "Java"
@@ -347,6 +356,7 @@ languageRunCmdExample Elm = "todo"
 languageRunCmdExample Erlang = "escript main.erl"
 languageRunCmdExample Fsharp = "fsharpc --out:a.exe main.fs > /dev/null && mono a.exe"
 languageRunCmdExample Go = "go run main.go"
+languageRunCmdExample Go = "groovy main.groovy"
 languageRunCmdExample Haskell = "runghc main.hs"
 languageRunCmdExample Idris = "idris -o a.out main.idr && ./a.out"
 languageRunCmdExample Java = "javac Main.java && java Main"
@@ -436,6 +446,7 @@ import (
 func main() {
     fmt.Println("Hello World!")
 }|]
+languageDefaultContent Groovy = [multiline|println "Hello World!"|]
 languageDefaultContent Haskell = [multiline|main = putStrLn "Hello World!"|]
 languageDefaultContent Idris = [multiline|module Main
 
