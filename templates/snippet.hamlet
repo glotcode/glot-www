@@ -11,15 +11,7 @@ $newline never
           $else
             <h2 id="snippet-title">#{snippetTitle snippet}
       ^{editorWidget lang snippet}
-      <div class="actions">
-        $if languageIsRunnable lang
-          <button class="btn btn-primary run"><i class="fa fa-play"></i> Run
-        $if isSnippetOwner mApiUser snippet
-          <button class="btn btn-success save"><i class="fa fa-save"></i> Save
-          <button class="btn btn-danger delete"><i class="fa fa-trash"></i> Delete
-        <button class="btn btn-info fork" title="Fork and keep changes"><i class="fa fa-code-fork"></i> Fork
-        <button class="btn btn-info share" data-toggle="popover" title="Share Snippet"><i class="fa fa-share"></i> Share
-      ^{runResultWidget runResult}
+      ^{footerWidget False (languageIsRunnable lang) (isSnippetOwner mApiUser snippet) runResult}
       <div class="hide">
         <div id="share-content">
           ^{shareWidget snippetId}

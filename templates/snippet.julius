@@ -9,8 +9,9 @@
     });
 
     $(document).on("click", ".run", function(e) {
-        RunResult.clear();
-        RunResult.showInfo("Running...");
+        EditorFooter.showOutputTab(true);
+        EditorFooter.clear();
+        EditorFooter.showInfo("Running...");
 
         var version = Meta.getLanguageVersion();
         var url = "@?{(RunR lang, [("snippet", snippetId)])}" + "&" + $.param({version: version});
@@ -20,11 +21,11 @@
         };
 
         XHR.jsonPost(url, payload).done(function(data) {
-            RunResult.show(data);
+            EditorFooter.show(data);
         }).fail(function(xhr) {
             Alert.danger(xhr.responseJSON.message);
         }).always(function() {
-            RunResult.hideInfo();
+            EditorFooter.hideInfo();
         });
     });
 
@@ -89,11 +90,40 @@
         }
     };
 
-    $(document).ready(function() {
-        $(".share").popover({
-            content: $("#share-content").html(),
-            html: true,
-        });
+    // Add share popover listener
+    $(document).popover({
+        selector: ".share",
+        container: "body",
+        content: $("#share-content").html(),
+        html: true,
+    });
+
+    // Hide share popover clicking outside or hitting escape
+    $(document).on("click", ".share", function(e) {
+        // Prevent dropdown from hiding
+        e.preventDefault();
+        e.stopPropagation();
+
+        function clickHandler(e) {
+            if (!$(e.target).parents(".popover").length) {
+                hidePopover();
+            }
+        };
+
+        function escapeHandler(e) {
+            if (e.keyCode == 27) {
+                hidePopover();
+            }
+        };
+
+        function hidePopover() {
+            $(".share").popover("hide");
+            $(document).off("click", clickHandler);
+            $(document).off("keyup", escapeHandler);
+        }
+
+        $(document).on("click", clickHandler);
+        $(document).on("keyup", escapeHandler);
     });
 
 })();

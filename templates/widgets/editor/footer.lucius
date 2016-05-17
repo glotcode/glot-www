@@ -1,0 +1,92 @@
+.editor-footer .panel {
+    border-top: 0;
+    border-radius: 0;
+}
+
+.editor-footer .panel-heading {
+    padding: 15px;
+    background-color: #002B36;
+    border-radius: 0;
+    border-top: 1px solid #33555E;
+    border-bottom: 0;
+}
+
+.editor-footer .panel-heading .item {
+    margin-right: 16px;
+}
+
+.editor-footer .input {
+    height: 250px;
+}
+
+.editor-footer .output {
+    height: 250px;
+    overflow: auto;
+}
+
+.editor-footer li.list-group-item {
+    border: 0px;
+}
+
+.editor-footer .stdin {
+    resize: none;
+}
+
+.editor-footer .output > li {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.editor-footer .output .body {
+    padding: 0px;
+    margin-top: 24px;
+    margin-bottom: 0px;
+    background-color: transparent;
+    border: none;
+}
+
+.editor-footer .output-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: block;
+    padding: 5px 8px;
+    font-size: 12px;
+    color: #767676;
+    background-color: #fff;
+    border-top: 1px solid #e1e1e8;
+    border-bottom: 1px solid #e1e1e8;
+    /*
+    border-right: 1px solid #e1e1e8;
+    border-bottom-right-radius: 4px;
+    min-width: 54px;
+    */
+    width: 100%;
+}
+
+.editor-footer .output-label:first-child {
+    border-top: 0;
+}
+
+.editor-footer .info .output-label {
+    background-color: rgba(91, 192, 222, 1);
+    color: #fff;
+}
+
+.editor-footer .stdout .output-label {
+    background-color: rgba(92, 184, 92, 1);
+    color: #fff;
+}
+
+.editor-footer .stderr .output-label {
+    background-color: rgba(240, 173, 78, 1);
+    color: #fff;
+}
+
+.editor-footer .error .output-label {
+    background-color: rgba(217, 83, 79, 1);
+    color: #fff;
+}

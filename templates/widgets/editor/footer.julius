@@ -1,0 +1,80 @@
+window.EditorFooter = (function() {
+
+    function showInputTab(setActiveButton) {
+        $(".editor-footer .input").removeClass("hide");
+        $(".editor-footer .output").addClass("hide");
+
+        if (setActiveButton) {
+            $(".editor-footer .show-input-label").addClass("active");
+            $(".editor-footer .show-output-label").removeClass("active");
+        }
+    }
+
+    function showOutputTab(setActiveButton) {
+        $(".editor-footer .output").removeClass("hide");
+        $(".editor-footer .input").addClass("hide");
+
+        if (setActiveButton) {
+            $(".editor-footer .show-output-label").addClass("active");
+            $(".editor-footer .show-input-label").removeClass("active");
+        }
+    }
+
+    function show(result) {
+        for (var key in result) {
+            var value = result[key];
+            if (value) {
+                showPanel(key, value);
+            }
+        }
+    }
+
+    function showInfo() {
+        showPanel("info", "Running...");
+    }
+
+    function hideInfo() {
+        hidePanel("info");
+    }
+
+    function clear() {
+        ["info", "stdout", "stderr", "error"].forEach(function(name) {
+            hidePanel(name);
+        });
+    }
+
+    function showPanel(name, value) {
+        var selector = ".editor-footer .output ." + name;
+        $(selector).removeClass("hide");
+        $(selector + " .body").text(value);
+    }
+
+    function hidePanel(name) {
+        var selector = ".editor-footer .output ." + name;
+        $(selector).addClass("hide");
+    }
+
+    $(document).on("change", ".editor-footer .show-input", function(e) {
+        var radio = $(e.target);
+        if (radio.prop("checked")) {
+            showInputTab(false);
+        }
+    });
+
+    $(document).on("change", ".editor-footer .show-output", function(e) {
+        var radio = $(e.target);
+        if (radio.prop("checked")) {
+            showOutputTab(false);
+        }
+    });
+ 
+    return {
+        showInputTab: showInputTab,
+        showOutputTab: showOutputTab,
+        showInfo: showInfo,
+        hideInfo: hideInfo,
+        show: show,
+        clear: clear,
+    };
+
+})();

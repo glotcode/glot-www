@@ -54,8 +54,8 @@ window.Settings = (function() {
     function calcLineCount() {
         var editorY = $(".editors").offset().top;
         var browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-        var lineHeight = 16;
-        var bottomMargin = 250;
+        var lineHeight = 18;
+        var bottomMargin = 320;
         var lineCount = Math.ceil((browserHeight - editorY - bottomMargin) / lineHeight);
         return Math.max(lineCount, MIN_LINE_COUNT);
     }

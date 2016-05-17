@@ -51,6 +51,7 @@ library
                      Widget.Languages
                      Widget.Pagination
                      Widget.Share
+                     Widget.CarbonAds
                      Yesod.Auth.Simple
 
     if flag(dev) || flag(library-only)

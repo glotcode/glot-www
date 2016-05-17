@@ -1,9 +1,10 @@
 module Handler.Compose where
 
 import Import
-import Widget.Editor (editorWidget)
+import Widget.Editor (editorWidget, footerWidget)
 import Widget.RunResult (runResultWidget)
 import Widget.Languages (languagesWidget)
+import Widget.CarbonAds (carbonAdsWidget)
 import Util.Handler (maybeApiUser, title, titleConcat, urlDecode')
 import Util.Snippet (persistLanguageVersion, persistRunCommand)
 import Util.Alert (successHtml)
