@@ -1,13 +1,8 @@
-.carbonads-container {
-  float: right;
-  width: 300px;
-}
-
 #carbonads {
   display: block;
   overflow: hidden;
+  padding-top: 10px;
   font-family: Verdana, "Helvetica Neue", Helvetica, sans-serif;
-  line-height: 1.5;
 }
 
 #carbonads span {
@@ -17,22 +12,16 @@
 
 .carbon-text {
   display: block;
-  float: left;
-  max-width: 50%;
   text-align: left;
   font-size: 10px;
 }
 
 .carbon-img {
-  float: left;
-  margin-right: 1em;
+  display: block;
+  margin: 0 auto 1em;
+  text-align: center;
 }
 
 .carbon-poweredby {
-  display: block;
-  float: right;
-  /*margin-top: -1em;*/
-  margin-top: -13px;
-  margin-right: 4px;
-  font-size: 8px;
+  display: none !important;
 }

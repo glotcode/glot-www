@@ -44,18 +44,30 @@ $newline never
               <li>
                 <a href="#" class="delete"><i class="fa fa-trash"></i> Delete Snippet
     $if isRunnable
-      <div class="panel-body input" :hasRunResult:.hide>
-        <textarea class="form-control stdin" rows="10" placeholder="Text entered here will be sent as stdin to the program">
-      <ul class="list-group output" :not hasRunResult:.hide>
-        <li class="list-group-item info" :hasRunResult:.hide>
-          <span class="output-label">Info
-          <pre class="body">Press play on tape
-        <li class="list-group-item stdout" :null stdoutRes:.hide>
-          <span class="output-label">Stdout
-          <pre class="body">#{stdoutRes}
-        <li class="list-group-item stderr" :null stderrRes:.hide>
-          <span class="output-label">Stderr
-          <pre class="body">#{stderrRes}
-        <li class="list-group-item error" :null errorRes:.hide>
-          <span class="output-label">Error
-          <pre class="body">#{errorRes}
+      <div class="row footer-body">
+        <div class="col-sm-9 footer-left">
+          <ul class="list-group input" :hasRunResult:.hide>
+            <li class="list-group-item info">
+              <span class="output-label">Stdin
+              <div class="body">
+                <textarea class="form-control stdin" rows="8" placeholder="Text entered here will be sent to stdin">
+          <ul class="list-group output" :not hasRunResult:.hide>
+            <li class="list-group-item info" :hasRunResult:.hide>
+              <span class="output-label">Info
+              <pre class="body">Press play on tape
+            <li class="list-group-item stdout" :null stdoutRes:.hide>
+              <span class="output-label">Stdout
+              <pre class="body">#{stdoutRes}
+            <li class="list-group-item stderr" :null stderrRes:.hide>
+              <span class="output-label">Stderr
+              <pre class="body">#{stderrRes}
+            <li class="list-group-item error" :null errorRes:.hide>
+              <span class="output-label">Error
+              <pre class="body">#{errorRes}
+        <div class="col-sm-3 footer-right">
+          <ul class="list-group cool-stuff">
+            <li class="list-group-item cool-stuff">
+              <span class="output-label">
+                <a href="http://carbonads.net/" target="_blank">ads via Carbon
+              <div class="body">
+                ^{carbonAdsWidget}

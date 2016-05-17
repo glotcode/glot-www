@@ -7,6 +7,7 @@ import Import
 import Util.Handler (maybeApiUser)
 import Util.Snippet (isSnippetOwner, iso8601Format, visibilityFormat)
 import Model.Run.Api (listLanguageVersions)
+import Widget.CarbonAds (carbonAdsWidget)
 
 listVersions :: Text -> IO [Text]
 listVersions lang = do

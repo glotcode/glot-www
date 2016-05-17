@@ -5,22 +5,18 @@
 
 .editor-footer .panel-heading {
     padding: 15px;
-    background-color: #002B36;
     border-radius: 0;
-    border-top: 1px solid #33555E;
-    border-bottom: 0;
+    /*background-color: #002B36;*/
+    /*border-top: 1px solid #33555E;*/
+    /*border-bottom: 0;*/
 }
 
 .editor-footer .panel-heading .item {
     margin-right: 16px;
 }
 
-.editor-footer .input {
-    height: 250px;
-}
-
 .editor-footer .output {
-    height: 250px;
+    height: 230px;
     overflow: auto;
 }
 
@@ -30,6 +26,26 @@
 
 .editor-footer .stdin {
     resize: none;
+    margin-top: 30px;
+}
+
+.editor-footer .footer-left {
+    height: 230px;
+}
+
+@media (min-width: 768px) {
+    .editor-footer .footer-left {
+        padding-right: 0;
+    }
+
+    .editor-footer .footer-right {
+        padding-left: 0;
+    }
+}
+
+.editor-footer .footer-right {
+    border-left: 1px solid #ddd;
+    height: 230px;
 }
 
 .editor-footer .output > li {
@@ -40,6 +56,18 @@
 }
 
 .editor-footer .output .body {
+    padding: 0px;
+    margin-top: 24px;
+    margin-bottom: 0px;
+    background-color: transparent;
+    border: none;
+}
+
+.editor-footer .cool-stuff {
+    margin-bottom: 0px;
+}
+
+.editor-footer .cool-stuff .body {
     padding: 0px;
     margin-top: 24px;
     margin-bottom: 0px;
