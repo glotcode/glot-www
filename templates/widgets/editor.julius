@@ -128,6 +128,7 @@ window.Editor = (function() {
 
     function showEditor(id) {
         $(".editors .editor:not(.hide)").addClass("hide");
+        $(".editor-footer").removeClass("hide");
         $("#" + id).removeClass("hide");
         $("#meta").addClass("hide");
         $("#settings").addClass("hide");
@@ -139,12 +140,14 @@ window.Editor = (function() {
 
     function showMeta() {
         $(".editors .editor:not(.hide)").addClass("hide");
+        $(".editor-footer").addClass("hide");
         $("#meta").removeClass("hide");
         $("#settings").addClass("hide");
     }
 
     function showSettings() {
         $(".editors .editor:not(.hide)").addClass("hide");
+        $(".editor-footer").addClass("hide");
         $("#meta").addClass("hide");
         $("#settings").removeClass("hide");
     }
