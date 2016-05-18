@@ -25,24 +25,46 @@ $newline never
                 <a href="#" class="save-public">Save Public
               <li>
                 <a href="#" class="save-secret">Save Secret
-        $elseif isOwner
+        $else
+          $if isOwner
+            <div class="btn-group item">
+              <button class="btn btn-primary save"><i class="fa fa-save"></i> Save
           <div class="btn-group item">
-            <button class="btn btn-primary save"><i class="fa fa-save"></i> Save
-      $elseif isOwner
-          <div class="btn-group item">
-            <button class="btn btn-primary save"><i class="fa fa-save"></i> Save
-      $if not isComposing
-        <div class="btn-group item">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span>
-          <ul class="dropdown-menu">
-            <li class="dropdown-header">More Actions
-            <li>
-              <a href="#" class="fork"><i class="fa fa-code-fork"></i> Fork Snippet
-            <li>
-              <a href="#" class="share"><i class="fa fa-share"></i> Share Snippet
-            $if isOwner
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">More Actions
               <li>
-                <a href="#" class="delete"><i class="fa fa-trash"></i> Delete Snippet
+                <a href="#" class="fork"><i class="fa fa-code-fork"></i> Fork Snippet
+              <li>
+                <a href="#" class="share"><i class="fa fa-share"></i> Share Snippet
+              $if isOwner
+                <li>
+                  <a href="#" class="delete"><i class="fa fa-trash"></i> Delete Snippet
+      $else
+        $if isComposing
+          <div class="btn-group item">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-save"></i> Save <span class="caret"></span>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">Save Snippet
+              <li>
+                <a href="#" class="save-public">Save Public
+              <li>
+                <a href="#" class="save-secret">Save Secret
+        $else
+          $if isOwner
+            <div class="btn-group item">
+              <button class="btn btn-primary save"><i class="fa fa-save"></i> Save
+          <div class="btn-group item">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header">More Actions
+              <li>
+                <a href="#" class="fork"><i class="fa fa-code-fork"></i> Fork Snippet
+              <li>
+                <a href="#" class="share"><i class="fa fa-share"></i> Share Snippet
+              $if isOwner
+                <li>
+                  <a href="#" class="delete"><i class="fa fa-trash"></i> Delete Snippet
     $if isRunnable
       <div class="row footer-body">
         <div class="col-sm-9 footer-left">
@@ -71,3 +93,10 @@ $newline never
                 <a href="http://carbonads.net/" target="_blank">ads via Carbon
               <div class="body">
                 ^{carbonAdsWidget}
+    $else
+      <ul class="list-group cool-stuff">
+        <li class="list-group-item cool-stuff">
+          <span class="output-label">
+            <a href="http://carbonads.net/" target="_blank">ads via Carbon
+          <div class="body">
+            ^{carbonAdsWidget}
