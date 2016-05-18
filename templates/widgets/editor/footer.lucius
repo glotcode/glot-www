@@ -6,9 +6,6 @@
 .editor-footer .panel-heading {
     padding: 15px;
     border-radius: 0;
-    /*background-color: #002B36;*/
-    /*border-top: 1px solid #33555E;*/
-    /*border-bottom: 0;*/
 }
 
 .editor-footer .panel-heading .item {
@@ -87,11 +84,6 @@
     background-color: #fff;
     border-top: 1px solid #e1e1e8;
     border-bottom: 1px solid #e1e1e8;
-    /*
-    border-right: 1px solid #e1e1e8;
-    border-bottom-right-radius: 4px;
-    min-width: 54px;
-    */
     width: 100%;
 }
 

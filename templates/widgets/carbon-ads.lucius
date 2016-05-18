@@ -12,7 +12,7 @@
 
 .carbon-text {
   display: block;
-  text-align: left;
+  text-align: center;
   font-size: 10px;
 }
 

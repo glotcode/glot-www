@@ -50,7 +50,7 @@ $newline never
             <li class="list-group-item info">
               <span class="output-label">Stdin
               <div class="body">
-                <textarea class="form-control stdin" rows="8" placeholder="Text entered here will be sent to stdin">
+                <textarea class="form-control stdin" rows="7" placeholder="Text entered here will be sent to stdin">
           <ul class="list-group output" :not hasRunResult:.hide>
             <li class="list-group-item info" :hasRunResult:.hide>
               <span class="output-label">Info
