@@ -17,6 +17,7 @@
         var url = "@{RunR lang}" + "?" + $.param({version: version});
         var payload = {
             files: Editor.getFiles(),
+            stdin: EditorFooter.getStdin(),
             command: Meta.getRunCommand(),
         };
 
@@ -51,6 +52,7 @@
         var url = "@{ComposeR lang}" + "?" + $.param({
             version: version,
             command: Meta.getRunCommand(),
+            stdin: EditorFooter.getStdin(),
         });
 
         XHR.jsonPost(url, payload).done(function(data) {

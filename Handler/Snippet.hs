@@ -5,7 +5,7 @@ import Widget.Editor (editorWidget, footerWidget)
 import Widget.RunResult (runResultWidget)
 import Widget.Share (shareWidget)
 import Util.Handler (maybeApiUser, titleConcat, urlDecode')
-import Util.Snippet (isSnippetOwner, persistLanguageVersion, persistRunCommand, metaDescription)
+import Util.Snippet (isSnippetOwner, persistLanguageVersion, persistRunCommand, persistRunParams, metaDescription)
 import Util.Alert (successHtml)
 import Model.Snippet.Api (getSnippet, updateSnippet, deleteSnippet)
 import Network.Wai (lazyRequestBody)
@@ -24,7 +24,10 @@ getSnippetR snippetId = do
             | statusCode s == 404 -> notFound
         Left e -> throwIO e
         Right snippet -> do
-            runResult <- runDB $ getBy $ UniqueRunResultHash snippetId $ snippetContentHash snippet
+            (runParams, runResult) <- runDB $ do
+                params <- getBy $ UniqueRunParams snippetId
+                res <- getBy $ UniqueRunResultHash snippetId $ snippetContentHash snippet
+                return (params, res)
             let lang = toLanguage $ snippetLanguage snippet
             defaultLayout $ do
                 setTitle $ titleConcat [snippetTitle snippet, " - ", languageName lang, " Snippet"]
@@ -36,6 +39,7 @@ putSnippetR :: Text -> Handler Value
 putSnippetR snippetId = do
     langVersion <- fromMaybe "latest" <$> lookupGetParam "version"
     runCommand <- urlDecode' <$> fromMaybe "" <$> lookupGetParam "command"
+    stdinData <- urlDecode' <$> fromMaybe "" <$> lookupGetParam "stdin"
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ lazyRequestBody req
     mUserId <- maybeAuthId
@@ -43,6 +47,7 @@ putSnippetR snippetId = do
     _ <- liftIO $ updateSnippet snippetId body $ apiUserToken <$> mApiUser
     persistLanguageVersion snippetId langVersion
     persistRunCommand snippetId runCommand
+    persistRunParams snippetId stdinData langVersion runCommand
     setMessage $ successHtml "Updated snippet"
     return $ object []
 

@@ -43,26 +43,38 @@ metaWidget snippet = do
 settingsWidget :: Widget
 settingsWidget = $(widgetFile "widgets/editor/settings")
 
-footerWidget :: Bool -> Bool -> Bool -> Maybe (Entity RunResult) -> Widget
-footerWidget isComposing isRunnable isOwner (Just (Entity _ res)) =
+footerWidget :: Bool -> Bool -> Bool -> Maybe (Entity RunParams) -> Maybe (Entity RunResult) -> Widget
+footerWidget isComposing isRunnable isOwner runParams runResult =
+    let
+        (stdinData, _, _) = formatRunParams runParams
+        (stdoutRes, stderrRes, errorRes, hasRunResult) = formatRunResult runResult
+    in
+        $(widgetFile "widgets/editor/footer")
+
+
+formatRunParams :: Maybe (Entity RunParams) -> (Text, Text, Text)
+formatRunParams (Just (Entity _ params)) =
+    let
+        stdinData = runParamsStdin params
+        langVersion = runParamsLanguageVersion params
+        runCmd = runParamsRunCommand params
+    in
+        (stdinData, langVersion, runCmd)
+formatRunParams _ =
+    ("", "latest", "")
+
+formatRunResult :: Maybe (Entity RunResult) -> (Text, Text, Text, Bool)
+formatRunResult (Just (Entity _ res)) =
     let
         stdoutRes = runResultStdout res
         stderrRes = runResultStderr res
         errorRes = runResultError res
         hasRunResult = not $ all null [stdoutRes, stderrRes, errorRes]
     in
-        $(widgetFile "widgets/editor/footer")
-footerWidget isComposing isRunnable isOwner _ =
-    let
-        stdoutRes :: Text
-        stdoutRes = ""
-        stderrRes :: Text
-        stderrRes = ""
-        errorRes :: Text
-        errorRes = ""
-        hasRunResult = False
-    in
-        $(widgetFile "widgets/editor/footer")
+        (stdoutRes, stderrRes, errorRes, hasRunResult)
+formatRunResult _ =
+    ("", "", "", False)
+
 
 maxFiles :: Int
 maxFiles = 6

@@ -54,6 +54,10 @@ window.EditorFooter = (function() {
         $(selector).addClass("hide");
     }
 
+    function getStdin() {
+        return $(".editor-footer .stdin").val();
+    }
+
     $(document).on("change", ".editor-footer .show-input", function(e) {
         var radio = $(e.target);
         if (radio.prop("checked")) {
@@ -75,6 +79,7 @@ window.EditorFooter = (function() {
         hideInfo: hideInfo,
         show: show,
         clear: clear,
+        getStdin: getStdin,
     };
 
 })();

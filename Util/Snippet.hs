@@ -5,6 +5,7 @@ module Util.Snippet (
     iso8601Format,
     persistLanguageVersion,
     persistRunCommand,
+    persistRunParams,
 ) where
 
 import Import
@@ -46,4 +47,11 @@ persistRunCommand snippetId cmd = do
     _ <- runDB $ do
         deleteBy $ UniqueRunCommand snippetId
         insertUnique $ RunCommand snippetId cmd
+    return ()
+
+persistRunParams :: Text -> Text -> Text -> Text -> Handler ()
+persistRunParams snippetId stdinData langVersion runCommand = do
+    _ <- runDB $ do
+        deleteBy $ UniqueRunParams snippetId
+        insertUnique $ RunParams snippetId stdinData langVersion runCommand
     return ()
