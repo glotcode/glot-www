@@ -7,5 +7,5 @@ $newline never
       <div class="snippet-header">
         <div class="snippet-header-title">
           <h2 id="snippet-title" contenteditable>#{snippetTitle snippet}
-      ^{editorWidget lang snippet Nothing}
+      ^{editorWidget lang snippet Nothing Nothing}
       ^{footerWidget True (languageIsRunnable lang) False Nothing Nothing}

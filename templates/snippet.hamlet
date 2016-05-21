@@ -10,7 +10,7 @@ $newline never
             <h2 id="snippet-title" contenteditable>#{snippetTitle snippet}
           $else
             <h2 id="snippet-title">#{snippetTitle snippet}
-      ^{editorWidget lang snippet runParams}
+      ^{editorWidget lang snippet profile runParams}
       ^{footerWidget False (languageIsRunnable lang) (isSnippetOwner mApiUser snippet) runParams runResult}
       <div class="hide">
         <div id="share-content">

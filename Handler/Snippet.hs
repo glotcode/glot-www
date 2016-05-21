@@ -24,10 +24,11 @@ getSnippetR snippetId = do
             | statusCode s == 404 -> notFound
         Left e -> throwIO e
         Right snippet -> do
-            (runParams, runResult) <- runDB $ do
+            (profile, runParams, runResult) <- runDB $ do
+                p <- getBy $ UniqueSnippetsApiId $ snippetOwner snippet
                 params <- getBy $ UniqueRunParams snippetId
                 res <- getBy $ UniqueRunResultHash snippetId $ snippetContentHash snippet
-                return (params, res)
+                return (p, params, res)
             let lang = toLanguage $ snippetLanguage snippet
             defaultLayout $ do
                 setTitle $ titleConcat [snippetTitle snippet, " - ", languageName lang, " Snippet"]
@@ -64,7 +65,10 @@ getSnippetEmbedR snippetId = do
             | statusCode s == 404 -> notFound
         Left e -> throwIO e
         Right snippet -> do
-            runParams <- runDB $ do getBy $ UniqueRunParams snippetId
+            (profile, runParams) <- runDB $ do
+                p <- getBy $ UniqueSnippetsApiId $ snippetOwner snippet
+                params <- getBy $ UniqueRunParams snippetId
+                return (p, params)
             let lang = toLanguage $ snippetLanguage snippet
             defaultLayout $ do
                 setTitle $ titleConcat [snippetTitle snippet, " - ", languageName lang, " Snippet"]
