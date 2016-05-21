@@ -53,7 +53,7 @@ $newline never
     <tr>
       <td>Full width
       <td>
-        <select class="full-width">
+        <select class="full-width-dropdown">
           <option value="true">True
           <option value="false">False
     <tr>

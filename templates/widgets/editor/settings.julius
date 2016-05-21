@@ -80,7 +80,7 @@ window.Settings = (function() {
         // Select correct value in dropdowns
         selectOption(".themes", Settings.getTheme());
         selectOption(".keybindings", Settings.getKeybindings());
-        selectOption(".full-width", Settings.getFullWidth());
+        selectOption(".full-width-dropdown", Settings.getFullWidth());
 
         // Set line count to update label
         var lineCount = Settings.getLineCount();
@@ -107,7 +107,7 @@ window.Settings = (function() {
         Editor.setKeybindings(keybindings);
     });
 
-    $(document).on("change", ".full-width", function(e) {
+    $(document).on("change", ".full-width-dropdown", function(e) {
         var fullWidth = $(e.target).val() === "true";
         Settings.setFullWidth(fullWidth);
         Editor.setFullWidth(fullWidth);

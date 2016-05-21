@@ -69,9 +69,9 @@ window.Editor = (function() {
 
     function setFullWidth(fullWidth) {
         if (fullWidth) {
-            $(".container").addClass("full-width");
+            $(".content-container").addClass("full-width");
         } else {
-            $(".container").removeClass("full-width");
+            $(".content-container").removeClass("full-width");
         }
     }
 
