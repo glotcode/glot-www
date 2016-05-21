@@ -22,18 +22,20 @@ safeListVersions lang = try $ listLanguageVersions lang
 
 editorWidget :: Language -> Snippet -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
 editorWidget lang snippet profile runParams = do
-    let fileCount = length $ snippetFiles snippet
     addScript $ StaticR lib_ace_ace_js
     $(widgetFile "widgets/editor")
+    where
+        fileCount = length $ snippetFiles snippet
 
 metaWidget :: Snippet -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
 metaWidget snippet mProfile runParams = do
     mUserId <- handlerToWidget maybeAuthId
     mApiUser <- handlerToWidget $ maybeApiUser mUserId
     versions <- liftIO $ listVersions $ snippetLanguage snippet
-    let (_, currentVersion, runCommand) = formatRunParams runParams
-    let lang = toLanguage $ snippetLanguage snippet
     $(widgetFile "widgets/editor/meta")
+    where
+        (_, currentVersion, runCommand) = formatRunParams runParams
+        lang = toLanguage $ snippetLanguage snippet
 
 settingsWidget :: Widget
 settingsWidget = $(widgetFile "widgets/editor/settings")
