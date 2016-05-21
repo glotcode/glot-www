@@ -5,7 +5,7 @@ import Widget.Editor (editorWidget, footerWidget)
 import Widget.RunResult (runResultWidget)
 import Widget.Share (shareWidget)
 import Util.Handler (maybeApiUser, titleConcat, urlDecode')
-import Util.Snippet (isSnippetOwner, persistRunParams, metaDescription)
+import Util.Snippet (isSnippetOwner, persistRunParams, metaDescription, formatRunParams)
 import Util.Alert (successHtml)
 import Model.Snippet.Api (getSnippet, updateSnippet, deleteSnippet)
 import Network.Wai (lazyRequestBody)
@@ -27,7 +27,7 @@ getSnippetR snippetId = do
             (profile, runParams, runResult) <- runDB $ do
                 p <- getBy $ UniqueSnippetsApiId $ snippetOwner snippet
                 params <- getBy $ UniqueRunParams snippetId
-                res <- getBy $ UniqueRunResultHash snippetId $ snippetContentHash snippet
+                res <- getBy $ UniqueRunResultHash snippetId $ (snippetHash snippet $ formatRunParams params)
                 return (p, params, res)
             let lang = toLanguage $ snippetLanguage snippet
             defaultLayout $ do

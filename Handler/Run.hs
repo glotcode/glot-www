@@ -5,6 +5,7 @@ import Util.Handler (maybeApiUser)
 import Network.Wai (lazyRequestBody)
 import Model.Run.Api (runSnippet)
 import Model.Snippet.Api (getSnippet)
+import Util.Snippet (formatRunParams)
 import Settings.Environment (runApiAnonymousToken)
 
 postRunR :: Language -> Handler Value
@@ -21,7 +22,7 @@ postRunR lang = do
             sendResponseStatus status400 $ object ["message" .= errorMsg]
         Right (runStdout, runStderr, runError) -> do
             mSnippetId <- lookupGetParam "snippet"
-            persistRunResult lang mSnippetId (apiUserToken <$> mApiUser) (snippetContentHash' body) (runStdout, runStderr, runError)
+            persistRunResult lang mSnippetId (apiUserToken <$> mApiUser) (snippetHashJson body langVersion) (runStdout, runStderr, runError)
             return $ object [
                 "stdout" .= runStdout,
                 "stderr" .= runStderr,
@@ -36,11 +37,12 @@ persistRunResult :: Language -> Maybe Text -> Maybe Text -> Text -> (Text, Text,
 persistRunResult lang (Just snippetId) mToken localFilesHash (runStdout, runStderr, runError)
     | (length runStdout > 0 || length runStderr > 0) && length runError == 0 = do
         eSnippet <- liftIO $ safeGetSnippet snippetId mToken
+        runParams <- runDB $ getBy $ UniqueRunParams snippetId
         case eSnippet of
             Left _ -> return ()
             Right snippet -> do
                 persistRunResult' lang snippetId localFilesHash
-                    (snippetContentHash snippet) (runStdout, runStderr, runError)
+                    (snippetHash snippet $ formatRunParams runParams) (runStdout, runStderr, runError)
 persistRunResult _ _ _ _ _ = return ()
 
 persistRunResult' :: Language -> Text -> Text -> Text -> (Text, Text, Text) -> Handler ()

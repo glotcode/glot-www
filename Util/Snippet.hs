@@ -4,6 +4,7 @@ module Util.Snippet (
     visibilityFormat,
     iso8601Format,
     persistRunParams,
+    formatRunParams,
 ) where
 
 import Import
@@ -35,3 +36,14 @@ persistRunParams snippetId stdinData langVersion runCommand = do
         deleteBy $ UniqueRunParams snippetId
         insertUnique $ RunParams snippetId stdinData langVersion runCommand
     return ()
+
+formatRunParams :: Maybe (Entity RunParams) -> (Text, Text, Text)
+formatRunParams (Just (Entity _ params)) =
+    let
+        stdinData = runParamsStdin params
+        langVersion = runParamsLanguageVersion params
+        runCmd = runParamsRunCommand params
+    in
+        (stdinData, langVersion, runCmd)
+formatRunParams _ =
+    ("", "latest", "")

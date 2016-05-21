@@ -2,8 +2,8 @@ module Model.Snippet (
     Snippet(..),
     SnippetFile(..),
     MetaSnippet(..),
-    snippetContentHash,
-    snippetContentHash',
+    snippetHash,
+    snippetHashJson,
 ) where
 
 import ClassyPrelude.Yesod
@@ -35,13 +35,17 @@ instance FromJSON SnippetFile where
         v .: "content"
     parseJSON _ = mzero
 
-data SnippetFilesObject = SnippetFilesObject {
-    objectFiles :: [SnippetFile]
+data RunPayload = RunPayload {
+    payloadFiles :: [SnippetFile],
+    payloadCommand :: Text,
+    payloadStdin :: Text
 } deriving (Show)
 
-instance FromJSON SnippetFilesObject where
-    parseJSON (Object v) = SnippetFilesObject <$>
-        v .: "files"
+instance FromJSON RunPayload where
+    parseJSON (Object v) = RunPayload <$>
+        v .: "files" <*>
+        v .: "command" <*>
+        v .: "stdin"
     parseJSON _ = mzero
 
 data MetaSnippet = MetaSnippet {
@@ -54,11 +58,28 @@ data MetaSnippet = MetaSnippet {
     metaSnippetCreated :: Text
 } deriving (Show)
 
-snippetContentHash :: Snippet -> Text
-snippetContentHash s = filesContentHash $ snippetFiles s
+snippetHash :: Snippet -> (Text, Text, Text) -> Text
+snippetHash snippet runParams =
+    let
+        files = snippetFiles snippet
+    in
+        hashSnippet files runParams
 
-snippetContentHash' :: L.ByteString -> Text
-snippetContentHash' bs = filesContentHash $ objectFiles $ fromJust $ (decode bs :: Maybe SnippetFilesObject)
+snippetHashJson :: L.ByteString -> Text -> Text
+snippetHashJson jsonData langVersion =
+    let
+        payload :: RunPayload
+        payload = fromJust $ decode jsonData
+        files = payloadFiles payload
+        stdinData = payloadStdin payload
+        cmd = payloadCommand payload
+    in
+        hashSnippet files (stdinData, langVersion, cmd)
 
-filesContentHash :: [SnippetFile] -> Text
-filesContentHash files = sha1Text . concat $ map snippetFileContent files
+hashSnippet :: [SnippetFile] -> (Text, Text, Text) -> Text
+hashSnippet files (stdinData, langVersion, runCmd) =
+    let
+        mergedFiles = concat $ map snippetFileContent files
+        mergedRunParams = concat [stdinData, langVersion, runCmd]
+    in
+        sha1Text $ mergedFiles <> mergedRunParams

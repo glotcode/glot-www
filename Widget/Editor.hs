@@ -5,7 +5,7 @@ module Widget.Editor (
 
 import Import
 import Util.Handler (maybeApiUser)
-import Util.Snippet (isSnippetOwner, iso8601Format, visibilityFormat)
+import Util.Snippet (isSnippetOwner, iso8601Format, visibilityFormat, formatRunParams)
 import Model.Run.Api (listLanguageVersions)
 import Widget.CarbonAds (carbonAdsWidget)
 
@@ -47,18 +47,6 @@ footerWidget isComposing isRunnable isOwner runParams runResult =
         (stdoutRes, stderrRes, errorRes, hasRunResult) = formatRunResult runResult
     in
         $(widgetFile "widgets/editor/footer")
-
-
-formatRunParams :: Maybe (Entity RunParams) -> (Text, Text, Text)
-formatRunParams (Just (Entity _ params)) =
-    let
-        stdinData = runParamsStdin params
-        langVersion = runParamsLanguageVersion params
-        runCmd = runParamsRunCommand params
-    in
-        (stdinData, langVersion, runCmd)
-formatRunParams _ =
-    ("", "latest", "")
 
 formatRunResult :: Maybe (Entity RunResult) -> (Text, Text, Text, Bool)
 formatRunResult (Just (Entity _ res)) =
