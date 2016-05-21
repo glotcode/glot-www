@@ -4,7 +4,7 @@ import Import
 import Widget.Editor (editorWidget, footerWidget)
 import Widget.Languages (languagesWidget)
 import Util.Handler (maybeApiUser, title, titleConcat, urlDecode')
-import Util.Snippet (persistLanguageVersion, persistRunCommand, persistRunParams)
+import Util.Snippet (persistRunParams)
 import Util.Alert (successHtml)
 import Network.Wai (lazyRequestBody)
 import Model.Snippet.Api (addSnippet)
@@ -32,8 +32,6 @@ postComposeR _ = do
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
     snippet <- liftIO $ addSnippet body $ apiUserToken <$> mApiUser
-    persistLanguageVersion (snippetId snippet) langVersion
-    persistRunCommand (snippetId snippet) runCommand
     persistRunParams (snippetId snippet) stdinData langVersion runCommand
     renderUrl <- getUrlRender
     setMessage $ successHtml "Saved snippet"

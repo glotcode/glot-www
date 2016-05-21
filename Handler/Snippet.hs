@@ -5,7 +5,7 @@ import Widget.Editor (editorWidget, footerWidget)
 import Widget.RunResult (runResultWidget)
 import Widget.Share (shareWidget)
 import Util.Handler (maybeApiUser, titleConcat, urlDecode')
-import Util.Snippet (isSnippetOwner, persistLanguageVersion, persistRunCommand, persistRunParams, metaDescription)
+import Util.Snippet (isSnippetOwner, persistRunParams, metaDescription)
 import Util.Alert (successHtml)
 import Model.Snippet.Api (getSnippet, updateSnippet, deleteSnippet)
 import Network.Wai (lazyRequestBody)
@@ -45,8 +45,6 @@ putSnippetR snippetId = do
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
     _ <- liftIO $ updateSnippet snippetId body $ apiUserToken <$> mApiUser
-    persistLanguageVersion snippetId langVersion
-    persistRunCommand snippetId runCommand
     persistRunParams snippetId stdinData langVersion runCommand
     setMessage $ successHtml "Updated snippet"
     return $ object []
