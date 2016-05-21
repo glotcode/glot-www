@@ -26,7 +26,7 @@ $newline never
       <a href="#">
         <i class="fa fa-cog">
   <div id="meta" class="hide">
-    ^{metaWidget snippet}
+    ^{metaWidget snippet runParams}
   <div class="editors">
     $forall (n, file) <- enumerateFiles snippet
       $if n == 1

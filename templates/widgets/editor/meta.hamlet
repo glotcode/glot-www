@@ -20,18 +20,18 @@ $newline never
                 <option value="#{version}" :currentVersion == version:selected>#{version}
       <tr>
         <td>Run Command
-        $maybe Entity _ cmd <- mRunCommand
-          <td>
-            <div class="input-group input-group-sm cmd-group">
-              <span class="input-group-addon">
-                <input type="checkbox" id="cmd-checkbox" checked>
-              <input type="text" class="form-control" id="cmd-input" value="#{runCommandCommand cmd}">
-        $nothing
+        $if null runCommand
           <td>
             <div class="input-group input-group-sm cmd-group">
               <span class="input-group-addon">
                 <input type="checkbox" id="cmd-checkbox">
               <input type="text" class="form-control" id="cmd-input" value="#{languageRunCmdExample lang}" disabled>
+        $else
+          <td>
+            <div class="input-group input-group-sm cmd-group">
+              <span class="input-group-addon">
+                <input type="checkbox" id="cmd-checkbox" checked>
+              <input type="text" class="form-control" id="cmd-input" value="#{runCommand}">
 
 $if not $ isComposing snippet
   <table class="meta-table metadata table">

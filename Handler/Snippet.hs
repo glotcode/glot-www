@@ -66,7 +66,7 @@ getSnippetEmbedR snippetId = do
             | statusCode s == 404 -> notFound
         Left e -> throwIO e
         Right snippet -> do
-            let runResult = Nothing
+            runParams <- runDB $ do getBy $ UniqueRunParams snippetId
             let lang = toLanguage $ snippetLanguage snippet
             defaultLayout $ do
                 setTitle $ titleConcat [snippetTitle snippet, " - ", languageName lang, " Snippet"]

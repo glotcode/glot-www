@@ -1,7 +1,7 @@
 $newline never
 
-^{editorWidget lang snippet}
+^{editorWidget lang snippet runParams}
 <div class="actions">
   $if languageIsRunnable lang
     <button class="btn btn-primary run"><i class="fa fa-play"></i> Run
-^{runResultWidget runResult}
+^{runResultWidget Nothing}
