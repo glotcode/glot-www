@@ -23,7 +23,7 @@ $newline never
                   <img class="logo" src=@{StaticR $ languageLogo lang} alt="#{languageName lang} logo">
                   <a class="language" href="@?{(SnippetsR, [("language", metaSnippetLanguage snippet)])}">#{languageName lang}
               <td>
-                <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
+                <a href="@{SnippetR $ metaSnippetId snippet}" title="#{metaSnippetTitle snippet}">#{take 50 $ metaSnippetTitle snippet}
               <td>#{iso8601Format $ metaSnippetCreated snippet}
               <td>
                 $with owner <- metaSnippetOwner snippet
