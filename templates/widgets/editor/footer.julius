@@ -39,7 +39,7 @@ window.EditorFooter = (function() {
             return;
         }
 
-        if (outputEl[0].scrollHeight > outputEl.height()) {
+        if (outputEl[0].scrollHeight - outputEl.height() > 200) {
             showFullEl.removeClass("hide");
         }
     }
@@ -109,7 +109,7 @@ window.EditorFooter = (function() {
         $(".editor-footer .output").addClass("hide");
         setTimeout(function() {
             $(".editor-footer .output").removeClass("hide");
-        }, 0);
+        }, 1);
     });
 
     $(document).ready(function() {
