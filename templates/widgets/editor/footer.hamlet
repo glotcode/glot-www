@@ -7,15 +7,11 @@ $newline never
         <button class="btn btn-primary item run"><i class="fa fa-play"></i> Run
         <div class="btn-group item" data-toggle="buttons">
           $if hasRunResult
-            <label class="btn btn-primary show-input-label">
-              <input type="radio" name="options" class="show-input" autocomplete="off"> Input
-            <label class="btn btn-primary active show-output-label">
-              <input type="radio" name="options" class="show-output" autocomplete="off" checked> Output
+            <label class="btn btn-primary show-input-label"><input type="radio" name="options" class="show-input" autocomplete="off"> Input
+            <label class="btn btn-primary active show-output-label"><input type="radio" name="options" class="show-output" autocomplete="off" checked> Output
           $else
-            <label class="btn btn-primary active show-input-label">
-              <input type="radio" name="options" class="show-input" autocomplete="off" checked> Input
-            <label class="btn btn-primary show-output-label">
-              <input type="radio" name="options" class="show-output" autocomplete="off"> Output
+            <label class="btn btn-primary active show-input-label"><input type="radio" name="options" class="show-input" autocomplete="off" checked> Input
+            <label class="btn btn-primary show-output-label"><input type="radio" name="options" class="show-output" autocomplete="off"> Output
         $if isComposing
           <div class="btn-group item">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-save"></i> Save <span class="caret"></span>
