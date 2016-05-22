@@ -86,6 +86,7 @@ $newline never
             <li class="list-group-item error" :null errorRes:.hide>
               <span class="output-label">Error
               <pre class="body">#{errorRes}
+            <a href="#" class="show-full-height hide"><i class="fa fa-expand"></i>
         <div class="col-sm-3 footer-right">
           <ul class="list-group cool-stuff">
             <li class="list-group-item cool-stuff">

@@ -13,8 +13,36 @@
 }
 
 .editor-footer .output {
+    min-height: 230px;
     height: 230px;
     overflow: auto;
+}
+
+.editor-footer .footer-left ul.output.full-height {
+    height: auto;
+    overflow: hidden;
+}
+
+.editor-footer div.footer-left.full-height {
+    height: auto;
+}
+
+.editor-footer .show-full-height {
+    position: absolute;
+    right: 14px;
+    bottom: 0;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 8px;
+    border-left: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    border-top-left-radius: 5px;
+    display: none;
+}
+
+.editor-footer .show-full-height:hover {
+    background-color: rgba(221, 221, 221, 0.2);
 }
 
 .editor-footer li.list-group-item {
@@ -27,21 +55,26 @@
 }
 
 .editor-footer .footer-left {
+    min-height: 230px;
     height: 230px;
 }
 
 @media (min-width: 768px) {
     .editor-footer .footer-left {
         padding-right: 0;
+        border-right: 1px solid #ddd;
     }
 
     .editor-footer .footer-right {
         padding-left: 0;
     }
+
+    .editor-footer a.show-full-height {
+        display: block;
+    }
 }
 
 .editor-footer .footer-right {
-    border-left: 1px solid #ddd;
     height: 230px;
 }
 

@@ -27,6 +27,21 @@ window.EditorFooter = (function() {
                 showPanel(key, value);
             }
         }
+
+        checkExpandButton();
+    }
+
+    function checkExpandButton() {
+        var outputEl = $(".editor-footer .output");
+        var showFullEl = $(".editor-footer .show-full-height");
+
+        if (outputEl.length === 0) {
+            return;
+        }
+
+        if (outputEl[0].scrollHeight > outputEl.height()) {
+            showFullEl.removeClass("hide");
+        }
     }
 
     function showInfo() {
@@ -41,6 +56,9 @@ window.EditorFooter = (function() {
         ["info", "stdout", "stderr", "error"].forEach(function(name) {
             hidePanel(name);
         });
+
+        showDefaultHeight();
+        $(".editor-footer .show-full-height").addClass("hide");
     }
 
     function showPanel(name, value) {
@@ -70,6 +88,32 @@ window.EditorFooter = (function() {
         if (radio.prop("checked")) {
             showOutputTab(false);
         }
+    });
+
+    function showFullHeight() {
+        $(".editor-footer .footer-left").addClass("full-height");
+        $(".editor-footer .output").addClass("full-height");
+    }
+
+    function showDefaultHeight() {
+        $(".editor-footer .footer-left").removeClass("full-height");
+        $(".editor-footer .output").removeClass("full-height");
+    }
+
+    $(document).on("click", ".editor-footer .show-full-height", function(e) {
+        e.preventDefault();
+        $(".editor-footer .show-full-height").addClass("hide");
+        showFullHeight();
+
+        // Force redraw of output to fix scrollbar width bug
+        $(".editor-footer .output").addClass("hide");
+        setTimeout(function() {
+            $(".editor-footer .output").removeClass("hide");
+        }, 0);
+    });
+
+    $(document).ready(function() {
+        checkExpandButton();
     });
  
     return {
