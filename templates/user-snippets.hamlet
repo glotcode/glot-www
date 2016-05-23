@@ -24,7 +24,8 @@ $newline never
                   <a class="language" href="@?{(UserSnippetsR username, [("language", metaSnippetLanguage snippet)])}">#{languageName lang}
               <td>
                 <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
-              <td>#{iso8601Format $ metaSnippetCreated snippet}
+              <td data-iso-date="#{metaSnippetCreated snippet}">
+                <span class="formated-date">
               <td>#{visibilityFormat $ metaSnippetPublic snippet}
       $if paginationRequired pagination
         $maybe lang <- mLanguage

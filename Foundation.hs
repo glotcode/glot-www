@@ -88,6 +88,7 @@ instance Yesod App where
                 css_glot_css])
             $(combineScripts 'StaticR [
                 lib_jquery_jquery_min_js,
+                lib_moment_moment_min_js,
                 lib_bootstrap_bootstrap_min_js,
                 js_location_js,
                 js_xhr_js])
