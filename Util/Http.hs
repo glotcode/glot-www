@@ -9,7 +9,6 @@ module Util.Http (
 ) where
 
 import Import.NoFoundation hiding (responseBody, responseStatus, statusCode, checkStatus)
-import Data.Text (append)
 import qualified Data.ByteString.Lazy as L
 import Network.Wreq
 import Control.Lens
@@ -30,46 +29,45 @@ toLinks r =
         relLast=decodeUtf8 <$> (r ^? responseLink "rel" "last" . linkURL)
     }
 
-httpGet :: String -> Maybe Text -> IO L.ByteString
-httpGet url authToken = do
-    r <- getWith (reqOptions authToken) url
+httpGet :: String -> [Header] -> IO L.ByteString
+httpGet url extraHeaders = do
+    r <- getWith (prepareOptions extraHeaders) url
     return $ r ^. responseBody
 
-httpGetLink :: String -> Maybe Text -> IO (L.ByteString, Links)
-httpGetLink url authToken = do
-    r <- getWith (reqOptions authToken) url
+httpGetLink :: String -> [Header] -> IO (L.ByteString, Links)
+httpGetLink url extraHeaders = do
+    r <- getWith (prepareOptions extraHeaders) url
     return $ (r ^. responseBody, toLinks r)
 
-httpPost :: String -> Maybe Text -> L.ByteString -> IO L.ByteString
-httpPost url authToken payload = do
-    r <- postWith (reqOptions authToken) url payload
+httpPost :: String -> L.ByteString -> [Header] -> IO L.ByteString
+httpPost url payload extraHeaders = do
+    r <- postWith (prepareOptions extraHeaders) url payload
     return $ r ^. responseBody
 
-httpPostStatus :: String -> Maybe Text -> L.ByteString -> IO (Int, L.ByteString)
-httpPostStatus url authToken payload = do
-    r <- postWith (reqOptionsNoCheck authToken) url payload
+httpPostStatus :: String -> L.ByteString -> [Header] -> IO (Int, L.ByteString)
+httpPostStatus url payload extraHeaders = do
+    r <- postWith (reqOptionsNoCheck extraHeaders) url payload
     return (r ^. responseStatus . statusCode, r ^. responseBody)
 
-httpPut :: String -> Maybe Text -> L.ByteString -> IO L.ByteString
-httpPut url authToken payload = do
-    r <- putWith (reqOptions authToken) url payload
+httpPut :: String -> L.ByteString -> [Header] -> IO L.ByteString
+httpPut url payload extraHeaders = do
+    r <- putWith (prepareOptions extraHeaders) url payload
     return $ r ^. responseBody
 
-httpDelete :: String -> Maybe Text -> IO Int
-httpDelete url authToken = do
-    r <- deleteWith (reqOptions authToken) url
+httpDelete :: String -> [Header] -> IO Int
+httpDelete url extraHeaders = do
+    r <- deleteWith (prepareOptions extraHeaders) url
     return $ r ^. responseStatus . statusCode
 
-reqOptionsNoCheck :: Maybe Text -> Options
-reqOptionsNoCheck authToken =
-    (reqOptions authToken) & checkStatus .~ Just (\_ _ _ -> Nothing)
+reqOptionsNoCheck :: [Header] -> Options
+reqOptionsNoCheck extraHeaders =
+    (prepareOptions extraHeaders) & checkStatus .~ Just (\_ _ _ -> Nothing)
 
-reqOptions :: Maybe Text -> Options
-reqOptions Nothing = defaults & header "Content-type" .~ ["application/json"]
-reqOptions (Just authToken) =
-    defaults &
-        header "Authorization" .~ [authHeader authToken] &
-        header "Content-type" .~ ["application/json"]
-
-authHeader :: Text -> ByteString
-authHeader = encodeUtf8 . append "Token "
+prepareOptions :: [Header] -> Options
+prepareOptions extraHeaders =
+    let
+        defaultHeaders = [("Content-type", "application/json")]
+        prepareHeader (name, value) = header name .~ [value]
+        allHeaders = map prepareHeader $ defaultHeaders ++ extraHeaders
+    in
+        foldr (\x acc -> acc & x) defaults allHeaders

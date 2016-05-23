@@ -3,7 +3,7 @@ module Handler.Snippets where
 import Import
 import Model.Snippet.Api (listSnippets, listSnippetsByLanguage)
 import Data.List (nub)
-import Util.Handler (pageNo, title)
+import Util.Handler (pageNo, title, apiRequestHeaders)
 import Util.Snippet (iso8601Format)
 import Widget.Pagination (paginationWidget)
 
@@ -11,11 +11,13 @@ getSnippetsR :: Handler Html
 getSnippetsR = do
     currentPage <- pageNo <$> lookupGetParam "page"
     mLanguage <- lookupGetParam "language"
+    req <- reqWaiRequest <$> getRequest
+    let headers = apiRequestHeaders req Nothing
     (snippets, pagination) <- case mLanguage of
         Just lang ->
-            liftIO $ listSnippetsByLanguage lang currentPage Nothing
+            liftIO $ listSnippetsByLanguage lang currentPage headers
         Nothing ->
-            liftIO $ listSnippets currentPage Nothing
+            liftIO $ listSnippets currentPage headers
     profiles <- fetchProfiles $ nub $ map metaSnippetOwner snippets
     defaultLayout $ do
         setTitle $ title "Public snippets"

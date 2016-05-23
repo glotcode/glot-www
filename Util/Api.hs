@@ -1,4 +1,5 @@
 module Util.Api (
+    authHeader,
     createUser,
     updateUser
 ) where
@@ -17,15 +18,18 @@ instance FromJSON CreateUserResponse where
     parseJSON (Object v) = CreateUserResponse <$> v .: "id"
     parseJSON _          = mzero
 
-createUser :: String -> Text -> Text -> IO Text
-createUser url adminToken userToken = do
+createUser :: String -> Text -> [Header] -> IO Text
+createUser url userToken headers = do
     let payload = encode $ object ["token" .= userToken]
-    body <- httpPost url (Just adminToken) payload
+    body <- httpPost url payload headers
     let mJson = decode body :: Maybe CreateUserResponse
     return $ createUserResponseId $ fromJust mJson
 
-updateUser :: String -> Text -> Text -> IO ()
-updateUser url adminToken userToken = do
+updateUser :: String -> Text -> [Header] -> IO ()
+updateUser url userToken headers = do
     let payload = encode $ object ["token" .= userToken]
-    _ <- httpPut url (Just adminToken) payload
+    _ <- httpPut url payload headers
     return ()
+
+authHeader :: Text -> Header
+authHeader adminToken = ("Authorization", encodeUtf8 $ "Token " <> adminToken)

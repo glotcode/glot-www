@@ -7,7 +7,7 @@ module Model.Run.Api (
 ) where
 
 import Import.NoFoundation hiding (error, stderr, stdout)
-import Util.Api (createUser, updateUser)
+import Util.Api (createUser, updateUser, authHeader)
 import Data.Aeson (decode)
 import Data.Maybe (fromJust)
 import Util.Http (httpPostStatus, httpGet)
@@ -38,21 +38,21 @@ addUser :: Text -> IO Text
 addUser userToken = do
     url <- createUserUrl <$> runApiBaseUrl
     adminToken <- runApiAdminToken
-    createUser url adminToken userToken
+    createUser url userToken [authHeader adminToken]
 
 setUserToken :: Text -> Text -> IO ()
 setUserToken userId userToken = do
     url <- (updateUserUrl userId) <$> runApiBaseUrl
     adminToken <- runApiAdminToken
-    updateUser url adminToken userToken
+    updateUser url userToken [authHeader adminToken]
 
 toRunResultTuple :: InternalRunResult -> (Text, Text, Text)
 toRunResultTuple x = (stdout x, stderr x, error x)
 
-runSnippet :: Text -> Text -> L.ByteString -> Text -> IO (Either Text (Text, Text, Text))
-runSnippet lang version payload authToken = do
+runSnippet :: Text -> Text -> L.ByteString -> [Header] -> IO (Either Text (Text, Text, Text))
+runSnippet lang version payload headers = do
     apiUrl <- (runSnippetUrl lang version) <$> runApiBaseUrl
-    (statusCode, body) <- httpPostStatus apiUrl (Just authToken) payload
+    (statusCode, body) <- httpPostStatus apiUrl payload headers
     case statusCode of
         200 -> do
             let mJson = decode body :: Maybe InternalRunResult
@@ -66,7 +66,7 @@ runSnippet lang version payload authToken = do
 listLanguageVersions :: Text -> IO [Text]
 listLanguageVersions lang = do
     apiUrl <- (listVersionsUrl lang) <$> runApiBaseUrl
-    body <- httpGet apiUrl Nothing
+    body <- httpGet apiUrl []
     let mJson = decode body :: Maybe [InternalVersion]
     return $ map version $ fromJust mJson
 

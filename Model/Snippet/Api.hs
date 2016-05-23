@@ -13,7 +13,7 @@ module Model.Snippet.Api (
 ) where
 
 import Import.NoFoundation hiding (id, toLower)
-import Util.Api (createUser, updateUser)
+import Util.Api (createUser, updateUser, authHeader)
 import Util.Http (Links(..), httpPost, httpPut, httpGet, httpGetLink, httpDelete)
 import Settings.Environment (snippetsApiBaseUrl, snippetsApiAdminToken)
 import Data.Aeson (decode)
@@ -103,66 +103,66 @@ addUser :: Text -> IO Text
 addUser userToken = do
     url <- createUserUrl <$> snippetsApiBaseUrl
     adminToken <- snippetsApiAdminToken
-    createUser url adminToken userToken
+    createUser url userToken [authHeader adminToken]
 
 setUserToken :: Text -> Text -> IO ()
 setUserToken userId userToken = do
     url <- (updateUserUrl userId) <$> snippetsApiBaseUrl
     adminToken <- snippetsApiAdminToken
-    updateUser url adminToken userToken
+    updateUser url userToken [authHeader adminToken]
 
-addSnippet :: L.ByteString -> Maybe Text -> IO Snippet
-addSnippet payload authToken = do
+addSnippet :: L.ByteString -> [Header] -> IO Snippet
+addSnippet payload headers = do
     apiUrl <- createSnippetUrl <$> snippetsApiBaseUrl
-    body <- httpPost apiUrl authToken payload
+    body <- httpPost apiUrl payload headers
     let mJson = decode body :: Maybe InternalSnippet
     return $ toSnippet $ fromJust mJson
 
-updateSnippet :: Text -> L.ByteString -> Maybe Text -> IO Snippet
-updateSnippet snippetId payload authToken = do
+updateSnippet :: Text -> L.ByteString -> [Header] -> IO Snippet
+updateSnippet snippetId payload headers = do
     apiUrl <- (snippetUrl snippetId) <$> snippetsApiBaseUrl
-    body <- httpPut apiUrl authToken payload
+    body <- httpPut apiUrl payload headers
     let mJson = decode body :: Maybe InternalSnippet
     return $ toSnippet $ fromJust mJson
 
-getSnippet :: Text -> Maybe Text -> IO Snippet
-getSnippet snippetId authToken = do
+getSnippet :: Text -> [Header] -> IO Snippet
+getSnippet snippetId headers = do
     apiUrl <- (snippetUrl snippetId) <$> snippetsApiBaseUrl
-    body <- httpGet apiUrl authToken
+    body <- httpGet apiUrl headers
     let mJson = decode body :: Maybe InternalSnippet
     return $ toSnippet $ fromJust mJson
 
-deleteSnippet :: Text -> Maybe Text -> IO Bool
-deleteSnippet snippetId authToken = do
+deleteSnippet :: Text -> [Header] -> IO Bool
+deleteSnippet snippetId headers = do
     apiUrl <- (snippetUrl snippetId) <$> snippetsApiBaseUrl
-    responseCode <- httpDelete apiUrl authToken
+    responseCode <- httpDelete apiUrl headers
     return $ responseCode == 204
 
-listSnippets :: Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
-listSnippets page authToken = do
+listSnippets :: Int -> [Header] -> IO ([MetaSnippet], Pagination)
+listSnippets page headers = do
     apiUrl <- (snippetsUrl page False) <$> snippetsApiBaseUrl
-    (body, links) <- httpGetLink apiUrl authToken
+    (body, links) <- httpGetLink apiUrl headers
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
 
-listSnippetsByLanguage :: Text -> Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
-listSnippetsByLanguage lang page authToken = do
+listSnippetsByLanguage :: Text -> Int -> [Header] -> IO ([MetaSnippet], Pagination)
+listSnippetsByLanguage lang page headers = do
     apiUrl <- (snippetsByLanguageUrl lang page False) <$> snippetsApiBaseUrl
-    (body, links) <- httpGetLink apiUrl authToken
+    (body, links) <- httpGetLink apiUrl headers
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
 
-listSnippetsByOwner :: Text -> Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
-listSnippetsByOwner userId page authToken = do
+listSnippetsByOwner :: Text -> Int -> [Header] -> IO ([MetaSnippet], Pagination)
+listSnippetsByOwner userId page headers = do
     apiUrl <- (snippetsByOwnerUrl userId page False) <$> snippetsApiBaseUrl
-    (body, links) <- httpGetLink apiUrl authToken
+    (body, links) <- httpGetLink apiUrl headers
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
 
-listSnippetsByOwnerByLanguage :: Text -> Text -> Int -> Maybe Text -> IO ([MetaSnippet], Pagination)
-listSnippetsByOwnerByLanguage userId lang page authToken = do
+listSnippetsByOwnerByLanguage :: Text -> Text -> Int -> [Header] -> IO ([MetaSnippet], Pagination)
+listSnippetsByOwnerByLanguage userId lang page headers = do
     apiUrl <- (snippetsByOwnerByLanguageUrl userId lang page False) <$> snippetsApiBaseUrl
-    (body, links) <- httpGetLink apiUrl authToken
+    (body, links) <- httpGetLink apiUrl headers
     let mJson = decode body :: Maybe [InternalSnippet]
     return $ (map toMetaSnippet $ fromJust mJson, linksToPagination links)
 

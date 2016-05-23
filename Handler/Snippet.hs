@@ -4,7 +4,7 @@ import Import hiding (pack)
 import Widget.Editor (editorWidget, footerWidget)
 import Widget.RunResult (runResultWidget)
 import Widget.Share (shareWidget)
-import Util.Handler (maybeApiUser, titleConcat, urlDecode')
+import Util.Handler (maybeApiUser, titleConcat, urlDecode', apiRequestHeaders)
 import Util.Snippet (isSnippetOwner, persistRunParams, metaDescription, formatRunParams)
 import Util.Alert (successHtml)
 import Model.Snippet.Api (getSnippet, updateSnippet, deleteSnippet)
@@ -18,7 +18,10 @@ getSnippetR :: Text -> Handler Html
 getSnippetR snippetId = do
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
-    eSnippet <- liftIO $ try (getSnippet snippetId $ apiUserToken <$> mApiUser)
+    req <- reqWaiRequest <$> getRequest
+    let authToken = apiUserToken <$> mApiUser
+    let headers = apiRequestHeaders req authToken
+    eSnippet <- liftIO $ try $ getSnippet snippetId headers
     case eSnippet of
         Left (StatusCodeException s _ _)
             | statusCode s == 404 -> notFound
@@ -45,7 +48,9 @@ putSnippetR snippetId = do
     body <- liftIO $ lazyRequestBody req
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
-    _ <- liftIO $ updateSnippet snippetId body $ apiUserToken <$> mApiUser
+    let authToken = apiUserToken <$> mApiUser
+    let headers = apiRequestHeaders req authToken
+    _ <- liftIO $ updateSnippet snippetId body headers
     persistRunParams snippetId stdinData langVersion runCommand
     setMessage $ successHtml "Updated snippet"
     return $ object []
@@ -54,12 +59,17 @@ deleteSnippetR :: Text -> Handler Value
 deleteSnippetR snippetId = do
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
-    _ <- liftIO $ deleteSnippet snippetId $ apiUserToken <$> mApiUser
+    req <- reqWaiRequest <$> getRequest
+    let authToken = apiUserToken <$> mApiUser
+    let headers = apiRequestHeaders req authToken
+    _ <- liftIO $ deleteSnippet snippetId headers
     return $ object []
 
 getSnippetEmbedR :: Text -> Handler Html
 getSnippetEmbedR snippetId = do
-    eSnippet <- liftIO $ try (getSnippet snippetId Nothing)
+    req <- reqWaiRequest <$> getRequest
+    let headers = apiRequestHeaders req Nothing
+    eSnippet <- liftIO $ try $ getSnippet snippetId headers
     case eSnippet of
         Left (StatusCodeException s _ _)
             | statusCode s == 404 -> notFound
@@ -76,7 +86,9 @@ getSnippetEmbedR snippetId = do
 
 getSnippetRawR :: Text -> Handler Html
 getSnippetRawR snippetId = do
-    eSnippet <- liftIO $ try (getSnippet snippetId Nothing)
+    req <- reqWaiRequest <$> getRequest
+    let headers = apiRequestHeaders req Nothing
+    eSnippet <- liftIO $ try $ getSnippet snippetId headers
     case eSnippet of
         Left (StatusCodeException s _ _)
             | statusCode s == 404 -> notFound
@@ -93,7 +105,9 @@ getSnippetRawR snippetId = do
 
 getSnippetRawFileR :: Text -> Text -> Handler Text
 getSnippetRawFileR snippetId filename = do
-    eSnippet <- liftIO $ try (getSnippet snippetId Nothing)
+    req <- reqWaiRequest <$> getRequest
+    let headers = apiRequestHeaders req Nothing
+    eSnippet <- liftIO $ try $ getSnippet snippetId headers
     case eSnippet of
         Left (StatusCodeException s _ _)
             | statusCode s == 404 -> notFound

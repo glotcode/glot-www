@@ -130,6 +130,7 @@ library
                  , blaze-html                    >= 0.7.1      && < 1.0
                  , blaze-markup                  >= 0.6.3      && < 1.0
                  , hailgun                       >= 0.4.0.3    && < 0.5
+                 , case-insensitive              >= 1.2.0.5    && < 2.0
 
 executable         glot
     if flag(library-only)

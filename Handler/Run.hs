@@ -1,7 +1,7 @@
 module Handler.Run where
 
 import Import
-import Util.Handler (maybeApiUser)
+import Util.Handler (maybeApiUser, apiRequestHeaders)
 import Network.Wai (lazyRequestBody)
 import Model.Run.Api (runSnippet)
 import Model.Snippet.Api (getSnippet)
@@ -16,32 +16,36 @@ postRunR lang = do
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
     runAnonToken <- liftIO runApiAnonymousToken
-    res <- liftIO $ runSnippet (pack $ show lang) langVersion body $ runApiToken mApiUser runAnonToken
+    let authToken = runApiToken mApiUser runAnonToken
+    let headers = apiRequestHeaders req $ Just authToken
+    res <- liftIO $ runSnippet (pack $ show lang) langVersion body headers
     case res of
         Left errorMsg ->
             sendResponseStatus status400 $ object ["message" .= errorMsg]
         Right (runStdout, runStderr, runError) -> do
             mSnippetId <- lookupGetParam "snippet"
-            persistRunResult lang mSnippetId (apiUserToken <$> mApiUser) (snippetHashJson body langVersion) (runStdout, runStderr, runError)
+            let userToken = apiUserToken <$> mApiUser
+            let persistHeaders = apiRequestHeaders req userToken
+            let localHash = snippetHashJson body langVersion
+            persistRunResult lang mSnippetId persistHeaders localHash (runStdout, runStderr, runError)
             return $ object [
                 "stdout" .= runStdout,
                 "stderr" .= runStderr,
                 "error" .= runError]
 
-
 runApiToken :: Maybe ApiUser -> Text -> Text
 runApiToken (Just user) _ = apiUserToken user
 runApiToken _ token = token
 
-persistRunResult :: Language -> Maybe Text -> Maybe Text -> Text -> (Text, Text, Text) -> Handler ()
-persistRunResult lang (Just snippetId) mToken localFilesHash (runStdout, runStderr, runError)
+persistRunResult :: Language -> Maybe Text -> [Header] -> Text -> (Text, Text, Text) -> Handler ()
+persistRunResult lang (Just snippetId) headers localHash (runStdout, runStderr, runError)
     | (length runStdout > 0 || length runStderr > 0) && length runError == 0 = do
-        eSnippet <- liftIO $ safeGetSnippet snippetId mToken
+        eSnippet <- liftIO $ safeGetSnippet snippetId headers
         runParams <- runDB $ getBy $ UniqueRunParams snippetId
         case eSnippet of
             Left _ -> return ()
             Right snippet -> do
-                persistRunResult' lang snippetId localFilesHash
+                persistRunResult' lang snippetId localHash
                     (snippetHash snippet $ formatRunParams runParams) (runStdout, runStderr, runError)
 persistRunResult _ _ _ _ _ = return ()
 
@@ -56,5 +60,5 @@ persistRunResult' lang snippetId localHash remoteHash (runStdout, runStderr, run
         return ()
 persistRunResult' _ _ _ _ _ = return ()
 
-safeGetSnippet :: Text -> Maybe Text -> IO (Either SomeException Snippet)
-safeGetSnippet snippetId mToken = try $ getSnippet snippetId mToken
+safeGetSnippet :: Text -> [Header] -> IO (Either SomeException Snippet)
+safeGetSnippet snippetId headers = try $ getSnippet snippetId headers

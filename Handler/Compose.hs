@@ -3,7 +3,7 @@ module Handler.Compose where
 import Import
 import Widget.Editor (editorWidget, footerWidget)
 import Widget.Languages (languagesWidget)
-import Util.Handler (maybeApiUser, title, titleConcat, urlDecode')
+import Util.Handler (maybeApiUser, title, titleConcat, urlDecode', apiRequestHeaders)
 import Util.Snippet (persistRunParams)
 import Util.Alert (successHtml)
 import Network.Wai (lazyRequestBody)
@@ -31,7 +31,9 @@ postComposeR _ = do
     body <- liftIO $ lazyRequestBody req
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
-    snippet <- liftIO $ addSnippet body $ apiUserToken <$> mApiUser
+    let authToken = apiUserToken <$> mApiUser
+    let headers = apiRequestHeaders req authToken
+    snippet <- liftIO $ addSnippet body headers
     persistRunParams (snippetId snippet) stdinData langVersion runCommand
     renderUrl <- getUrlRender
     setMessage $ successHtml "Saved snippet"
