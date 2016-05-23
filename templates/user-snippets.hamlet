@@ -11,10 +11,10 @@ $newline never
         <table class="table">
           <thead>
             <tr>
-              <th>Language
-              <th>Title
-              <th>Created
-              <th>Visibility
+              <th class="col-language">Language
+              <th class="col-title">Title
+              <th class="col-created">Created
+              <th class="col-visibility">Visibility
           <tbody>
           $forall snippet <- snippets
             <tr>

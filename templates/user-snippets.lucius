@@ -6,3 +6,19 @@
     width: 14px;
     height: 14px;
 }
+
+.col-language {
+    width: 20%;
+}
+
+.col-title {
+    width: 40%;
+}
+
+.col-created {
+    width: 20%
+}
+
+.col-visibility {
+    width: 20%;
+}
