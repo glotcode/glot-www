@@ -52,10 +52,12 @@ $if not $ isComposing snippet
               Unknown
       <tr>
         <td>Created
-        <td>#{iso8601Format $ snippetCreated snippet}
+        <td data-iso-date="#{snippetCreated snippet}">
+          <span class="formated-date">
       <tr>
         <td>Modified
-        <td>#{iso8601Format $ snippetModified snippet}
+        <td data-iso-date="#{snippetModified snippet}">
+          <span class="formated-date">
       <tr>
         <td>Visibility
         <td>
