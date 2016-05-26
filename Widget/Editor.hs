@@ -8,6 +8,7 @@ import Util.Handler (maybeApiUser)
 import Util.Snippet (isSnippetOwner, iso8601Format, visibilityFormat, formatRunParams)
 import Model.Run.Api (listLanguageVersions)
 import Widget.CarbonAds (carbonAdsWidget)
+import Settings.Environment (disableAds)
 
 listVersions :: Text -> IO [Text]
 listVersions lang = do
@@ -46,7 +47,8 @@ footerWidget isComposing isRunnable isOwner runParams runResult =
     let
         (stdinData, _, _) = formatRunParams runParams
         (stdoutRes, stderrRes, errorRes, hasRunResult) = formatRunResult runResult
-    in
+    in do
+        showAds <- liftIO $ not <$> disableAds
         $(widgetFile "widgets/editor/footer")
 
 formatRunResult :: Maybe (Entity RunResult) -> (Text, Text, Text, Bool)

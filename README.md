@@ -30,6 +30,7 @@ All vars need to be set, no default values are provided.
 | MAILGUN_DOMAIN           | &lt;string&gt;                     | glot.io                  | Mailgun domain                                     |
 | MAILGUN_API_KEY          | &lt;string&gt;                     | key-1234567890           | Mailgun api key                                    |
 | ANALYTICS_ID             | &lt;string&gt;                     | secret-id                | Google analytics id (optional)                     |
+| DISABLE_ADS              | true                               | true                     | Disable ads (optional)                             |
 
 
 ## Compile from source

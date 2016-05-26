@@ -7,7 +7,8 @@ module Settings.Environment (
     mailgunDomain,
     mailgunApiKey,
     emailFromAddress,
-    analyticsId
+    analyticsId,
+    disableAds
 ) where
 
 import ClassyPrelude.Yesod
@@ -40,3 +41,9 @@ emailFromAddress = pack <$> getEnv "EMAIL_FROM_ADDRESS"
 
 analyticsId :: IO (Maybe String)
 analyticsId = lookupEnv "ANALYTICS_ID"
+
+disableAds :: IO Bool
+disableAds = do
+    val <- lookupEnv "DISABLE_ADS"
+    let str = fromMaybe "false" val
+    return $ str == "true"

@@ -83,17 +83,19 @@ $newline never
               <span class="output-label">Error
               <pre class="body">#{errorRes}
             <a href="#" class="show-full-height hide"><i class="fa fa-expand"></i>
-        <div class="col-sm-3 footer-right">
-          <ul class="list-group cool-stuff">
-            <li class="list-group-item cool-stuff">
-              <span class="output-label">
-                <a href="http://carbonads.net/" target="_blank">ads via Carbon
-              <div class="body">
-                ^{carbonAdsWidget}
+        $if showAds
+          <div class="col-sm-3 footer-right">
+            <ul class="list-group cool-stuff">
+              <li class="list-group-item cool-stuff">
+                <span class="output-label">
+                  <a href="http://carbonads.net/" target="_blank">ads via Carbon
+                <div class="body">
+                  ^{carbonAdsWidget}
     $else
-      <ul class="list-group cool-stuff">
-        <li class="list-group-item cool-stuff">
-          <span class="output-label">
-            <a href="http://carbonads.net/" target="_blank">ads via Carbon
-          <div class="body">
-            ^{carbonAdsWidget}
+      $if showAds
+        <ul class="list-group cool-stuff">
+          <li class="list-group-item cool-stuff">
+            <span class="output-label">
+              <a href="http://carbonads.net/" target="_blank">ads via Carbon
+            <div class="body">
+              ^{carbonAdsWidget}
