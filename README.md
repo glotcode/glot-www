@@ -27,7 +27,8 @@ All vars need to be set, no default values are provided.
 | RUN_API_ANONYMOUS_TOKEN  | &lt;string&gt;                     | secret-token             | Token used to run snippets for anonymous users     |
 | SNIPPETS_API_BASE_URL    | &lt;url&gt;                        | https://snippets.glot.io | Url to snippets api                                |
 | SNIPPETS_API_ADMIN_TOKEN | &lt;string&gt;                     | some-secret              | Admin token for the snippets api (to create users) |
-| MANDRILL_TOKEN           | &lt;string&gt;                     | secret-mandrill-token    | Mandrill token (to send signup emails, etc)        |
+| MAILGUN_DOMAIN           | &lt;string&gt;                     | glot.io                  | Mailgun domain                                     |
+| MAILGUN_API_KEY          | &lt;string&gt;                     | key-1234567890           | Mailgun api key                                    |
 | ANALYTICS_ID             | &lt;string&gt;                     | secret-id                | Google analytics id (optional)                     |
 
 
