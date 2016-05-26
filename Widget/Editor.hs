@@ -32,7 +32,7 @@ metaWidget snippet mProfile runParams = do
     mUserId <- handlerToWidget maybeAuthId
     mApiUser <- handlerToWidget $ maybeApiUser mUserId
     versions <- liftIO $ listVersions $ snippetLanguage snippet
-    addScript $ StaticR js_date_format_js
+    addScript $ StaticR js_date_js
     $(widgetFile "widgets/editor/meta")
     where
         (_, currentVersion, runCommand) = formatRunParams runParams
