@@ -11,6 +11,7 @@ import Settings.Environment (runApiAnonymousToken)
 postRunR :: Language -> Handler Value
 postRunR lang = do
     langVersion <- fromMaybe "latest" <$> lookupGetParam "version"
+    persist <- fromMaybe "true" <$> lookupGetParam "persist"
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ lazyRequestBody req
     mUserId <- maybeAuthId
@@ -27,7 +28,8 @@ postRunR lang = do
             let userToken = apiUserToken <$> mApiUser
             let persistHeaders = apiRequestHeaders req userToken
             let localHash = snippetHashJson body langVersion
-            persistRunResult lang mSnippetId persistHeaders localHash (runStdout, runStderr, runError)
+            when (persist == "true")
+                (persistRunResult lang mSnippetId persistHeaders localHash (runStdout, runStderr, runError))
             return $ object [
                 "stdout" .= runStdout,
                 "stderr" .= runStderr,

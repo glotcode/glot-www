@@ -5,9 +5,10 @@
         RunResult.showInfo("Running...");
 
         var version = Meta.getLanguageVersion();
-        var url = "@?{(RunR lang, [("snippet", snippetId)])}" + "&" + $.param({version: version});
+        var url = "@?{(RunR lang, [("snippet", snippetId)])}" + "&" + $.param({version: version, persist: false});
         var payload = {
             files: Editor.getFiles(),
+            stdin: "",
             command: Meta.getRunCommand(),
         };
 
