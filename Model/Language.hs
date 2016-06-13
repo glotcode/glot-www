@@ -25,6 +25,7 @@ data Language = Assembly |
                 Java |
                 Javascript |
                 Julia |
+                Kotlin |
                 Lua |
                 Nim |
                 Ocaml |
@@ -66,6 +67,7 @@ instance Show Language where
     show Java = "java"
     show Javascript = "javascript"
     show Julia = "julia"
+    show Kotlin = "kotlin"
     show Lua = "lua"
     show Nim = "nim"
     show Ocaml = "ocaml"
@@ -103,6 +105,7 @@ toLanguage "haskell" = Haskell
 toLanguage "idris" = Idris
 toLanguage "javascript" = Javascript
 toLanguage "julia" = Julia
+toLanguage "kotlin" = Kotlin
 toLanguage "lua" = Lua
 toLanguage "nim" = Nim
 toLanguage "ocaml" = Ocaml
@@ -140,6 +143,7 @@ allLanguages = [
         Java,
         Javascript,
         Julia,
+        Kotlin,
         Lua,
         Nim,
         Ocaml,
@@ -171,6 +175,7 @@ languageFileExt Erlang = "erl"
 languageFileExt Fsharp = "fs"
 languageFileExt Go = "go"
 languageFileExt Groovy = "groovy"
+languageFileExt Groovy = "kt"
 languageFileExt Haskell = "hs"
 languageFileExt Idris = "idr"
 languageFileExt Java = "java"
@@ -217,6 +222,7 @@ languageLogo Idris = img_idris_svg
 languageLogo Java = img_java_svg
 languageLogo Javascript = img_javascript_svg
 languageLogo Julia = img_julia_svg
+languageLogo Julia = img_kotlin_svg
 languageLogo Lua = img_lua_svg
 languageLogo Nim = img_nim_svg
 languageLogo Ocaml = img_ocaml_svg
@@ -252,6 +258,7 @@ languageLogoPng Idris = img_idris_svg_png
 languageLogoPng Java = img_java_svg_png
 languageLogoPng Javascript = img_javascript_svg_png
 languageLogoPng Julia = img_julia_svg_png
+languageLogoPng Kotlin = img_kotlin_svg_png
 languageLogoPng Lua = img_lua_svg_png
 languageLogoPng Nim = img_nim_svg_png
 languageLogoPng Ocaml = img_ocaml_svg_png
@@ -287,6 +294,7 @@ languageAceMode Idris = "ace/mode/plain_text"
 languageAceMode Java = "ace/mode/java"
 languageAceMode Javascript = "ace/mode/javascript"
 languageAceMode Julia = "ace/mode/julia"
+languageAceMode Kotlin = "ace/mode/kotlin"
 languageAceMode Lua = "ace/mode/lua"
 languageAceMode Nim = "ace/mode/plain_text"
 languageAceMode Ocaml = "ace/mode/ocaml"
@@ -322,6 +330,7 @@ languageName Idris = "Idris"
 languageName Java = "Java"
 languageName Javascript = "Javascript"
 languageName Julia = "Julia"
+languageName Kotlin = "Kotlin"
 languageName Lua = "Lua"
 languageName Nim = "Nim"
 languageName Ocaml = "Ocaml"
@@ -362,6 +371,7 @@ languageRunCmdExample Idris = "idris -o a.out main.idr && ./a.out"
 languageRunCmdExample Java = "javac Main.java && java Main"
 languageRunCmdExample Javascript = "node main.js"
 languageRunCmdExample Julia = "julia main.jl"
+languageRunCmdExample Kotlin = "kotlinc main.kt && kotlin MainKt"
 languageRunCmdExample Lua = "lua main.lua"
 languageRunCmdExample Nim = "nim --verbosity:0 compile --run main.nim"
 languageRunCmdExample Ocaml = "ocamlc -o a.out main.ml && ./a.out"
@@ -459,6 +469,9 @@ languageDefaultContent Java = [multiline|class Main {
 }|]
 languageDefaultContent Javascript = [multiline|console.log("Hello World!");|]
 languageDefaultContent Julia = [multiline|println("Hello world!")|]
+languageDefaultContent Julia = [multiline|fun main(args : Array<String>){
+    println("Hello World!")
+}|]
 languageDefaultContent Lua = [multiline|print("Hello World!");|]
 languageDefaultContent Nim = [multiline|echo("Hello World!")|]
 languageDefaultContent Ocaml = [multiline|print_endline "Hello World!"|]
