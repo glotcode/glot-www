@@ -39,3 +39,11 @@ git clone git@github.com:prasmussen/glot-www.git
 cd glot-www
 stack build
 ```
+
+## Develop with yesod-bin
+```bash
+git clone git@github.com:prasmussen/glot-www.git
+cd glot-www
+stack build yesod-bin
+stack exec yesod devel
+```
