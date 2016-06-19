@@ -37,7 +37,5 @@ All vars need to be set, no default values are provided.
 ```bash
 git clone git@github.com:prasmussen/glot-www.git
 cd glot-www
-cabal sandbox init
-cabal install -j --only-dependencies --max-backjumps=-1 --reorder-goals
-cabal build
+stack build
 ```
