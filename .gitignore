@@ -16,3 +16,5 @@ test
 devel.sh
 convert_svg.sh
 .stack-work
+.stack
+release
