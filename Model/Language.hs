@@ -12,6 +12,7 @@ data Language = Assembly |
                 Clojure |
                 Coffeescript |
                 Cpp |
+                Crystal |
                 Csharp |
                 D |
                 Elixir |
@@ -54,6 +55,7 @@ instance Show Language where
     show Clojure = "clojure"
     show Coffeescript = "coffeescript"
     show Cpp = "cpp"
+    show Crystal = "crystal"
     show Csharp = "csharp"
     show D = "d"
     show Elixir = "elixir"
@@ -93,6 +95,7 @@ toLanguage "clojure" = Clojure
 toLanguage "coffeescript" = Coffeescript
 toLanguage "cpp" = Cpp
 toLanguage "c" = C
+toLanguage "crystal" = Crystal
 toLanguage "csharp" = Csharp
 toLanguage "d" = D
 toLanguage "elixir" = Elixir
@@ -130,6 +133,7 @@ allLanguages = [
         Clojure,
         Coffeescript,
         Cpp,
+        Crystal,
         Csharp,
         D,
         Elixir,
@@ -167,6 +171,7 @@ languageFileExt C = "c"
 languageFileExt Clojure = "clj"
 languageFileExt Coffeescript = "coffee"
 languageFileExt Cpp = "cpp"
+languageFileExt Crystal = "cr"
 languageFileExt Csharp = "cs"
 languageFileExt D = "d"
 languageFileExt Elixir = "ex"
@@ -209,6 +214,7 @@ languageLogo C = img_c_svg
 languageLogo Clojure = img_clojure_svg
 languageLogo Coffeescript = img_coffeescript_svg
 languageLogo Cpp = img_cpp_svg
+languageLogo Crystal = img_crystal_svg
 languageLogo Csharp = img_csharp_svg
 languageLogo D = img_d_svg
 languageLogo Elixir = img_elixir_svg
@@ -245,6 +251,7 @@ languageLogoPng C = img_c_svg_png
 languageLogoPng Clojure = img_clojure_svg_png
 languageLogoPng Coffeescript = img_coffeescript_svg_png
 languageLogoPng Cpp = img_cpp_svg_png
+languageLogoPng Crystal = img_crystal_svg_png
 languageLogoPng Csharp = img_csharp_svg_png
 languageLogoPng D = img_d_svg_png
 languageLogoPng Elixir = img_elixir_svg_png
@@ -281,6 +288,7 @@ languageAceMode C = "ace/mode/c_cpp"
 languageAceMode Clojure = "ace/mode/clojure"
 languageAceMode Coffeescript = "ace/mode/coffee"
 languageAceMode Cpp = "ace/mode/c_cpp"
+languageAceMode Crystal = "ace/mode/plain_text"
 languageAceMode Csharp = "ace/mode/csharp"
 languageAceMode D = "ace/mode/d"
 languageAceMode Elixir = "ace/mode/elixir"
@@ -317,6 +325,7 @@ languageName C = "C"
 languageName Clojure = "Clojure"
 languageName Coffeescript = "Coffeescript"
 languageName Cpp = "C++"
+languageName Crystal = "Crystal"
 languageName Csharp = "C#"
 languageName D = "D"
 languageName Elixir = "Elixir"
@@ -358,6 +367,7 @@ languageRunCmdExample C = "clang main.c && ./a.out"
 languageRunCmdExample Clojure = "java -cp /usr/share/java/clojure.jar clojure.main main.clj"
 languageRunCmdExample Coffeescript = "coffee main.coffee"
 languageRunCmdExample Cpp = "clang++ main.cpp && ./a.out"
+languageRunCmdExample Crystal = "crystal run main.cr"
 languageRunCmdExample Csharp = "mcs -out:a.exe main.cs && mono a.exe"
 languageRunCmdExample D = "dmd -ofa.out main.d && ./a.out"
 languageRunCmdExample Elixir = "elixirc main.ex"
@@ -425,6 +435,7 @@ class MainClass {
         Console.WriteLine("Hello World!");
     }
 }|]
+languageDefaultContent Crystal = [multiline|puts "Hello World!"|]
 languageDefaultContent D = [multiline|import std.stdio;
 
 void main()
