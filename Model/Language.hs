@@ -180,7 +180,7 @@ languageFileExt Erlang = "erl"
 languageFileExt Fsharp = "fs"
 languageFileExt Go = "go"
 languageFileExt Groovy = "groovy"
-languageFileExt Groovy = "kt"
+languageFileExt Kotlin = "kt"
 languageFileExt Haskell = "hs"
 languageFileExt Idris = "idr"
 languageFileExt Java = "java"
@@ -302,7 +302,7 @@ languageAceMode Idris = "ace/mode/plain_text"
 languageAceMode Java = "ace/mode/java"
 languageAceMode Javascript = "ace/mode/javascript"
 languageAceMode Julia = "ace/mode/julia"
-languageAceMode Kotlin = "ace/mode/kotlin"
+languageAceMode Kotlin = "ace/mode/plain_text"
 languageAceMode Lua = "ace/mode/lua"
 languageAceMode Nim = "ace/mode/plain_text"
 languageAceMode Ocaml = "ace/mode/ocaml"
@@ -480,7 +480,7 @@ languageDefaultContent Java = [multiline|class Main {
 }|]
 languageDefaultContent Javascript = [multiline|console.log("Hello World!");|]
 languageDefaultContent Julia = [multiline|println("Hello world!")|]
-languageDefaultContent Julia = [multiline|fun main(args : Array<String>){
+languageDefaultContent Kotlin = [multiline|fun main(args : Array<String>){
     println("Hello World!")
 }|]
 languageDefaultContent Lua = [multiline|print("Hello World!");|]
