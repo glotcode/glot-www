@@ -38,6 +38,7 @@ data Language = Assembly |
                 Rust |
                 Scala |
                 Swift |
+                Zsh |
                 Plaintext
                 deriving Eq
 
@@ -81,6 +82,7 @@ instance Show Language where
     show Rust = "rust"
     show Scala = "scala"
     show Swift = "swift"
+    show Zsh = "zsh"
     show Plaintext = "plaintext"
 
 instance Read Language where
@@ -121,6 +123,7 @@ toLanguage "ruby" = Ruby
 toLanguage "rust" = Rust
 toLanguage "scala" = Scala
 toLanguage "swift" = Swift
+toLanguage "zsh" = Zsh
 toLanguage _ = Plaintext
 
 -- List of all languages, languages in this list will show up on the homepage
@@ -159,7 +162,8 @@ allLanguages = [
         Ruby,
         Rust,
         Scala,
-        Swift
+        Swift,
+        Zsh,
     ]
 
 -- Default file extensions
@@ -197,6 +201,7 @@ languageFileExt Ruby = "rb"
 languageFileExt Rust = "rs"
 languageFileExt Scala = "scala"
 languageFileExt Swift = "swift"
+languageFileExt Zsh = "zsh"
 languageFileExt Plaintext = "txt"
 
 -- Default file name
@@ -314,6 +319,7 @@ languageAceMode Ruby = "ace/mode/ruby"
 languageAceMode Rust = "ace/mode/rust"
 languageAceMode Scala = "ace/mode/scala"
 languageAceMode Swift = "ace/mode/swift"
+languageAceMode Zsh = "ace/mode/sh"
 languageAceMode Plaintext = "ace/mode/plain_text"
 
 -- Language name, used in titles, etc
@@ -351,6 +357,7 @@ languageName Ruby = "Ruby"
 languageName Rust = "Rust"
 languageName Scala = "Scala"
 languageName Swift = "Swift"
+languageName Zsh = "Zsh"
 languageName Plaintext = "Plaintext"
 
 -- If the language is runnable or not
@@ -393,6 +400,7 @@ languageRunCmdExample Ruby = "ruby main.rb"
 languageRunCmdExample Rust = "rustc -o a.out main.rs && ./a.out"
 languageRunCmdExample Scala = "scalac main.scala && scala Main"
 languageRunCmdExample Swift = "swift main.swift"
+languageRunCmdExample Zsh = "zsh main.sh"
 languageRunCmdExample _ = ""
 
 -- Hello World example code, used as initial code when a new snippet is created
@@ -500,4 +508,5 @@ languageDefaultContent Scala = [multiline|object Main extends App {
     println("Hello World!")
 }|]
 languageDefaultContent Swift = [multiline|print("Hello World!")|]
+languageDefaultContent Zsh = [multiline|echo Hello World|]
 languageDefaultContent Plaintext = [multiline|Hello World!|]
