@@ -38,6 +38,7 @@ data Language = Assembly |
                 Rust |
                 Scala |
                 Swift |
+                TypeScript |
                 Plaintext
                 deriving Eq
 
@@ -81,6 +82,7 @@ instance Show Language where
     show Rust = "rust"
     show Scala = "scala"
     show Swift = "swift"
+    show TypeScript = "typescript"
     show Plaintext = "plaintext"
 
 instance Read Language where
@@ -121,6 +123,7 @@ toLanguage "ruby" = Ruby
 toLanguage "rust" = Rust
 toLanguage "scala" = Scala
 toLanguage "swift" = Swift
+toLanguage "typescript" = TypeScript
 toLanguage _ = Plaintext
 
 -- List of all languages, languages in this list will show up on the homepage
@@ -159,7 +162,8 @@ allLanguages = [
         Ruby,
         Rust,
         Scala,
-        Swift
+        Swift,
+        TypeScript
     ]
 
 -- Default file extensions
@@ -197,6 +201,7 @@ languageFileExt Ruby = "rb"
 languageFileExt Rust = "rs"
 languageFileExt Scala = "scala"
 languageFileExt Swift = "swift"
+languageFileExt TypeScript = "ts"
 languageFileExt Plaintext = "txt"
 
 -- Default file name
@@ -240,6 +245,7 @@ languageLogo Ruby = img_ruby_svg
 languageLogo Rust = img_rust_svg
 languageLogo Scala = img_scala_svg
 languageLogo Swift = img_swift_svg
+languageLogo TypeScript = img_typescript_svg
 languageLogo Plaintext = img_plaintext_svg
 
 -- Route to png image in /static/img/ use img_generic_svg_png if image is not available
@@ -277,6 +283,7 @@ languageLogoPng Ruby = img_ruby_svg_png
 languageLogoPng Rust = img_rust_svg_png
 languageLogoPng Scala = img_scala_svg_png
 languageLogoPng Swift = img_swift_svg_png
+languageLogoPng TypeScript = img_typescript_svg_png
 languageLogoPng Plaintext = img_plaintext_svg_png
 
 -- Mode to use in the ace editor, check the /static/lib/ace directory for available modes
@@ -314,6 +321,7 @@ languageAceMode Ruby = "ace/mode/ruby"
 languageAceMode Rust = "ace/mode/rust"
 languageAceMode Scala = "ace/mode/scala"
 languageAceMode Swift = "ace/mode/swift"
+languageAceMode TypeScript = "ace/mode/typescript"
 languageAceMode Plaintext = "ace/mode/plain_text"
 
 -- Language name, used in titles, etc
@@ -351,6 +359,7 @@ languageName Ruby = "Ruby"
 languageName Rust = "Rust"
 languageName Scala = "Scala"
 languageName Swift = "Swift"
+languageName TypeScript = "TypeScript"
 languageName Plaintext = "Plaintext"
 
 -- If the language is runnable or not
@@ -393,6 +402,7 @@ languageRunCmdExample Ruby = "ruby main.rb"
 languageRunCmdExample Rust = "rustc -o a.out main.rs && ./a.out"
 languageRunCmdExample Scala = "scalac main.scala && scala Main"
 languageRunCmdExample Swift = "swift main.swift"
+languageRunCmdExample TypeScript = "tsc main.ts && node main.js"
 languageRunCmdExample _ = ""
 
 -- Hello World example code, used as initial code when a new snippet is created
@@ -500,4 +510,6 @@ languageDefaultContent Scala = [multiline|object Main extends App {
     println("Hello World!")
 }|]
 languageDefaultContent Swift = [multiline|print("Hello World!")|]
+languageDefaultContent TypeScript = [multiline|const hello : string = "Hello World!"
+console.log(hello)|]
 languageDefaultContent Plaintext = [multiline|Hello World!|]
