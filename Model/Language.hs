@@ -453,16 +453,10 @@ void main()
     writeln("Hello World!");
 }|]
 languageDefaultContent Elixir = [multiline|IO.puts "Hello World!"|]
-languageDefaultContent Elm = [multiline|module Main where
+languageDefaultContent Elm = [multiline|import Html exposing (..)
 
-import Console exposing (IO, putStrLn)
-import Task exposing (Task)
-
-main' : IO ()
-main' = putStrLn "Hello World!"
-
-port runner : Signal (Task x ())
-port runner = Console.run main'|]
+main =
+    text "Hello World!"|]
 languageDefaultContent Erlang = [multiline|% escript will ignore the first line
 
 main(_) ->
