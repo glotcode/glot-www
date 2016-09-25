@@ -9,7 +9,6 @@ window.Editor = (function() {
         editor.setTheme(theme);
         editor.setKeyboardHandler(keybindings);
         editor.getSession().setMode(#{toJSON $ languageAceMode lang});
-        editor.getSession().setUseSoftTabs(false);
         editor.setOptions({
             minLines: lineCount,
             maxLines: lineCount,
