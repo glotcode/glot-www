@@ -28,6 +28,7 @@ data Language = Assembly |
                 Julia |
                 Kotlin |
                 Lua |
+                Mercury |
                 Nim |
                 Ocaml |
                 Perl |
@@ -72,6 +73,7 @@ instance Show Language where
     show Julia = "julia"
     show Kotlin = "kotlin"
     show Lua = "lua"
+    show Mercury = "mercury"
     show Nim = "nim"
     show Ocaml = "ocaml"
     show Perl = "perl"
@@ -112,6 +114,7 @@ toLanguage "javascript" = Javascript
 toLanguage "julia" = Julia
 toLanguage "kotlin" = Kotlin
 toLanguage "lua" = Lua
+toLanguage "mercury" = Mercury
 toLanguage "nim" = Nim
 toLanguage "ocaml" = Ocaml
 toLanguage "java" = Java
@@ -152,6 +155,7 @@ allLanguages = [
         Julia,
         Kotlin,
         Lua,
+        Mercury,
         Nim,
         Ocaml,
         Perl,
@@ -191,6 +195,7 @@ languageFileExt Java = "java"
 languageFileExt Javascript = "js"
 languageFileExt Julia = "jl"
 languageFileExt Lua = "lua"
+languageFileExt Mercury = "m"
 languageFileExt Nim = "nim"
 languageFileExt Ocaml = "ml"
 languageFileExt Perl = "pl"
@@ -235,6 +240,7 @@ languageLogo Javascript = img_javascript_svg
 languageLogo Julia = img_julia_svg
 languageLogo Kotlin = img_kotlin_svg
 languageLogo Lua = img_lua_svg
+languageLogo Mercury = img_mercury_svg
 languageLogo Nim = img_nim_svg
 languageLogo Ocaml = img_ocaml_svg
 languageLogo Perl = img_perl_svg
@@ -273,6 +279,7 @@ languageLogoPng Javascript = img_javascript_svg_png
 languageLogoPng Julia = img_julia_svg_png
 languageLogoPng Kotlin = img_kotlin_svg_png
 languageLogoPng Lua = img_lua_svg_png
+languageLogoPng Mercury = img_generic_svg_png
 languageLogoPng Nim = img_nim_svg_png
 languageLogoPng Ocaml = img_ocaml_svg_png
 languageLogoPng Perl = img_perl_svg_png
@@ -311,6 +318,7 @@ languageAceMode Javascript = "ace/mode/javascript"
 languageAceMode Julia = "ace/mode/julia"
 languageAceMode Kotlin = "ace/mode/kotlin"
 languageAceMode Lua = "ace/mode/lua"
+languageAceMode Mercury = "ace/mode/plain_text"
 languageAceMode Nim = "ace/mode/plain_text"
 languageAceMode Ocaml = "ace/mode/ocaml"
 languageAceMode Perl = "ace/mode/perl"
@@ -349,6 +357,7 @@ languageName Javascript = "Javascript"
 languageName Julia = "Julia"
 languageName Kotlin = "Kotlin"
 languageName Lua = "Lua"
+languageName Mercury = "Mercury"
 languageName Nim = "Nim"
 languageName Ocaml = "Ocaml"
 languageName Perl = "Perl"
@@ -392,6 +401,7 @@ languageRunCmdExample Javascript = "node main.js"
 languageRunCmdExample Julia = "julia main.jl"
 languageRunCmdExample Kotlin = "kotlinc main.kt && kotlin MainKt"
 languageRunCmdExample Lua = "lua main.lua"
+languageRunCmdExample Mercury = "mmc -o a.out main.m && ./a.out"
 languageRunCmdExample Nim = "nim --verbosity:0 compile --run main.nim"
 languageRunCmdExample Ocaml = "ocamlc -o a.out main.ml && ./a.out"
 languageRunCmdExample Perl = "perl main.pl"
@@ -488,6 +498,16 @@ languageDefaultContent Kotlin = [multiline|fun main(args : Array<String>){
     println("Hello World!")
 }|]
 languageDefaultContent Lua = [multiline|print("Hello World!");|]
+languageDefaultContent Mercury = [multiline|:- module main.
+:- interface.
+:- import_module io.
+
+:- pred main(io::di, io::uo) is det.
+
+:- implementation.
+
+main(!IO) :-
+	io.write_string("Hello, world\n", !IO).|]
 languageDefaultContent Nim = [multiline|echo("Hello World!")|]
 languageDefaultContent Ocaml = [multiline|print_endline "Hello World!"|]
 languageDefaultContent Perl = [multiline|print "Hello World!\n";|]
