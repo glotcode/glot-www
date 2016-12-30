@@ -507,7 +507,7 @@ languageDefaultContent Mercury = [multiline|:- module main.
 :- implementation.
 
 main(!IO) :-
-	io.write_string("Hello, world\n", !IO).|]
+	io.write_string("Hello World!", !IO).|]
 languageDefaultContent Nim = [multiline|echo("Hello World!")|]
 languageDefaultContent Ocaml = [multiline|print_endline "Hello World!"|]
 languageDefaultContent Perl = [multiline|print "Hello World!\n";|]
