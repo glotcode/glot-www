@@ -5,6 +5,7 @@ set -e
 stack_root="/build/.stack"
 
 stack --stack-root $stack_root setup
+stack --stack-root $stack_root clean
 stack --stack-root $stack_root build
 
 rm -rf /build/release || true
