@@ -10,6 +10,7 @@ data Language = Assembly |
                 Bash |
                 C |
                 Clojure |
+                Cobol |
                 Coffeescript |
                 Cpp |
                 Crystal |
@@ -55,6 +56,7 @@ instance Show Language where
     show Bash = "bash"
     show C = "c"
     show Clojure = "clojure"
+    show Cobol = "cobol"
     show Coffeescript = "coffeescript"
     show Cpp = "cpp"
     show Crystal = "crystal"
@@ -96,6 +98,7 @@ toLanguage "assembly" = Assembly
 toLanguage "ats" = Ats
 toLanguage "bash" = Bash
 toLanguage "clojure" = Clojure
+toLanguage "cobol" = Cobol
 toLanguage "coffeescript" = Coffeescript
 toLanguage "cpp" = Cpp
 toLanguage "c" = C
@@ -137,6 +140,7 @@ allLanguages = [
         Bash,
         C,
         Clojure,
+        Cobol,
         Coffeescript,
         Cpp,
         Crystal,
@@ -177,6 +181,7 @@ languageFileExt Ats = "dats"
 languageFileExt Bash = "sh"
 languageFileExt C = "c"
 languageFileExt Clojure = "clj"
+languageFileExt Cobol = "cob"
 languageFileExt Coffeescript = "coffee"
 languageFileExt Cpp = "cpp"
 languageFileExt Crystal = "cr"
@@ -222,6 +227,7 @@ languageLogo Ats = img_ats_svg
 languageLogo Bash = img_bash_svg
 languageLogo C = img_c_svg
 languageLogo Clojure = img_clojure_svg
+languageLogo Cobol = img_generic_svg
 languageLogo Coffeescript = img_coffeescript_svg
 languageLogo Cpp = img_cpp_svg
 languageLogo Crystal = img_crystal_svg
@@ -261,6 +267,7 @@ languageLogoPng Ats = img_ats_svg_png
 languageLogoPng Bash = img_bash_svg_png
 languageLogoPng C = img_c_svg_png
 languageLogoPng Clojure = img_clojure_svg_png
+languageLogoPng Cobol = img_generic_svg_png
 languageLogoPng Coffeescript = img_coffeescript_svg_png
 languageLogoPng Cpp = img_cpp_svg_png
 languageLogoPng Crystal = img_crystal_svg_png
@@ -300,6 +307,7 @@ languageAceMode Ats = "ace/mode/ats"
 languageAceMode Bash = "ace/mode/sh"
 languageAceMode C = "ace/mode/c_cpp"
 languageAceMode Clojure = "ace/mode/clojure"
+languageAceMode Cobol = "ace/mode/cobol"
 languageAceMode Coffeescript = "ace/mode/coffee"
 languageAceMode Cpp = "ace/mode/c_cpp"
 languageAceMode Crystal = "ace/mode/plain_text"
@@ -339,6 +347,7 @@ languageName Ats = "ATS"
 languageName Bash = "Bash"
 languageName C = "C"
 languageName Clojure = "Clojure"
+languageName Cobol = "COBOL"
 languageName Coffeescript = "Coffeescript"
 languageName Cpp = "C++"
 languageName Crystal = "Crystal"
@@ -383,6 +392,7 @@ languageRunCmdExample Ats = "make"
 languageRunCmdExample Bash = "bash main.sh"
 languageRunCmdExample C = "clang main.c && ./a.out"
 languageRunCmdExample Clojure = "java -cp /usr/share/java/clojure.jar clojure.main main.clj"
+languageRunCmdExample Cobol = "cob -x -o a.out main.cob && ./a.out"
 languageRunCmdExample Coffeescript = "coffee main.coffee"
 languageRunCmdExample Cpp = "clang++ main.cpp && ./a.out"
 languageRunCmdExample Crystal = "crystal run main.cr"
@@ -440,6 +450,14 @@ int main(void) {
     return 0;
 }|]
 languageDefaultContent Clojure = [multiline|(println "Hello World!")|]
+languageDefaultContent Cobol = [multiline|       IDENTIFICATION DIVISION.
+       PROGRAM-ID. main.
+
+       PROCEDURE DIVISION.
+           DISPLAY 'Hello World!'
+           GOBACK
+           .
+|]
 languageDefaultContent Coffeescript = [multiline|console.log "Hello World!"|]
 languageDefaultContent Cpp = [multiline|#include <iostream>
 using namespace std;
