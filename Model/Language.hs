@@ -451,7 +451,7 @@ int main(void) {
 }|]
 languageDefaultContent Clojure = [multiline|(println "Hello World!")|]
 languageDefaultContent Cobol = [multiline|       IDENTIFICATION DIVISION.
-       PROGRAM-ID. main.
+       PROGRAM-ID. hello.
 
        PROCEDURE DIVISION.
            DISPLAY 'Hello World!'
