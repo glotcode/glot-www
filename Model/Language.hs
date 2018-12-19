@@ -467,6 +467,8 @@ int main() {
     return 0;
 }|]
 languageDefaultContent Csharp = [multiline|using System;
+using System.Collections.Generic;
+using System.Linq;
 
 class MainClass {
     static void Main() {
