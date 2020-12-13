@@ -23,9 +23,16 @@ getSnippetR snippetId = do
     let headers = apiRequestHeaders req authToken
     eSnippet <- liftIO $ try $ getSnippet snippetId headers
     case eSnippet of
-        Left (StatusCodeException s _ _)
-            | statusCode s == 404 -> notFound
-        Left e -> throwIO e
+        Left err@(HttpExceptionRequest _ (StatusCodeException response _)) ->
+            if statusCode (responseStatus response) == 404 then
+                notFound
+
+            else
+                throwIO err
+
+        Left err ->
+            throwIO err
+
         Right snippet -> do
             (profile, runParams, runResult) <- runDB $ do
                 p <- getBy $ UniqueSnippetsApiId $ snippetOwner snippet
@@ -71,9 +78,16 @@ getSnippetEmbedR snippetId = do
     let headers = apiRequestHeaders req Nothing
     eSnippet <- liftIO $ try $ getSnippet snippetId headers
     case eSnippet of
-        Left (StatusCodeException s _ _)
-            | statusCode s == 404 -> notFound
-        Left e -> throwIO e
+        Left err@(HttpExceptionRequest _ (StatusCodeException response _)) ->
+            if statusCode (responseStatus response) == 404 then
+                notFound
+
+            else
+                throwIO err
+
+        Left err ->
+            throwIO err
+
         Right snippet -> do
             (profile, runParams) <- runDB $ do
                 p <- getBy $ UniqueSnippetsApiId $ snippetOwner snippet
@@ -90,9 +104,16 @@ getSnippetRawR snippetId = do
     let headers = apiRequestHeaders req Nothing
     eSnippet <- liftIO $ try $ getSnippet snippetId headers
     case eSnippet of
-        Left (StatusCodeException s _ _)
-            | statusCode s == 404 -> notFound
-        Left e -> throwIO e
+        Left err@(HttpExceptionRequest _ (StatusCodeException response _)) ->
+            if statusCode (responseStatus response) == 404 then
+                notFound
+
+            else
+                throwIO err
+
+        Left err ->
+            throwIO err
+
         Right snippet ->
             case snippetFiles snippet of
                 [f] ->
@@ -109,9 +130,16 @@ getSnippetRawFileR snippetId filename = do
     let headers = apiRequestHeaders req Nothing
     eSnippet <- liftIO $ try $ getSnippet snippetId headers
     case eSnippet of
-        Left (StatusCodeException s _ _)
-            | statusCode s == 404 -> notFound
-        Left e -> throwIO e
+        Left err@(HttpExceptionRequest _ (StatusCodeException response _)) ->
+            if statusCode (responseStatus response) == 404 then
+                notFound
+
+            else
+                throwIO err
+
+        Left e ->
+            throwIO e
+
         Right snippet -> do
             return $ pack $ renderHtml $(shamletFile "templates/snippet/raw/file.hamlet")
 

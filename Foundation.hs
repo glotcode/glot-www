@@ -56,7 +56,7 @@ instance HasHttpManager App where
 mkYesodData "App" $(parseRoutesFile "config/routes")
 
 -- | A convenient synonym for creating forms.
-type Form x = Html -> MForm (HandlerT App IO) (FormResult x, Widget)
+type Form x = Html -> MForm (HandlerFor App) (FormResult x, Widget)
 
 -- Please see the documentation for the Yesod typeclass. There are a number
 -- of settings which can be configured by overriding methods here.
@@ -128,13 +128,6 @@ instance Yesod App where
         -- Generate a unique filename based on the content itself
         genFileName lbs = "autogen-" ++ base64md5 lbs
 
-    -- What messages should be logged. The following includes all messages when
-    -- in development, and warnings and errors in production.
-    shouldLog app _source level =
-        appShouldLogAll (appSettings app)
-            || level == LevelWarn
-            || level == LevelError
-
     makeLogger = return . appLogger
 
 -- How to run database actions.
@@ -163,7 +156,6 @@ instance YesodAuth App where
     -- You can add other plugins like BrowserID, email or OAuth here
     authPlugins _ = [authSimple]
 
-    authHttpManager = getHttpManager
 
 instance YesodAuthPersist App
 
@@ -181,7 +173,7 @@ instance YesodAuthSimple App where
         snippetsId <- liftIO $ SnippetApi.addUser token
         runId <- liftIO $ RunApi.addUser token
         now <- liftIO getCurrentTime
-        runDB $ do
+        liftHandler $ runDB $ do
             mUserId <- insertUnique $ User email password now now
             case mUserId of
                 Just userId -> do
@@ -193,17 +185,23 @@ instance YesodAuthSimple App where
 
     updateUserPassword uid pass = do
         now <- liftIO getCurrentTime
-        runDB $ update uid [UserPassword =. pass, UserModified =. now]
+        liftHandler $ runDB $ update uid [UserPassword =. pass, UserModified =. now]
 
-    getUserId email = runDB $ do
+    getUserId email = liftHandler $ runDB $ do
         res <- getBy $ UniqueUser email
         return $ case res of
             Just (Entity uid _) -> Just uid
             _ -> Nothing
 
-    getUserPassword = runDB . fmap userPassword . get404
+    getUserPassword userId =
+        liftHandler $ runDB $ do
+            user <- get404 userId
+            pure (userPassword user)
 
-    getUserModified = runDB . fmap userModified . get404
+    getUserModified userId =
+        liftHandler $ runDB $ do
+            user <- get404 userId
+            pure (userModified user)
 
     loginTemplate mErr = $(widgetFile "auth/login")
 
@@ -283,10 +281,9 @@ unsafeHandler = Unsafe.fakeHandlerGetLogger appLogger
 -- https://github.com/yesodweb/yesod/wiki/Serve-static-files-from-a-separate-domain
 -- https://github.com/yesodweb/yesod/wiki/i18n-messages-in-the-scaffolding
 
-mkUsername :: Text -> Text -> HandlerT App IO Text
 mkUsername email name = do
     let slug = mkSlug name
-    mUser <- runDB $ getBy $ UniqueUsername slug
+    mUser <- liftHandler $ runDB $ getBy $ UniqueUsername slug
     return $ case mUser of
         Just _ -> sha1Text email
         Nothing -> slug

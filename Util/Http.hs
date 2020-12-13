@@ -8,7 +8,7 @@ module Util.Http (
     httpDelete
 ) where
 
-import Import.NoFoundation hiding (responseBody, responseStatus, statusCode, checkStatus)
+import Import.NoFoundation hiding (responseBody, responseStatus, statusCode, checkResponse)
 import qualified Data.ByteString.Lazy as L
 import Network.Wreq
 import Control.Lens
@@ -61,7 +61,7 @@ httpDelete url extraHeaders = do
 
 reqOptionsNoCheck :: [Header] -> Options
 reqOptionsNoCheck extraHeaders =
-    (prepareOptions extraHeaders) & checkStatus .~ Just (\_ _ _ -> Nothing)
+    (prepareOptions extraHeaders) & checkResponse .~ Just (\_ _ -> pure ())
 
 prepareOptions :: [Header] -> Options
 prepareOptions extraHeaders =
