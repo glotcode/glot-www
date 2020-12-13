@@ -5,8 +5,8 @@
 # FROM haskell:8
 # MAINTAINER Petter Rasmussen "petter.rasmussen@gmail.com"
 #
-# RUN apt-get update && \
-#     apt-get install --no-install-recommends -y postgresql-server-dev-9.4
+# RUN apt-get update \
+#     && apt-get install --no-install-recommends -y postgresql-server-dev-all
 #
 # RUN mkdir /build
 # VOLUME ["/build"]
@@ -16,4 +16,4 @@
 docker run \
   --volume $(pwd):/build \
   --rm \
-  prasmussen/yesod-build:latest
+  prasmussen/glot-www-build:latest
