@@ -28,7 +28,7 @@ getAccountProfileR = do
 putAccountProfileR :: Handler Value
 putAccountProfileR = do
     userId <- requireAuthId
-    profileData <- requireJsonBody :: Handler ProfileData
+    profileData <- requireCheckJsonBody :: Handler ProfileData
     Entity profileId _ <- runDB $ getBy404 $ UniqueProfile userId
     now <- liftIO getCurrentTime
     runDB $ update profileId [

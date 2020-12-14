@@ -3,7 +3,7 @@ module Handler.UserSnippets where
 import Import
 import Model.Snippet.Api (listSnippets, listSnippetsByOwner, listSnippetsByLanguage, listSnippetsByOwnerByLanguage)
 import Util.Handler (maybeApiUser, pageNo, titleConcat, apiRequestHeaders)
-import Util.Snippet (iso8601Format, visibilityFormat)
+import Util.Snippet (visibilityFormat)
 import Widget.Pagination (paginationWidget)
 
 getUserSnippetsR :: Text -> Handler Html
@@ -37,13 +37,23 @@ fetchSnippets (Just authUserId) userId Nothing page
         liftIO $ listSnippets page headers
 -- Fetch strangers's snippets by language
 fetchSnippets _ userId (Just lang) page = do
-    Just apiUser <- maybeApiUser $ Just userId
-    req <- reqWaiRequest <$> getRequest
-    let headers = apiRequestHeaders req Nothing
-    liftIO $ listSnippetsByOwnerByLanguage (apiUserSnippetsId apiUser) lang page headers
+    maybeUser <- maybeApiUser $ Just userId
+    case maybeUser of
+        Just apiUser -> do
+            req <- reqWaiRequest <$> getRequest
+            let headers = apiRequestHeaders req Nothing
+            liftIO $ listSnippetsByOwnerByLanguage (apiUserSnippetsId apiUser) lang page headers
+
+        Nothing ->
+            error "Api user not found"
 -- Fetch strangers's snippets
 fetchSnippets _ userId Nothing page = do
-    Just apiUser <- maybeApiUser $ Just userId
-    req <- reqWaiRequest <$> getRequest
-    let headers = apiRequestHeaders req Nothing
-    liftIO $ listSnippetsByOwner (apiUserSnippetsId apiUser) page headers
+    maybeUser <- maybeApiUser $ Just userId
+    case maybeUser of
+        Just apiUser -> do
+            req <- reqWaiRequest <$> getRequest
+            let headers = apiRequestHeaders req Nothing
+            liftIO $ listSnippetsByOwner (apiUserSnippetsId apiUser) page headers
+
+        Nothing ->
+            error "Api user not found"

@@ -15,7 +15,7 @@
 # resolver:
 #  name: custom-snapshot
 #  location: "./custom-snapshot.yaml"
-resolver: lts-11.22
+resolver: lts-16.11
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -44,7 +44,8 @@ resolver: lts-11.22
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
 extra-deps:
-- hailgun-0.4.1.8
+- hailgun-0.5.1
+- pwstore-fast-2.4.4@sha256:9b6a37510d8b9f37f409a8ab3babac9181afcaaa3fce8ba1c131a7ed3de30698,1351
 
 # Override default flag values for local packages and extra-deps
 flags: {}

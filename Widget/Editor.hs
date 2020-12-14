@@ -5,7 +5,7 @@ module Widget.Editor (
 
 import Import
 import Util.Handler (maybeApiUser)
-import Util.Snippet (isSnippetOwner, iso8601Format, visibilityFormat, formatRunParams)
+import Util.Snippet (isSnippetOwner, visibilityFormat, formatRunParams)
 import Model.Run.Api (listLanguageVersions)
 import Widget.CarbonAds (carbonAdsWidget)
 import Settings.Environment (disableAds)

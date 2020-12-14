@@ -5,15 +5,22 @@
 
 packages:
 - completed:
-    hackage: hailgun-0.4.1.8@sha256:d3917574afc6b600e6ef9ec5791edbae90053d223a131e67d4bb3aceecf98898,3559
+    hackage: hailgun-0.5.1@sha256:a8a302776850e780b08467c986ea7e5e7fdf46a25abae735ffc8802dbd32e105,3770
     pantry-tree:
-      size: 1072
-      sha256: 2078a6f265c94d38a84b5b3c1bd47554b51c29cbe7a5158c171ba6e0aa4753c6
+      size: 1188
+      sha256: 25eb9f8dc32328cfbb89a2bbd2a4153c6eec9b46b1ed301d38f94f8374e59be5
   original:
-    hackage: hailgun-0.4.1.8
+    hackage: hailgun-0.5.1
+- completed:
+    hackage: pwstore-fast-2.4.4@sha256:9b6a37510d8b9f37f409a8ab3babac9181afcaaa3fce8ba1c131a7ed3de30698,1351
+    pantry-tree:
+      size: 270
+      sha256: ff4a44ede62515efe5cd366a5803f7183c811c4a0cf56eea88da94181c4844c0
+  original:
+    hackage: pwstore-fast-2.4.4@sha256:9b6a37510d8b9f37f409a8ab3babac9181afcaaa3fce8ba1c131a7ed3de30698,1351
 snapshots:
 - completed:
-    size: 527836
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/11/22.yaml
-    sha256: 341870ac98d8a9f8f77c4adf2e9e0b22063e264a7fbeb4c85b7af5f380dac60e
-  original: lts-11.22
+    size: 532381
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/16/11.yaml
+    sha256: 1f43c4ad661a114a4f9dd4580988f30da1208d844c097714f5867c52a02e0aa1
+  original: lts-16.11

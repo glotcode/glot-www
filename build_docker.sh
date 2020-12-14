@@ -9,6 +9,9 @@
 #     && apt-get install --no-install-recommends -y postgresql-server-dev-all \
 #     && apt-get install --no-install-recommends --no-install-suggests -y curl ca-certificates \
 #     && curl -sSL https://get.haskellstack.org/ | sh
+
+# # Set locale
+# ENV LANG C.UTF-8
 #
 # RUN mkdir /build
 # VOLUME ["/build"]

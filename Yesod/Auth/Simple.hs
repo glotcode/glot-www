@@ -32,7 +32,6 @@ import Data.ByteString.Base16 as B16
 import Data.Text.Encoding (encodeUtf8, decodeUtf8With)
 import Data.Text.Encoding.Error (lenientDecode)
 import Data.Text (Text, unpack, pack, concat, splitOn, toLower, length)
-import ClassyPrelude.Yesod ((<>))
 import Yesod.Core
 import qualified Crypto.PasswordStore as PS
 import Text.Email.Validate (canonicalizeEmail)
@@ -387,7 +386,7 @@ getSetPasswordTokenR token = do
 putSetPasswordTokenR :: YesodAuthSimple master => Text -> AuthHandler master Value
 putSetPasswordTokenR token = do
     clearError
-    passwords <- requireJsonBody :: AuthHandler master Passwords
+    passwords <- requireCheckJsonBody :: AuthHandler master Passwords
     res <- verifyPasswordResetToken token
     case res of
         Left msg -> sendResponseStatus status400 $ object ["message" .= msg]
@@ -397,7 +396,7 @@ putSetPasswordR :: YesodAuthSimple master => AuthHandler master Value
 putSetPasswordR = do
     clearError
     uid <- requireUserId
-    passwords <- requireJsonBody :: AuthHandler master Passwords
+    passwords <- requireCheckJsonBody :: AuthHandler master Passwords
     setPassword (toSimpleAuthId uid) passwords
 
 setPassword :: YesodAuthSimple master => AuthSimpleId master -> Passwords -> AuthHandler master Value

@@ -12,6 +12,6 @@ instance FromJSON AlertMessage
 
 postAlertDangerR :: Handler Value
 postAlertDangerR = do
-    payload <- requireJsonBody :: Handler AlertMessage
+    payload <- requireCheckJsonBody :: Handler AlertMessage
     let msg = dangerText $ message payload
     return $ object ["message" .= msg]
