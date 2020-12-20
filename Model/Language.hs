@@ -399,7 +399,7 @@ languageRunCmdExample Crystal = "crystal run main.cr"
 languageRunCmdExample Csharp = "mcs -out:a.exe main.cs && mono a.exe"
 languageRunCmdExample D = "dmd -ofa.out main.d && ./a.out"
 languageRunCmdExample Elixir = "elixirc main.ex"
-languageRunCmdExample Elm = "todo"
+languageRunCmdExample Elm = "elm make --output a.js Main.elm && elm-runner a.js"
 languageRunCmdExample Erlang = "escript main.erl"
 languageRunCmdExample Fsharp = "fsharpc --out:a.exe main.fs > /dev/null && mono a.exe"
 languageRunCmdExample Go = "go run main.go"
@@ -481,7 +481,9 @@ void main()
     writeln("Hello World!");
 }|]
 languageDefaultContent Elixir = [multiline|IO.puts "Hello World!"|]
-languageDefaultContent Elm = [multiline|import Html exposing (..)
+languageDefaultContent Elm = [multiline|module Main exposing (main)
+
+import Html exposing (..)
 
 main =
     text "Hello World!"|]
