@@ -33,9 +33,9 @@ data Language = Assembly |
                 Nim |
                 Ocaml |
                 Perl |
-                Perl6 |
                 Php |
                 Python |
+                Raku |
                 Ruby |
                 Rust |
                 Scala |
@@ -79,9 +79,9 @@ instance Show Language where
     show Nim = "nim"
     show Ocaml = "ocaml"
     show Perl = "perl"
-    show Perl6 = "perl6"
     show Php = "php"
     show Python = "python"
+    show Raku = "raku"
     show Ruby = "ruby"
     show Rust = "rust"
     show Scala = "scala"
@@ -122,9 +122,9 @@ toLanguage "nim" = Nim
 toLanguage "ocaml" = Ocaml
 toLanguage "java" = Java
 toLanguage "perl" = Perl
-toLanguage "perl6" = Perl6
 toLanguage "php" = Php
 toLanguage "python" = Python
+toLanguage "raku" = Raku
 toLanguage "ruby" = Ruby
 toLanguage "rust" = Rust
 toLanguage "scala" = Scala
@@ -163,10 +163,10 @@ allLanguages = [
         Nim,
         Ocaml,
         Perl,
-        Perl6,
         Php,
         Plaintext,
         Python,
+        Raku,
         Ruby,
         Rust,
         Scala,
@@ -204,9 +204,9 @@ languageFileExt Mercury = "m"
 languageFileExt Nim = "nim"
 languageFileExt Ocaml = "ml"
 languageFileExt Perl = "pl"
-languageFileExt Perl6 = "pl6"
 languageFileExt Php = "php"
 languageFileExt Python = "py"
+languageFileExt Raku = "raku"
 languageFileExt Ruby = "rb"
 languageFileExt Rust = "rs"
 languageFileExt Scala = "scala"
@@ -250,9 +250,9 @@ languageLogo Mercury = img_mercury_svg
 languageLogo Nim = img_nim_svg
 languageLogo Ocaml = img_ocaml_svg
 languageLogo Perl = img_perl_svg
-languageLogo Perl6 = img_perl6_svg
 languageLogo Php = img_php_svg
 languageLogo Python = img_python_svg
+languageLogo Raku = img_perl6_svg
 languageLogo Ruby = img_ruby_svg
 languageLogo Rust = img_rust_svg
 languageLogo Scala = img_scala_svg
@@ -290,9 +290,9 @@ languageLogoPng Mercury = img_generic_svg_png
 languageLogoPng Nim = img_nim_svg_png
 languageLogoPng Ocaml = img_ocaml_svg_png
 languageLogoPng Perl = img_perl_svg_png
-languageLogoPng Perl6 = img_perl6_svg_png
 languageLogoPng Php = img_php_svg_png
 languageLogoPng Python = img_python_svg_png
+languageLogoPng Raku = img_perl6_svg_png
 languageLogoPng Ruby = img_ruby_svg_png
 languageLogoPng Rust = img_rust_svg_png
 languageLogoPng Scala = img_scala_svg_png
@@ -330,9 +330,9 @@ languageAceMode Mercury = "ace/mode/plain_text"
 languageAceMode Nim = "ace/mode/plain_text"
 languageAceMode Ocaml = "ace/mode/ocaml"
 languageAceMode Perl = "ace/mode/perl"
-languageAceMode Perl6 = "ace/mode/perl"
 languageAceMode Php = "ace/mode/php"
 languageAceMode Python = "ace/mode/python"
+languageAceMode Raku = "ace/mode/perl"
 languageAceMode Ruby = "ace/mode/ruby"
 languageAceMode Rust = "ace/mode/rust"
 languageAceMode Scala = "ace/mode/scala"
@@ -370,9 +370,9 @@ languageName Mercury = "Mercury"
 languageName Nim = "Nim"
 languageName Ocaml = "Ocaml"
 languageName Perl = "Perl"
-languageName Perl6 = "Perl 6"
 languageName Php = "PHP"
 languageName Python = "Python"
+languageName Raku = "Raku"
 languageName Ruby = "Ruby"
 languageName Rust = "Rust"
 languageName Scala = "Scala"
@@ -415,9 +415,9 @@ languageRunCmdExample Mercury = "mmc -o a.out main.m && ./a.out"
 languageRunCmdExample Nim = "nim --verbosity:0 compile --run main.nim"
 languageRunCmdExample Ocaml = "ocamlc -o a.out main.ml && ./a.out"
 languageRunCmdExample Perl = "perl main.pl"
-languageRunCmdExample Perl6 = "perl6 main.pl6"
 languageRunCmdExample Php = "php main.php"
 languageRunCmdExample Python = "python main.py"
+languageRunCmdExample Raku = "raku main.raku"
 languageRunCmdExample Ruby = "ruby main.rb"
 languageRunCmdExample Rust = "rustc -o a.out main.rs && ./a.out"
 languageRunCmdExample Scala = "scalac main.scala && scala Main"
@@ -529,11 +529,11 @@ main(!IO) :-
 languageDefaultContent Nim = [multiline|echo("Hello World!")|]
 languageDefaultContent Ocaml = [multiline|print_endline "Hello World!"|]
 languageDefaultContent Perl = [multiline|print "Hello World!\n";|]
-languageDefaultContent Perl6 = [multiline|say 'Hello World!';|]
 languageDefaultContent Php = [multiline|<?php
 
 echo "Hello World\n";|]
 languageDefaultContent Python = [multiline|print("Hello World!")|]
+languageDefaultContent Raku = [multiline|say 'Hello World!';|]
 languageDefaultContent Ruby = [multiline|puts "Hello World!"|]
 languageDefaultContent Rust = [multiline|fn main() {
     println!("Hello World!");
