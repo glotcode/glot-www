@@ -15,6 +15,7 @@ getUserSnippetsR username = do
     (snippets, pagination) <- fetchSnippets mAuthUserId (profileUserId profile) mLanguage currentPage
     defaultLayout $ do
         setTitle $ titleConcat ["Snippets by ", profileName profile]
+        setDescription $ concat ["Public code snippets by ", profileName profile]
         addScript $ StaticR js_date_js
         $(widgetFile "user-snippets")
 

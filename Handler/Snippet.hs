@@ -42,9 +42,20 @@ getSnippetR snippetId = do
             let lang = toLanguage $ snippetLanguage snippet
             defaultLayout $ do
                 setTitle $ titleConcat [snippetTitle snippet, " - ", languageName lang, " Snippet"]
+                setDescription (snippetDescription lang)
                 toWidgetHead $(hamletFile "templates/snippet/opengraph.hamlet")
                 toWidgetHead $(hamletFile "templates/snippet/twitter-card.hamlet")
                 $(widgetFile "snippet")
+
+
+snippetDescription :: Language -> Text
+snippetDescription lang =
+    if languageIsRunnable lang then
+        concat ["Run this ", languageName lang, " code snippet in the browser."]
+
+    else
+        concat [languageName lang, " snippet"]
+
 
 putSnippetR :: Text -> Handler Value
 putSnippetR snippetId = do

@@ -8,6 +8,7 @@ import Util.Snippet (persistRunParams)
 import Util.Alert (successHtml)
 import Network.Wai (lazyRequestBody)
 import Model.Snippet.Api (addSnippet)
+import qualified Text.Blaze as Blaze
 
 getComposeLanguagesR :: Handler Html
 getComposeLanguagesR = do
@@ -19,8 +20,28 @@ getComposeR :: Language -> Handler Html
 getComposeR lang = do
     let snippet = defaultSnippet lang
     defaultLayout $ do
-        setTitle $ titleConcat ["New ", languageName lang, " Snippet"]
+        setTitle (composeTitle lang)
+        setDescription (composeDescription lang)
         $(widgetFile "compose")
+
+
+composeTitle :: Language -> Blaze.Markup
+composeTitle lang =
+    if languageIsRunnable lang then
+        titleConcat ["Run ", languageName lang, " in the browser"]
+
+    else
+        titleConcat ["New ", languageName lang, " snippet"]
+
+
+composeDescription :: Language -> Text
+composeDescription lang =
+    if languageIsRunnable lang then
+        concat ["Run ", languageName lang, " online in the browser. No installation required."]
+
+    else
+        concat ["Create a new ", languageName lang, " snippet"]
+
 
 postComposeR :: Language -> Handler Value
 postComposeR _ = do

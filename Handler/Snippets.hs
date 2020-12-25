@@ -20,6 +20,7 @@ getSnippetsR = do
     profiles <- fetchProfiles $ nub $ map metaSnippetOwner snippets
     defaultLayout $ do
         setTitle $ title "Public snippets"
+        setDescription "List of public code snippets"
         addScript $ StaticR js_date_js
         $(widgetFile "snippets")
 
