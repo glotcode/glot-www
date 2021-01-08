@@ -16,24 +16,23 @@ $newline never
               <th class="col-created">Created
               <th class="col-owner">Owner
           <tbody>
-          $forall snippet <- snippets
+          $forall (snippet, profile) <- snippets
             <tr>
               <td>
-                $with lang <- toLanguage $ metaSnippetLanguage snippet
+                $with lang <- toLanguage $ codeSnippetLanguage snippet
                   <img class="logo" src=@{StaticR $ languageLogo lang} alt="#{languageName lang} logo">
-                  <a class="language" href="@?{(SnippetsR, [("language", metaSnippetLanguage snippet)])}">#{languageName lang}
+                  <a class="language" href="@?{(SnippetsR, [("language", codeSnippetLanguage snippet)])}">#{languageName lang}
               <td>
-                <a href="@{SnippetR $ metaSnippetId snippet}" title="#{metaSnippetTitle snippet}">#{take 50 $ metaSnippetTitle snippet}
-              <td data-iso-date="#{metaSnippetCreated snippet}">
+                <a href="@{SnippetR $ codeSnippetSlug snippet}" title="#{codeSnippetTitle snippet}">#{take 50 $ codeSnippetTitle snippet}
+              <td data-iso-date="#{show $ codeSnippetCreated snippet}">
                 <span class="formated-date">
               <td>
-                $with owner <- metaSnippetOwner snippet
-                  $maybe username <- ownerUsername owner profiles
-                    <a href="@{UserSnippetsR username}">#{ownerName owner profiles}
-                  $nothing
-                    #{ownerName owner profiles}
+                $maybe username <- fmap profileUsername profile
+                  <a href="@{UserSnippetsR username}">#{fromMaybe "anonymous" $ fmap profileName profile}
+                $nothing
+                  #{fromMaybe "anonymous" $ fmap profileName profile}
       $if paginationRequired pagination
-        $maybe lang <- mLanguage
+        $maybe lang <- maybeLanguage
           ^{paginationWidget SnippetsR pagination currentPage [("language", lang)]}
         $nothing
           ^{paginationWidget SnippetsR pagination currentPage []}
