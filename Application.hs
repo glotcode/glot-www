@@ -14,7 +14,7 @@ module Application
 
 import Control.Monad.Logger                 (liftLoc, runLoggingT)
 import Database.Persist.Postgresql          (createPostgresqlPool, pgConnStr,
-                                             pgPoolSize, runSqlPool)
+                                             pgPoolSize, runSqlPool, addMigration)
 import Import
 import Language.Haskell.TH.Syntax           (qLocation)
 import Network.Wai.Handler.Warp             (Settings, defaultSettings,
@@ -75,10 +75,36 @@ makeFoundation appSettings = do
         (pgPoolSize $ appDatabaseConf appSettings)
 
     -- Perform database migration using our application's logging settings.
-    runLoggingT (runSqlPool (runMigration migrateAll) pool) logFunc
+    runLoggingT (runSqlPool runMigrations pool) logFunc
 
     -- Return the foundation
     return $ mkFoundation pool
+
+
+runMigrations :: MonadIO m => ReaderT SqlBackend m ()
+runMigrations = runMigration $ do
+  migrateAll
+  addMigration False (createIndexSql "code_snippet" "user_id")
+  addMigration False (createIndexSql "code_snippet" "language")
+  addMigration False (createIndexSql "code_snippet" "public")
+  addMigration False (createIndexSql "code_snippet" "created")
+  addMigration False (createIndexSql "code_file" "code_snippet_id")
+
+
+createIndexSql :: Text -> Text -> Text
+createIndexSql tableName fieldName =
+    concat
+        [ "CREATE INDEX IF NOT EXISTS "
+        , tableName
+        , "_"
+        , fieldName
+        , "_idx ON "
+        , tableName
+        , " ("
+        , fieldName
+        , ")"
+        ]
+
 
 -- | Convert our foundation to a WAI Application by calling @toWaiAppPlain@ and
 -- applyng some additional middlewares.
