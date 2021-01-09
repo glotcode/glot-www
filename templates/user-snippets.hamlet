@@ -19,16 +19,16 @@ $newline never
           $forall snippet <- snippets
             <tr>
               <td>
-                $with lang <- toLanguage $ metaSnippetLanguage snippet
-                  <img class="logo" src=@{StaticR $ languageLogo lang} alt="#{languageName lang} logo">
-                  <a class="language" href="@?{(UserSnippetsR username, [("language", metaSnippetLanguage snippet)])}">#{languageName lang}
+                $with language <- toLanguage (codeSnippetLanguage snippet)
+                  <img class="logo" src=@{StaticR $ languageLogo language} alt="#{languageName language} logo">
+                  <a class="language" href="@?{(UserSnippetsR username, [("language", codeSnippetLanguage snippet)])}">#{languageName language}
               <td>
-                <a href="@{SnippetR $ metaSnippetId snippet}">#{metaSnippetTitle snippet}
-              <td data-iso-date="#{metaSnippetCreated snippet}">
+                <a href="@{SnippetR $ codeSnippetSlug snippet}" title="#{Snippet.title snippet}">#{Snippet.title snippet}
+              <td data-iso-date="#{show $ codeSnippetCreated snippet}">
                 <span class="formated-date">
-              <td>#{visibilityFormat $ metaSnippetPublic snippet}
+              <td>#{Snippet.visibility snippet}
       $if paginationRequired pagination
-        $maybe lang <- mLanguage
-          ^{paginationWidget (UserSnippetsR username) pagination currentPage [("language", lang)]}
+        $maybe languageParam <- maybeLanguageParam
+          ^{paginationWidget (UserSnippetsR username) pagination currentPage [("language", languageParam)]}
         $nothing
           ^{paginationWidget (UserSnippetsR username) pagination currentPage []}

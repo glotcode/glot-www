@@ -3,6 +3,7 @@ module Util.Snippet (
     metaDescription,
     isSnippetOwner,
     visibilityFormat,
+    visibility,
     iso8601Format,
     persistRunParams,
     formatRunParams,
@@ -31,6 +32,15 @@ iso8601Format time = utcFormat $ fromJust $ parseISO8601 $ unpack time
 visibilityFormat :: Bool -> Text
 visibilityFormat True = "Public"
 visibilityFormat False = "Secret"
+
+visibility :: CodeSnippet -> Text
+visibility snippet =
+    case codeSnippetPublic snippet of
+        True ->
+            "Public"
+
+        False ->
+            "Secret"
 
 isSnippetOwner :: Maybe ApiUser -> Snippet -> Bool
 isSnippetOwner Nothing _ = False
