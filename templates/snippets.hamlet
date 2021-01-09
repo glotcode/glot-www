@@ -5,7 +5,7 @@ $newline never
   <div class="row">
     <div class="col-lg-12">
       <h3>Public Snippets
-      $if null snippets
+      $if null entries
         <p>No snippets found
       $else
         <table class="table">
@@ -16,23 +16,26 @@ $newline never
               <th class="col-created">Created
               <th class="col-owner">Owner
           <tbody>
-          $forall (snippet, profile) <- snippets
-            <tr>
-              <td>
-                $with lang <- toLanguage $ codeSnippetLanguage snippet
-                  <img class="logo" src=@{StaticR $ languageLogo lang} alt="#{languageName lang} logo">
-                  <a class="language" href="@?{(SnippetsR, [("language", codeSnippetLanguage snippet)])}">#{languageName lang}
-              <td>
-                <a href="@{SnippetR $ codeSnippetSlug snippet}" title="#{codeSnippetTitle snippet}">#{take 50 $ codeSnippetTitle snippet}
-              <td data-iso-date="#{show $ codeSnippetCreated snippet}">
-                <span class="formated-date">
-              <td>
-                $maybe username <- fmap profileUsername profile
-                  <a href="@{UserSnippetsR username}">#{fromMaybe "anonymous" $ fmap profileName profile}
-                $nothing
-                  #{fromMaybe "anonymous" $ fmap profileName profile}
+          $forall entry <- entries
+            $with (snippet, maybeProfile) <- (entrySnippet entry, entryProfile entry)
+              <tr>
+                <td>
+                  $with language <- toLanguage (codeSnippetLanguage snippet)
+                    <img class="logo" src=@{StaticR $ languageLogo language} alt="#{languageName language} logo">
+                    <a class="language" href="@?{(SnippetsR, [("language", codeSnippetLanguage snippet)])}">#{languageName language}
+                <td>
+                  <a href="@{SnippetR $ codeSnippetSlug snippet}" title="#{entryTitle entry}">#{entryTitle entry}
+                <td data-iso-date="#{show $ codeSnippetCreated snippet}">
+                  <span class="formated-date">
+                <td>
+                  $maybe profile <- maybeProfile
+                    <a href="@{UserSnippetsR $ profileUsername profile}">#{profileName profile}
+
+                  $nothing
+                    <span>anonymous
       $if paginationRequired pagination
-        $maybe lang <- maybeLanguage
-          ^{paginationWidget SnippetsR pagination currentPage [("language", lang)]}
+        $maybe languageParam <- maybeLanguageParam
+          ^{paginationWidget SnippetsR pagination currentPage [("language", languageParam)]}
+
         $nothing
           ^{paginationWidget SnippetsR pagination currentPage []}
