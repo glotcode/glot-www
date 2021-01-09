@@ -24,7 +24,7 @@ $newline never
                     <img class="logo" src=@{StaticR $ languageLogo language} alt="#{languageName language} logo">
                     <a class="language" href="@?{(SnippetsR, [("language", codeSnippetLanguage snippet)])}">#{languageName language}
                 <td>
-                  <a href="@{SnippetR $ codeSnippetSlug snippet}" title="#{entryTitle entry}">#{entryTitle entry}
+                  <a href="@{SnippetR $ codeSnippetSlug snippet}" title="#{Snippet.title snippet}">#{Snippet.title snippet}
                 <td data-iso-date="#{show $ codeSnippetCreated snippet}">
                   <span class="formated-date">
                 <td>

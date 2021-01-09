@@ -46,6 +46,7 @@ library
                      Util.Hash
                      Util.Snippet
                      Util.Alert
+                     Util.Persistent
                      Widget.Editor
                      Widget.RunResult
                      Widget.Languages

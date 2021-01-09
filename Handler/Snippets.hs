@@ -3,10 +3,10 @@ module Handler.Snippets where
 import Import
 import Util.Handler (pageNo, title)
 import Widget.Pagination (paginationWidget)
-import Database.Persist.Sql
-import Data.Function ((&))
 import qualified Model.Pagination as Pagination
-import Util.Multiline (multiline)
+import qualified Util.Persistent as Persistent
+import qualified Util.Snippet as Snippet
+import qualified Util.Multiline as Multiline
 
 
 
@@ -15,12 +15,20 @@ getSnippetsR = do
     currentPage <- pageNo <$> lookupGetParam "page"
     maybeLanguageParam <- lookupGetParam "language"
     let snippetsPerPage = 20
-    let limitOffset = LimitOffset
+    let limitOffset = Persistent.LimitOffset
             { limit = snippetsPerPage
             , offset = (currentPage - 1) * snippetsPerPage
             }
-    entities <- getEntitiesWithCount (getEntitiesQuery limitOffset maybeLanguageParam)
-    let SnippetEntriesWithPagination{..} = toSnippetsWithPagination currentPage snippetsPerPage entities
+    Persistent.EntitiesWithCount{..} <- Persistent.getEntitiesWithCount (getEntitiesQuery limitOffset maybeLanguageParam)
+    let SnippetEntriesWithPagination{..} = SnippetEntriesWithPagination
+            { entries = map (uncurry snippetEntryFromEntity) entities
+            , pagination = Pagination.fromPageData
+                Pagination.PageData
+                    { currentPage = currentPage
+                    , totalEntries = entitiesCount
+                    , entriesPerPage = snippetsPerPage
+                    }
+            }
     defaultLayout $ do
         setTitle $ title "Public snippets"
         setDescription "List of public code snippets"
@@ -28,7 +36,8 @@ getSnippetsR = do
         $(widgetFile "snippets")
 
 
-getEntitiesQuery :: LimitOffset -> Maybe Text -> GetEntitiesWithCountQuery
+
+getEntitiesQuery :: Persistent.LimitOffset -> Maybe Text -> Persistent.GetEntitiesWithCountQuery
 getEntitiesQuery limitOffset maybeLanguage =
     case maybeLanguage of
         Just language ->
@@ -38,55 +47,11 @@ getEntitiesQuery limitOffset maybeLanguage =
             getSnippetsWithCountQuery limitOffset
 
 
-toSnippetsWithPagination :: Int -> Int -> EntitiesWithCount (Entity CodeSnippet, Maybe (Entity Profile)) -> SnippetEntriesWithPagination
-toSnippetsWithPagination currentPage perPage EntitiesWithCount{..} =
-    SnippetEntriesWithPagination
-        { entries = map (uncurry snippetEntryFromEntity) entities
-        , pagination = paginationFromPageData
-            PageData
-                { currentPage = currentPage
-                , totalPages = totalPagesFromCount entitiesCount perPage
-                }
-        }
-
-
-
-data GetEntitiesWithCountQuery = GetEntitiesWithCountQuery
-    { getEntities :: RawQuery
-    , countEntities :: RawQuery
-    }
-
-data EntitiesWithCount a = EntitiesWithCount
-    { entities :: [a]
-    , entitiesCount :: Int64
-    }
-
-getEntitiesWithCount :: RawSql a => GetEntitiesWithCountQuery -> Handler (EntitiesWithCount a)
-getEntitiesWithCount GetEntitiesWithCountQuery{..} = do
-    (entities, entitiesCount) <- runDB $ do
-        entities <- rawSql (query getEntities) (queryValues getEntities)
-        entityCount <- rawSql (query countEntities) (queryValues countEntities)
-        pure (entities, entityCount)
-    pure $ EntitiesWithCount
-        { entities = entities
-        , entitiesCount =
-            entitiesCount
-                & listToMaybe
-                & fmap unSingle
-                & fromMaybe 0
-        }
-
-
-data LimitOffset = LimitOffset
-    { limit :: Int
-    , offset :: Int
-    }
-
-getSnippetsWithCountQuery :: LimitOffset -> GetEntitiesWithCountQuery
-getSnippetsWithCountQuery LimitOffset{..} =
-    GetEntitiesWithCountQuery
-        { getEntities = RawQuery
-            { query = [multiline|
+getSnippetsWithCountQuery :: Persistent.LimitOffset -> Persistent.GetEntitiesWithCountQuery
+getSnippetsWithCountQuery Persistent.LimitOffset{..} =
+    Persistent.GetEntitiesWithCountQuery
+        { getEntities = Persistent.RawQuery
+            { query = [Multiline.multiline|
                 select
                     ??, ??
                 from
@@ -110,8 +75,8 @@ getSnippetsWithCountQuery LimitOffset{..} =
                 , toPersistValue offset
                 ]
             }
-        , countEntities = RawQuery
-            { query = [multiline|
+        , countEntities = Persistent.RawQuery
+            { query = [Multiline.multiline|
                 select
                     count(*)
                 from
@@ -129,11 +94,11 @@ getSnippetsWithCountQuery LimitOffset{..} =
         }
 
 
-getSnippetsByLanguageWithCountQuery :: Text -> LimitOffset -> GetEntitiesWithCountQuery
-getSnippetsByLanguageWithCountQuery language LimitOffset{..} =
-    GetEntitiesWithCountQuery
-        { getEntities = RawQuery
-            { query = [multiline|
+getSnippetsByLanguageWithCountQuery :: Text -> Persistent.LimitOffset -> Persistent.GetEntitiesWithCountQuery
+getSnippetsByLanguageWithCountQuery language Persistent.LimitOffset{..} =
+    Persistent.GetEntitiesWithCountQuery
+        { getEntities = Persistent.RawQuery
+            { query = [Multiline.multiline|
                 select
                     ??, ??
                 from
@@ -158,8 +123,8 @@ getSnippetsByLanguageWithCountQuery language LimitOffset{..} =
                 , toPersistValue offset
                 ]
             }
-        , countEntities = RawQuery
-            { query = [multiline|
+        , countEntities = Persistent.RawQuery
+            { query = [Multiline.multiline|
                 select
                     count(*)
                 from
@@ -193,79 +158,7 @@ snippetEntryFromEntity codeSnippetEntity profileEntity =
         }
 
 
-entryTitle :: SnippetEntry -> Text
-entryTitle SnippetEntry{..} =
-    codeSnippetTitle entrySnippet
-        & take 50
-
-
-
-data RawQuery = RawQuery
-    { query :: Text
-    , queryValues :: [PersistValue]
-    }
-
-
-
 data SnippetEntriesWithPagination = SnippetEntriesWithPagination
     { entries :: [SnippetEntry]
     , pagination :: Pagination
     }
-
-
-data PageData = PageData
-    { currentPage :: Int
-    , totalPages :: Int
-    }
-
-paginationFromPageData :: PageData -> Pagination
-paginationFromPageData PageData{..} =
-    if currentPage > totalPages then
-        Pagination.Pagination
-            { Pagination.paginationNextPage = Nothing
-            , Pagination.paginationPrevPage = Nothing
-            , Pagination.paginationFirstPage = Nothing
-            , Pagination.paginationLastPage = Nothing
-            }
-
-    else if currentPage == 1 && totalPages == 1 then
-        Pagination.Pagination
-            { Pagination.paginationNextPage = Nothing
-            , Pagination.paginationPrevPage = Nothing
-            , Pagination.paginationFirstPage = Nothing
-            , Pagination.paginationLastPage = Just (intToText totalPages)
-            }
-
-    else if currentPage == 1 && totalPages > 1 then
-        Pagination.Pagination
-            { Pagination.paginationNextPage = Just "2"
-            , Pagination.paginationPrevPage = Nothing
-            , Pagination.paginationFirstPage = Nothing
-            , Pagination.paginationLastPage = Just (intToText totalPages)
-            }
-
-    else if currentPage == totalPages then
-        Pagination.Pagination
-            { Pagination.paginationNextPage = Nothing
-            , Pagination.paginationPrevPage = Just (intToText (currentPage - 1))
-            , Pagination.paginationFirstPage = Just "1"
-            , Pagination.paginationLastPage = Nothing
-            }
-
-    else
-        Pagination.Pagination
-            { Pagination.paginationNextPage = Just (intToText (currentPage + 1))
-            , Pagination.paginationPrevPage = Just (intToText (currentPage - 1))
-            , Pagination.paginationFirstPage = Just "1"
-            , Pagination.paginationLastPage = Just (intToText totalPages)
-            }
-
-
-totalPagesFromCount :: Int64 -> Int -> Int
-totalPagesFromCount totalCount perPage =
-    ceiling (fromIntegral totalCount / fromIntegral perPage :: Double)
-
-
-intToText :: Int -> Text
-intToText n =
-    pack (show n)

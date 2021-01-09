@@ -1,4 +1,5 @@
 module Util.Snippet (
+    title,
     metaDescription,
     isSnippetOwner,
     visibilityFormat,
@@ -10,6 +11,12 @@ module Util.Snippet (
 import Import
 import Data.Time.ISO8601 (parseISO8601)
 import Data.Maybe (fromJust)
+
+
+title :: CodeSnippet -> Text
+title snippet =
+    take 50 (codeSnippetTitle snippet)
+
 
 metaDescription :: Snippet -> Int -> Text
 metaDescription s maxChars =

@@ -1,7 +1,9 @@
-module Model.Pagination (
-    Pagination(..),
-    paginationRequired
-) where
+module Model.Pagination
+    ( Pagination(..)
+    , paginationRequired
+    , PageData(..)
+    , fromPageData
+    ) where
 
 import ClassyPrelude.Yesod
 
@@ -16,3 +18,61 @@ paginationRequired :: Pagination -> Bool
 paginationRequired p = hasNext || hasPrev
     where hasNext = isJust $ paginationNextPage p
           hasPrev = isJust $ paginationPrevPage p
+
+
+data PageData = PageData
+    { currentPage :: Int
+    , totalEntries :: Int64
+    , entriesPerPage :: Int
+    }
+
+fromPageData :: PageData -> Pagination
+fromPageData PageData{..} =
+    let
+        totalPages = 
+            ceiling (fromIntegral totalEntries / fromIntegral entriesPerPage :: Double)
+    in
+    if currentPage > totalPages then
+        Pagination
+            { paginationNextPage = Nothing
+            , paginationPrevPage = Nothing
+            , paginationFirstPage = Nothing
+            , paginationLastPage = Nothing
+            }
+
+    else if currentPage == 1 && totalPages == 1 then
+        Pagination
+            { paginationNextPage = Nothing
+            , paginationPrevPage = Nothing
+            , paginationFirstPage = Nothing
+            , paginationLastPage = Just (intToText totalPages)
+            }
+
+    else if currentPage == 1 && totalPages > 1 then
+        Pagination
+            { paginationNextPage = Just "2"
+            , paginationPrevPage = Nothing
+            , paginationFirstPage = Nothing
+            , paginationLastPage = Just (intToText totalPages)
+            }
+
+    else if currentPage == totalPages then
+        Pagination
+            { paginationNextPage = Nothing
+            , paginationPrevPage = Just (intToText (currentPage - 1))
+            , paginationFirstPage = Just "1"
+            , paginationLastPage = Nothing
+            }
+
+    else
+        Pagination
+            { paginationNextPage = Just (intToText (currentPage + 1))
+            , paginationPrevPage = Just (intToText (currentPage - 1))
+            , paginationFirstPage = Just "1"
+            , paginationLastPage = Just (intToText totalPages)
+            }
+
+
+intToText :: Int -> Text
+intToText n =
+    pack (show n)
