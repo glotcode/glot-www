@@ -14,7 +14,7 @@
         EditorFooter.showInfo("Running...");
 
         var version = Meta.getLanguageVersion();
-        var url = "@?{(RunR lang, [("snippet", snippetId)])}" + "&" + $.param({version: version});
+        var url = "@?{(RunR lang, [("snippet", slug)])}" + "&" + $.param({version: version});
         var payload = {
             files: Editor.getFiles(),
             stdin: EditorFooter.getStdin(),
@@ -58,7 +58,7 @@
         };
 
         var version = Meta.getLanguageVersion();
-        var url = "@{SnippetR snippetId}" + "?" + $.param({
+        var url = "@{SnippetR slug}" + "?" + $.param({
             version: version,
             command: Meta.getRunCommand(),
             stdin: EditorFooter.getStdin(),
@@ -73,7 +73,7 @@
     }
 
     function deleteSnippet() {
-        XHR.delete("@{SnippetR snippetId}").done(function(data) {
+        XHR.delete("@{SnippetR slug}").done(function(data) {
             Editor.clean();
             Location.set("@{SnippetsR}");
         }).fail(function(xhr) {

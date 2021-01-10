@@ -302,7 +302,7 @@ window.Fork = (function() {
     } else {
         // Initialize editors with default content
         // Additional editors are loaded when a new file is added
-        var fileCount = #{toJSON $ length $ snippetFiles snippet};
+        var fileCount = #{toJSON $ length files};
         for (var i = 1; i <= fileCount; i++) {
             Editor.initEditor("editor-" + i);
         }

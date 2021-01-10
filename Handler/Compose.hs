@@ -9,6 +9,10 @@ import Util.Alert (successHtml)
 import Network.Wai (lazyRequestBody)
 import Model.Snippet.Api (addSnippet)
 import qualified Text.Blaze as Blaze
+import qualified Util.Snippet as Snippet
+import qualified Data.Text.Encoding as Encoding
+import qualified Database.Persist.Sql as Sql
+
 
 getComposeLanguagesR :: Handler Html
 getComposeLanguagesR = do
@@ -18,7 +22,9 @@ getComposeLanguagesR = do
 
 getComposeR :: Language -> Handler Html
 getComposeR lang = do
-    let snippet = defaultSnippet lang
+    now <- liftIO getCurrentTime
+    let snippet = defaultSnippet lang now
+    let files = defaultSnippetFiles lang
     defaultLayout $ do
         setTitle (composeTitle lang)
         setDescription (composeDescription lang)
@@ -62,23 +68,24 @@ postComposeR _ = do
     return $ object ["url" .= url]
 
 
-defaultSnippet :: Language -> Snippet
-defaultSnippet lang =
-    Snippet{
-        snippetId="",
-        snippetLanguage=pack $ show lang,
-        snippetTitle="Untitled",
-        snippetPublic=True,
-        snippetOwner="",
-        snippetFilesHash="",
-        snippetModified="",
-        snippetCreated="",
-        snippetFiles=defaultSnippetFiles lang
-    }
+-- TODO: consider creating a new record with non-db fields
+defaultSnippet :: Language -> UTCTime -> CodeSnippet
+defaultSnippet lang now =
+    CodeSnippet
+        { codeSnippetSlug = ""
+        , codeSnippetLanguage = pack (show lang)
+        , codeSnippetTitle = "Untitled"
+        , codeSnippetPublic = True
+        , codeSnippetUserId = Nothing
+        , codeSnippetCreated = now
+        , codeSnippetModified = now
+        }
 
-defaultSnippetFiles :: Language -> [SnippetFile]
+
+defaultSnippetFiles :: Language -> [CodeFile]
 defaultSnippetFiles lang =
-    [SnippetFile{
-        snippetFileName=languageDefaultFname lang,
-        snippetFileContent=pack $ languageDefaultContent lang
-    }]
+    pure CodeFile
+        { codeFileCodeSnippetId = Sql.toSqlKey 0
+        , codeFileName = languageDefaultFname lang
+        , codeFileContent = Encoding.encodeUtf8 $ pack $ languageDefaultContent lang
+        }

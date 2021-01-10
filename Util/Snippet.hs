@@ -12,6 +12,7 @@ module Util.Snippet (
 import Import
 import Data.Time.ISO8601 (parseISO8601)
 import Data.Maybe (fromJust)
+import qualified Data.Text.Encoding as BS
 
 
 title :: CodeSnippet -> Text
@@ -19,9 +20,20 @@ title snippet =
     take 50 (codeSnippetTitle snippet)
 
 
-metaDescription :: Snippet -> Int -> Text
-metaDescription s maxChars =
-    take maxChars $ concat $ map snippetFileContent $ snippetFiles s
+metaDescription :: [CodeFile] -> Int -> Text
+metaDescription files maxChars =
+    case listToMaybe files of
+        Just file ->
+            case BS.decodeUtf8' (codeFileContent file) of
+                Right content ->
+                    take maxChars content
+
+                Left _ ->
+                    "Run code in the browser"
+
+        Nothing ->
+            "Run code in the browser"
+
 
 utcFormat :: UTCTime -> Text
 utcFormat time = pack $ formatTime defaultTimeLocale "%c" time

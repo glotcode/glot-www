@@ -1,6 +1,6 @@
 $newline never
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@glotcode">
-<meta name="twitter:title" content="#{snippetTitle snippet}">
-<meta name="twitter:description" content="#{metaDescription snippet 200}">
+<meta name="twitter:title" content="#{Snippet.title snippet}">
+<meta name="twitter:description" content="#{Snippet.metaDescription files 200}">
 <meta name="twitter:image" content="@{StaticR $ languageLogoPng lang}">

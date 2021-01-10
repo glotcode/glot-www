@@ -6,6 +6,6 @@ $newline never
     <div class="col-lg-12">
       <div class="snippet-header">
         <div class="snippet-header-title">
-          <h2 id="snippet-title" contenteditable>#{snippetTitle snippet}
-      ^{editorWidget lang snippet Nothing Nothing}
+          <h2 id="snippet-title" contenteditable>#{Snippet.title snippet}
+      ^{editorWidget True lang snippet files Nothing Nothing}
       ^{footerWidget True (languageIsRunnable lang) False Nothing Nothing}

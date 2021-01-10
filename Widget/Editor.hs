@@ -5,39 +5,33 @@ module Widget.Editor (
 
 import Import
 import Util.Handler (maybeApiUser)
-import Util.Snippet (isSnippetOwner, visibilityFormat, formatRunParams)
-import Model.Run.Api (listLanguageVersions)
+import Util.Snippet (visibilityFormat, formatRunParams)
 import Widget.CarbonAds (carbonAdsWidget)
 import Settings.Environment (disableAds)
-
-listVersions :: Text -> IO [Text]
-listVersions lang = do
-    res <- safeListVersions lang
-    return $ case res of
-        Left _ -> []
-        Right versions -> versions
-
-safeListVersions :: Text -> IO (Either SomeException [Text])
-safeListVersions lang = try $ listLanguageVersions lang
+import qualified Util.Snippet as Snippet
+import qualified Data.Text.Encoding as Encoding
+import qualified Data.Text.Encoding.Error as Encoding.Error
 
 
-editorWidget :: Language -> Snippet -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
-editorWidget lang snippet profile runParams = do
+editorWidget :: Bool -> Language -> CodeSnippet -> [CodeFile] -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
+editorWidget userIsSnippetOwner lang snippet files profile runParams =
+    let
+        fileCount =
+            length files
+    in do
     addScript $ StaticR lib_ace_ace_js
     $(widgetFile "widgets/editor")
-    where
-        fileCount = length $ snippetFiles snippet
 
-metaWidget :: Snippet -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
-metaWidget snippet mProfile runParams = do
+metaWidget :: Bool -> CodeSnippet -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
+metaWidget userIsSnippetOwner snippet mProfile runParams = do
     mUserId <- handlerToWidget maybeAuthId
     mApiUser <- handlerToWidget $ maybeApiUser mUserId
-    versions <- liftIO $ listVersions $ snippetLanguage snippet
+    let versions = ["latest"]
     addScript $ StaticR js_date_js
     $(widgetFile "widgets/editor/meta")
     where
         (_, currentVersion, runCommand) = formatRunParams runParams
-        lang = toLanguage $ snippetLanguage snippet
+        lang = toLanguage $ codeSnippetLanguage snippet
 
 settingsWidget :: Widget
 settingsWidget = $(widgetFile "widgets/editor/settings")
@@ -67,18 +61,24 @@ formatRunResult _ =
 maxFiles :: Int
 maxFiles = 6
 
-enumerateFiles :: Snippet -> [(Int, Maybe SnippetFile)]
-enumerateFiles s = zip [1..] $ ensureLength maxFiles $ snippetFiles s
+enumerateFiles :: [CodeFile] -> [(Int, Maybe CodeFile)]
+enumerateFiles files =
+    zip [1..] $ ensureLength maxFiles files
 
-ensureLength :: Int -> [SnippetFile] -> [Maybe SnippetFile]
+ensureLength :: Int -> [CodeFile] -> [Maybe CodeFile]
 ensureLength n files = take n $ map Just files ++ replicate n Nothing
 
-getFileContent :: Maybe SnippetFile -> Text
-getFileContent (Just f) = snippetFileContent f
-getFileContent Nothing = ""
+getFileContent :: Maybe CodeFile -> Text
+getFileContent maybeFile =
+    case maybeFile of
+        Just file ->
+            Encoding.decodeUtf8With Encoding.Error.lenientDecode (codeFileContent file)
 
-getFilename :: Language -> Maybe SnippetFile -> Int -> Text
-getFilename _ (Just f) _ = snippetFileName f
+        Nothing ->
+            ""
+
+getFilename :: Language -> Maybe CodeFile -> Int -> Text
+getFilename _ (Just file) _ = codeFileName file
 getFilename lang Nothing 2 = addExt lang "dio"
 getFilename lang Nothing 3 = addExt lang "tria"
 getFilename lang Nothing 4 = addExt lang "tessera"
@@ -92,5 +92,6 @@ getFilename lang Nothing _ = addExt lang "infinitum"
 addExt :: Language -> Text -> Text
 addExt lang name = concat [name, ".", languageFileExt lang]
 
-isComposing :: Snippet -> Bool
-isComposing s = null $ snippetId s
+isComposing :: CodeSnippet -> Bool
+isComposing snippet =
+    null $ codeSnippetSlug snippet

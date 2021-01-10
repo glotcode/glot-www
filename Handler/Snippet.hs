@@ -5,47 +5,34 @@ import Widget.Editor (editorWidget, footerWidget)
 import Widget.RunResult (runResultWidget)
 import Widget.Share (shareWidget)
 import Util.Handler (maybeApiUser, titleConcat, urlDecode', apiRequestHeaders)
-import Util.Snippet (isSnippetOwner, persistRunParams, metaDescription, formatRunParams)
 import Util.Alert (successHtml)
 import Model.Snippet.Api (getSnippet, updateSnippet, deleteSnippet)
 import Network.Wai (lazyRequestBody)
 import Text.Hamlet (hamletFile, shamletFile)
 import Text.Blaze.Html.Renderer.String (renderHtml)
 import Data.Text (pack)
+import qualified Util.Snippet as Snippet
 
 
 getSnippetR :: Text -> Handler Html
-getSnippetR snippetId = do
+getSnippetR slug = do
     mUserId <- maybeAuthId
-    mApiUser <- maybeApiUser mUserId
-    req <- reqWaiRequest <$> getRequest
-    let authToken = apiUserToken <$> mApiUser
-    let headers = apiRequestHeaders req authToken
-    eSnippet <- liftIO $ try $ getSnippet snippetId headers
-    case eSnippet of
-        Left err@(HttpExceptionRequest _ (StatusCodeException response _)) ->
-            if statusCode (responseStatus response) == 404 then
-                notFound
-
-            else
-                throwIO err
-
-        Left err ->
-            throwIO err
-
-        Right snippet -> do
-            (profile, runParams, runResult) <- runDB $ do
-                p <- getBy $ UniqueSnippetsApiId $ snippetOwner snippet
-                params <- getBy $ UniqueRunParams snippetId
-                res <- getBy $ UniqueRunResultHash snippetId $ (snippetHash snippet $ formatRunParams params)
-                return (p, params, res)
-            let lang = toLanguage $ snippetLanguage snippet
-            defaultLayout $ do
-                setTitle $ titleConcat [snippetTitle snippet, " - ", languageName lang, " Snippet"]
-                setDescription (snippetDescription lang)
-                toWidgetHead $(hamletFile "templates/snippet/opengraph.hamlet")
-                toWidgetHead $(hamletFile "templates/snippet/twitter-card.hamlet")
-                $(widgetFile "snippet")
+    (snippet, files, profile, runParams, runResult) <- runDB $ do
+        Entity snippetId snippet <- getBy404 $ UniqueCodeSnippetSlug slug
+        files <- selectList [CodeFileCodeSnippetId ==. snippetId] []
+        profile <- maybe (pure Nothing) (getBy . UniqueProfile) (codeSnippetUserId snippet)
+        runParams <- getBy $ UniqueRunParams slug
+        -- TODO: fix
+        runResult <- pure Nothing -- getBy $ UniqueRunResultHash slug $ (snippetHash snippet $ formatRunParams runParams)
+        pure (snippet, map entityVal files, profile, runParams, runResult)
+    let lang = toLanguage $ codeSnippetLanguage snippet
+    let userIsSnippetOwner = mUserId == codeSnippetUserId snippet
+    defaultLayout $ do
+        setTitle $ titleConcat [Snippet.title snippet, " - ", languageName lang, " Snippet"]
+        setDescription (snippetDescription lang)
+        toWidgetHead $(hamletFile "templates/snippet/opengraph.hamlet")
+        toWidgetHead $(hamletFile "templates/snippet/twitter-card.hamlet")
+        $(widgetFile "snippet")
 
 
 snippetDescription :: Language -> Text
@@ -58,7 +45,7 @@ snippetDescription lang =
 
 
 putSnippetR :: Text -> Handler Value
-putSnippetR snippetId = do
+putSnippetR slug = do
     langVersion <- fromMaybe "latest" <$> lookupGetParam "version"
     runCommand <- urlDecode' <$> fromMaybe "" <$> lookupGetParam "command"
     stdinData <- urlDecode' <$> fromMaybe "" <$> lookupGetParam "stdin"
@@ -68,52 +55,39 @@ putSnippetR snippetId = do
     mApiUser <- maybeApiUser mUserId
     let authToken = apiUserToken <$> mApiUser
     let headers = apiRequestHeaders req authToken
-    _ <- liftIO $ updateSnippet snippetId body headers
-    persistRunParams snippetId stdinData langVersion runCommand
+    _ <- liftIO $ updateSnippet slug body headers
+    Snippet.persistRunParams slug stdinData langVersion runCommand
     setMessage $ successHtml "Updated snippet"
     return $ object []
 
 deleteSnippetR :: Text -> Handler Value
-deleteSnippetR snippetId = do
+deleteSnippetR slug = do
     mUserId <- maybeAuthId
     mApiUser <- maybeApiUser mUserId
     req <- reqWaiRequest <$> getRequest
     let authToken = apiUserToken <$> mApiUser
     let headers = apiRequestHeaders req authToken
-    _ <- liftIO $ deleteSnippet snippetId headers
+    _ <- liftIO $ deleteSnippet slug headers
     return $ object []
 
 getSnippetEmbedR :: Text -> Handler Html
-getSnippetEmbedR snippetId = do
-    req <- reqWaiRequest <$> getRequest
-    let headers = apiRequestHeaders req Nothing
-    eSnippet <- liftIO $ try $ getSnippet snippetId headers
-    case eSnippet of
-        Left err@(HttpExceptionRequest _ (StatusCodeException response _)) ->
-            if statusCode (responseStatus response) == 404 then
-                notFound
-
-            else
-                throwIO err
-
-        Left err ->
-            throwIO err
-
-        Right snippet -> do
-            (profile, runParams) <- runDB $ do
-                p <- getBy $ UniqueSnippetsApiId $ snippetOwner snippet
-                params <- getBy $ UniqueRunParams snippetId
-                return (p, params)
-            let lang = toLanguage $ snippetLanguage snippet
-            defaultLayout $ do
-                setTitle $ titleConcat [snippetTitle snippet, " - ", languageName lang, " Snippet"]
-                $(widgetFile "snippet/embed")
+getSnippetEmbedR slug = do
+    (snippet, files, profile, runParams) <- runDB $ do
+        Entity snippetId snippet <- getBy404 $ UniqueCodeSnippetSlug slug
+        files <- selectList [CodeFileCodeSnippetId ==. snippetId] []
+        profile <- maybe (pure Nothing) (getBy . UniqueProfile) (codeSnippetUserId snippet)
+        runParams <- getBy $ UniqueRunParams slug
+        pure (snippet, map entityVal files, profile, runParams)
+    let lang = toLanguage $ codeSnippetLanguage snippet
+    defaultLayout $ do
+        setTitle $ titleConcat [Snippet.title snippet, " - ", languageName lang, " Snippet"]
+        $(widgetFile "snippet/embed")
 
 getSnippetRawR :: Text -> Handler Html
-getSnippetRawR snippetId = do
+getSnippetRawR slug = do
     req <- reqWaiRequest <$> getRequest
     let headers = apiRequestHeaders req Nothing
-    eSnippet <- liftIO $ try $ getSnippet snippetId headers
+    eSnippet <- liftIO $ try $ getSnippet slug headers
     case eSnippet of
         Left err@(HttpExceptionRequest _ (StatusCodeException response _)) ->
             if statusCode (responseStatus response) == 404 then
@@ -128,7 +102,7 @@ getSnippetRawR snippetId = do
         Right snippet ->
             case snippetFiles snippet of
                 [f] ->
-                    redirect $ SnippetRawFileR snippetId $ snippetFileName f
+                    redirect $ SnippetRawFileR slug $ snippetFileName f
                 _ -> do
                     let lang = toLanguage $ snippetLanguage snippet
                     defaultLayout $ do
@@ -136,10 +110,10 @@ getSnippetRawR snippetId = do
                         $(widgetFile "snippet/raw")
 
 getSnippetRawFileR :: Text -> Text -> Handler Text
-getSnippetRawFileR snippetId filename = do
+getSnippetRawFileR slug filename = do
     req <- reqWaiRequest <$> getRequest
     let headers = apiRequestHeaders req Nothing
-    eSnippet <- liftIO $ try $ getSnippet snippetId headers
+    eSnippet <- liftIO $ try $ getSnippet slug headers
     case eSnippet of
         Left err@(HttpExceptionRequest _ (StatusCodeException response _)) ->
             if statusCode (responseStatus response) == 404 then

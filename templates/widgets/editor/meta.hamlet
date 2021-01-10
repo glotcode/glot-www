@@ -45,25 +45,24 @@ $if not $ isComposing snippet
         <td>
           $maybe Entity _ profile <- mProfile
             <a href="@{UserSnippetsR $ profileUsername profile}">#{profileName profile}
+
           $nothing
-            $if snippetOwner snippet == "anonymous"
-              Anonymous
-            $else
-              Unknown
+            Anonymous
       <tr>
         <td>Created
-        <td data-iso-date="#{snippetCreated snippet}">
+        <td data-iso-date="#{show $ codeSnippetCreated snippet}">
           <span class="formated-date">
       <tr>
         <td>Modified
-        <td data-iso-date="#{snippetModified snippet}">
+        <td data-iso-date="#{show $ codeSnippetModified snippet}">
           <span class="formated-date">
       <tr>
         <td>Visibility
         <td>
-          $if isSnippetOwner mApiUser snippet
+          $if userIsSnippetOwner
             <select id="public">
-              <option value="true" :snippetPublic snippet == True:selected>Public
-              <option value="false" :snippetPublic snippet == False:selected>Secret
+              <option value="true" :codeSnippetPublic snippet == True:selected>Public
+              <option value="false" :codeSnippetPublic snippet == False:selected>Secret
+
           $else
-            #{visibilityFormat $ snippetPublic snippet}
+            #{Snippet.visibility snippet}

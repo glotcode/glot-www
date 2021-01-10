@@ -5,4 +5,5 @@ module Widget.Share (
 import Import
 
 shareWidget :: Text  -> Widget
-shareWidget snippetId = $(widgetFile "widgets/share")
+shareWidget slug =
+    $(widgetFile "widgets/share")

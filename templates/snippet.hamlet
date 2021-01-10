@@ -6,12 +6,12 @@ $newline never
     <div class="col-lg-12">
       <div class="snippet-header">
         <div class="snippet-header-title">
-          $if isSnippetOwner mApiUser snippet
-            <h2 id="snippet-title" contenteditable>#{snippetTitle snippet}
+          $if userIsSnippetOwner
+            <h2 id="snippet-title" contenteditable>#{Snippet.title snippet}
           $else
-            <h2 id="snippet-title">#{snippetTitle snippet}
-      ^{editorWidget lang snippet profile runParams}
-      ^{footerWidget False (languageIsRunnable lang) (isSnippetOwner mApiUser snippet) runParams runResult}
+            <h2 id="snippet-title">#{Snippet.title snippet}
+      ^{editorWidget userIsSnippetOwner lang snippet files profile runParams}
+      ^{footerWidget False (languageIsRunnable lang) userIsSnippetOwner runParams runResult}
       <div class="hide">
         <div id="share-content">
-          ^{shareWidget snippetId}
+          ^{shareWidget slug}

@@ -4,7 +4,7 @@ $newline never
     <li class="meta">
       <a href="#">
         <img class="logo" src=@{StaticR $ languageLogo lang} alt="#{languageName lang} logo">
-    $forall (n, file) <- enumerateFiles snippet
+    $forall (n, file) <- enumerateFiles files
       $if n == 1
         <li class="active" data-editor="editor-#{n}">
           <a href="#">
@@ -26,9 +26,9 @@ $newline never
       <a href="#">
         <i class="fa fa-cog">
   <div id="meta" class="hide">
-    ^{metaWidget snippet profile runParams}
+    ^{metaWidget userIsSnippetOwner snippet profile runParams}
   <div class="editors">
-    $forall (n, file) <- enumerateFiles snippet
+    $forall (n, file) <- enumerateFiles files
       $if n == 1
         <div id="editor-#{n}" class="editor">#{getFileContent file}
       $else
