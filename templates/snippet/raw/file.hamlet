@@ -1,4 +1,0 @@
-$maybe content <- getFileContent snippet filename
-  #{preEscapedToMarkup content}
-$nothing
-  File not found

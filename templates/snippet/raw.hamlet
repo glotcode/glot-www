@@ -1,6 +1,6 @@
 $newline never
 
 <ul class="list-unstyled">
-  $forall file <- snippetFiles snippet
+  $forall file <- files
     <li>
-      <a href="@{SnippetRawFileR slug $ snippetFileName file}">#{snippetFileName file}
+      <a href="@{SnippetRawFileR slug $ codeFileName file}">#{codeFileName file}

@@ -8,10 +8,11 @@ import Util.Handler (maybeApiUser, titleConcat, urlDecode', apiRequestHeaders)
 import Util.Alert (successHtml)
 import Model.Snippet.Api (getSnippet, updateSnippet, deleteSnippet)
 import Network.Wai (lazyRequestBody)
-import Text.Hamlet (hamletFile, shamletFile)
-import Text.Blaze.Html.Renderer.String (renderHtml)
-import Data.Text (pack)
+import Text.Hamlet (hamletFile)
 import qualified Util.Snippet as Snippet
+import qualified Data.Text.Encoding as Encoding
+import qualified Data.Text.Encoding.Error as Encoding.Error
+import Data.Function ((&))
 
 
 getSnippetR :: Text -> Handler Html
@@ -85,49 +86,41 @@ getSnippetEmbedR slug = do
 
 getSnippetRawR :: Text -> Handler Html
 getSnippetRawR slug = do
-    req <- reqWaiRequest <$> getRequest
-    let headers = apiRequestHeaders req Nothing
-    eSnippet <- liftIO $ try $ getSnippet slug headers
-    case eSnippet of
-        Left err@(HttpExceptionRequest _ (StatusCodeException response _)) ->
-            if statusCode (responseStatus response) == 404 then
-                notFound
+    (snippet, files) <- runDB $ do
+        Entity snippetId snippet <- getBy404 $ UniqueCodeSnippetSlug slug
+        files <- selectList [CodeFileCodeSnippetId ==. snippetId] []
+        pure (snippet, map entityVal files)
+    case files of
+        [file] ->
+            codeFileName file
+                & SnippetRawFileR slug
+                & redirect
 
-            else
-                throwIO err
+        _ -> do
+            let lang = toLanguage $ codeSnippetLanguage snippet
+            defaultLayout $ do
+                setTitle $ titleConcat [Snippet.title snippet, " - ", languageName lang, " Snippet"]
+                $(widgetFile "snippet/raw")
 
-        Left err ->
-            throwIO err
-
-        Right snippet ->
-            case snippetFiles snippet of
-                [f] ->
-                    redirect $ SnippetRawFileR slug $ snippetFileName f
-                _ -> do
-                    let lang = toLanguage $ snippetLanguage snippet
-                    defaultLayout $ do
-                        setTitle $ titleConcat [snippetTitle snippet, " - ", languageName lang, " Snippet"]
-                        $(widgetFile "snippet/raw")
 
 getSnippetRawFileR :: Text -> Text -> Handler Text
 getSnippetRawFileR slug filename = do
-    req <- reqWaiRequest <$> getRequest
-    let headers = apiRequestHeaders req Nothing
-    eSnippet <- liftIO $ try $ getSnippet slug headers
-    case eSnippet of
-        Left err@(HttpExceptionRequest _ (StatusCodeException response _)) ->
-            if statusCode (responseStatus response) == 404 then
-                notFound
+    files <- runDB $ do
+        Entity snippetId _ <- getBy404 $ UniqueCodeSnippetSlug slug
+        files <- selectList [CodeFileCodeSnippetId ==. snippetId] []
+        pure (map entityVal files)
+    case findFileWithFilename files filename of
+        Just file ->
+            codeFileContent file
+                & Encoding.decodeUtf8With Encoding.Error.lenientDecode
+                & pure
 
-            else
-                throwIO err
+        Nothing ->
+            notFound
 
-        Left e ->
-            throwIO e
 
-        Right snippet -> do
-            return $ pack $ renderHtml $(shamletFile "templates/snippet/raw/file.hamlet")
-
-getFileContent :: Snippet -> Text -> Maybe Text
-getFileContent snippet name =
-    snippetFileContent <$> (listToMaybe $ filter (\f -> snippetFileName f == name) (snippetFiles snippet))
+findFileWithFilename :: [CodeFile] -> Text -> Maybe CodeFile
+findFileWithFilename files filename =
+    files
+        & filter (\f -> codeFileName f == filename)
+        & listToMaybe
