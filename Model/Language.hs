@@ -4,45 +4,52 @@ import Prelude (readsPrec)
 import ClassyPrelude.Yesod
 import Util.Multiline (multiline)
 import Settings.StaticFiles
+import qualified Data.Aeson as Aeson
 
-data Language = Assembly |
-                Ats |
-                Bash |
-                C |
-                Clojure |
-                Cobol |
-                Coffeescript |
-                Cpp |
-                Crystal |
-                Csharp |
-                D |
-                Elixir |
-                Elm |
-                Erlang |
-                Fsharp |
-                Go |
-                Groovy |
-                Haskell |
-                Idris |
-                Java |
-                Javascript |
-                Julia |
-                Kotlin |
-                Lua |
-                Mercury |
-                Nim |
-                Ocaml |
-                Perl |
-                Php |
-                Python |
-                Raku |
-                Ruby |
-                Rust |
-                Scala |
-                Swift |
-                TypeScript |
-                Plaintext
-                deriving Eq
+data Language
+    = Assembly
+    | Ats
+    | Bash
+    | C
+    | Clojure
+    | Cobol
+    | Coffeescript
+    | Cpp
+    | Crystal
+    | Csharp
+    | D
+    | Elixir
+    | Elm
+    | Erlang
+    | Fsharp
+    | Go
+    | Groovy
+    | Haskell
+    | Idris
+    | Java
+    | Javascript
+    | Julia
+    | Kotlin
+    | Lua
+    | Mercury
+    | Nim
+    | Ocaml
+    | Perl
+    | Php
+    | Python
+    | Raku
+    | Ruby
+    | Rust
+    | Scala
+    | Swift
+    | TypeScript
+    | Plaintext
+    deriving (Eq)
+
+
+instance Aeson.FromJSON Language where
+    parseJSON = Aeson.withText "Language" $ \text ->
+        pure (toLanguage text)
 
 
 instance PathPiece Language where
