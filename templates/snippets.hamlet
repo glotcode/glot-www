@@ -32,7 +32,7 @@ $newline never
                     <a href="@{UserSnippetsR $ profileUsername profile}">#{profileName profile}
 
                   $nothing
-                    <span>anonymous
+                    <span>Anonymous
       $if paginationRequired pagination
         $maybe languageParam <- maybeLanguageParam
           ^{paginationWidget SnippetsR pagination currentPage [("language", languageParam)]}
