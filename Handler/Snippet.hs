@@ -6,7 +6,7 @@ import Widget.RunResult (runResultWidget)
 import Widget.Share (shareWidget)
 import Util.Handler (maybeApiUser, titleConcat, urlDecode', apiRequestHeaders)
 import Util.Alert (successHtml)
-import Model.Snippet.Api (getSnippet, updateSnippet, deleteSnippet)
+import Model.Snippet.Api (updateSnippet)
 import Network.Wai (lazyRequestBody)
 import Text.Hamlet (hamletFile)
 import qualified Util.Snippet as Snippet
@@ -61,15 +61,27 @@ putSnippetR slug = do
     setMessage $ successHtml "Updated snippet"
     return $ object []
 
+
 deleteSnippetR :: Text -> Handler Value
 deleteSnippetR slug = do
-    mUserId <- maybeAuthId
-    mApiUser <- maybeApiUser mUserId
-    req <- reqWaiRequest <$> getRequest
-    let authToken = apiUserToken <$> mApiUser
-    let headers = apiRequestHeaders req authToken
-    _ <- liftIO $ deleteSnippet slug headers
-    return $ object []
+    maybeUserId <- maybeAuthId
+    runDB $ do
+        Entity snippetId snippet <- getBy404 $ UniqueCodeSnippetSlug slug
+        unless (isAllowedToDelete maybeUserId snippet) (sendResponseStatus status403 $ object [])
+        deleteWhere [ CodeFileCodeSnippetId ==. snippetId ]
+        delete snippetId
+        pure ()
+    pure $ object []
+
+
+isAllowedToDelete :: Maybe UserId -> CodeSnippet -> Bool
+isAllowedToDelete maybeUserId CodeSnippet{..} =
+    case (maybeUserId, codeSnippetUserId) of
+        (Just userId, Just snippetUserId) ->
+            userId == snippetUserId
+
+        _ ->
+            False
 
 getSnippetEmbedR :: Text -> Handler Html
 getSnippetEmbedR slug = do
