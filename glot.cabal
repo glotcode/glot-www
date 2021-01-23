@@ -54,6 +54,7 @@ library
                      Widget.Share
                      Widget.CarbonAds
                      Yesod.Auth.Simple
+                     Glot.Snippet
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

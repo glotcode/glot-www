@@ -4,14 +4,15 @@ import Import hiding (pack)
 import Widget.Editor (editorWidget, footerWidget)
 import Widget.RunResult (runResultWidget)
 import Widget.Share (shareWidget)
-import Util.Handler (maybeApiUser, titleConcat, urlDecode', apiRequestHeaders)
+import Util.Handler (titleConcat, urlDecode')
 import Util.Alert (successHtml)
-import Model.Snippet.Api (updateSnippet)
-import Network.Wai (lazyRequestBody)
 import Text.Hamlet (hamletFile)
 import qualified Util.Snippet as Snippet
 import qualified Data.Text.Encoding as Encoding
 import qualified Data.Text.Encoding.Error as Encoding.Error
+import qualified Glot.Snippet
+import qualified Data.Aeson as Aeson
+import qualified Network.Wai as Wai
 import Data.Function ((&))
 
 
@@ -51,15 +52,26 @@ putSnippetR slug = do
     runCommand <- urlDecode' <$> fromMaybe "" <$> lookupGetParam "command"
     stdinData <- urlDecode' <$> fromMaybe "" <$> lookupGetParam "stdin"
     req <- reqWaiRequest <$> getRequest
-    body <- liftIO $ lazyRequestBody req
-    mUserId <- maybeAuthId
-    mApiUser <- maybeApiUser mUserId
-    let authToken = apiUserToken <$> mApiUser
-    let headers = apiRequestHeaders req authToken
-    _ <- liftIO $ updateSnippet slug body headers
-    Snippet.persistRunParams slug stdinData langVersion runCommand
-    setMessage $ successHtml "Updated snippet"
-    return $ object []
+    body <- liftIO $ Wai.strictRequestBody req
+    now <- liftIO getCurrentTime
+    maybeUserId <- maybeAuthId
+    case Aeson.eitherDecode' body of
+        Left err ->
+            -- TODO: return proper message
+            error err
+
+        Right payload -> do
+            let snippet = Glot.Snippet.toCodeSnippet slug now maybeUserId payload
+            runDB $ do
+                Entity snippetId _ <- getBy404 (UniqueCodeSnippetSlug slug)
+                replace snippetId snippet
+                deleteWhere [ CodeFileCodeSnippetId ==. snippetId ]
+                insertMany_ (map (Glot.Snippet.toCodeFile snippetId) (Glot.Snippet.files payload))
+                -- TODO: persist run params
+                -- persistRunParams snippetId stdinData langVersion runCommand
+                pure ()
+            setMessage $ successHtml "Updated snippet"
+            pure $ object []
 
 
 deleteSnippetR :: Text -> Handler Value

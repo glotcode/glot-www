@@ -11,11 +11,11 @@ import qualified Network.Wai as Wai
 import qualified Text.Blaze as Blaze
 import qualified Util.Handler as Handler
 import qualified Util.Snippet as Snippet
+import qualified Glot.Snippet
 import qualified Data.Text.Encoding as Encoding
 import qualified Database.Persist.Sql as Sql
 import qualified GHC.Generics as GHC
 import qualified Data.Aeson as Aeson
-import qualified Data.ByteString.Lazy as BSL
 import qualified Data.Time.Clock.POSIX as PosixClock
 import qualified Data.Time.Clock as Clock
 import qualified Numeric
@@ -33,7 +33,6 @@ getComposeLanguagesR = do
 getComposeR :: Language -> Handler Html
 getComposeR lang = do
     now <- liftIO getCurrentTime
-    liftIO $ print $ intToBase36 $ microsecondsSinceEpoch now
     let snippet = defaultSnippet lang now
     let files = defaultSnippetFiles lang
     defaultLayout $ do
@@ -75,60 +74,19 @@ postComposeR _ = do
             error err
 
         Right payload -> do
-            let snippet = toCodeSnippet now maybeUserId payload
+            let slug = Glot.Snippet.newSlug now
+            let snippet = Glot.Snippet.toCodeSnippet slug now maybeUserId payload
             runDB $ do
                 snippetId <- insert snippet
-                insertMany_ (map (toCodeFile snippetId) (files payload))
+                insertMany_ (map (Glot.Snippet.toCodeFile snippetId) (Glot.Snippet.files payload))
                 -- TODO: persist run params
                 -- persistRunParams snippetId stdinData langVersion runCommand
                 pure ()
             setMessage $ successHtml "Saved snippet"
             renderUrl <- getUrlRender
             pure $ Aeson.object
-                [ "url" .= renderUrl (SnippetR (codeSnippetSlug snippet))
+                [ "url" .= renderUrl (SnippetR slug)
                 ]
-
-
-data CreatePayload = CreatePayload
-    { language :: Language
-    , title :: Text -- TODO: non-empty
-    , public :: Bool
-    , files :: [FilePayload] -- TODO: non-empty
-    }
-    deriving (Show, GHC.Generic)
-
-instance Aeson.FromJSON CreatePayload
-
-toCodeSnippet :: UTCTime -> Maybe UserId -> CreatePayload -> CodeSnippet
-toCodeSnippet time maybeUserId CreatePayload{..} =
-    CodeSnippet
-        { codeSnippetSlug = intToBase36 (microsecondsSinceEpoch time)
-        , codeSnippetLanguage = pack (show language)
-        , codeSnippetTitle = title
-        , codeSnippetPublic = public
-        , codeSnippetUserId = maybeUserId
-        , codeSnippetCreated = time
-        , codeSnippetModified = time
-        }
-
-
-data FilePayload = FilePayload
-    { name :: Text -- TODO: non-empty
-    , content :: Text -- TODO: non-empty
-    }
-    deriving (Show, GHC.Generic)
-
-instance Aeson.FromJSON FilePayload
-
-
-toCodeFile :: CodeSnippetId -> FilePayload -> CodeFile
-toCodeFile snippetId FilePayload{..} =
-    CodeFile
-        { codeFileCodeSnippetId = snippetId
-        , codeFileName = name
-        , codeFileContent = encodeUtf8 content
-        }
-
 
 
 
