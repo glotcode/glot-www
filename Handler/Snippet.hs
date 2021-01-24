@@ -57,8 +57,7 @@ putSnippetR slug = do
     maybeUserId <- maybeAuthId
     case Aeson.eitherDecode' body of
         Left err ->
-            -- TODO: return proper message
-            error err
+            sendResponseStatus status400 $ object ["message" .= ("Invalid request body: " <> err)]
 
         Right payload -> do
             let snippet = Glot.Snippet.toCodeSnippet slug now maybeUserId payload
