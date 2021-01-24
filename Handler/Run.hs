@@ -4,7 +4,6 @@ import Import
 import Util.Handler (maybeApiUser, apiRequestHeaders)
 import Network.Wai (lazyRequestBody)
 import Model.Run.Api (runSnippet)
-import Model.Snippet.Api (getSnippet)
 import Util.Snippet (formatRunParams)
 import Settings.Environment (runApiAnonymousToken)
 
@@ -28,8 +27,9 @@ postRunR lang = do
             let userToken = apiUserToken <$> mApiUser
             let persistHeaders = apiRequestHeaders req userToken
             let localHash = snippetHashJson body langVersion
-            when (persist == "true")
-                (persistRunResult lang mSnippetId persistHeaders localHash (runStdout, runStderr, runError))
+            -- TODO: implemenet persistRunResult
+            -- when (persist == "true")
+            --     (persistRunResult lang mSnippetId persistHeaders localHash (runStdout, runStderr, runError))
             return $ object [
                 "stdout" .= runStdout,
                 "stderr" .= runStderr,
@@ -39,28 +39,28 @@ runApiToken :: Maybe ApiUser -> Text -> Text
 runApiToken (Just user) _ = apiUserToken user
 runApiToken _ token = token
 
-persistRunResult :: Language -> Maybe Text -> [Header] -> Text -> (Text, Text, Text) -> Handler ()
-persistRunResult lang (Just snippetId) headers localHash (runStdout, runStderr, runError)
-    | (length runStdout > 0 || length runStderr > 0) && length runError == 0 = do
-        eSnippet <- liftIO $ safeGetSnippet snippetId headers
-        runParams <- runDB $ getBy $ UniqueRunParams snippetId
-        case eSnippet of
-            Left _ -> return ()
-            Right snippet -> do
-                persistRunResult' lang snippetId localHash
-                    (snippetHash snippet $ formatRunParams runParams) (runStdout, runStderr, runError)
-persistRunResult _ _ _ _ _ = return ()
-
-persistRunResult' :: Language -> Text -> Text -> Text -> (Text, Text, Text) -> Handler ()
-persistRunResult' lang snippetId localHash remoteHash (runStdout, runStderr, runError)
-    | localHash == remoteHash = do
-        now <- liftIO getCurrentTime
-        _ <- runDB $ do
-            deleteBy $ UniqueRunResult snippetId
-            insertUnique $ RunResult snippetId localHash
-                (pack $ show lang) runStdout runStderr runError now
-        return ()
-persistRunResult' _ _ _ _ _ = return ()
-
-safeGetSnippet :: Text -> [Header] -> IO (Either SomeException Snippet)
-safeGetSnippet snippetId headers = try $ getSnippet snippetId headers
+--persistRunResult :: Language -> Maybe Text -> [Header] -> Text -> (Text, Text, Text) -> Handler ()
+--persistRunResult lang (Just snippetId) headers localHash (runStdout, runStderr, runError)
+--    | (length runStdout > 0 || length runStderr > 0) && length runError == 0 = do
+--        eSnippet <- liftIO $ safeGetSnippet snippetId headers
+--        runParams <- runDB $ getBy $ UniqueRunParams snippetId
+--        case eSnippet of
+--            Left _ -> return ()
+--            Right snippet -> do
+--                persistRunResult' lang snippetId localHash
+--                    (snippetHash snippet $ formatRunParams runParams) (runStdout, runStderr, runError)
+--persistRunResult _ _ _ _ _ = return ()
+--
+--persistRunResult' :: Language -> Text -> Text -> Text -> (Text, Text, Text) -> Handler ()
+--persistRunResult' lang snippetId localHash remoteHash (runStdout, runStderr, runError)
+--    | localHash == remoteHash = do
+--        now <- liftIO getCurrentTime
+--        _ <- runDB $ do
+--            deleteBy $ UniqueRunResult snippetId
+--            insertUnique $ RunResult snippetId localHash
+--                (pack $ show lang) runStdout runStderr runError now
+--        return ()
+--persistRunResult' _ _ _ _ _ = return ()
+--
+--safeGetSnippet :: Text -> [Header] -> IO (Either SomeException Snippet)
+--safeGetSnippet snippetId headers = try $ getSnippet snippetId headers
