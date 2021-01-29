@@ -28,7 +28,6 @@ import Mail.Hailgun (
     MessageRecipients(..))
 
 
-import qualified Model.Snippet.Api as SnippetApi
 import qualified Model.Run.Api as RunApi
 
 -- | The foundation datatype for your application. This can be a good place to
@@ -170,15 +169,14 @@ instance YesodAuthSimple App where
         let name = takeWhile (/= '@') email
         username <- mkUsername email name
         token <- liftIO newToken
-        snippetsId <- liftIO $ SnippetApi.addUser token
         runId <- liftIO $ RunApi.addUser token
         now <- liftIO getCurrentTime
         liftHandler $ runDB $ do
             mUserId <- insertUnique $ User email password now now
             case mUserId of
                 Just userId -> do
-                    _ <- insertUnique $ Profile userId snippetsId username name now now
-                    _ <- insertUnique $ ApiUser userId snippetsId runId token now now
+                    _ <- insertUnique $ Profile userId username name now now
+                    _ <- insertUnique $ ApiUser userId runId token now now
                     return mUserId
                 Nothing -> do
                     return mUserId

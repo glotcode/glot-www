@@ -1,7 +1,6 @@
 module Util.Snippet (
     title,
     metaDescription,
-    isSnippetOwner,
     visibilityFormat,
     visibility,
     iso8601Format,
@@ -53,11 +52,6 @@ visibility snippet =
 
         False ->
             "Secret"
-
-isSnippetOwner :: Maybe ApiUser -> Snippet -> Bool
-isSnippetOwner Nothing _ = False
-isSnippetOwner (Just apiUser) snippet =
-    apiUserSnippetsId apiUser == snippetOwner snippet
 
 persistRunParams :: Text -> Text -> Text -> Text -> Handler ()
 persistRunParams snippetId stdinData langVersion runCommand = do

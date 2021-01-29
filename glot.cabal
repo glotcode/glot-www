@@ -34,7 +34,6 @@ library
                      Model.Language
                      Model.Pagination
                      Model.Snippet
-                     Model.Snippet.Api
                      Model.Run.Api
                      Util.Shakespare
                      Util.Handler

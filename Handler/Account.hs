@@ -7,7 +7,6 @@ import Util.Slug (mkSlug)
 import Util.User (newToken)
 import Util.Handler (title)
 import Util.Alert (successHtml)
-import qualified Model.Snippet.Api as SnippetApi
 import qualified Model.Run.Api as RunApi
 
 data ProfileData = ProfileData {
@@ -51,7 +50,6 @@ putAccountTokenR = do
     userId <- requireAuthId
     Entity apiUserId apiUser <- runDB $ getBy404 $ UniqueApiUser userId
     token <- liftIO newToken
-    liftIO $ SnippetApi.setUserToken (apiUserSnippetsId apiUser) token
     liftIO $ RunApi.setUserToken (apiUserRunId apiUser) token
     now <- liftIO getCurrentTime
     runDB $ update apiUserId [ApiUserToken =. token, ApiUserModified =. now]

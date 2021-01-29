@@ -8,26 +8,22 @@ User
 
 Profile
     userId UserId
-    snippetsApiId Text
     username Text
     name Text
     created UTCTime
     modified UTCTime
     UniqueProfile userId
-    UniqueSnippetsApiId snippetsApiId
     UniqueUsername username
     deriving Typeable Show
 
 ApiUser
     userId UserId
-    snippetsId Text
     runId Text
     token Text
     created UTCTime
     modified UTCTime
     UniqueApiUser userId
     UniqueRunId runId
-    UniqueSnippetsId snippetsId
     deriving Typeable
 
 RunParams
