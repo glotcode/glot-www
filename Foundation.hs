@@ -169,13 +169,15 @@ instance YesodAuthSimple App where
         let name = takeWhile (/= '@') email
         username <- mkUsername email name
         token <- liftIO newToken
+        -- TODO: SnippetUserId can be removed after the snippets has been imported
+        snippetUserId <- liftIO newToken
         runId <- liftIO $ RunApi.addUser token
         now <- liftIO getCurrentTime
         liftHandler $ runDB $ do
             mUserId <- insertUnique $ User email password now now
             case mUserId of
                 Just userId -> do
-                    _ <- insertUnique $ Profile userId username name now now
+                    _ <- insertUnique $ Profile userId snippetUserId username name now now
                     _ <- insertUnique $ ApiUser userId runId token now now
                     return mUserId
                 Nothing -> do
