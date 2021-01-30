@@ -279,12 +279,23 @@ unsafeHandler = Unsafe.fakeHandlerGetLogger appLogger
 -- https://github.com/yesodweb/yesod/wiki/Serve-static-files-from-a-separate-domain
 -- https://github.com/yesodweb/yesod/wiki/i18n-messages-in-the-scaffolding
 
+
+mkUsername ::
+    ( PersistUniqueRead (YesodPersistBackend (HandlerSite m))
+    , YesodPersist (HandlerSite m)
+    , MonadHandler m
+    , BaseBackend (YesodPersistBackend (HandlerSite m)) ~ SqlBackend
+    )
+    => Text -> Text -> m Text
 mkUsername email name = do
     let slug = mkSlug name
     mUser <- liftHandler $ runDB $ getBy $ UniqueUsername slug
-    return $ case mUser of
-        Just _ -> sha1Text email
-        Nothing -> slug
+    pure $ case mUser of
+        Just _ ->
+            sha1Text email
+
+        Nothing ->
+            slug
 
 
 navbarWidget :: Widget

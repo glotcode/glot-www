@@ -4,8 +4,7 @@ module Widget.Editor (
 ) where
 
 import Import
-import Util.Handler (maybeApiUser)
-import Util.Snippet (visibilityFormat, formatRunParams)
+import Util.Snippet (formatRunParams)
 import Widget.CarbonAds (carbonAdsWidget)
 import Settings.Environment (disableAds)
 import qualified Util.Snippet as Snippet
@@ -24,9 +23,7 @@ editorWidget userIsSnippetOwner lang snippet files profile runParams =
 
 metaWidget :: Bool -> CodeSnippet -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
 metaWidget userIsSnippetOwner snippet mProfile runParams = do
-    mUserId <- handlerToWidget maybeAuthId
-    mApiUser <- handlerToWidget $ maybeApiUser mUserId
-    let versions = ["latest"]
+    let versions = ["latest"] :: [Text]
     addScript $ StaticR js_date_js
     $(widgetFile "widgets/editor/meta")
     where
@@ -37,7 +34,7 @@ settingsWidget :: Widget
 settingsWidget = $(widgetFile "widgets/editor/settings")
 
 footerWidget :: Bool -> Bool -> Bool -> Maybe (Entity RunParams) -> Maybe (Entity RunResult) -> Widget
-footerWidget isComposing isRunnable isOwner runParams runResult =
+footerWidget isComposingSnippet isRunnable isOwner runParams runResult =
     let
         (stdinData, _, _) = formatRunParams runParams
         (stdoutRes, stderrRes, errorRes, hasRunResult) = formatRunResult runResult

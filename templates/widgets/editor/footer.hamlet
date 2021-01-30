@@ -12,7 +12,7 @@ $newline never
           $else
             <label class="btn btn-primary active show-input-label"><input type="radio" name="options" class="show-input" autocomplete="off" checked> Input
             <label class="btn btn-primary show-output-label"><input type="radio" name="options" class="show-output" autocomplete="off"> Output
-        $if isComposing
+        $if isComposingSnippet
           <div class="btn-group item">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-save"></i> Save <span class="caret"></span>
             <ul class="dropdown-menu">
@@ -37,7 +37,7 @@ $newline never
                 <li>
                   <a href="#" class="delete"><i class="fa fa-trash"></i> Delete Snippet
       $else
-        $if isComposing
+        $if isComposingSnippet
           <div class="btn-group item">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-save"></i> Save <span class="caret"></span>
             <ul class="dropdown-menu">

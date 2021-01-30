@@ -1,9 +1,16 @@
-module Util.Multiline(
-    multiline
-) where
+module Util.Multiline
+    ( multiline
+    ) where
 
-import Language.Haskell.TH
-import Language.Haskell.TH.Quote
+import qualified Language.Haskell.TH as TH
+import qualified Language.Haskell.TH.Quote as Quote
+import qualified Prelude
 
-multiline :: QuasiQuoter
-multiline = QuasiQuoter { quoteExp = stringE }
+
+multiline :: Quote.QuasiQuoter
+multiline = Quote.QuasiQuoter
+    { Quote.quoteExp = TH.stringE
+    , Quote.quotePat  = \_ -> Prelude.fail "illegal raw string QuasiQuote (allowed as expression only, used as a pattern)"
+    , Quote.quoteType = \_ -> Prelude.fail "illegal raw string QuasiQuote (allowed as expression only, used as a type)"
+    , Quote.quoteDec  = \_ -> Prelude.fail "illegal raw string QuasiQuote (allowed as expression only, used as a declaration)"
+    }
