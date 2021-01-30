@@ -2,8 +2,6 @@ module Settings.Environment (
     runApiBaseUrl,
     runApiAdminToken,
     runApiAnonymousToken,
-    snippetsApiBaseUrl,
-    snippetsApiAdminToken,
     mailgunDomain,
     mailgunApiKey,
     emailFromAddress,
@@ -23,12 +21,6 @@ runApiAdminToken = pack <$> getEnv "RUN_API_ADMIN_TOKEN"
 
 runApiAnonymousToken :: IO Text
 runApiAnonymousToken = pack <$> getEnv "RUN_API_ANONYMOUS_TOKEN"
-
-snippetsApiBaseUrl :: IO String
-snippetsApiBaseUrl = getEnv "SNIPPETS_API_BASE_URL"
-
-snippetsApiAdminToken :: IO Text
-snippetsApiAdminToken = pack <$> getEnv "SNIPPETS_API_ADMIN_TOKEN"
 
 mailgunDomain :: IO String
 mailgunDomain = getEnv "MAILGUN_DOMAIN"
