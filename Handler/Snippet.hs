@@ -47,7 +47,7 @@ snippetDescription lang =
 
 
 putSnippetR :: Text -> Handler Value
-putSnippetR slug = do
+putSnippetR snippetSlug = do
     langVersion <- fromMaybe "latest" <$> lookupGetParam "version"
     runCommand <- urlDecode' <$> fromMaybe "" <$> lookupGetParam "command"
     stdinData <- urlDecode' <$> fromMaybe "" <$> lookupGetParam "stdin"
@@ -60,14 +60,13 @@ putSnippetR slug = do
             sendResponseStatus status400 $ object ["message" .= ("Invalid request body: " <> err)]
 
         Right payload -> do
-            let snippet = Glot.Snippet.toCodeSnippet slug now maybeUserId payload
+            let snippet = Glot.Snippet.toCodeSnippet snippetSlug now maybeUserId payload
             runDB $ do
-                Entity snippetId _ <- getBy404 (UniqueCodeSnippetSlug slug)
+                Entity snippetId _ <- getBy404 (UniqueCodeSnippetSlug snippetSlug)
                 replace snippetId snippet
                 deleteWhere [ CodeFileCodeSnippetId ==. snippetId ]
                 insertMany_ (map (Glot.Snippet.toCodeFile snippetId) (Glot.Snippet.files payload))
-                -- TODO: persist run params
-                -- persistRunParams snippetId stdinData langVersion runCommand
+                Snippet.persistRunParams Snippet.RunParameters{..}
                 pure ()
             setMessage $ successHtml "Updated snippet"
             pure $ object []

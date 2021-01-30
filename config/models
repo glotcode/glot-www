@@ -26,6 +26,11 @@ ApiUser
     UniqueRunId runId
     deriving Typeable
 
+-- TODO: Reference codeSnippetSnippetId instead of using slug
+-- 1. Add new nullable codeSnippetId column
+-- 2. Run query to fill id column
+-- 3. Make id column non-nullable
+-- 4. Delete slug column
 RunParams
     snippetId Text
     stdin Text

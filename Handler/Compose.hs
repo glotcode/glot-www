@@ -1,11 +1,8 @@
-{-# LANGUAGE DeriveGeneric #-}
-
 module Handler.Compose where
 
 import Import
 import Widget.Editor (editorWidget, footerWidget)
 import Widget.Languages (languagesWidget)
-import Util.Snippet (persistRunParams)
 import Util.Alert (successHtml)
 import qualified Network.Wai as Wai
 import qualified Text.Blaze as Blaze
@@ -14,11 +11,11 @@ import qualified Util.Snippet as Snippet
 import qualified Glot.Snippet
 import qualified Data.Text.Encoding as Encoding
 import qualified Database.Persist.Sql as Sql
-import qualified GHC.Generics as GHC
 import qualified Data.Aeson as Aeson
 import qualified Data.Time.Clock.POSIX as PosixClock
 import qualified Data.Time.Clock as Clock
 import qualified Numeric
+import qualified Util.Snippet as Snippet
 import Data.Function ((&))
 import Prelude ((!!))
 
@@ -73,23 +70,21 @@ postComposeR _ = do
             sendResponseStatus status400 $ object ["message" .= ("Invalid request body: " <> err)]
 
         Right payload -> do
-            let slug = Glot.Snippet.newSlug now
-            let snippet = Glot.Snippet.toCodeSnippet slug now maybeUserId payload
+            let snippetSlug = Glot.Snippet.newSlug now
+            let snippet = Glot.Snippet.toCodeSnippet snippetSlug now maybeUserId payload
             runDB $ do
                 snippetId <- insert snippet
                 insertMany_ (map (Glot.Snippet.toCodeFile snippetId) (Glot.Snippet.files payload))
-                -- TODO: persist run params
-                -- persistRunParams snippetId stdinData langVersion runCommand
+                Snippet.persistRunParams Snippet.RunParameters{..}
                 pure ()
             setMessage $ successHtml "Saved snippet"
             renderUrl <- getUrlRender
             pure $ Aeson.object
-                [ "url" .= renderUrl (SnippetR slug)
+                [ "url" .= renderUrl (SnippetR snippetSlug)
                 ]
 
 
 
--- TODO: consider creating a new record with non-db fields
 defaultSnippet :: Language -> UTCTime -> CodeSnippet
 defaultSnippet lang now =
     CodeSnippet

@@ -4,6 +4,7 @@ module Util.Snippet (
     visibilityFormat,
     visibility,
     iso8601Format,
+    RunParameters(..),
     persistRunParams,
     formatRunParams,
 ) where
@@ -53,12 +54,20 @@ visibility snippet =
         False ->
             "Secret"
 
-persistRunParams :: Text -> Text -> Text -> Text -> Handler ()
-persistRunParams snippetId stdinData langVersion runCommand = do
-    _ <- runDB $ do
-        deleteBy $ UniqueRunParams snippetId
-        insertUnique $ RunParams snippetId stdinData langVersion runCommand
-    return ()
+
+data RunParameters = RunParameters
+    { snippetSlug :: Text
+    , stdinData :: Text
+    , langVersion :: Text
+    , runCommand :: Text
+    }
+
+persistRunParams :: (MonadIO m, PersistUniqueWrite backend, BaseBackend backend ~ SqlBackend) => RunParameters -> ReaderT backend m ()
+persistRunParams RunParameters{..} = do
+    _ <- deleteBy $ UniqueRunParams snippetSlug
+    _ <- insertUnique $ RunParams snippetSlug stdinData langVersion runCommand
+    pure ()
+
 
 formatRunParams :: Maybe (Entity RunParams) -> (Text, Text, Text)
 formatRunParams (Just (Entity _ params)) =
