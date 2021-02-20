@@ -20,3 +20,4 @@
 /about MetaAboutR GET
 /api MetaApiDocsR GET
 /api/snippets ApiSnippetsR GET
+/api/snippets/#Text ApiSnippetR GET
