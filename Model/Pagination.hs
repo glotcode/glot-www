@@ -3,6 +3,8 @@ module Model.Pagination
     , paginationRequired
     , PageData(..)
     , fromPageData
+    , PageLink(..)
+    , toPageLinks
     ) where
 
 import ClassyPrelude.Yesod
@@ -20,6 +22,21 @@ paginationRequired p = hasNext || hasPrev
           hasPrev = isJust $ paginationPrevPage p
 
 
+data PageLink = PageLink
+    { pageLinkRel :: Text
+    , pageLinkPage :: Text
+    }
+
+toPageLinks :: Pagination -> [PageLink]
+toPageLinks Pagination{..} =
+    catMaybes
+        [ fmap (PageLink "next") paginationNextPage
+        , fmap (PageLink "prev") paginationPrevPage
+        , fmap (PageLink "first") paginationFirstPage
+        , fmap (PageLink "last") paginationLastPage
+        ]
+
+
 data PageData = PageData
     { currentPage :: Int
     , totalEntries :: Int64
@@ -29,7 +46,7 @@ data PageData = PageData
 fromPageData :: PageData -> Pagination
 fromPageData PageData{..} =
     let
-        totalPages = 
+        totalPages =
             ceiling (fromIntegral totalEntries / fromIntegral entriesPerPage :: Double)
     in
     if currentPage > totalPages then

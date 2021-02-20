@@ -14,6 +14,8 @@ import qualified Data.Time.Format.ISO8601 as ISO8601
 import qualified Text.Read as Read
 import qualified Data.Text as Text
 
+import Data.Function ((&))
+
 
 data ApiListSnippet = ApiListSnippet
     { id :: Text
@@ -59,7 +61,6 @@ lookupApiUser = do
             pure Nothing
 
 
--- TODO: return link header
 getApiSnippetsR :: Handler Value
 getApiSnippetsR = do
     currentPage <- HandlerUtils.pageNo <$> lookupGetParam "page"
@@ -86,6 +87,7 @@ getApiSnippetsR = do
                         , totalEntries = entitiesCount
                         , entriesPerPage = snippetsPerPage
                         }
+            addLinkHeader pagination
             pure $ Aeson.toJSON (map (\snippet -> toListSnippet renderUrl snippet (Just profile)) snippets)
 
         Nothing -> do
@@ -99,7 +101,9 @@ getApiSnippetsR = do
                             , entriesPerPage = snippetsPerPage
                             }
                     }
+            addLinkHeader pagination
             pure $ Aeson.toJSON (map (listSnippetFromSnippetEntry renderUrl) entries)
+
 
 
 listSnippetFromSnippetEntry :: (Route App -> Text) -> SnippetsHandler.SnippetEntry -> ApiListSnippet
@@ -139,3 +143,31 @@ getBy404Json errorMsg key = do
 
         Just res ->
             return res
+
+
+addLinkHeader :: Pagination.Pagination -> Handler ()
+addLinkHeader pagination = do
+    queryParams <- reqGetParams <$> getRequest
+    renderUrlParams <- getUrlRenderParams
+    Pagination.toPageLinks pagination
+        & toLinkHeaderValue renderUrlParams queryParams
+        & addHeader "Link"
+
+
+toLinkHeaderValue :: (Route App -> [(Text, Text)] -> Text) -> [(Text, Text)] -> [Pagination.PageLink] -> Text
+toLinkHeaderValue renderUrlParams otherQueryParams pageLinks =
+    let
+        queryParamsWithoutPage =
+            filter (\(key, _) -> key /= "page") otherQueryParams
+
+        toLinkEntry Pagination.PageLink{..} =
+            mconcat
+                [ "<"
+                , renderUrlParams ApiSnippetsR (("page", pageLinkPage):queryParamsWithoutPage)
+                , ">; rel=\""
+                , pageLinkRel
+                , "\""
+                ]
+    in
+    map toLinkEntry pageLinks
+        & intercalate ", "
