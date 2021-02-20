@@ -27,7 +27,8 @@ ApiUser
     modified UTCTime
     UniqueApiUser userId
     UniqueRunId runId
-    deriving Typeable
+    UniqueApiToken token
+    deriving Typeable Show
 
 -- TODO: Reference codeSnippetSnippetId instead of using slug
 -- 1. Add new nullable codeSnippetId column
