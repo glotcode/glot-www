@@ -62,7 +62,8 @@ putSnippetR snippetSlug = do
         Right payload -> do
             let snippet = Glot.Snippet.toCodeSnippet snippetSlug now maybeUserId payload
             runDB $ do
-                Entity snippetId _ <- getBy404 (UniqueCodeSnippetSlug snippetSlug)
+                Entity snippetId oldSnippet <- getBy404 (UniqueCodeSnippetSlug snippetSlug)
+                lift $ ensureSnippetOwner maybeUserId oldSnippet
                 replace snippetId snippet
                 deleteWhere [ CodeFileCodeSnippetId ==. snippetId ]
                 insertMany_ (map (Glot.Snippet.toCodeFile snippetId) (Glot.Snippet.files payload))
@@ -77,21 +78,28 @@ deleteSnippetR slug = do
     maybeUserId <- maybeAuthId
     runDB $ do
         Entity snippetId snippet <- getBy404 $ UniqueCodeSnippetSlug slug
-        unless (isAllowedToDelete maybeUserId snippet) (sendResponseStatus status403 $ object [])
+        lift $ ensureSnippetOwner maybeUserId snippet
         deleteWhere [ CodeFileCodeSnippetId ==. snippetId ]
         delete snippetId
         pure ()
     pure $ object []
 
 
-isAllowedToDelete :: Maybe UserId -> CodeSnippet -> Bool
-isAllowedToDelete maybeUserId CodeSnippet{..} =
+ensureSnippetOwner :: Maybe UserId -> CodeSnippet -> Handler ()
+ensureSnippetOwner maybeUserId CodeSnippet{..} =
     case (maybeUserId, codeSnippetUserId) of
         (Just userId, Just snippetUserId) ->
-            userId == snippetUserId
+            if userId == snippetUserId then
+                pure ()
+
+            else
+                sendResponseStatus status403 $
+                    object [ "error" .= ("You are not the owner of this snippet" :: Text) ]
 
         _ ->
-            False
+            sendResponseStatus status403 $
+                object [ "error" .= ("You are not the owner of this snippet" :: Text) ]
+
 
 getSnippetEmbedR :: Text -> Handler Html
 getSnippetEmbedR slug = do

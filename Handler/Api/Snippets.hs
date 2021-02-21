@@ -7,6 +7,7 @@ import Import
 import qualified Data.Aeson as Aeson
 import qualified GHC.Generics as GHC
 import qualified Handler.Snippets as SnippetsHandler
+import qualified Handler.Snippet as SnippetHandler
 import qualified Handler.UserSnippets as UserSnippetsHandler
 import qualified Model.Pagination as Pagination
 import qualified Util.Persistent as Persistent
@@ -112,6 +113,29 @@ postApiSnippetsR = do
             let snippet = Snippet.toCodeSnippet snippetSlug now maybeUserId payload
             runDB $ do
                 snippetId <- insert snippet
+                insertMany_ (map (Snippet.toCodeFile snippetId) (Snippet.files payload))
+                pure ()
+            getApiSnippetR snippetSlug
+
+
+putApiSnippetR :: Text -> Handler Value
+putApiSnippetR snippetSlug = do
+    req <- reqWaiRequest <$> getRequest
+    body <- liftIO $ Wai.strictRequestBody req
+    now <- liftIO getCurrentTime
+    maybeApiUser <- lookupApiUser
+    let maybeUserId = fmap apiUserUserId maybeApiUser
+    case Aeson.eitherDecode' body of
+        Left err ->
+            sendResponseStatus status400 $ object ["message" .= ("Invalid request body: " <> err)]
+
+        Right payload -> do
+            let snippet = Snippet.toCodeSnippet snippetSlug now maybeUserId payload
+            runDB $ do
+                Entity snippetId oldSnippet <- getBy404 (UniqueCodeSnippetSlug snippetSlug)
+                lift $ SnippetHandler.ensureSnippetOwner maybeUserId oldSnippet
+                replace snippetId snippet
+                deleteWhere [ CodeFileCodeSnippetId ==. snippetId ]
                 insertMany_ (map (Snippet.toCodeFile snippetId) (Snippet.files payload))
                 pure ()
             getApiSnippetR snippetSlug
