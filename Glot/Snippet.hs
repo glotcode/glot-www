@@ -45,7 +45,7 @@ toCodeSnippet slug time maybeUserId SnippetPayload{..} =
 
 data FilePayload = FilePayload
     { name :: Title
-    , content :: Text -- TODO: non-empty
+    , content :: FileContent
     }
     deriving (Show, GHC.Generic)
 
@@ -57,7 +57,7 @@ toCodeFile snippetId FilePayload{..} =
     CodeFile
         { codeFileCodeSnippetId = snippetId
         , codeFileName = titleToText name
-        , codeFileContent = encodeUtf8 content
+        , codeFileContent = encodeUtf8 (fileContentToText content)
         }
 
 
@@ -115,3 +115,33 @@ titleFromText text =
 
 titleToText :: Title -> Text
 titleToText (Title title) = title
+
+
+
+newtype FileContent = FileContent Text
+    deriving (Show)
+
+instance Aeson.FromJSON FileContent where
+    parseJSON = Aeson.withText "FileContent" $ \text ->
+        case fileContentFromText text of
+            Right content ->
+                pure content
+
+            Left msg ->
+                Prelude.fail $ unpack msg
+
+
+fileContentFromText :: Text -> Either Text FileContent
+fileContentFromText text =
+    if length text < 1 then
+        Left "field must contain at least one character"
+
+    else if length text > 1000000 then
+        Left "field must contain 1000000 characters or less"
+
+    else
+        Right (FileContent text)
+
+
+fileContentToText :: FileContent -> Text
+fileContentToText (FileContent content) = content
