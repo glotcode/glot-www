@@ -17,6 +17,7 @@ import qualified Data.Text as Text
 import qualified Data.Text.Encoding as Encoding
 import qualified Data.Text.Encoding.Error as Encoding.Error
 import qualified Glot.Snippet as Snippet
+import qualified Network.Wai as Wai
 
 import Data.Function ((&))
 
@@ -93,6 +94,27 @@ getApiSnippetR slug = do
         pure (snippet, map entityVal files, profile)
     let apiSnippet = toApiSnippet renderUrl snippet files (fmap entityVal profile)
     pure $ Aeson.toJSON apiSnippet
+
+
+postApiSnippetsR :: Handler Value
+postApiSnippetsR = do
+    req <- reqWaiRequest <$> getRequest
+    body <- liftIO $ Wai.strictRequestBody req
+    now <- liftIO getCurrentTime
+    maybeApiUser <- lookupApiUser
+    let maybeUserId = fmap apiUserUserId maybeApiUser
+    case Aeson.eitherDecode' body of
+        Left err ->
+            sendResponseStatus status400 $ object ["message" .= ("Invalid request body: " <> err)]
+
+        Right payload -> do
+            let snippetSlug = Snippet.newSlug now
+            let snippet = Snippet.toCodeSnippet snippetSlug now maybeUserId payload
+            runDB $ do
+                snippetId <- insert snippet
+                insertMany_ (map (Snippet.toCodeFile snippetId) (Snippet.files payload))
+                pure ()
+            getApiSnippetR snippetSlug
 
 
 
