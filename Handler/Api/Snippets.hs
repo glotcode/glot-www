@@ -50,12 +50,20 @@ data ApiSnippet = ApiSnippet
     , filesHash :: Text
     , created :: Text
     , modified :: Text
-    , files :: [Snippet.FilePayload]
+    , files :: [ApiFile]
     }
     deriving (Show, GHC.Generic)
 
 instance Aeson.ToJSON ApiSnippet
 
+
+data ApiFile = ApiFile
+    { name :: Text
+    , content :: Text
+    }
+    deriving (Show, GHC.Generic)
+
+instance Aeson.ToJSON ApiFile
 
 
 intParam :: Text -> Maybe Int
@@ -244,9 +252,9 @@ toApiSnippet renderUrl codeSnippet codeFiles maybeProfile =
         , files = map toApiFile codeFiles
         }
 
-toApiFile :: CodeFile -> Snippet.FilePayload
+toApiFile :: CodeFile -> ApiFile
 toApiFile codeFile =
-    Snippet.FilePayload
+    ApiFile
         { name =
             codeFileName codeFile
         , content =

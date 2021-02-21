@@ -15,14 +15,14 @@ import qualified Data.Time.Clock.POSIX as PosixClock
 import qualified Data.Time.Clock as Clock
 import qualified Numeric
 import qualified Data.List.NonEmpty as NonEmpty
+import qualified Prelude
 import Data.Function ((&))
 import Prelude ((!!))
 
 
-
 data SnippetPayload = SnippetPayload
     { language :: Language
-    , title :: Text -- TODO: non-empty
+    , title :: Title
     , public :: Bool
     , files :: NonEmpty.NonEmpty FilePayload
     }
@@ -35,7 +35,7 @@ toCodeSnippet slug time maybeUserId SnippetPayload{..} =
     CodeSnippet
         { codeSnippetSlug = slug
         , codeSnippetLanguage = pack (show language)
-        , codeSnippetTitle = title
+        , codeSnippetTitle = titleToText title
         , codeSnippetPublic = public
         , codeSnippetUserId = maybeUserId
         , codeSnippetCreated = time
@@ -44,20 +44,19 @@ toCodeSnippet slug time maybeUserId SnippetPayload{..} =
 
 
 data FilePayload = FilePayload
-    { name :: Text -- TODO: non-empty
+    { name :: Title
     , content :: Text -- TODO: non-empty
     }
     deriving (Show, GHC.Generic)
 
 instance Aeson.FromJSON FilePayload
-instance Aeson.ToJSON FilePayload
 
 
 toCodeFile :: CodeSnippetId -> FilePayload -> CodeFile
 toCodeFile snippetId FilePayload{..} =
     CodeFile
         { codeFileCodeSnippetId = snippetId
-        , codeFileName = name
+        , codeFileName = titleToText name
         , codeFileContent = encodeUtf8 content
         }
 
@@ -86,3 +85,33 @@ intToBase36 number =
             chars !! n
     in
     pack (Numeric.showIntAtBase 36 intToChar number "")
+
+
+
+newtype Title = Title Text
+    deriving (Show)
+
+instance Aeson.FromJSON Title where
+    parseJSON = Aeson.withText "Title" $ \text ->
+        case titleFromText text of
+            Right title ->
+                pure title
+
+            Left msg ->
+                Prelude.fail $ unpack msg
+
+
+titleFromText :: Text -> Either Text Title
+titleFromText text =
+    if length text < 1 then
+        Left "field must contain at least one character"
+
+    else if length text > 100 then
+        Left "field must contain 100 characters or less"
+
+    else
+        Right (Title text)
+
+
+titleToText :: Title -> Text
+titleToText (Title title) = title
