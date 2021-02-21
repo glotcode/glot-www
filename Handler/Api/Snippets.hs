@@ -16,6 +16,7 @@ import qualified Text.Read as Read
 import qualified Data.Text as Text
 import qualified Data.Text.Encoding as Encoding
 import qualified Data.Text.Encoding.Error as Encoding.Error
+import qualified Glot.Snippet as Snippet
 
 import Data.Function ((&))
 
@@ -46,20 +47,11 @@ data ApiSnippet = ApiSnippet
     , filesHash :: Text
     , created :: Text
     , modified :: Text
-    , files :: [ApiFile]
+    , files :: [Snippet.FilePayload]
     }
     deriving (Show, GHC.Generic)
 
 instance Aeson.ToJSON ApiSnippet
-
-
-data ApiFile = ApiFile
-    { name :: Text
-    , content :: Text
-    }
-    deriving (Show, GHC.Generic)
-
-instance Aeson.ToJSON ApiFile
 
 
 
@@ -193,9 +185,9 @@ toApiSnippet renderUrl codeSnippet codeFiles maybeProfile =
         , files = map toApiFile codeFiles
         }
 
-toApiFile :: CodeFile -> ApiFile
+toApiFile :: CodeFile -> Snippet.FilePayload
 toApiFile codeFile =
-    ApiFile
+    Snippet.FilePayload
         { name =
             codeFileName codeFile
         , content =

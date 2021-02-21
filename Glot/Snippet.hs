@@ -49,6 +49,7 @@ data FilePayload = FilePayload
     deriving (Show, GHC.Generic)
 
 instance Aeson.FromJSON FilePayload
+instance Aeson.ToJSON FilePayload
 
 
 toCodeFile :: CodeSnippetId -> FilePayload -> CodeFile
