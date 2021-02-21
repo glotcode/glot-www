@@ -12,6 +12,7 @@ import qualified Data.Text.Encoding as Encoding
 import qualified Data.Text.Encoding.Error as Encoding.Error
 import qualified Glot.Snippet
 import qualified Data.Aeson as Aeson
+import qualified Data.List.NonEmpty as NonEmpty
 import qualified Network.Wai as Wai
 import Data.Function ((&))
 
@@ -66,7 +67,7 @@ putSnippetR snippetSlug = do
                 lift $ ensureSnippetOwner maybeUserId oldSnippet
                 replace snippetId snippet
                 deleteWhere [ CodeFileCodeSnippetId ==. snippetId ]
-                insertMany_ (map (Glot.Snippet.toCodeFile snippetId) (Glot.Snippet.files payload))
+                insertMany_ (map (Glot.Snippet.toCodeFile snippetId) (NonEmpty.toList $ Glot.Snippet.files payload))
                 Snippet.persistRunParams Snippet.RunParameters{..}
                 pure ()
             setMessage $ successHtml "Updated snippet"

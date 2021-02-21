@@ -14,6 +14,7 @@ import qualified Data.Aeson as Aeson
 import qualified Data.Time.Clock.POSIX as PosixClock
 import qualified Data.Time.Clock as Clock
 import qualified Numeric
+import qualified Data.List.NonEmpty as NonEmpty
 import Data.Function ((&))
 import Prelude ((!!))
 
@@ -23,7 +24,7 @@ data SnippetPayload = SnippetPayload
     { language :: Language
     , title :: Text -- TODO: non-empty
     , public :: Bool
-    , files :: [FilePayload] -- TODO: non-empty
+    , files :: NonEmpty.NonEmpty FilePayload
     }
     deriving (Show, GHC.Generic)
 

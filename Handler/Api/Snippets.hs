@@ -19,6 +19,7 @@ import qualified Data.Text.Encoding as Encoding
 import qualified Data.Text.Encoding.Error as Encoding.Error
 import qualified Glot.Snippet as Snippet
 import qualified Network.Wai as Wai
+import qualified Data.List.NonEmpty as NonEmpty
 
 import Data.Function ((&))
 
@@ -113,7 +114,7 @@ postApiSnippetsR = do
             let snippet = Snippet.toCodeSnippet snippetSlug now maybeUserId payload
             runDB $ do
                 snippetId <- insert snippet
-                insertMany_ (map (Snippet.toCodeFile snippetId) (Snippet.files payload))
+                insertMany_ (map (Snippet.toCodeFile snippetId) (NonEmpty.toList $ Snippet.files payload))
                 pure ()
             getApiSnippetR snippetSlug
 
@@ -136,7 +137,7 @@ putApiSnippetR snippetSlug = do
                 lift $ SnippetHandler.ensureSnippetOwner maybeUserId oldSnippet
                 replace snippetId snippet
                 deleteWhere [ CodeFileCodeSnippetId ==. snippetId ]
-                insertMany_ (map (Snippet.toCodeFile snippetId) (Snippet.files payload))
+                insertMany_ (map (Snippet.toCodeFile snippetId) (NonEmpty.toList $ Snippet.files payload))
                 pure ()
             getApiSnippetR snippetSlug
 

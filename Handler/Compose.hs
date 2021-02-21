@@ -15,6 +15,7 @@ import qualified Data.Aeson as Aeson
 import qualified Data.Time.Clock.POSIX as PosixClock
 import qualified Data.Time.Clock as Clock
 import qualified Numeric
+import qualified Data.List.NonEmpty as NonEmpty
 import Data.Function ((&))
 import Prelude ((!!))
 
@@ -73,7 +74,7 @@ postComposeR _ = do
             let snippet = Glot.Snippet.toCodeSnippet snippetSlug now maybeUserId payload
             runDB $ do
                 snippetId <- insert snippet
-                insertMany_ (map (Glot.Snippet.toCodeFile snippetId) (Glot.Snippet.files payload))
+                insertMany_ (map (Glot.Snippet.toCodeFile snippetId) (NonEmpty.toList $ Glot.Snippet.files payload))
                 Snippet.persistRunParams Snippet.RunParameters{..}
                 pure ()
             setMessage $ successHtml "Saved snippet"
