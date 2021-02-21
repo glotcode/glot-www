@@ -141,6 +141,18 @@ putApiSnippetR snippetSlug = do
             getApiSnippetR snippetSlug
 
 
+deleteApiSnippetR :: Text -> Handler Value
+deleteApiSnippetR slug = do
+    maybeApiUser <- lookupApiUser
+    let maybeUserId = fmap apiUserUserId maybeApiUser
+    runDB $ do
+        Entity snippetId snippet <- getBy404 $ UniqueCodeSnippetSlug slug
+        lift $ SnippetHandler.ensureSnippetOwner maybeUserId snippet
+        deleteWhere [ CodeFileCodeSnippetId ==. snippetId ]
+        delete snippetId
+        pure ()
+    sendResponseNoContent
+
 
 getApiSnippetsR :: Handler Value
 getApiSnippetsR = do
