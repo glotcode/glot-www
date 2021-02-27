@@ -8,6 +8,7 @@ import qualified Util.Persistent as Persistent
 import qualified Util.Snippet as Snippet
 import qualified Util.Multiline as Multiline
 import qualified Data.Time.Format.ISO8601 as ISO8601
+import qualified Util.Handler as Handler
 
 
 getUserSnippetsR :: Text -> Handler Html
@@ -33,6 +34,7 @@ getUserSnippetsR username = do
     defaultLayout $ do
         setTitle $ titleConcat ["Snippets by ", profileName profile]
         setDescription $ concat ["Public code snippets by ", profileName profile]
+        Handler.setCanonicalUrl (UserSnippetsR username)
         addScript $ StaticR js_date_js
         $(widgetFile "user-snippets")
 

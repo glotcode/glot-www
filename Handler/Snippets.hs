@@ -8,6 +8,7 @@ import qualified Util.Persistent as Persistent
 import qualified Util.Snippet as Snippet
 import qualified Util.Multiline as Multiline
 import qualified Data.Time.Format.ISO8601 as ISO8601
+import qualified Util.Handler as Handler
 
 
 
@@ -33,6 +34,7 @@ getSnippetsR = do
     defaultLayout $ do
         setTitle $ title "Public snippets"
         setDescription "List of public code snippets"
+        Handler.setCanonicalUrl SnippetsR
         addScript $ StaticR js_date_js
         $(widgetFile "snippets")
 

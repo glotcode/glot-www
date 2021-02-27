@@ -14,6 +14,7 @@ import qualified Glot.Snippet
 import qualified Data.Aeson as Aeson
 import qualified Data.List.NonEmpty as NonEmpty
 import qualified Network.Wai as Wai
+import qualified Util.Handler as Handler
 import Data.Function ((&))
 
 
@@ -33,6 +34,7 @@ getSnippetR slug = do
     defaultLayout $ do
         setTitle $ titleConcat [Snippet.title snippet, " - ", languageName lang, " Snippet"]
         setDescription (snippetDescription lang)
+        Handler.setCanonicalUrl (SnippetR slug)
         toWidgetHead $(hamletFile "templates/snippet/opengraph.hamlet")
         toWidgetHead $(hamletFile "templates/snippet/twitter-card.hamlet")
         $(widgetFile "snippet")
@@ -113,6 +115,7 @@ getSnippetEmbedR slug = do
     let lang = toLanguage $ codeSnippetLanguage snippet
     defaultLayout $ do
         setTitle $ titleConcat [Snippet.title snippet, " - ", languageName lang, " Snippet"]
+        Handler.setCanonicalUrl (SnippetEmbedR slug)
         $(widgetFile "snippet/embed")
 
 getSnippetRawR :: Text -> Handler Html
@@ -131,6 +134,7 @@ getSnippetRawR slug = do
             let lang = toLanguage $ codeSnippetLanguage snippet
             defaultLayout $ do
                 setTitle $ titleConcat [Snippet.title snippet, " - ", languageName lang, " Snippet"]
+                Handler.setCanonicalUrl (SnippetRawR slug)
                 $(widgetFile "snippet/raw")
 
 

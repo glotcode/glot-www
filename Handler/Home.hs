@@ -4,12 +4,14 @@ import Import
 import Util.Handler (title)
 import Widget.Languages (languagesWidget)
 import Data.Function ((&))
+import qualified Util.Handler as Handler
 
 getHomeR :: Handler Html
 getHomeR = do
     defaultLayout $ do
         setTitle $ title "Home"
         setDescription metaDescription
+        Handler.setCanonicalUrl HomeR
         $(widgetFile "homepage")
 
 

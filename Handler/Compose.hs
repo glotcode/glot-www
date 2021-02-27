@@ -25,6 +25,7 @@ getComposeLanguagesR :: Handler Html
 getComposeLanguagesR = do
     defaultLayout $ do
         setTitle $ Handler.title "New snippet - Choose language"
+        Handler.setCanonicalUrl ComposeLanguagesR
         $(widgetFile "new")
 
 getComposeR :: Language -> Handler Html
@@ -35,6 +36,7 @@ getComposeR lang = do
     defaultLayout $ do
         setTitle (composeTitle lang)
         setDescription (composeDescription lang)
+        Handler.setCanonicalUrl (ComposeR lang)
         $(widgetFile "compose")
 
 

@@ -5,7 +5,8 @@ module Util.Handler (
     addDomainToTitle,
     maybeApiUser,
     pageNo,
-    apiRequestHeaders
+    apiRequestHeaders,
+    setCanonicalUrl
 ) where
 
 import Import
@@ -46,3 +47,9 @@ apiRequestHeaders req authToken =
         authHeader (Just token) = [("Authorization", encodeUtf8 $ "Token " <> token)]
     in
         headersToForward ++ (authHeader authToken)
+
+setCanonicalUrl :: MonadWidget m => Route (HandlerSite m) -> m ()
+setCanonicalUrl route = do
+    renderUrl <- getUrlRender
+    let url = renderUrl route
+    toWidgetHead $ [hamlet|<link rel=canonical href=#{url}>|]
