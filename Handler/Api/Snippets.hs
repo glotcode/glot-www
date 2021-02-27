@@ -99,7 +99,7 @@ getApiSnippetR slug = do
     renderUrl <- getUrlRender
     (snippet, files, profile) <- runDB $ do
         Entity snippetId snippet <- getBy404 $ UniqueCodeSnippetSlug slug
-        files <- selectList [CodeFileCodeSnippetId ==. snippetId] []
+        files <- selectList [CodeFileCodeSnippetId ==. snippetId] [Asc CodeFileId]
         profile <- maybe (pure Nothing) (getBy . UniqueProfile) (codeSnippetUserId snippet)
         pure (snippet, map entityVal files, profile)
     let apiSnippet = toApiSnippet renderUrl snippet files (fmap entityVal profile)

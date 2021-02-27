@@ -22,7 +22,7 @@ getSnippetR slug = do
     mUserId <- maybeAuthId
     (snippet, files, profile, runParams, runResult) <- runDB $ do
         Entity snippetId snippet <- getBy404 $ UniqueCodeSnippetSlug slug
-        files <- selectList [CodeFileCodeSnippetId ==. snippetId] []
+        files <- selectList [CodeFileCodeSnippetId ==. snippetId] [Asc CodeFileId]
         profile <- maybe (pure Nothing) (getBy . UniqueProfile) (codeSnippetUserId snippet)
         runParams <- getBy $ UniqueRunParams slug
         -- TODO: fix
@@ -106,7 +106,7 @@ getSnippetEmbedR :: Text -> Handler Html
 getSnippetEmbedR slug = do
     (snippet, files, profile, runParams) <- runDB $ do
         Entity snippetId snippet <- getBy404 $ UniqueCodeSnippetSlug slug
-        files <- selectList [CodeFileCodeSnippetId ==. snippetId] []
+        files <- selectList [CodeFileCodeSnippetId ==. snippetId] [Asc CodeFileId]
         profile <- maybe (pure Nothing) (getBy . UniqueProfile) (codeSnippetUserId snippet)
         runParams <- getBy $ UniqueRunParams slug
         pure (snippet, map entityVal files, profile, runParams)
@@ -119,7 +119,7 @@ getSnippetRawR :: Text -> Handler Html
 getSnippetRawR slug = do
     (snippet, files) <- runDB $ do
         Entity snippetId snippet <- getBy404 $ UniqueCodeSnippetSlug slug
-        files <- selectList [CodeFileCodeSnippetId ==. snippetId] []
+        files <- selectList [CodeFileCodeSnippetId ==. snippetId] [Asc CodeFileId]
         pure (snippet, map entityVal files)
     case files of
         [file] ->
@@ -138,7 +138,7 @@ getSnippetRawFileR :: Text -> Text -> Handler Text
 getSnippetRawFileR slug filename = do
     files <- runDB $ do
         Entity snippetId _ <- getBy404 $ UniqueCodeSnippetSlug slug
-        files <- selectList [CodeFileCodeSnippetId ==. snippetId] []
+        files <- selectList [CodeFileCodeSnippetId ==. snippetId] [Asc CodeFileId]
         pure (map entityVal files)
     case findFileWithFilename files filename of
         Just file ->
