@@ -50,11 +50,11 @@ $if not $ isComposing snippet
             Anonymous
       <tr>
         <td>Created
-        <td data-iso-date="#{show $ codeSnippetCreated snippet}">
+        <td data-iso-date="#{ISO8601.iso8601Show $ codeSnippetCreated snippet}">
           <span class="formated-date">
       <tr>
         <td>Modified
-        <td data-iso-date="#{show $ codeSnippetModified snippet}">
+        <td data-iso-date="#{ISO8601.iso8601Show $ codeSnippetModified snippet}">
           <span class="formated-date">
       <tr>
         <td>Visibility

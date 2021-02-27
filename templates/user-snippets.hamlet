@@ -24,7 +24,7 @@ $newline never
                   <a class="language" href="@?{(UserSnippetsR username, [("language", codeSnippetLanguage snippet)])}">#{languageName language}
               <td>
                 <a href="@{SnippetR $ codeSnippetSlug snippet}" title="#{Snippet.title snippet}">#{Snippet.title snippet}
-              <td data-iso-date="#{show $ codeSnippetCreated snippet}">
+              <td data-iso-date="#{ISO8601.iso8601Show $ codeSnippetCreated snippet}">
                 <span class="formated-date">
               <td>#{Snippet.visibility snippet}
       $if paginationRequired pagination
