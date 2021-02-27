@@ -30,16 +30,16 @@ data SnippetPayload = SnippetPayload
 
 instance Aeson.FromJSON SnippetPayload
 
-toCodeSnippet :: Text -> UTCTime -> Maybe UserId -> SnippetPayload -> CodeSnippet
-toCodeSnippet slug time maybeUserId SnippetPayload{..} =
+toCodeSnippet :: Text -> UTCTime -> UTCTime -> Maybe UserId -> SnippetPayload -> CodeSnippet
+toCodeSnippet slug createdAt modifiedAt maybeUserId SnippetPayload{..} =
     CodeSnippet
         { codeSnippetSlug = slug
         , codeSnippetLanguage = pack (show language)
         , codeSnippetTitle = titleToText title
         , codeSnippetPublic = public
         , codeSnippetUserId = maybeUserId
-        , codeSnippetCreated = time
-        , codeSnippetModified = time
+        , codeSnippetCreated = createdAt
+        , codeSnippetModified = modifiedAt
         }
 
 

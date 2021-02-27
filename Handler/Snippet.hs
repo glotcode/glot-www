@@ -61,10 +61,10 @@ putSnippetR snippetSlug = do
             sendResponseStatus status400 $ object ["message" .= ("Invalid request body: " <> err)]
 
         Right payload -> do
-            let snippet = Glot.Snippet.toCodeSnippet snippetSlug now maybeUserId payload
             runDB $ do
                 Entity snippetId oldSnippet <- getBy404 (UniqueCodeSnippetSlug snippetSlug)
                 lift $ ensureSnippetOwner maybeUserId oldSnippet
+                let snippet = Glot.Snippet.toCodeSnippet snippetSlug (codeSnippetCreated oldSnippet) now maybeUserId payload
                 replace snippetId snippet
                 deleteWhere [ CodeFileCodeSnippetId ==. snippetId ]
                 insertMany_ (map (Glot.Snippet.toCodeFile snippetId) (NonEmpty.toList $ Glot.Snippet.files payload))

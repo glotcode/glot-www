@@ -71,7 +71,7 @@ postComposeR _ = do
 
         Right payload -> do
             let snippetSlug = Glot.Snippet.newSlug now
-            let snippet = Glot.Snippet.toCodeSnippet snippetSlug now maybeUserId payload
+            let snippet = Glot.Snippet.toCodeSnippet snippetSlug now now maybeUserId payload
             runDB $ do
                 snippetId <- insert snippet
                 insertMany_ (map (Glot.Snippet.toCodeFile snippetId) (NonEmpty.toList $ Glot.Snippet.files payload))

@@ -119,7 +119,7 @@ postApiSnippetsR = do
 
         Right payload -> do
             let snippetSlug = Snippet.newSlug now
-            let snippet = Snippet.toCodeSnippet snippetSlug now maybeUserId payload
+            let snippet = Snippet.toCodeSnippet snippetSlug now now maybeUserId payload
             runDB $ do
                 snippetId <- insert snippet
                 insertMany_ (map (Snippet.toCodeFile snippetId) (NonEmpty.toList $ Snippet.files payload))
@@ -139,10 +139,10 @@ putApiSnippetR snippetSlug = do
             sendResponseStatus status400 $ object ["message" .= ("Invalid request body: " <> err)]
 
         Right payload -> do
-            let snippet = Snippet.toCodeSnippet snippetSlug now maybeUserId payload
             runDB $ do
                 Entity snippetId oldSnippet <- getBy404 (UniqueCodeSnippetSlug snippetSlug)
                 lift $ SnippetHandler.ensureSnippetOwner maybeUserId oldSnippet
+                let snippet = Snippet.toCodeSnippet snippetSlug (codeSnippetCreated oldSnippet) now maybeUserId payload
                 replace snippetId snippet
                 deleteWhere [ CodeFileCodeSnippetId ==. snippetId ]
                 insertMany_ (map (Snippet.toCodeFile snippetId) (NonEmpty.toList $ Snippet.files payload))
