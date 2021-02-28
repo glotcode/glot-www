@@ -32,6 +32,7 @@ library
                      Handler.Alert
                      Handler.Meta
                      Handler.Api.Snippets
+                     Handler.Api.Run
                      Model.Language
                      Model.Pagination
                      Model.Snippet
@@ -55,6 +56,7 @@ library
                      Widget.CarbonAds
                      Yesod.Auth.Simple
                      Glot.Snippet
+                     Glot.DockerRun
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
@@ -133,6 +135,9 @@ library
                  , blaze-markup
                  , case-insensitive
                  , hailgun
+                 , req
+                 , http-client
+                 , modern-uri
 
 executable         glot
     if flag(library-only)

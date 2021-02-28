@@ -50,6 +50,7 @@ data FilePayload = FilePayload
     deriving (Show, GHC.Generic)
 
 instance Aeson.FromJSON FilePayload
+instance Aeson.ToJSON FilePayload
 
 
 toCodeFile :: CodeSnippetId -> FilePayload -> CodeFile
@@ -89,7 +90,7 @@ intToBase36 number =
 
 
 newtype Title = Title Text
-    deriving (Show)
+    deriving (Show, Aeson.ToJSON)
 
 instance Aeson.FromJSON Title where
     parseJSON = Aeson.withText "Title" $ \text ->
@@ -119,7 +120,7 @@ titleToText (Title title) = title
 
 
 newtype FileContent = FileContent Text
-    deriving (Show)
+    deriving (Show, Aeson.ToJSON)
 
 instance Aeson.FromJSON FileContent where
     parseJSON = Aeson.withText "FileContent" $ \text ->

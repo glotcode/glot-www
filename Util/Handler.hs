@@ -6,7 +6,8 @@ module Util.Handler (
     maybeApiUser,
     pageNo,
     apiRequestHeaders,
-    setCanonicalUrl
+    setCanonicalUrl,
+    lookupApiUser,
 ) where
 
 import Import
@@ -14,6 +15,7 @@ import Prelude (read)
 import Text.Blaze (toMarkup, Markup)
 import Data.CaseInsensitive (mk)
 import qualified Network.Wai as Wai
+import qualified Data.Text as Text
 
 urlDecode' :: Text -> Text
 urlDecode' x = decodeUtf8 $ urlDecode True $ encodeUtf8 x
@@ -53,3 +55,27 @@ setCanonicalUrl route = do
     renderUrl <- getUrlRender
     let url = renderUrl route
     toWidgetHead $ [hamlet|<link rel=canonical href=#{url}>|]
+
+
+tokenFromAuthorizationHeader :: ByteString -> Text
+tokenFromAuthorizationHeader value =
+    case Text.breakOn " " (decodeUtf8 value) of
+        (token, "") ->
+            Text.strip token
+
+        (_, token) ->
+            Text.strip token
+
+
+lookupApiUser :: Handler (Maybe ApiUser)
+lookupApiUser = do
+    maybeAuthorizationHeader <- lookupHeader "Authorization"
+    let maybeAccessToken = fmap tokenFromAuthorizationHeader maybeAuthorizationHeader
+    mApiUser <- runDB $ maybe (pure Nothing) (getBy . UniqueApiToken) maybeAccessToken
+    case mApiUser of
+        Just (Entity _ apiUser) ->
+            pure (Just apiUser)
+
+        Nothing ->
+            pure Nothing
+

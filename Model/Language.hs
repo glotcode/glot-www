@@ -51,6 +51,10 @@ instance Aeson.FromJSON Language where
     parseJSON = Aeson.withText "Language" $ \text ->
         pure (toLanguage text)
 
+instance Aeson.ToJSON Language where
+    toJSON language =
+        Aeson.String (pack $ show language)
+
 
 instance PathPiece Language where
     toPathPiece = pack . show

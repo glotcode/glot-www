@@ -14,7 +14,6 @@ import qualified Util.Persistent as Persistent
 import qualified Util.Handler as HandlerUtils
 import qualified Data.Time.Format.ISO8601 as ISO8601
 import qualified Text.Read as Read
-import qualified Data.Text as Text
 import qualified Data.Text.Encoding as Encoding
 import qualified Data.Text.Encoding.Error as Encoding.Error
 import qualified Glot.Snippet as Snippet
@@ -71,28 +70,6 @@ intParam value =
     Read.readMaybe (unpack value)
 
 
-tokenFromAuthorizationHeader :: ByteString -> Text
-tokenFromAuthorizationHeader value =
-    case Text.breakOn " " (decodeUtf8 value) of
-        (token, "") ->
-            Text.strip token
-
-        (_, token) ->
-            Text.strip token
-
-
-lookupApiUser :: Handler (Maybe ApiUser)
-lookupApiUser = do
-    maybeAuthorizationHeader <- lookupHeader "Authorization"
-    let maybeAccessToken = fmap tokenFromAuthorizationHeader maybeAuthorizationHeader
-    maybeApiUser <- runDB $ maybe (pure Nothing) (getBy . UniqueApiToken) maybeAccessToken
-    case maybeApiUser of
-        Just (Entity _ apiUser) ->
-            pure (Just apiUser)
-
-        Nothing ->
-            pure Nothing
-
 
 getApiSnippetR :: Text -> Handler Value
 getApiSnippetR slug = do
@@ -111,7 +88,7 @@ postApiSnippetsR = do
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ Wai.strictRequestBody req
     now <- liftIO getCurrentTime
-    maybeApiUser <- lookupApiUser
+    maybeApiUser <- HandlerUtils.lookupApiUser
     let maybeUserId = fmap apiUserUserId maybeApiUser
     case Aeson.eitherDecode' body of
         Left err ->
@@ -132,7 +109,7 @@ putApiSnippetR snippetSlug = do
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ Wai.strictRequestBody req
     now <- liftIO getCurrentTime
-    maybeApiUser <- lookupApiUser
+    maybeApiUser <- HandlerUtils.lookupApiUser
     let maybeUserId = fmap apiUserUserId maybeApiUser
     case Aeson.eitherDecode' body of
         Left err ->
@@ -152,7 +129,7 @@ putApiSnippetR snippetSlug = do
 
 deleteApiSnippetR :: Text -> Handler Value
 deleteApiSnippetR slug = do
-    maybeApiUser <- lookupApiUser
+    maybeApiUser <- HandlerUtils.lookupApiUser
     let maybeUserId = fmap apiUserUserId maybeApiUser
     runDB $ do
         Entity snippetId snippet <- getBy404 $ UniqueCodeSnippetSlug slug
@@ -169,7 +146,7 @@ getApiSnippetsR = do
     perPageParam <- lookupGetParam "per_page"
     languageParam <- lookupGetParam "language"
     ownerParam <- lookupGetParam "owner"
-    maybeApiUser <- lookupApiUser
+    maybeApiUser <- HandlerUtils.lookupApiUser
     let maybeUserId = fmap apiUserUserId maybeApiUser
     let snippetsPerPage = fromMaybe 100 (perPageParam >>= intParam)
     let limitOffset = Persistent.LimitOffset
