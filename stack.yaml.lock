@@ -10,7 +10,7 @@ packages:
       size: 1188
       sha256: 25eb9f8dc32328cfbb89a2bbd2a4153c6eec9b46b1ed301d38f94f8374e59be5
   original:
-    hackage: hailgun-0.5.1
+    hackage: hailgun-0.5.1@sha256:a8a302776850e780b08467c986ea7e5e7fdf46a25abae735ffc8802dbd32e105,3770
 - completed:
     hackage: pwstore-fast-2.4.4@sha256:9b6a37510d8b9f37f409a8ab3babac9181afcaaa3fce8ba1c131a7ed3de30698,1351
     pantry-tree:

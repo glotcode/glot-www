@@ -44,7 +44,7 @@ resolver: lts-17.4
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
 extra-deps:
-- hailgun-0.5.1
+- hailgun-0.5.1@sha256:a8a302776850e780b08467c986ea7e5e7fdf46a25abae735ffc8802dbd32e105,3770
 - pwstore-fast-2.4.4@sha256:9b6a37510d8b9f37f409a8ab3babac9181afcaaa3fce8ba1c131a7ed3de30698,1351
 - classy-prelude-yesod-1.5.0@sha256:8f7e183bdfd6d2ea9674284c4f285294ab086aff60d9be4e5d7d2f3c1a2b05b7,1330
 
