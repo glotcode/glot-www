@@ -19,6 +19,8 @@
 /alert/danger AlertDangerR POST
 /about MetaAboutR GET
 /api MetaApiDocsR GET
-/api/run/#Language/#Text ApiRunR POST
+/api/run ApiRunLanguagesR GET
+/api/run/#Language ApiRunVersionsR GET
+/api/run/#Language/#Text ApiRunR GET POST
 /api/snippets ApiSnippetsR GET POST
 /api/snippets/#Text ApiSnippetR GET PUT DELETE
