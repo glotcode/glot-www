@@ -56,6 +56,9 @@ lookupDockerRunConfig = do
 formatRunError :: DockerRun.Error -> Value
 formatRunError err =
     case err of
+        DockerRun.ParseUrlError ->
+            Aeson.object ["message" .= (Aeson.String (pack $ DockerRun.formatError err))]
+
         DockerRun.HttpException _ ->
             Aeson.object ["message" .= (Aeson.String (pack $ DockerRun.formatError err))]
 

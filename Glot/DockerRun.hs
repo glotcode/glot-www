@@ -24,9 +24,7 @@ import qualified Data.Bifunctor as Bifunctor
 import qualified Network.HTTP.Client as Http
 import qualified Network.HTTP.Types.Status as Status
 import qualified Text.URI as URI
-import qualified Data.Maybe as Maybe
 
-import Network.HTTP.Req ((/:))
 import Data.Function ((&))
 
 
@@ -78,43 +76,55 @@ run Config{..} runRequest =
                 , Req.httpConfigRetryJudgeException = \_ _ -> False
                 }
 
-        accessTokenHeader =
-            Req.header "X-Access-Token" accessToken
+        mkOptions :: Req.Option scheme -> Req.Option scheme
+        mkOptions urlOptions =
+            urlOptions
+                <> Req.header "X-Access-Token" accessToken
+                <> Req.responseTimeout (60 * 1000000)
 
-        responseTimeout =
-            Req.responseTimeout 60000000
+        runReq httpOrHttpsUrl = do
+            res <- Req.runReq reqConfig $ do
+                case httpOrHttpsUrl of
+                    Left (httpUrl, urlOptions) ->
+                        Req.req Req.POST httpUrl (Req.ReqBodyJson runRequest) Req.bsResponse (mkOptions urlOptions)
 
-        options =
-            accessTokenHeader <> responseTimeout
-
-        runReq (url, urlOptions) =
-            Req.runReq reqConfig $ do
-                res <- Req.req Req.POST url (Req.ReqBodyJson runRequest) Req.bsResponse (urlOptions <> options)
-                let body = Req.responseBody res
-                pure
-                    ( if isSuccessStatus (Req.responseStatusCode res) then
-                        Aeson.eitherDecodeStrict' body
-                            & Bifunctor.first (DecodeSuccessResponseError body)
-
-                      else
-                        case Aeson.eitherDecodeStrict' body of
-                            Right apiError ->
-                                Left (ApiError apiError)
-
-                            Left decodeError ->
-                                Left (DecodeErrorResponseError body decodeError)
-                    )
+                    Right (httpsUrl, urlOptions) ->
+                        Req.req Req.POST httpsUrl (Req.ReqBodyJson runRequest) Req.bsResponse (mkOptions urlOptions)
+            pure (handleResponse res)
     in do
-    -- TODO: use useURI and remove fromJust
-    maybeUri <- URI.mkURI (baseUrl <> "/run")
-    let urlAndOptions = Maybe.fromJust (Req.useHttpURI maybeUri)
-    eitherResult <- Exception.try (runReq urlAndOptions)
-    case eitherResult of
-        Left exception ->
-            pure (Left $ HttpException exception)
+    uri <- URI.mkURI (baseUrl <> "/run")
+    case Req.useURI uri of
+        Nothing -> do
+            pure $ Left ParseUrlError
 
-        Right e ->
-            pure e
+        Just httpOrHttpsUrl -> do
+            eitherResult <- Exception.try (runReq httpOrHttpsUrl)
+            case eitherResult of
+                Left exception ->
+                    pure (Left $ HttpException exception)
+
+                Right e ->
+                    pure e
+
+
+handleResponse :: (Req.HttpResponse response, Req.HttpResponseBody response ~ ByteString) => response -> Either Error RunResult
+handleResponse res =
+    let
+        body =
+            Req.responseBody res
+    in
+    if isSuccessStatus (Req.responseStatusCode res) then
+        Aeson.eitherDecodeStrict' body
+            & Bifunctor.first (DecodeSuccessResponseError body)
+
+      else
+        case Aeson.eitherDecodeStrict' body of
+            Right apiError ->
+                Left (ApiError apiError)
+
+            Left decodeError ->
+                Left (DecodeErrorResponseError body decodeError)
+
 
 
 isSuccessStatus :: Int -> Bool
@@ -123,7 +133,8 @@ isSuccessStatus code =
 
 
 data Error
-    = HttpException Req.HttpException
+    = ParseUrlError
+    | HttpException Req.HttpException
     | DecodeSuccessResponseError ByteString String
     | DecodeErrorResponseError ByteString String
     | ApiError ErrorBody
@@ -132,6 +143,9 @@ data Error
 debugError :: Error -> String
 debugError err =
     case err of
+        ParseUrlError ->
+            "ParseUrlError"
+
         HttpException exception ->
             "HttpException: " <> (show exception)
 
@@ -148,6 +162,9 @@ debugError err =
 formatError :: Error -> String
 formatError err =
     case err of
+        ParseUrlError ->
+            "Invalid docker-run url"
+
         HttpException exception ->
             case exception of
                 Req.JsonHttpException reason ->
