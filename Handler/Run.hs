@@ -28,11 +28,10 @@ data RunPayload = RunPayload
 instance Aeson.FromJSON RunPayload
 
 
--- TODO: get docker image
 postRunR :: Language -> Handler Value
 postRunR lang = do
-    langVersion <- fromMaybe "latest" <$> lookupGetParam "version"
-    -- persist <- fromMaybe "true" <$> lookupGetParam "persist"
+    when (not $ languageIsRunnable lang) $
+        sendResponseStatus status400 (Aeson.object ["message" .= Aeson.String "Language is not runnable"])
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ Wai.strictRequestBody req
     mUserId <- maybeAuthId
@@ -41,7 +40,7 @@ postRunR lang = do
             sendResponseStatus status400 $ object ["message" .= ("Invalid request body: " <> err)]
 
         Right payload -> do
-            result <- liftIO $ DockerRun.run (toRunRequest lang "glot/bash:latest" payload)
+            result <- liftIO $ DockerRun.run (toRunRequest lang (languageDockerImage lang) payload)
             case result of
                 Left err -> do
                     print err
