@@ -9,6 +9,7 @@ module Glot.DockerRun
     , Error(..)
     , ErrorBody(..)
     , formatError
+    , debugError
     ) where
 
 import Import hiding (RunResult)
@@ -121,14 +122,28 @@ isSuccessStatus code =
     code >= 200 && code <= 299
 
 
-
--- TODO: implement Show, important that request (access-token) is not exposed
 data Error
     = HttpException Req.HttpException
     | DecodeSuccessResponseError ByteString String
     | DecodeErrorResponseError ByteString String
     | ApiError ErrorBody
-    deriving (Show)
+
+
+debugError :: Error -> String
+debugError err =
+    case err of
+        HttpException exception ->
+            "HttpException: " <> (show exception)
+
+        DecodeSuccessResponseError body reason ->
+            "DecodeSuccessResponseError: " <> (show reason) <> ", body: " <> (show body)
+
+        DecodeErrorResponseError body reason ->
+            "DecodeErrorResponseError: " <> (show reason) <> ", body: " <> (show body)
+
+        ApiError errorBody ->
+            "ApiError: " <> (show errorBody)
+
 
 formatError :: Error -> String
 formatError err =
