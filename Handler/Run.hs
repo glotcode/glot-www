@@ -50,6 +50,7 @@ lookupDockerRunConfig :: IO DockerRun.Config
 lookupDockerRunConfig = do
     baseUrl <- Environment.dockerRunBaseUrl
     accessToken <- Environment.dockerRunAccessToken
+    responseTimeout <- Environment.dockerRunResponseTimeout
     pure DockerRun.Config{..}
 
 

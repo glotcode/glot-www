@@ -1,6 +1,7 @@
 module Settings.Environment (
     dockerRunBaseUrl,
     dockerRunAccessToken,
+    dockerRunResponseTimeout,
     runApiBaseUrl,
     runApiAdminToken,
     runApiAnonymousToken,
@@ -13,6 +14,7 @@ module Settings.Environment (
 
 import ClassyPrelude.Yesod
 import System.Environment (getEnv, lookupEnv)
+import qualified Prelude
 
 
 dockerRunBaseUrl :: IO Text
@@ -20,6 +22,10 @@ dockerRunBaseUrl = fromString <$> getEnv "DOCKER_RUN_BASE_URL"
 
 dockerRunAccessToken :: IO ByteString
 dockerRunAccessToken = fromString <$> getEnv "DOCKER_RUN_ACCESS_TOKEN"
+
+-- TODO: Return either
+dockerRunResponseTimeout :: IO Int
+dockerRunResponseTimeout = Prelude.read <$> getEnv "DOCKER_RUN_RESPONSE_TIMEOUT"
 
 runApiBaseUrl :: IO String
 runApiBaseUrl = getEnv "RUN_API_BASE_URL"

@@ -62,6 +62,7 @@ instance Aeson.ToJSON RunResult
 data Config = Config
     { accessToken :: ByteString
     , baseUrl :: Text
+    , responseTimeout :: Int
     }
 
 
@@ -80,7 +81,7 @@ run Config{..} runRequest =
         mkOptions urlOptions =
             urlOptions
                 <> Req.header "X-Access-Token" accessToken
-                <> Req.responseTimeout (60 * 1000000)
+                <> Req.responseTimeout (responseTimeout * 1000000)
 
         runReq httpOrHttpsUrl = do
             res <- Req.runReq reqConfig $ do
