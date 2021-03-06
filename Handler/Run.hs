@@ -34,7 +34,6 @@ postRunR lang = do
         sendResponseStatus status400 (Aeson.object ["message" .= Aeson.String "Language is not runnable"])
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ Wai.strictRequestBody req
-    mUserId <- maybeAuthId
     case Aeson.eitherDecode' body of
         Left err ->
             sendResponseStatus status400 $ object ["message" .= ("Invalid request body: " <> err)]
