@@ -21,12 +21,10 @@ Profile
 
 ApiUser
     userId UserId
-    runId Text
     token Text
     created UTCTime
     modified UTCTime
     UniqueApiUser userId
-    UniqueRunId runId
     UniqueApiToken token
     deriving Typeable Show
 

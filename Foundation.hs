@@ -28,8 +28,6 @@ import Mail.Hailgun (
     MessageRecipients(..))
 
 
-import qualified Model.Run.Api as RunApi
-
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
 -- starts running, such as database connections. Every handler will have
@@ -171,14 +169,13 @@ instance YesodAuthSimple App where
         token <- liftIO newToken
         -- TODO: SnippetUserId can be removed after the snippets has been imported
         snippetUserId <- liftIO newToken
-        runId <- liftIO $ RunApi.addUser token
         now <- liftIO getCurrentTime
         liftHandler $ runDB $ do
             mUserId <- insertUnique $ User email password now now
             case mUserId of
                 Just userId -> do
                     _ <- insertUnique $ Profile userId snippetUserId username name now now
-                    _ <- insertUnique $ ApiUser userId runId token now now
+                    _ <- insertUnique $ ApiUser userId token now now
                     return mUserId
                 Nothing -> do
                     return mUserId

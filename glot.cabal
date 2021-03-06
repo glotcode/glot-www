@@ -36,11 +36,8 @@ library
                      Model.Language
                      Model.Pagination
                      Model.Snippet
-                     Model.Run.Api
                      Util.Shakespare
                      Util.Handler
-                     Util.Api
-                     Util.Http
                      Util.Multiline
                      Util.Slug
                      Util.User
@@ -88,7 +85,6 @@ library
                  , yesod-static
                  , yesod-form
                  , classy-prelude
-                 , classy-prelude-conduit
                  , classy-prelude-yesod
                  , bytestring
                  , text
@@ -101,12 +97,10 @@ library
                  , monad-control
                  , wai-extra
                  , yaml
-                 , http-conduit
                  , directory
                  , warp
                  , data-default
                  , aeson
-                 , conduit
                  , monad-logger
                  , fast-logger
                  , wai-logger
@@ -114,7 +108,6 @@ library
                  , safe
                  , unordered-containers
                  , containers
-                 , vector
                  , time
                  , base64-bytestring
                  , base16-bytestring
@@ -124,12 +117,8 @@ library
                  , cryptohash
                  , http-types
                  , uuid
-                 , conduit-extra
                  , wai
                  , regex-compat
-                 , wreq
-                 , lens
-                 , network-uri
                  , iso8601-time
                  , blaze-html
                  , blaze-markup

@@ -7,7 +7,6 @@ import Util.Slug (mkSlug)
 import Util.User (newToken)
 import Util.Handler (title)
 import Util.Alert (successHtml)
-import qualified Model.Run.Api as RunApi
 
 data ProfileData = ProfileData {
     name :: Text,
@@ -48,9 +47,8 @@ getAccountTokenR = do
 putAccountTokenR :: Handler Value
 putAccountTokenR = do
     userId <- requireAuthId
-    Entity apiUserId apiUser <- runDB $ getBy404 $ UniqueApiUser userId
+    Entity apiUserId _ <- runDB $ getBy404 $ UniqueApiUser userId
     token <- liftIO newToken
-    liftIO $ RunApi.setUserToken (apiUserRunId apiUser) token
     now <- liftIO getCurrentTime
     runDB $ update apiUserId [ApiUserToken =. token, ApiUserModified =. now]
     setMessage $ successHtml "New token generated"
