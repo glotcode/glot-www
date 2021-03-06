@@ -2,10 +2,7 @@
 
 module Handler.Run where
 
-import Import
-import Util.Handler (maybeApiUser, apiRequestHeaders)
-import Model.Run.Api (runSnippet)
-import Settings.Environment (runApiAnonymousToken)
+import Import hiding (stdin, error)
 import qualified Network.Wai as Wai
 import qualified GHC.Generics as GHC
 import qualified Data.Aeson as Aeson
@@ -14,8 +11,6 @@ import qualified Glot.DockerRun as DockerRun
 import qualified Data.List.NonEmpty as NonEmpty
 import qualified Data.Text.Encoding as Encoding
 import qualified Data.Text.Encoding.Error as Encoding.Error
-
-import Data.Function ((&))
 
 
 data RunPayload = RunPayload
