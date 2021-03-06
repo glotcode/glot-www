@@ -5,6 +5,7 @@ module Glot.DockerRun
     ( RunRequest(..)
     , RunRequestPayload(..)
     , RunResult(..)
+    , Config(..)
     , run
     , Error(..)
     , ErrorBody(..)
@@ -60,11 +61,14 @@ instance Aeson.FromJSON RunResult
 instance Aeson.ToJSON RunResult
 
 
--- TODO: get url from config
--- TODO: get token from config
--- TODO: test that we are able to read error response from api (non-200)
-run :: RunRequest -> IO (Either Error RunResult)
-run runRequest =
+data Config = Config
+    { accessToken :: ByteString
+    , baseUrl :: Text
+    }
+
+
+run :: Config -> RunRequest -> IO (Either Error RunResult)
+run Config{..} runRequest =
     let
         reqConfig =
             Req.defaultHttpConfig
@@ -75,7 +79,7 @@ run runRequest =
                 }
 
         accessTokenHeader =
-            Req.header "X-Access-Token" "magmatic-handyman-confirm-cauldron"
+            Req.header "X-Access-Token" accessToken
 
         responseTimeout =
             Req.responseTimeout 60000000
@@ -85,11 +89,7 @@ run runRequest =
 
         runReq (url, urlOptions) =
             Req.runReq reqConfig $ do
-                res <- Req.req Req.POST
-                    url
-                    (Req.ReqBodyJson runRequest)
-                    Req.bsResponse
-                    (urlOptions <> options)
+                res <- Req.req Req.POST url (Req.ReqBodyJson runRequest) Req.bsResponse (urlOptions <> options)
                 let body = Req.responseBody res
                 pure
                     ( if isSuccessStatus (Req.responseStatusCode res) then
@@ -106,7 +106,7 @@ run runRequest =
                     )
     in do
     -- TODO: use useURI and remove fromJust
-    maybeUri <- URI.mkURI "http://localhost:8088/run"
+    maybeUri <- URI.mkURI (baseUrl <> "/run")
     let urlAndOptions = Maybe.fromJust (Req.useHttpURI maybeUri)
     eitherResult <- Exception.try (runReq urlAndOptions)
     case eitherResult of

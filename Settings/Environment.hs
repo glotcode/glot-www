@@ -1,4 +1,6 @@
 module Settings.Environment (
+    dockerRunBaseUrl,
+    dockerRunAccessToken,
     runApiBaseUrl,
     runApiAdminToken,
     runApiAnonymousToken,
@@ -12,6 +14,12 @@ module Settings.Environment (
 import ClassyPrelude.Yesod
 import System.Environment (getEnv, lookupEnv)
 
+
+dockerRunBaseUrl :: IO Text
+dockerRunBaseUrl = fromString <$> getEnv "DOCKER_RUN_BASE_URL"
+
+dockerRunAccessToken :: IO ByteString
+dockerRunAccessToken = fromString <$> getEnv "DOCKER_RUN_ACCESS_TOKEN"
 
 runApiBaseUrl :: IO String
 runApiBaseUrl = getEnv "RUN_API_BASE_URL"
