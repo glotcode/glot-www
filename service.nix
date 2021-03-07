@@ -57,7 +57,7 @@ in
 
           serviceConfig =
             {
-              WorkingDirectory = "${glot}";
+              WorkingDirectory = "${cfg.environment.WORK_DIR}";
               Type = "notify";
               WatchdogSec = 30;
               ExecStart = "${glot}/bin/glot";
