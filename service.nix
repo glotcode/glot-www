@@ -59,9 +59,8 @@ in
           serviceConfig =
             {
               WorkingDirectory = "${cfg.environment.WORK_DIR}";
-              Type = "notify";
               ExecStart = "${glot}/bin/glot";
-              Restart = "on-failure";
+              Restart = "always";
               User = "glot";
             };
 
