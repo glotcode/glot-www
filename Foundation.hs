@@ -80,15 +80,12 @@ instance Yesod App where
 
         pc <- widgetToPageContent $ do
             addStylesheet $ StaticR lib_font_awesome_css_font_awesome_min_css
-            $(combineStylesheets 'StaticR [
-                lib_bootstrap_bootstrap_min_css,
-                css_glot_css])
-            $(combineScripts 'StaticR [
-                lib_jquery_jquery_min_js,
-                lib_moment_moment_min_js,
-                lib_bootstrap_bootstrap_min_js,
-                js_location_js,
-                js_xhr_js])
+            addStylesheet $ StaticR lib_bootstrap_bootstrap_min_css
+            addScript $ StaticR lib_jquery_jquery_min_js
+            addScript $ StaticR lib_moment_moment_min_js
+            addScript $ StaticR lib_bootstrap_bootstrap_min_js
+            addScript $ StaticR js_location_js
+            addScript $ StaticR js_xhr_js
             $(widgetFile "default-layout")
             $(widgetFile "widgets/alert")
             case mAnalytics of
