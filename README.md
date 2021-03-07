@@ -33,14 +33,14 @@ All vars need to be set, no default values are provided.
 
 ## Compile from source
 ```bash
-git clone git@github.com:prasmussen/glot-www.git
+git clone git@github.com:glotcode/glot-www.git
 cd glot-www
 stack build
 ```
 
 ## Develop with yesod-bin
 ```bash
-git clone git@github.com:prasmussen/glot-www.git
+git clone git@github.com:glotcode/glot-www.git
 cd glot-www
 stack build yesod-bin
 ./dev.sh

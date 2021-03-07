@@ -12,6 +12,6 @@ $newline never
       <h5>Documentation
       <ul>
         <li>
-          <a href="https://github.com/prasmussen/glot-snippets/tree/master/api_docs">snippets.glot.io
+          <a href="https://github.com/glotcode/glot/tree/master/api_docs/run">Run api
         <li>
-          <a href="https://github.com/prasmussen/glot-run/tree/master/api_docs">run.glot.io
+          <a href="https://github.com/glotcode/glot/tree/master/api_docs/snippets">Snippets api

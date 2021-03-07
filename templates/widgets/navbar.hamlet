@@ -31,7 +31,7 @@ $newline never
             <li>
               <a href="@{MetaApiDocsR}"><i class="fa fa-exchange"></i> API Docs
             <li>
-              <a href="https://github.com/prasmussen/glot"><i class="fa fa-github"></i> Source Code
+              <a href="https://github.com/glotcode/glot"><i class="fa fa-github"></i> Source Code
 
       <ul class="nav navbar-nav navbar-right">
         $maybe profile <- mProfile

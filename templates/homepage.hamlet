@@ -4,5 +4,5 @@ $newline never
 <main class="masthead">
   <div class="container">
     <img src="@{StaticR img_logo_white_svg}" class="logo">
-    <p class="lead subtitle">an <a href="https://github.com/prasmussen/glot">open source</a> pastebin with runnable snippets and <a href="@{MetaApiDocsR}">API</a>.
+    <p class="lead subtitle">an <a href="https://github.com/glotcode/glot">open source</a> pastebin with runnable snippets and <a href="@{MetaApiDocsR}">API</a>.
 ^{languagesWidget}
