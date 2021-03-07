@@ -2,7 +2,7 @@
 
 let
   glot =
-    (import ./default.nix { pkgs = pkgs; }).glot.components.exes.glot;
+    (import ./default.nix {}).glot.components.exes.glot;
 
   cfg =
     config.services.glot;
