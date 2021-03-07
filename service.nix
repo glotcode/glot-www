@@ -41,6 +41,7 @@ in
       lib.mkIf cfg.enable {
         # Service user
         users.extraUsers.glot = {
+          isNormalUser = true;
           description = "glot service user";
         };
 
@@ -59,7 +60,6 @@ in
             {
               WorkingDirectory = "${cfg.environment.WORK_DIR}";
               Type = "notify";
-              WatchdogSec = 30;
               ExecStart = "${glot}/bin/glot";
               Restart = "on-failure";
               User = "glot";
