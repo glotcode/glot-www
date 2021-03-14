@@ -77,7 +77,7 @@ idFromText text =
 
 
 data Language = Language
-    { id :: Id
+    { identifier :: Id
     , name :: Text.Text
     , svgLogoRoute :: Static.StaticRoute
     , pngLogoRoute :: Static.StaticRoute
@@ -111,7 +111,7 @@ formatConfigError err =
         InvalidId LanguageConfig{..} ->
             mconcat
                 [ "Language "
-                , identifier
+                , id
                 , " does not have a valid id. The id can only contain lowercase characters and digits."
                 ]
 
@@ -119,7 +119,7 @@ formatConfigError err =
         FailedToReadLogo LanguageConfig{..} exception ->
             mconcat
                 [ "Failed to read logos for language "
-                , identifier
+                , id
                 , ", exception: "
                 , Text.pack (show exception)
                 ]
@@ -145,7 +145,7 @@ fromConfig langConfig@LanguageConfig{..} LogoEtags{..} =
         pngLogoRoute =
             Static.StaticRoute ["img", logoName <> ".svg.png"] [("etag", pngEtag)]
     in do
-    id <- Either.maybeToRight (InvalidId langConfig) (idFromText identifier)
+    identifier <- Either.maybeToRight (InvalidId langConfig) (idFromText id)
     pure Language{..}
 
 
@@ -157,7 +157,7 @@ isRunnable Language{..} =
 
 find :: [Language] -> Id -> Maybe Language
 find languages langId =
-    List.find (\lang -> id lang == langId) languages
+    List.find (\lang -> identifier lang == langId) languages
 
 
 -- TODO: get static root from arg

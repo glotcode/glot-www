@@ -94,7 +94,7 @@ defaultSnippet :: Language.Language -> UTCTime -> CodeSnippet
 defaultSnippet language now =
     CodeSnippet
         { codeSnippetSlug = ""
-        , codeSnippetLanguage = Language.id language
+        , codeSnippetLanguage = Language.identifier language
         , codeSnippetTitle = "Untitled"
         , codeSnippetPublic = True
         , codeSnippetUserId = Nothing

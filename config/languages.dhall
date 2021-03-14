@@ -2,7 +2,7 @@ let RunConfig = ./types/RunConfig.dhall
 
 let Language = ./types/Language.dhall
 
-in    [ { identifier = "assembly"
+in    [ { id = "assembly"
         , name = "Assembly"
         , logoName = "generic"
         , fileExtension = "asm"
@@ -34,7 +34,7 @@ in    [ { identifier = "assembly"
               "nasm -f elf64 -o a.o main.asm && ld -o a.out a.o && ./a.out"
           }
         }
-      , { identifier = "ats"
+      , { id = "ats"
         , name = "ATS"
         , logoName = "ats"
         , fileExtension = "dats"
@@ -48,7 +48,7 @@ in    [ { identifier = "assembly"
         , runConfig = Some
           { containerImage = "glot/ats:latest", runCommand = "make" }
         }
-      , { identifier = "bash"
+      , { id = "bash"
         , name = "Bash"
         , logoName = "bash"
         , fileExtension = "sh"
@@ -62,7 +62,7 @@ in    [ { identifier = "assembly"
         , runConfig = Some
           { containerImage = "glot/bash:latest", runCommand = "bash main.sh" }
         }
-      , { identifier = "c"
+      , { id = "c"
         , name = "C"
         , logoName = "c"
         , fileExtension = "c"
@@ -85,7 +85,7 @@ in    [ { identifier = "assembly"
           , runCommand = "clang main.c && ./a.out"
           }
         }
-      , { identifier = "clojure"
+      , { id = "clojure"
         , name = "Clojure"
         , logoName = "clojure"
         , fileExtension = "clj"
@@ -102,7 +102,7 @@ in    [ { identifier = "assembly"
               "java -cp /usr/share/java/clojure.jar clojure.main main.clj"
           }
         }
-      , { identifier = "cobol"
+      , { id = "cobol"
         , name = "COBOL"
         , logoName = "generic"
         , fileExtension = "cob"
@@ -127,7 +127,7 @@ in    [ { identifier = "assembly"
           , runCommand = "cobc -x -o a.out main.cob && ./a.out"
           }
         }
-      , { identifier = "coffeescript"
+      , { id = "coffeescript"
         , name = "CoffeeScript"
         , logoName = "coffeescript"
         , fileExtension = "coffee"
@@ -143,7 +143,7 @@ in    [ { identifier = "assembly"
           , runCommand = "coffee main.coffee"
           }
         }
-      , { identifier = "cpp"
+      , { id = "cpp"
         , name = "C++"
         , logoName = "cpp"
         , fileExtension = "cpp"
@@ -167,7 +167,7 @@ in    [ { identifier = "assembly"
           , runCommand = "clang++ main.cpp && ./a.out"
           }
         }
-      , { identifier = "crystal"
+      , { id = "crystal"
         , name = "Crystal"
         , logoName = "crystal"
         , fileExtension = "cr"
@@ -183,7 +183,7 @@ in    [ { identifier = "assembly"
           , runCommand = "crystal run main.cr"
           }
         }
-      , { identifier = "csharp"
+      , { id = "csharp"
         , name = "C#"
         , logoName = "csharp"
         , fileExtension = "cs"
@@ -209,7 +209,7 @@ in    [ { identifier = "assembly"
           , runCommand = "mcs -out:a.exe main.cs && mono a.exe"
           }
         }
-      , { identifier = "d"
+      , { id = "d"
         , name = "D"
         , logoName = "d"
         , fileExtension = "d"
@@ -232,7 +232,7 @@ in    [ { identifier = "assembly"
           , runCommand = "dmd -ofa.out main.d && ./a.out"
           }
         }
-      , { identifier = "elixir"
+      , { id = "elixir"
         , name = "Elixir"
         , logoName = "elixir"
         , fileExtension = "ex"
@@ -248,7 +248,7 @@ in    [ { identifier = "assembly"
           , runCommand = "elixirc main.ex"
           }
         }
-      , { identifier = "elm"
+      , { id = "elm"
         , name = "Elm"
         , logoName = "elm"
         , fileExtension = "elm"
@@ -271,7 +271,7 @@ in    [ { identifier = "assembly"
           , runCommand = "elm make --output a.js Main.elm && elm-runner a.js"
           }
         }
-      , { identifier = "erlang"
+      , { id = "erlang"
         , name = "Erlang"
         , logoName = "erlang"
         , fileExtension = "erl"
@@ -292,7 +292,7 @@ in    [ { identifier = "assembly"
           , runCommand = "escript main.erl"
           }
         }
-      , { identifier = "fsharp"
+      , { id = "fsharp"
         , name = "F#"
         , logoName = "fsharp"
         , fileExtension = "fs"
@@ -308,7 +308,7 @@ in    [ { identifier = "assembly"
           , runCommand = "fsharpc --out:a.exe main.fs > /dev/null && mono a.exe"
           }
         }
-      , { identifier = "go"
+      , { id = "go"
         , name = "Go"
         , logoName = "go"
         , fileExtension = "go"
@@ -334,7 +334,7 @@ in    [ { identifier = "assembly"
           , runCommand = "go run main.go"
           }
         }
-      , { identifier = "groovy"
+      , { id = "groovy"
         , name = "Groovy"
         , logoName = "groovy"
         , fileExtension = "groovy"
@@ -350,7 +350,7 @@ in    [ { identifier = "assembly"
           , runCommand = "groovy main.groovy"
           }
         }
-      , { identifier = "haskell"
+      , { id = "haskell"
         , name = "Haskell"
         , logoName = "haskell"
         , fileExtension = "hs"
@@ -366,7 +366,7 @@ in    [ { identifier = "assembly"
           , runCommand = "runghc main.hs"
           }
         }
-      , { identifier = "idris"
+      , { id = "idris"
         , name = "Idris"
         , logoName = "idris"
         , fileExtension = "idr"
@@ -387,7 +387,7 @@ in    [ { identifier = "assembly"
           , runCommand = "idris -o a.out main.idr && ./a.out"
           }
         }
-      , { identifier = "java"
+      , { id = "java"
         , name = "Java"
         , logoName = "java"
         , fileExtension = "java"
@@ -409,7 +409,7 @@ in    [ { identifier = "assembly"
           , runCommand = "javac Main.java && java Main"
           }
         }
-      , { identifier = "javascript"
+      , { id = "javascript"
         , name = "JavaScript"
         , logoName = "javascript"
         , fileExtension = "js"
@@ -425,7 +425,7 @@ in    [ { identifier = "assembly"
           , runCommand = "node main.js"
           }
         }
-      , { identifier = "julia"
+      , { id = "julia"
         , name = "Julia"
         , logoName = "julia"
         , fileExtension = "jl"
@@ -439,7 +439,7 @@ in    [ { identifier = "assembly"
         , runConfig = Some
           { containerImage = "glot/julia:latest", runCommand = "julia main.jl" }
         }
-      , { identifier = "kotlin"
+      , { id = "kotlin"
         , name = "Kotlin"
         , logoName = "kotlin"
         , fileExtension = "kt"
@@ -459,7 +459,7 @@ in    [ { identifier = "assembly"
           , runCommand = "kotlinc main.kt && kotlin MainKt"
           }
         }
-      , { identifier = "lua"
+      , { id = "lua"
         , name = "Lua"
         , logoName = "lua"
         , fileExtension = "lua"
@@ -473,7 +473,7 @@ in    [ { identifier = "assembly"
         , runConfig = Some
           { containerImage = "glot/lua:latest", runCommand = "lua main.lua" }
         }
-      , { identifier = "mercury"
+      , { id = "mercury"
         , name = "Mercury"
         , logoName = "mercury"
         , fileExtension = "m"
@@ -500,7 +500,7 @@ in    [ { identifier = "assembly"
           , runCommand = "mmc -o a.out main.m && ./a.out"
           }
         }
-      , { identifier = "nim"
+      , { id = "nim"
         , name = "Nim"
         , logoName = "nim"
         , fileExtension = "nim"
@@ -516,7 +516,7 @@ in    [ { identifier = "assembly"
           , runCommand = "nim --verbosity:0 compile --run main.nim"
           }
         }
-      , { identifier = "ocaml"
+      , { id = "ocaml"
         , name = "Ocaml"
         , logoName = "ocaml"
         , fileExtension = "ml"
@@ -532,7 +532,7 @@ in    [ { identifier = "assembly"
           , runCommand = "ocamlc -o a.out main.ml && ./a.out"
           }
         }
-      , { identifier = "perl"
+      , { id = "perl"
         , name = "Perl"
         , logoName = "perl"
         , fileExtension = "pl"
@@ -546,7 +546,7 @@ in    [ { identifier = "assembly"
         , runConfig = Some
           { containerImage = "glot/perl:latest", runCommand = "perl main.pl" }
         }
-      , { identifier = "php"
+      , { id = "php"
         , name = "PHP"
         , logoName = "php"
         , fileExtension = "php"
@@ -564,7 +564,7 @@ in    [ { identifier = "assembly"
         , runConfig = Some
           { containerImage = "glot/php:latest", runCommand = "php main.php" }
         }
-      , { identifier = "python"
+      , { id = "python"
         , name = "Python"
         , logoName = "python"
         , fileExtension = "py"
@@ -580,7 +580,7 @@ in    [ { identifier = "assembly"
           , runCommand = "python main.py"
           }
         }
-      , { identifier = "raku"
+      , { id = "raku"
         , name = "Raku"
         , logoName = "perl6"
         , fileExtension = "raku"
@@ -594,7 +594,7 @@ in    [ { identifier = "assembly"
         , runConfig = Some
           { containerImage = "glot/raku:latest", runCommand = "raku main.raku" }
         }
-      , { identifier = "ruby"
+      , { id = "ruby"
         , name = "Ruby"
         , logoName = "ruby"
         , fileExtension = "rb"
@@ -608,7 +608,7 @@ in    [ { identifier = "assembly"
         , runConfig = Some
           { containerImage = "glot/ruby:latest", runCommand = "ruby main.rb" }
         }
-      , { identifier = "rust"
+      , { id = "rust"
         , name = "Rust"
         , logoName = "rust"
         , fileExtension = "rs"
@@ -628,7 +628,7 @@ in    [ { identifier = "assembly"
           , runCommand = "rustc -o a.out main.rs && ./a.out"
           }
         }
-      , { identifier = "scala"
+      , { id = "scala"
         , name = "Scala"
         , logoName = "scala"
         , fileExtension = "scala"
@@ -648,7 +648,7 @@ in    [ { identifier = "assembly"
           , runCommand = "scalac main.scala && scala Main"
           }
         }
-      , { identifier = "swift"
+      , { id = "swift"
         , name = "Swift"
         , logoName = "swift"
         , fileExtension = "swift"
@@ -664,7 +664,7 @@ in    [ { identifier = "assembly"
           , runCommand = "swift main.swift"
           }
         }
-      , { identifier = "typescript"
+      , { id = "typescript"
         , name = "TypeScript"
         , logoName = "typescript"
         , fileExtension = "ts"
@@ -683,7 +683,7 @@ in    [ { identifier = "assembly"
           , runCommand = "tsc main.ts && node main.js"
           }
         }
-      , { identifier = "plaintext"
+      , { id = "plaintext"
         , name = "Plaintext"
         , logoName = "generic"
         , fileExtension = "txt"

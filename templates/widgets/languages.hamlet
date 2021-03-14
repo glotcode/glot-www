@@ -6,8 +6,8 @@ $newline never
 
     <div class="col-lg-12 languages">
       $forall language <- languages
-        <a href="@{ComposeR (Language.id language)}">
+        <a href="@{ComposeR (Language.identifier language)}">
           <div class="language-badge">
             <div class="language-icon-large language-badge-icon">
               <img class="logo" src=@{StaticR $ Language.svgLogoRoute language} alt="#{Language.name language} logo">
-            <div class="language-badge-text #{Language.idToText $ Language.id language}">#{Language.name language}
+            <div class="language-badge-text #{Language.idToText $ Language.identifier language}">#{Language.name language}

@@ -21,7 +21,7 @@ getApiRunLanguagesR = do
     renderUrl <- getUrlRender
     languages
         & filter Language.isRunnable
-        & map Language.id
+        & map Language.identifier
         & map (toRunLanguage renderUrl)
         & Aeson.toJSON
         & pure

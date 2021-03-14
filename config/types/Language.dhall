@@ -1,4 +1,4 @@
-{ identifier : Text
+{ id : Text
 , name : Text
 , logoName : Text
 , fileExtension : Text
