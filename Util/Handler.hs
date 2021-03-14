@@ -10,6 +10,8 @@ module Util.Handler (
     lookupApiUser,
     lookupLanguage,
     getLanguage,
+    JsonErrorResponse(..),
+    fromMaybeOrJsonError,
 ) where
 
 import Import
@@ -19,6 +21,8 @@ import Data.CaseInsensitive (mk)
 import qualified Network.Wai as Wai
 import qualified Data.Text as Text
 import qualified Glot.Language
+import qualified Network.HTTP.Types as Http
+import qualified Data.Aeson as Aeson
 
 
 lookupLanguage :: Glot.Language.Id -> Handler (Maybe Glot.Language.Language)
@@ -35,8 +39,23 @@ getLanguage langId = do
             pure language
 
         Nothing -> do
-            html <- defaultLayout [whamlet|Language #{Glot.Language.idToText langId} not supported|]
+            html <- defaultLayout [whamlet|Language #{Glot.Language.idToText langId} is not supported|]
             sendResponseStatus status500 html
+
+
+data JsonErrorResponse = JsonErrorResponse
+    { status :: Http.Status
+    , message :: Text
+    }
+
+fromMaybeOrJsonError :: Maybe a -> JsonErrorResponse -> Handler a
+fromMaybeOrJsonError maybeValue JsonErrorResponse{..} =
+    case maybeValue of
+        Just value ->
+            pure value
+
+        Nothing ->
+            sendResponseStatus status (Aeson.object ["message" .= Aeson.String message])
 
 
 urlDecode' :: Text -> Text

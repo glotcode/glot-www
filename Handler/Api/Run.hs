@@ -46,7 +46,8 @@ toRunLanguage renderUrl langId =
 
 getApiRunVersionsR :: Glot.Language.Id -> Handler Value
 getApiRunVersionsR langId = do
-    -- TODO: check that lang exists
+    maybeLanguage <- HandlerUtils.lookupLanguage langId
+    _ <- HandlerUtils.fromMaybeOrJsonError maybeLanguage $ HandlerUtils.JsonErrorResponse status404 "Language is not supported"
     renderUrl <- getUrlRender
     let version = "latest"
     RunVersion
