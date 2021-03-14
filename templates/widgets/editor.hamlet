@@ -3,21 +3,21 @@ $newline never
   <ul class="nav nav-tabs">
     <li class="meta">
       <a href="#">
-        <img class="logo" src=@{StaticR $ Glot.Language.svgLogo langConfig} alt="#{Glot.Language.name langConfig} logo">
+        <img class="logo" src=@{StaticR $ Glot.Language.svgLogo language} alt="#{Glot.Language.name language} logo">
     $forall (n, file) <- enumerateFiles files
       $if n == 1
         <li class="active" data-editor="editor-#{n}">
           <a href="#">
-            <span class="filename" contenteditable>#{getFilename langConfig file n}
+            <span class="filename" contenteditable>#{getFilename language file n}
       $elseif n <= fileCount
         <li data-editor="editor-#{n}">
           <a href="#">
-            <span class="filename">#{getFilename langConfig file n}
+            <span class="filename">#{getFilename language file n}
             <span class="close-file">✖
       $else
         <li class="hide" data-editor="editor-#{n}">
           <a href="#">
-            <span class="filename">#{getFilename langConfig file n}
+            <span class="filename">#{getFilename language file n}
             <span class="close-file">✖
     <li class="new-file">
       <a href="#">
@@ -26,7 +26,7 @@ $newline never
       <a href="#">
         <i class="fa fa-cog">
   <div id="meta" class="hide">
-    ^{metaWidget userIsSnippetOwner langConfig snippet profile runParams}
+    ^{metaWidget userIsSnippetOwner language snippet profile runParams}
   <div class="editors">
     $forall (n, file) <- enumerateFiles files
       $if n == 1

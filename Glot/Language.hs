@@ -12,15 +12,15 @@ module Glot.Language
     , idToText
     , EditorConfig(..)
     , RunConfig(..)
-    , LanguageConfig
-        ( LanguageConfig
+    , Language
+        ( Language
         , name
         , logoName
         , fileExtension
         , editorConfig
         , runConfig
         )
-    , readLanguageConfigs
+    , readLanguages
     , id
     , isRunnable
     , svgLogo
@@ -55,45 +55,45 @@ idToText (Id id) =
 Dhall.TH.makeHaskellTypes
     [ Dhall.TH.SingleConstructor "EditorConfig" "EditorConfig" "./config/types/EditorConfig.dhall"
     , Dhall.TH.SingleConstructor "RunConfig" "RunConfig" "./config/types/RunConfig.dhall"
-    , Dhall.TH.SingleConstructor "LanguageConfig" "LanguageConfig" "./config/types/LanguageConfig.dhall"
+    , Dhall.TH.SingleConstructor "Language" "Language" "./config/types/Language.dhall"
     ]
 
 deriving instance Show EditorConfig
 
 deriving instance Show RunConfig
 
-deriving instance Show LanguageConfig
+deriving instance Show Language
 
 
 -- TODO: filter out languages with invalid Identifier
-readLanguageConfigs :: IO [LanguageConfig]
-readLanguageConfigs =
+readLanguages :: IO [Language]
+readLanguages =
     Dhall.input Dhall.auto "./config/languages.dhall"
 
 
-id :: LanguageConfig -> Id
-id LanguageConfig{..} =
+id :: Language -> Id
+id Language{..} =
     Id identifier
 
 
-isRunnable :: LanguageConfig -> Bool
-isRunnable LanguageConfig{..} =
+isRunnable :: Language -> Bool
+isRunnable Language{..} =
     Maybe.isJust runConfig
 
 
 -- TODO: set etag
-svgLogo :: LanguageConfig -> Static.StaticRoute
-svgLogo LanguageConfig{..} =
+svgLogo :: Language -> Static.StaticRoute
+svgLogo Language{..} =
     Static.StaticRoute ["img", logoName <> ".svg"] []
 
 
 -- TODO: set etag
-pngLogo :: LanguageConfig -> Static.StaticRoute
-pngLogo LanguageConfig{..} =
+pngLogo :: Language -> Static.StaticRoute
+pngLogo Language{..} =
     Static.StaticRoute ["img", logoName <> ".svg.png"] []
 
 
 
-find :: [LanguageConfig] -> Id -> Maybe LanguageConfig
-find languageConfigs (Id langId) =
-    List.find (\langConfig -> identifier langConfig == langId) languageConfigs
+find :: [Language] -> Id -> Maybe Language
+find languages (Id langId) =
+    List.find (\lang -> identifier lang == langId) languages

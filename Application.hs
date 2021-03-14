@@ -55,7 +55,7 @@ mkYesodDispatch "App" resourcesApp
 -- migrations handled by Yesod.
 makeFoundation :: AppSettings -> IO App
 makeFoundation appSettings = do
-    languageConfigs <- Glot.Language.readLanguageConfigs
+    languages <- Glot.Language.readLanguages
     -- Some basic initializations: HTTP connection manager, logger, and static
     -- subsite.
     appHttpManager <- newManager

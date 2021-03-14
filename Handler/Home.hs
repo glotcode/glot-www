@@ -12,17 +12,17 @@ getHomeR = do
     defaultLayout $ do
         App{..} <- getYesod
         setTitle $ title "Home"
-        setDescription (metaDescription languageConfigs)
+        setDescription (metaDescription languages)
         Handler.setCanonicalUrl HomeR
         $(widgetFile "homepage")
 
 
-metaDescription :: [Glot.Language.LanguageConfig] -> Text
-metaDescription languageConfigs =
+metaDescription :: [Glot.Language.Language] -> Text
+metaDescription languages =
     [ "Run code online in the browser. "
-    , pack $ show $ length languageConfigs
+    , pack $ show $ length languages
     , " languages supported: "
-    , languageConfigs
+    , languages
         & map Glot.Language.name
         & intercalate ","
 

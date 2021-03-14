@@ -14,8 +14,8 @@ import qualified Data.Time.Format.ISO8601 as ISO8601
 import qualified Glot.Language
 
 
-editorWidget :: Bool -> Glot.Language.LanguageConfig -> CodeSnippet -> [CodeFile] -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
-editorWidget userIsSnippetOwner langConfig snippet files profile runParams =
+editorWidget :: Bool -> Glot.Language.Language -> CodeSnippet -> [CodeFile] -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
+editorWidget userIsSnippetOwner language snippet files profile runParams =
     let
         fileCount =
             length files
@@ -23,8 +23,8 @@ editorWidget userIsSnippetOwner langConfig snippet files profile runParams =
     addScript $ StaticR lib_ace_ace_js
     $(widgetFile "widgets/editor")
 
-metaWidget :: Bool -> Glot.Language.LanguageConfig -> CodeSnippet -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
-metaWidget userIsSnippetOwner langConfig snippet mProfile runParams = do
+metaWidget :: Bool -> Glot.Language.Language -> CodeSnippet -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
+metaWidget userIsSnippetOwner language snippet mProfile runParams = do
     let versions = ["latest"] :: [Text]
     let (_, savedVersion, savedRunCommand) = formatRunParams runParams
     addScript $ StaticR js_date_js
@@ -74,20 +74,20 @@ getFileContent maybeFile =
         Nothing ->
             ""
 
-getFilename :: Glot.Language.LanguageConfig -> Maybe CodeFile -> Int -> Text
+getFilename :: Glot.Language.Language -> Maybe CodeFile -> Int -> Text
 getFilename _ (Just file) _ = codeFileName file
-getFilename langConfig Nothing 2 = addExt langConfig "dio"
-getFilename langConfig Nothing 3 = addExt langConfig "tria"
-getFilename langConfig Nothing 4 = addExt langConfig "tessera"
-getFilename langConfig Nothing 5 = addExt langConfig "pente"
-getFilename langConfig Nothing 6 = addExt langConfig "eksi"
-getFilename langConfig Nothing 7 = addExt langConfig "efta"
-getFilename langConfig Nothing 8 = addExt langConfig "okto"
-getFilename langConfig Nothing 9 = addExt langConfig "enia"
-getFilename langConfig Nothing _ = addExt langConfig "infinitum"
+getFilename language Nothing 2 = addExt language "dio"
+getFilename language Nothing 3 = addExt language "tria"
+getFilename language Nothing 4 = addExt language "tessera"
+getFilename language Nothing 5 = addExt language "pente"
+getFilename language Nothing 6 = addExt language "eksi"
+getFilename language Nothing 7 = addExt language "efta"
+getFilename language Nothing 8 = addExt language "okto"
+getFilename language Nothing 9 = addExt language "enia"
+getFilename language Nothing _ = addExt language "infinitum"
 
-addExt :: Glot.Language.LanguageConfig -> Text -> Text
-addExt Glot.Language.LanguageConfig{..} filename =
+addExt :: Glot.Language.Language -> Text -> Text
+addExt Glot.Language.Language{..} filename =
     concat [ filename, "." , fileExtension ]
 
 

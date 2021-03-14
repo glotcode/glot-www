@@ -1,6 +1,6 @@
 let RunConfig = ./types/RunConfig.dhall
 
-let LanguageConfig = ./types/LanguageConfig.dhall
+let Language = ./types/Language.dhall
 
 in    [ { identifier = "assembly"
         , name = "Assembly"
@@ -697,4 +697,4 @@ in    [ { identifier = "assembly"
         , runConfig = None RunConfig
         }
       ]
-    : List LanguageConfig
+    : List Language

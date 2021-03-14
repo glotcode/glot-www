@@ -19,7 +19,7 @@ getApiRunLanguagesR :: Handler Value
 getApiRunLanguagesR = do
     App{..} <- getYesod
     renderUrl <- getUrlRender
-    languageConfigs
+    languages
         & filter Glot.Language.isRunnable
         & map Glot.Language.id
         & map (toRunLanguage renderUrl)

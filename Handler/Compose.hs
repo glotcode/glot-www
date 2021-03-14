@@ -32,33 +32,33 @@ getComposeLanguagesR = do
 
 getComposeR :: Glot.Language.Id -> Handler Html
 getComposeR langId = do
-    langConfig <- Handler.getLanguageConfig langId
+    language <- Handler.getLanguage langId
     now <- liftIO getCurrentTime
-    let snippet = defaultSnippet langConfig now
-    let files = defaultSnippetFiles langConfig
+    let snippet = defaultSnippet language now
+    let files = defaultSnippetFiles language
     defaultLayout $ do
-        setTitle (composeTitle langConfig)
-        setDescription (composeDescription langConfig)
+        setTitle (composeTitle language)
+        setDescription (composeDescription language)
         Handler.setCanonicalUrl (ComposeR langId)
         $(widgetFile "compose")
 
 
-composeTitle :: Glot.Language.LanguageConfig -> Blaze.Markup
-composeTitle langConfig =
-    if Glot.Language.isRunnable langConfig then
-        Handler.titleConcat ["Run ", Glot.Language.name langConfig, " in the browser"]
+composeTitle :: Glot.Language.Language -> Blaze.Markup
+composeTitle language =
+    if Glot.Language.isRunnable language then
+        Handler.titleConcat ["Run ", Glot.Language.name language, " in the browser"]
 
     else
-        Handler.titleConcat ["New ", Glot.Language.name langConfig, " snippet"]
+        Handler.titleConcat ["New ", Glot.Language.name language, " snippet"]
 
 
-composeDescription :: Glot.Language.LanguageConfig -> Text
-composeDescription langConfig =
-    if Glot.Language.isRunnable langConfig then
-        concat ["Run ", Glot.Language.name langConfig, " online in the browser. No installation required."]
+composeDescription :: Glot.Language.Language -> Text
+composeDescription language =
+    if Glot.Language.isRunnable language then
+        concat ["Run ", Glot.Language.name language, " online in the browser. No installation required."]
 
     else
-        concat ["Create a new ", Glot.Language.name langConfig, " snippet"]
+        concat ["Create a new ", Glot.Language.name language, " snippet"]
 
 
 postComposeR :: Glot.Language.Id -> Handler Value
@@ -90,7 +90,7 @@ postComposeR _ = do
 
 
 
-defaultSnippet :: Glot.Language.LanguageConfig -> UTCTime -> CodeSnippet
+defaultSnippet :: Glot.Language.Language -> UTCTime -> CodeSnippet
 defaultSnippet language now =
     CodeSnippet
         { codeSnippetSlug = ""
@@ -103,8 +103,8 @@ defaultSnippet language now =
         }
 
 
-defaultSnippetFiles :: Glot.Language.LanguageConfig -> [CodeFile]
-defaultSnippetFiles Glot.Language.LanguageConfig{..} =
+defaultSnippetFiles :: Glot.Language.Language -> [CodeFile]
+defaultSnippetFiles Glot.Language.Language{..} =
     pure CodeFile
         { codeFileCodeSnippetId = Sql.toSqlKey 0
         , codeFileName = Glot.Language.defaultFilename editorConfig

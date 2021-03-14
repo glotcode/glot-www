@@ -7,8 +7,8 @@ $newline never
   <tbody>
     <tr>
       <td>Language
-      <td>#{Glot.Language.name langConfig}
-    $maybe runConfig <- Glot.Language.runConfig langConfig
+      <td>#{Glot.Language.name language}
+    $maybe runConfig <- Glot.Language.runConfig language
       <tr>
         <td>Language Version
         <td>

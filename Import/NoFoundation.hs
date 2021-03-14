@@ -2,7 +2,7 @@ module Import.NoFoundation
     ( module Import
     ) where
 
-import ClassyPrelude.Yesod   as Import
+import ClassyPrelude.Yesod   as Import hiding (languages)
 import Model                 as Import
 import Model.Snippet         as Import
 import Model.Pagination      as Import

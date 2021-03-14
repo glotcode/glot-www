@@ -1,4 +1,4 @@
 $newline never
 <meta property="og:title" content="#{Snippet.title snippet}">
 <meta property="og:description" content="#{Snippet.metaDescription files 200}">
-<meta property="og:image" content="@{StaticR $ Glot.Language.pngLogo langConfig}">
+<meta property="og:image" content="@{StaticR $ Glot.Language.pngLogo language}">

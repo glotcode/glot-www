@@ -1,7 +1,7 @@
 $newline never
 
-^{editorWidget False langConfig snippet files profile runParams}
+^{editorWidget False language snippet files profile runParams}
 <div class="actions">
-  $if Glot.Language.isRunnable langConfig
+  $if Glot.Language.isRunnable language
     <button class="btn btn-primary run"><i class="fa fa-play"></i> Run
 ^{runResultWidget Nothing}

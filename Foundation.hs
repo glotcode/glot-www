@@ -39,7 +39,7 @@ data App = App
     , appConnPool    :: ConnectionPool -- ^ Database connection pool.
     , appHttpManager :: Manager
     , appLogger      :: Logger
-    , languageConfigs :: [Glot.Language.LanguageConfig]
+    , languages :: [Glot.Language.Language]
     }
 
 instance HasHttpManager App where

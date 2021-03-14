@@ -5,6 +5,6 @@ module Widget.Languages (
 import Import
 import qualified Glot.Language
 
-languagesWidget :: [Glot.Language.LanguageConfig] -> Widget
-languagesWidget languageConfigs =
+languagesWidget :: [Glot.Language.Language] -> Widget
+languagesWidget languages =
     $(widgetFile "widgets/languages")

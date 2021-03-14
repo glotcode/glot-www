@@ -8,8 +8,8 @@ module Util.Handler (
     apiRequestHeaders,
     setCanonicalUrl,
     lookupApiUser,
-    lookupLanguageConfig,
-    getLanguageConfig,
+    lookupLanguage,
+    getLanguage,
 ) where
 
 import Import
@@ -21,18 +21,18 @@ import qualified Data.Text as Text
 import qualified Glot.Language
 
 
-lookupLanguageConfig :: Glot.Language.Id -> Handler (Maybe Glot.Language.LanguageConfig)
-lookupLanguageConfig langId = do
+lookupLanguage :: Glot.Language.Id -> Handler (Maybe Glot.Language.Language)
+lookupLanguage langId = do
     App{..} <- getYesod
-    pure (Glot.Language.find languageConfigs langId)
+    pure (Glot.Language.find languages langId)
 
 
-getLanguageConfig :: Glot.Language.Id -> Handler Glot.Language.LanguageConfig
-getLanguageConfig langId = do
-    maybeLangConfig <- lookupLanguageConfig langId
-    case maybeLangConfig of
-        Just langConfig ->
-            pure langConfig
+getLanguage :: Glot.Language.Id -> Handler Glot.Language.Language
+getLanguage langId = do
+    maybeLanguage <- lookupLanguage langId
+    case maybeLanguage of
+        Just language ->
+            pure language
 
         Nothing -> do
             html <- defaultLayout [whamlet|Language #{Glot.Language.idToText langId} not supported|]

@@ -8,7 +8,7 @@ window.Editor = (function() {
         var editor = ace.edit(id);
         editor.setTheme(theme);
         editor.setKeyboardHandler(keybindings);
-        editor.getSession().setMode(#{toJSON $ Glot.Language.mode $ Glot.Language.editorConfig langConfig});
+        editor.getSession().setMode(#{toJSON $ Glot.Language.mode $ Glot.Language.editorConfig language});
         editor.setOptions({
             minLines: lineCount,
             maxLines: lineCount,

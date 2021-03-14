@@ -44,9 +44,9 @@ fromMaybeOrJsonError maybeValue JsonErrorResponse{..} =
 
 postRunR :: Glot.Language.Id -> Handler Value
 postRunR langId = do
-    maybeLangConfig <- Handler.lookupLanguageConfig langId
-    langConfig <- fromMaybeOrJsonError maybeLangConfig $ JsonErrorResponse status400 "Language not configured"
-    runConfig <- fromMaybeOrJsonError (Glot.Language.runConfig langConfig) $ JsonErrorResponse status400 "Language is not runnable"
+    maybeLanguage <- Handler.lookupLanguage langId
+    language <- fromMaybeOrJsonError maybeLanguage $ JsonErrorResponse status400 "Language not configured"
+    runConfig <- fromMaybeOrJsonError (Glot.Language.runConfig language) $ JsonErrorResponse status400 "Language is not runnable"
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ Wai.strictRequestBody req
     dockerRunConfig <- liftIO lookupDockerRunConfig
