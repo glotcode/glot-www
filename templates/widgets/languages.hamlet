@@ -9,5 +9,5 @@ $newline never
         <a href="@{ComposeR (Language.id language)}">
           <div class="language-badge">
             <div class="language-icon-large language-badge-icon">
-              <img class="logo" src=@{StaticR $ Language.svgLogo language} alt="#{Language.name language} logo">
+              <img class="logo" src=@{StaticR $ Language.svgLogoRoute language} alt="#{Language.name language} logo">
             <div class="language-badge-text #{Language.idToText $ Language.id language}">#{Language.name language}

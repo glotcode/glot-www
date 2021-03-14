@@ -128,6 +128,7 @@ library
                  , http-client
                  , modern-uri
                  , dhall
+                 , either
 
 executable         glot
     if flag(library-only)

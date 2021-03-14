@@ -3,7 +3,7 @@ $newline never
   <ul class="nav nav-tabs">
     <li class="meta">
       <a href="#">
-        <img class="logo" src=@{StaticR $ Language.svgLogo language} alt="#{Language.name language} logo">
+        <img class="logo" src=@{StaticR $ Language.svgLogoRoute language} alt="#{Language.name language} logo">
     $forall (n, file) <- enumerateFiles files
       $if n == 1
         <li class="active" data-editor="editor-#{n}">

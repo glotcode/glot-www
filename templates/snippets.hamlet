@@ -21,7 +21,7 @@ $newline never
               <tr>
                 <td>
                   $maybe language <- Language.find languages (codeSnippetLanguage snippet)
-                    <img class="logo" src=@{StaticR $ Language.svgLogo language} alt="#{Language.name language} logo">
+                    <img class="logo" src=@{StaticR $ Language.svgLogoRoute language} alt="#{Language.name language} logo">
                     <a class="language" href="@?{(SnippetsR, [("language", Language.idToText $ codeSnippetLanguage snippet)])}">#{Language.name language}
 
                   $nothing
