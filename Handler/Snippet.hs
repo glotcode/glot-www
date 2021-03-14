@@ -15,7 +15,7 @@ import qualified Data.Aeson as Aeson
 import qualified Data.List.NonEmpty as NonEmpty
 import qualified Network.Wai as Wai
 import qualified Util.Handler as Handler
-import qualified Glot.Language
+import qualified Glot.Language as Language
 import Data.Function ((&))
 
 
@@ -33,7 +33,7 @@ getSnippetR slug = do
     language <- Handler.getLanguage (codeSnippetLanguage snippet)
     let userIsSnippetOwner = mUserId == codeSnippetUserId snippet
     defaultLayout $ do
-        setTitle $ titleConcat [Snippet.title snippet, " - ", Glot.Language.name language, " Snippet"]
+        setTitle $ titleConcat [Snippet.title snippet, " - ", Language.name language, " Snippet"]
         setDescription (snippetDescription language)
         Handler.setCanonicalUrl (SnippetR slug)
         toWidgetHead $(hamletFile "templates/snippet/opengraph.hamlet")
@@ -41,13 +41,13 @@ getSnippetR slug = do
         $(widgetFile "snippet")
 
 
-snippetDescription :: Glot.Language.Language -> Text
+snippetDescription :: Language.Language -> Text
 snippetDescription language =
-    if Glot.Language.isRunnable language then
-        concat ["Run this ", Glot.Language.name language, " code snippet in the browser."]
+    if Language.isRunnable language then
+        concat ["Run this ", Language.name language, " code snippet in the browser."]
 
     else
-        concat [Glot.Language.name language, " snippet"]
+        concat [Language.name language, " snippet"]
 
 
 putSnippetR :: Text -> Handler Value
@@ -115,7 +115,7 @@ getSnippetEmbedR slug = do
         pure (snippet, map entityVal files, profile, runParams)
     language <- Handler.getLanguage (codeSnippetLanguage snippet)
     defaultLayout $ do
-        setTitle $ titleConcat [Snippet.title snippet, " - ", Glot.Language.name language, " Snippet"]
+        setTitle $ titleConcat [Snippet.title snippet, " - ", Language.name language, " Snippet"]
         Handler.setCanonicalUrl (SnippetEmbedR slug)
         $(widgetFile "snippet/embed")
 
@@ -134,7 +134,7 @@ getSnippetRawR slug = do
         _ -> do
             language <- Handler.getLanguage (codeSnippetLanguage snippet)
             defaultLayout $ do
-                setTitle $ titleConcat [Snippet.title snippet, " - ", Glot.Language.name language, " Snippet"]
+                setTitle $ titleConcat [Snippet.title snippet, " - ", Language.name language, " Snippet"]
                 Handler.setCanonicalUrl (SnippetRawR slug)
                 $(widgetFile "snippet/raw")
 

@@ -12,7 +12,7 @@ import qualified Data.List.NonEmpty as NonEmpty
 import qualified Data.Text.Encoding as Encoding
 import qualified Data.Text.Encoding.Error as Encoding.Error
 import qualified Settings.Environment as Environment
-import qualified Glot.Language
+import qualified Glot.Language as Language
 import qualified Util.Handler as Handler
 
 
@@ -27,11 +27,11 @@ instance Aeson.FromJSON RunPayload
 
 
 
-postRunR :: Glot.Language.Id -> Handler Value
+postRunR :: Language.Id -> Handler Value
 postRunR langId = do
     maybeLanguage <- Handler.lookupLanguage langId
     language <- Handler.fromMaybeOrJsonError maybeLanguage $ Handler.JsonErrorResponse status404 "Language is not supported"
-    runConfig <- Handler.fromMaybeOrJsonError (Glot.Language.runConfig language) $ Handler.JsonErrorResponse status400 "Language is not runnable"
+    runConfig <- Handler.fromMaybeOrJsonError (Language.runConfig language) $ Handler.JsonErrorResponse status400 "Language is not runnable"
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ Wai.strictRequestBody req
     dockerRunConfig <- liftIO lookupDockerRunConfig
@@ -77,8 +77,8 @@ formatRunError err =
             Aeson.object ["message" .= (Aeson.String message)]
 
 
-toRunRequest :: Glot.Language.Id -> Glot.Language.RunConfig -> RunPayload -> DockerRun.RunRequest
-toRunRequest language Glot.Language.RunConfig{..} RunPayload{..} =
+toRunRequest :: Language.Id -> Language.RunConfig -> RunPayload -> DockerRun.RunRequest
+toRunRequest language Language.RunConfig{..} RunPayload{..} =
     DockerRun.RunRequest
         { image = containerImage
         , payload = DockerRun.RunRequestPayload{..}

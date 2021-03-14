@@ -26,7 +26,7 @@ import Mail.Hailgun (
     MessageContent(..),
     HailgunErrorResponse(..),
     MessageRecipients(..))
-import qualified Glot.Language
+import qualified Glot.Language as Language
 
 
 -- | The foundation datatype for your application. This can be a good place to
@@ -39,7 +39,7 @@ data App = App
     , appConnPool    :: ConnectionPool -- ^ Database connection pool.
     , appHttpManager :: Manager
     , appLogger      :: Logger
-    , languages :: [Glot.Language.Language]
+    , languages :: [Language.Language]
     }
 
 instance HasHttpManager App where

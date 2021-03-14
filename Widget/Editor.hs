@@ -11,10 +11,10 @@ import qualified Util.Snippet as Snippet
 import qualified Data.Text.Encoding as Encoding
 import qualified Data.Text.Encoding.Error as Encoding.Error
 import qualified Data.Time.Format.ISO8601 as ISO8601
-import qualified Glot.Language
+import qualified Glot.Language as Language
 
 
-editorWidget :: Bool -> Glot.Language.Language -> CodeSnippet -> [CodeFile] -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
+editorWidget :: Bool -> Language.Language -> CodeSnippet -> [CodeFile] -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
 editorWidget userIsSnippetOwner language snippet files profile runParams =
     let
         fileCount =
@@ -23,7 +23,7 @@ editorWidget userIsSnippetOwner language snippet files profile runParams =
     addScript $ StaticR lib_ace_ace_js
     $(widgetFile "widgets/editor")
 
-metaWidget :: Bool -> Glot.Language.Language -> CodeSnippet -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
+metaWidget :: Bool -> Language.Language -> CodeSnippet -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
 metaWidget userIsSnippetOwner language snippet mProfile runParams = do
     let versions = ["latest"] :: [Text]
     let (_, savedVersion, savedRunCommand) = formatRunParams runParams
@@ -74,7 +74,7 @@ getFileContent maybeFile =
         Nothing ->
             ""
 
-getFilename :: Glot.Language.Language -> Maybe CodeFile -> Int -> Text
+getFilename :: Language.Language -> Maybe CodeFile -> Int -> Text
 getFilename _ (Just file) _ = codeFileName file
 getFilename language Nothing 2 = addExt language "dio"
 getFilename language Nothing 3 = addExt language "tria"
@@ -86,8 +86,8 @@ getFilename language Nothing 8 = addExt language "okto"
 getFilename language Nothing 9 = addExt language "enia"
 getFilename language Nothing _ = addExt language "infinitum"
 
-addExt :: Glot.Language.Language -> Text -> Text
-addExt Glot.Language.Language{..} filename =
+addExt :: Language.Language -> Text -> Text
+addExt Language.Language{..} filename =
     concat [ filename, "." , fileExtension ]
 
 

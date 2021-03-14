@@ -5,7 +5,7 @@ import Util.Handler (title)
 import Widget.Languages (languagesWidget)
 import Data.Function ((&))
 import qualified Util.Handler as Handler
-import qualified Glot.Language
+import qualified Glot.Language as Language
 
 getHomeR :: Handler Html
 getHomeR = do
@@ -17,13 +17,13 @@ getHomeR = do
         $(widgetFile "homepage")
 
 
-metaDescription :: [Glot.Language.Language] -> Text
+metaDescription :: [Language.Language] -> Text
 metaDescription languages =
     [ "Run code online in the browser. "
     , pack $ show $ length languages
     , " languages supported: "
     , languages
-        & map Glot.Language.name
+        & map Language.name
         & intercalate ","
 
     ]

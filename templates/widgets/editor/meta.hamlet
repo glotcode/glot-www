@@ -7,8 +7,8 @@ $newline never
   <tbody>
     <tr>
       <td>Language
-      <td>#{Glot.Language.name language}
-    $maybe runConfig <- Glot.Language.runConfig language
+      <td>#{Language.name language}
+    $maybe runConfig <- Language.runConfig language
       <tr>
         <td>Language Version
         <td>
@@ -25,7 +25,7 @@ $newline never
             <div class="input-group input-group-sm cmd-group">
               <span class="input-group-addon">
                 <input type="checkbox" id="cmd-checkbox">
-              <input type="text" class="form-control" id="cmd-input" value="#{Glot.Language.runCommand runConfig}" disabled>
+              <input type="text" class="form-control" id="cmd-input" value="#{Language.runCommand runConfig}" disabled>
         $else
           <td>
             <div class="input-group input-group-sm cmd-group">

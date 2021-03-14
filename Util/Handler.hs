@@ -20,18 +20,18 @@ import Text.Blaze (toMarkup, Markup)
 import Data.CaseInsensitive (mk)
 import qualified Network.Wai as Wai
 import qualified Data.Text as Text
-import qualified Glot.Language
+import qualified Glot.Language as Language
 import qualified Network.HTTP.Types as Http
 import qualified Data.Aeson as Aeson
 
 
-lookupLanguage :: Glot.Language.Id -> Handler (Maybe Glot.Language.Language)
+lookupLanguage :: Language.Id -> Handler (Maybe Language.Language)
 lookupLanguage langId = do
     App{..} <- getYesod
-    pure (Glot.Language.find languages langId)
+    pure (Language.find languages langId)
 
 
-getLanguage :: Glot.Language.Id -> Handler Glot.Language.Language
+getLanguage :: Language.Id -> Handler Language.Language
 getLanguage langId = do
     maybeLanguage <- lookupLanguage langId
     case maybeLanguage of
@@ -39,7 +39,7 @@ getLanguage langId = do
             pure language
 
         Nothing -> do
-            html <- defaultLayout [whamlet|Language #{Glot.Language.idToText langId} is not supported|]
+            html <- defaultLayout [whamlet|Language #{Language.idToText langId} is not supported|]
             sendResponseStatus status500 html
 
 

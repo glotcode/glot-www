@@ -16,7 +16,7 @@ import qualified Data.Time.Clock.POSIX as PosixClock
 import qualified Data.Time.Clock as Clock
 import qualified Numeric
 import qualified Data.List.NonEmpty as NonEmpty
-import qualified Glot.Language
+import qualified Glot.Language as Language
 import Data.Function ((&))
 import Prelude ((!!))
 
@@ -30,7 +30,7 @@ getComposeLanguagesR = do
         Handler.setCanonicalUrl ComposeLanguagesR
         $(widgetFile "new")
 
-getComposeR :: Glot.Language.Id -> Handler Html
+getComposeR :: Language.Id -> Handler Html
 getComposeR langId = do
     language <- Handler.getLanguage langId
     now <- liftIO getCurrentTime
@@ -43,25 +43,25 @@ getComposeR langId = do
         $(widgetFile "compose")
 
 
-composeTitle :: Glot.Language.Language -> Blaze.Markup
+composeTitle :: Language.Language -> Blaze.Markup
 composeTitle language =
-    if Glot.Language.isRunnable language then
-        Handler.titleConcat ["Run ", Glot.Language.name language, " in the browser"]
+    if Language.isRunnable language then
+        Handler.titleConcat ["Run ", Language.name language, " in the browser"]
 
     else
-        Handler.titleConcat ["New ", Glot.Language.name language, " snippet"]
+        Handler.titleConcat ["New ", Language.name language, " snippet"]
 
 
-composeDescription :: Glot.Language.Language -> Text
+composeDescription :: Language.Language -> Text
 composeDescription language =
-    if Glot.Language.isRunnable language then
-        concat ["Run ", Glot.Language.name language, " online in the browser. No installation required."]
+    if Language.isRunnable language then
+        concat ["Run ", Language.name language, " online in the browser. No installation required."]
 
     else
-        concat ["Create a new ", Glot.Language.name language, " snippet"]
+        concat ["Create a new ", Language.name language, " snippet"]
 
 
-postComposeR :: Glot.Language.Id -> Handler Value
+postComposeR :: Language.Id -> Handler Value
 postComposeR _ = do
     langVersion <- fromMaybe "latest" <$> lookupGetParam "version"
     runCommand <- Handler.urlDecode' <$> fromMaybe "" <$> lookupGetParam "command"
@@ -90,11 +90,11 @@ postComposeR _ = do
 
 
 
-defaultSnippet :: Glot.Language.Language -> UTCTime -> CodeSnippet
+defaultSnippet :: Language.Language -> UTCTime -> CodeSnippet
 defaultSnippet language now =
     CodeSnippet
         { codeSnippetSlug = ""
-        , codeSnippetLanguage = Glot.Language.id language
+        , codeSnippetLanguage = Language.id language
         , codeSnippetTitle = "Untitled"
         , codeSnippetPublic = True
         , codeSnippetUserId = Nothing
@@ -103,12 +103,12 @@ defaultSnippet language now =
         }
 
 
-defaultSnippetFiles :: Glot.Language.Language -> [CodeFile]
-defaultSnippetFiles Glot.Language.Language{..} =
+defaultSnippetFiles :: Language.Language -> [CodeFile]
+defaultSnippetFiles Language.Language{..} =
     pure CodeFile
         { codeFileCodeSnippetId = Sql.toSqlKey 0
-        , codeFileName = Glot.Language.defaultFilename editorConfig
-        , codeFileContent = Encoding.encodeUtf8 (Glot.Language.exampleCode editorConfig)
+        , codeFileName = Language.defaultFilename editorConfig
+        , codeFileContent = Encoding.encodeUtf8 (Language.exampleCode editorConfig)
         }
 
 

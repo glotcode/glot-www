@@ -3,8 +3,8 @@ module Widget.Languages (
 ) where
 
 import Import
-import qualified Glot.Language
+import qualified Glot.Language as Language
 
-languagesWidget :: [Glot.Language.Language] -> Widget
+languagesWidget :: [Language.Language] -> Widget
 languagesWidget languages =
     $(widgetFile "widgets/languages")

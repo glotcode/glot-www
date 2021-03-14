@@ -6,21 +6,21 @@
 
 / HomeR GET
 /new ComposeLanguagesR GET
-/new/#Glot.Language.Id ComposeR GET POST
+/new/#Language.Id ComposeR GET POST
 /snippets SnippetsR GET
 /snippets/#Text SnippetR GET PUT DELETE
 /snippets/#Text/embed SnippetEmbedR GET
 /snippets/#Text/raw SnippetRawR GET
 /snippets/#Text/raw/#Text SnippetRawFileR GET
 /users/#Text/snippets UserSnippetsR GET
-/run/#Glot.Language.Id RunR POST
+/run/#Language.Id RunR POST
 /account/profile AccountProfileR GET PUT
 /account/token AccountTokenR GET PUT
 /alert/danger AlertDangerR POST
 /about MetaAboutR GET
 /api MetaApiDocsR GET
 /api/run ApiRunLanguagesR GET
-/api/run/#Glot.Language.Id ApiRunVersionsR GET
-/api/run/#Glot.Language.Id/#Text ApiRunR GET POST
+/api/run/#Language.Id ApiRunVersionsR GET
+/api/run/#Language.Id/#Text ApiRunR GET POST
 /api/snippets ApiSnippetsR GET POST
 /api/snippets/#Text ApiSnippetR GET PUT DELETE

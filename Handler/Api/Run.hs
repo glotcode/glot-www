@@ -8,7 +8,7 @@ import qualified Data.Aeson as Aeson
 import qualified Util.Handler as HandlerUtils
 import qualified Handler.Run as RunHandler
 import qualified GHC.Generics as GHC
-import qualified Glot.Language
+import qualified Glot.Language as Language
 
 import Data.Function ((&))
 
@@ -20,15 +20,15 @@ getApiRunLanguagesR = do
     App{..} <- getYesod
     renderUrl <- getUrlRender
     languages
-        & filter Glot.Language.isRunnable
-        & map Glot.Language.id
+        & filter Language.isRunnable
+        & map Language.id
         & map (toRunLanguage renderUrl)
         & Aeson.toJSON
         & pure
 
 
 data RunLanguage = RunLanguage
-    { name :: Glot.Language.Id
+    { name :: Language.Id
     , url :: Text
     }
     deriving (Show, GHC.Generic)
@@ -36,7 +36,7 @@ data RunLanguage = RunLanguage
 instance Aeson.ToJSON RunLanguage
 
 
-toRunLanguage :: (Route App -> Text) -> Glot.Language.Id -> RunLanguage
+toRunLanguage :: (Route App -> Text) -> Language.Id -> RunLanguage
 toRunLanguage renderUrl langId =
     RunLanguage
         { name = langId
@@ -44,7 +44,7 @@ toRunLanguage renderUrl langId =
         }
 
 
-getApiRunVersionsR :: Glot.Language.Id -> Handler Value
+getApiRunVersionsR :: Language.Id -> Handler Value
 getApiRunVersionsR langId = do
     maybeLanguage <- HandlerUtils.lookupLanguage langId
     _ <- HandlerUtils.fromMaybeOrJsonError maybeLanguage $ HandlerUtils.JsonErrorResponse status404 "Language is not supported"
@@ -68,7 +68,7 @@ instance Aeson.ToJSON RunVersion
 
 
 
-postApiRunR :: Glot.Language.Id -> Text -> Handler Value
+postApiRunR :: Language.Id -> Text -> Handler Value
 postApiRunR langId _ = do
     maybeApiUser <- HandlerUtils.lookupApiUser
     case fmap apiUserUserId maybeApiUser of
@@ -79,6 +79,6 @@ postApiRunR langId _ = do
             sendResponseStatus status401 $ object ["message" .= Aeson.String "A valid access token is required to run code"]
 
 
-getApiRunR :: Glot.Language.Id -> Text -> Handler Value
+getApiRunR :: Language.Id -> Text -> Handler Value
 getApiRunR _ _ = do
     sendResponseStatus status405 $ Aeson.object [ "message" .= Aeson.String "Do a POST request instead of GET to run code" ]

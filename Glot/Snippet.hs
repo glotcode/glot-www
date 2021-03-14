@@ -16,13 +16,13 @@ import qualified Data.Time.Clock as Clock
 import qualified Numeric
 import qualified Data.List.NonEmpty as NonEmpty
 import qualified Prelude
-import qualified Glot.Language
+import qualified Glot.Language as Language
 import Data.Function ((&))
 import Prelude ((!!))
 
 
 data SnippetPayload = SnippetPayload
-    { language :: Glot.Language.Id
+    { language :: Language.Id
     , title :: Title
     , public :: Bool
     , files :: NonEmpty.NonEmpty FilePayload

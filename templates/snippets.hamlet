@@ -20,12 +20,12 @@ $newline never
             $with (snippet, maybeProfile) <- (entrySnippet entry, entryProfile entry)
               <tr>
                 <td>
-                  $maybe language <- Glot.Language.find languages (codeSnippetLanguage snippet)
-                    <img class="logo" src=@{StaticR $ Glot.Language.svgLogo language} alt="#{Glot.Language.name language} logo">
-                    <a class="language" href="@?{(SnippetsR, [("language", Glot.Language.idToText $ codeSnippetLanguage snippet)])}">#{Glot.Language.name language}
+                  $maybe language <- Language.find languages (codeSnippetLanguage snippet)
+                    <img class="logo" src=@{StaticR $ Language.svgLogo language} alt="#{Language.name language} logo">
+                    <a class="language" href="@?{(SnippetsR, [("language", Language.idToText $ codeSnippetLanguage snippet)])}">#{Language.name language}
 
                   $nothing
-                    #{Glot.Language.idToText $ codeSnippetLanguage snippet}
+                    #{Language.idToText $ codeSnippetLanguage snippet}
                 <td>
                   <a href="@{SnippetR $ codeSnippetSlug snippet}" title="#{Snippet.title snippet}">#{Snippet.title snippet}
                 <td data-iso-date="#{ISO8601.iso8601Show $ codeSnippetCreated snippet}">
