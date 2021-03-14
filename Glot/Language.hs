@@ -4,7 +4,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 
 
@@ -16,7 +15,6 @@ module Glot.Language
     , Language(..)
     , readLanguages
     , isRunnable
-    , svgLogoPath
     , find
     ) where
 
@@ -58,7 +56,26 @@ deriving instance Show LanguageConfig
 
 newtype Id = Id Text.Text
     deriving (Show, Read, Eq, Ord, GHC.Generic)
-    deriving newtype (Aeson.ToJSON, Aeson.FromJSON, Dispatch.PathPiece, Sql.PersistField, Sql.PersistFieldSql)
+    deriving newtype (Aeson.ToJSON, Sql.PersistField, Sql.PersistFieldSql)
+
+
+instance Aeson.FromJSON Id where
+    parseJSON = Aeson.withText "Language.Id" $ \text ->
+        case idFromText text of
+            Just id ->
+                pure id
+
+            Nothing ->
+                Prelude.fail "Not a valid language id"
+
+
+instance Dispatch.PathPiece Id where
+    fromPathPiece text =
+        idFromText text
+
+    toPathPiece id =
+        idToText id
+
 
 
 idToText :: Id -> Text.Text
