@@ -516,6 +516,27 @@ in    [ { id = "assembly"
           , runCommand = "nim --verbosity:0 compile --run main.nim"
           }
         }
+      , { id = "nix"
+        , name = "Nix"
+        , logoName = "nix"
+        , fileExtension = "nix"
+        , editorConfig =
+          { defaultFilename = "main.nix"
+          , mode = "ace/mode/nix"
+          , useSoftTabs = True
+          , softTabSize = 4
+          , exampleCode =
+            ''
+            let
+                hello = "Hello World!";
+            in
+            hello''
+          }
+        , runConfig = Some
+          { containerImage = "glot/nix:latest"
+          , runCommand = "nix-instantiate --eval main.nix"
+          }
+        }
       , { id = "ocaml"
         , name = "Ocaml"
         , logoName = "ocaml"
