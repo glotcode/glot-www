@@ -1,0 +1,3 @@
+{ containerImage : Text
+, runCommand : Text
+}

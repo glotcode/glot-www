@@ -42,6 +42,7 @@ import Handler.Alert
 import Handler.Meta
 import Handler.Api.Snippets
 import Handler.Api.Run
+import qualified Glot.Language
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the
@@ -54,6 +55,7 @@ mkYesodDispatch "App" resourcesApp
 -- migrations handled by Yesod.
 makeFoundation :: AppSettings -> IO App
 makeFoundation appSettings = do
+    languageConfigs <- Glot.Language.readLanguageConfigs
     -- Some basic initializations: HTTP connection manager, logger, and static
     -- subsite.
     appHttpManager <- newManager

@@ -8,6 +8,7 @@ import qualified Data.Aeson as Aeson
 import qualified Util.Handler as HandlerUtils
 import qualified Handler.Run as RunHandler
 import qualified GHC.Generics as GHC
+import qualified Glot.Language
 
 import Data.Function ((&))
 
@@ -16,9 +17,11 @@ import Data.Function ((&))
 
 getApiRunLanguagesR :: Handler Value
 getApiRunLanguagesR = do
+    App{..} <- getYesod
     renderUrl <- getUrlRender
-    allLanguages
-        & filter languageIsRunnable
+    languageConfigs
+        & filter Glot.Language.isRunnable
+        & map Glot.Language.language
         & map (toRunLanguage renderUrl)
         & Aeson.toJSON
         & pure
@@ -33,15 +36,15 @@ data RunLanguage = RunLanguage
 instance Aeson.ToJSON RunLanguage
 
 
-toRunLanguage :: (Route App -> Text) -> Language -> RunLanguage
+toRunLanguage :: (Route App -> Text) -> Glot.Language.Language -> RunLanguage
 toRunLanguage renderUrl language =
     RunLanguage
-        { name = pack (show language)
+        { name = Glot.Language.toText language
         , url = renderUrl (ApiRunVersionsR language)
         }
 
 
-getApiRunVersionsR :: Language -> Handler Value
+getApiRunVersionsR :: Glot.Language.Language -> Handler Value
 getApiRunVersionsR language = do
     renderUrl <- getUrlRender
     let version = "latest"
@@ -63,7 +66,7 @@ instance Aeson.ToJSON RunVersion
 
 
 
-postApiRunR :: Language -> Text -> Handler Value
+postApiRunR :: Glot.Language.Language -> Text -> Handler Value
 postApiRunR language _ = do
     maybeApiUser <- HandlerUtils.lookupApiUser
     case fmap apiUserUserId maybeApiUser of
@@ -74,6 +77,6 @@ postApiRunR language _ = do
             sendResponseStatus status401 $ object ["message" .= Aeson.String "A valid access token is required to run code"]
 
 
-getApiRunR :: Language -> Text -> Handler Value
+getApiRunR :: Glot.Language.Language -> Text -> Handler Value
 getApiRunR _ _ = do
     sendResponseStatus status405 $ Aeson.object [ "message" .= Aeson.String "Do a POST request instead of GET to run code" ]

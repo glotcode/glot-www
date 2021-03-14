@@ -10,8 +10,8 @@ $newline never
             <h2 id="snippet-title" contenteditable>#{Snippet.title snippet}
           $else
             <h2 id="snippet-title">#{Snippet.title snippet}
-      ^{editorWidget userIsSnippetOwner lang snippet files profile runParams}
-      ^{footerWidget False (languageIsRunnable lang) userIsSnippetOwner runParams runResult}
+      ^{editorWidget userIsSnippetOwner langConfig snippet files profile runParams}
+      ^{footerWidget False (Glot.Language.isRunnable langConfig) userIsSnippetOwner runParams runResult}
       <div class="hide">
         <div id="share-content">
           ^{shareWidget slug}

@@ -8,6 +8,8 @@ module Util.Handler (
     apiRequestHeaders,
     setCanonicalUrl,
     lookupApiUser,
+    lookupLanguageConfig,
+    getLanguageConfig,
 ) where
 
 import Import
@@ -16,6 +18,35 @@ import Text.Blaze (toMarkup, Markup)
 import Data.CaseInsensitive (mk)
 import qualified Network.Wai as Wai
 import qualified Data.Text as Text
+import qualified Glot.Language
+
+
+lookupLanguageConfig :: Glot.Language.FindBy -> Handler (Maybe Glot.Language.LanguageConfig)
+lookupLanguageConfig findBy = do
+    App{..} <- getYesod
+    pure (Glot.Language.find languageConfigs findBy)
+
+
+getLanguageConfig :: Glot.Language.FindBy -> Handler Glot.Language.LanguageConfig
+getLanguageConfig findBy =
+    let
+        languageName =
+            case findBy of
+                Glot.Language.FindByLanguage language ->
+                    Glot.Language.toText language
+
+                Glot.Language.FindByText name ->
+                    name
+    in do
+    maybeLangConfig <- lookupLanguageConfig findBy
+    case maybeLangConfig of
+        Just langConfig ->
+            pure langConfig
+
+        Nothing -> do
+            html <- defaultLayout [whamlet|Language #{languageName} not configured|]
+            sendResponseStatus status500 html
+
 
 urlDecode' :: Text -> Text
 urlDecode' x = decodeUtf8 $ urlDecode True $ encodeUtf8 x

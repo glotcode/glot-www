@@ -33,7 +33,6 @@ library
                      Handler.Meta
                      Handler.Api.Snippets
                      Handler.Api.Run
-                     Model.Language
                      Model.Pagination
                      Model.Snippet
                      Util.Shakespare
@@ -54,6 +53,7 @@ library
                      Yesod.Auth.Simple
                      Glot.Snippet
                      Glot.DockerRun
+                     Glot.Language
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
@@ -127,6 +127,7 @@ library
                  , req
                  , http-client
                  , modern-uri
+                 , dhall
 
 executable         glot
     if flag(library-only)

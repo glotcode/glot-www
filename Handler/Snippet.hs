@@ -15,6 +15,7 @@ import qualified Data.Aeson as Aeson
 import qualified Data.List.NonEmpty as NonEmpty
 import qualified Network.Wai as Wai
 import qualified Util.Handler as Handler
+import qualified Glot.Language
 import Data.Function ((&))
 
 
@@ -29,24 +30,24 @@ getSnippetR slug = do
         -- TODO: fix
         runResult <- pure Nothing -- getBy $ UniqueRunResultHash slug $ (snippetHash snippet $ formatRunParams runParams)
         pure (snippet, map entityVal files, profile, runParams, runResult)
-    let lang = toLanguage $ codeSnippetLanguage snippet
+    langConfig <- Handler.getLanguageConfig (Glot.Language.FindByText (codeSnippetLanguage snippet))
     let userIsSnippetOwner = mUserId == codeSnippetUserId snippet
     defaultLayout $ do
-        setTitle $ titleConcat [Snippet.title snippet, " - ", languageName lang, " Snippet"]
-        setDescription (snippetDescription lang)
+        setTitle $ titleConcat [Snippet.title snippet, " - ", Glot.Language.name langConfig, " Snippet"]
+        setDescription (snippetDescription langConfig)
         Handler.setCanonicalUrl (SnippetR slug)
         toWidgetHead $(hamletFile "templates/snippet/opengraph.hamlet")
         toWidgetHead $(hamletFile "templates/snippet/twitter-card.hamlet")
         $(widgetFile "snippet")
 
 
-snippetDescription :: Language -> Text
-snippetDescription lang =
-    if languageIsRunnable lang then
-        concat ["Run this ", languageName lang, " code snippet in the browser."]
+snippetDescription :: Glot.Language.LanguageConfig -> Text
+snippetDescription langConfig =
+    if Glot.Language.isRunnable langConfig then
+        concat ["Run this ", Glot.Language.name langConfig, " code snippet in the browser."]
 
     else
-        concat [languageName lang, " snippet"]
+        concat [Glot.Language.name langConfig, " snippet"]
 
 
 putSnippetR :: Text -> Handler Value
@@ -112,9 +113,9 @@ getSnippetEmbedR slug = do
         profile <- maybe (pure Nothing) (getBy . UniqueProfile) (codeSnippetUserId snippet)
         runParams <- getBy $ UniqueRunParams slug
         pure (snippet, map entityVal files, profile, runParams)
-    let lang = toLanguage $ codeSnippetLanguage snippet
+    langConfig <- Handler.getLanguageConfig (Glot.Language.FindByText (codeSnippetLanguage snippet))
     defaultLayout $ do
-        setTitle $ titleConcat [Snippet.title snippet, " - ", languageName lang, " Snippet"]
+        setTitle $ titleConcat [Snippet.title snippet, " - ", Glot.Language.name langConfig, " Snippet"]
         Handler.setCanonicalUrl (SnippetEmbedR slug)
         $(widgetFile "snippet/embed")
 
@@ -131,9 +132,9 @@ getSnippetRawR slug = do
                 & redirect
 
         _ -> do
-            let lang = toLanguage $ codeSnippetLanguage snippet
+            langConfig <- Handler.getLanguageConfig (Glot.Language.FindByText (codeSnippetLanguage snippet))
             defaultLayout $ do
-                setTitle $ titleConcat [Snippet.title snippet, " - ", languageName lang, " Snippet"]
+                setTitle $ titleConcat [Snippet.title snippet, " - ", Glot.Language.name langConfig, " Snippet"]
                 Handler.setCanonicalUrl (SnippetRawR slug)
                 $(widgetFile "snippet/raw")
 

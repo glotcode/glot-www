@@ -5,9 +5,9 @@ $newline never
       <p class="text-center languages-prompt">Start coding in your favorite language:
 
     <div class="col-lg-12 languages">
-      $forall lang <- allLanguages
-        <a href="@{ComposeR lang}">
+      $forall langConfig <- languageConfigs
+        <a href="@{ComposeR (Glot.Language.language langConfig)}">
           <div class="language-badge">
             <div class="language-icon-large language-badge-icon">
-              <img class="logo" src=@{StaticR $ languageLogo lang} alt="#{languageName lang} logo">
-            <div class="language-badge-text #{show lang}">#{languageName lang}
+              <img class="logo" src=@{StaticR $ Glot.Language.svgLogo langConfig} alt="#{Glot.Language.name langConfig} logo">
+            <div class="language-badge-text #{Glot.Language.toText (Glot.Language.language langConfig)}">#{Glot.Language.name langConfig}

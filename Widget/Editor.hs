@@ -11,10 +11,11 @@ import qualified Util.Snippet as Snippet
 import qualified Data.Text.Encoding as Encoding
 import qualified Data.Text.Encoding.Error as Encoding.Error
 import qualified Data.Time.Format.ISO8601 as ISO8601
+import qualified Glot.Language
 
 
-editorWidget :: Bool -> Language -> CodeSnippet -> [CodeFile] -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
-editorWidget userIsSnippetOwner lang snippet files profile runParams =
+editorWidget :: Bool -> Glot.Language.LanguageConfig -> CodeSnippet -> [CodeFile] -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
+editorWidget userIsSnippetOwner langConfig snippet files profile runParams =
     let
         fileCount =
             length files
@@ -22,14 +23,12 @@ editorWidget userIsSnippetOwner lang snippet files profile runParams =
     addScript $ StaticR lib_ace_ace_js
     $(widgetFile "widgets/editor")
 
-metaWidget :: Bool -> CodeSnippet -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
-metaWidget userIsSnippetOwner snippet mProfile runParams = do
+metaWidget :: Bool -> Glot.Language.LanguageConfig -> CodeSnippet -> Maybe (Entity Profile) -> Maybe (Entity RunParams) -> Widget
+metaWidget userIsSnippetOwner langConfig snippet mProfile runParams = do
     let versions = ["latest"] :: [Text]
+    let (_, savedVersion, savedRunCommand) = formatRunParams runParams
     addScript $ StaticR js_date_js
     $(widgetFile "widgets/editor/meta")
-    where
-        (_, currentVersion, runCommand) = formatRunParams runParams
-        lang = toLanguage $ codeSnippetLanguage snippet
 
 settingsWidget :: Widget
 settingsWidget = $(widgetFile "widgets/editor/settings")
@@ -75,20 +74,22 @@ getFileContent maybeFile =
         Nothing ->
             ""
 
-getFilename :: Language -> Maybe CodeFile -> Int -> Text
+getFilename :: Glot.Language.LanguageConfig -> Maybe CodeFile -> Int -> Text
 getFilename _ (Just file) _ = codeFileName file
-getFilename lang Nothing 2 = addExt lang "dio"
-getFilename lang Nothing 3 = addExt lang "tria"
-getFilename lang Nothing 4 = addExt lang "tessera"
-getFilename lang Nothing 5 = addExt lang "pente"
-getFilename lang Nothing 6 = addExt lang "eksi"
-getFilename lang Nothing 7 = addExt lang "efta"
-getFilename lang Nothing 8 = addExt lang "okto"
-getFilename lang Nothing 9 = addExt lang "enia"
-getFilename lang Nothing _ = addExt lang "infinitum"
+getFilename langConfig Nothing 2 = addExt langConfig "dio"
+getFilename langConfig Nothing 3 = addExt langConfig "tria"
+getFilename langConfig Nothing 4 = addExt langConfig "tessera"
+getFilename langConfig Nothing 5 = addExt langConfig "pente"
+getFilename langConfig Nothing 6 = addExt langConfig "eksi"
+getFilename langConfig Nothing 7 = addExt langConfig "efta"
+getFilename langConfig Nothing 8 = addExt langConfig "okto"
+getFilename langConfig Nothing 9 = addExt langConfig "enia"
+getFilename langConfig Nothing _ = addExt langConfig "infinitum"
 
-addExt :: Language -> Text -> Text
-addExt lang name = concat [name, ".", languageFileExt lang]
+addExt :: Glot.Language.LanguageConfig -> Text -> Text
+addExt Glot.Language.LanguageConfig{..} filename =
+    concat [ filename, "." , fileExtension ]
+
 
 isComposing :: CodeSnippet -> Bool
 isComposing snippet =

@@ -7,8 +7,8 @@ $newline never
   <tbody>
     <tr>
       <td>Language
-      <td>#{languageName lang}
-    $if languageIsRunnable lang
+      <td>#{Glot.Language.name langConfig}
+    $maybe runConfig <- Glot.Language.runConfig langConfig
       <tr>
         <td>Language Version
         <td>
@@ -17,21 +17,21 @@ $newline never
           $else
             <select id="lang-version">
               $forall version <- versions
-                <option value="#{version}" :currentVersion == version:selected>#{version}
+                <option value="#{version}" :savedVersion == version:selected>#{version}
       <tr>
         <td>Run Command
-        $if null runCommand
+        $if null savedRunCommand
           <td>
             <div class="input-group input-group-sm cmd-group">
               <span class="input-group-addon">
                 <input type="checkbox" id="cmd-checkbox">
-              <input type="text" class="form-control" id="cmd-input" value="#{languageRunCmdExample lang}" disabled>
+              <input type="text" class="form-control" id="cmd-input" value="#{Glot.Language.runCommand runConfig}" disabled>
         $else
           <td>
             <div class="input-group input-group-sm cmd-group">
               <span class="input-group-addon">
                 <input type="checkbox" id="cmd-checkbox" checked>
-              <input type="text" class="form-control" id="cmd-input" value="#{runCommand}">
+              <input type="text" class="form-control" id="cmd-input" value="#{savedRunCommand}">
 
 $if not $ isComposing snippet
   <table class="meta-table metadata table">

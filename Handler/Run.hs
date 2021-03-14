@@ -12,6 +12,9 @@ import qualified Data.List.NonEmpty as NonEmpty
 import qualified Data.Text.Encoding as Encoding
 import qualified Data.Text.Encoding.Error as Encoding.Error
 import qualified Settings.Environment as Environment
+import qualified Glot.Language
+import qualified Util.Handler as Handler
+import qualified Network.HTTP.Types as Http
 
 
 data RunPayload = RunPayload
@@ -24,10 +27,26 @@ data RunPayload = RunPayload
 instance Aeson.FromJSON RunPayload
 
 
-postRunR :: Language -> Handler Value
+data JsonErrorResponse = JsonErrorResponse
+    { status :: Http.Status
+    , message :: Text
+    }
+
+fromMaybeOrJsonError :: Maybe a -> JsonErrorResponse -> Handler a
+fromMaybeOrJsonError maybeValue JsonErrorResponse{..} =
+    case maybeValue of
+        Just value ->
+            pure value
+
+        Nothing ->
+            sendResponseStatus status (Aeson.object ["message" .= Aeson.String message])
+
+
+postRunR :: Glot.Language.Language -> Handler Value
 postRunR lang = do
-    when (not $ languageIsRunnable lang) $
-        sendResponseStatus status400 (Aeson.object ["message" .= Aeson.String "Language is not runnable"])
+    maybeLangConfig <- Handler.lookupLanguageConfig (Glot.Language.FindByLanguage lang)
+    langConfig <- fromMaybeOrJsonError maybeLangConfig $ JsonErrorResponse status400 "Language not configured"
+    runConfig <- fromMaybeOrJsonError (Glot.Language.runConfig langConfig) $ JsonErrorResponse status400 "Language is not runnable"
     req <- reqWaiRequest <$> getRequest
     body <- liftIO $ Wai.strictRequestBody req
     dockerRunConfig <- liftIO lookupDockerRunConfig
@@ -36,7 +55,7 @@ postRunR lang = do
             sendResponseStatus status400 $ object ["message" .= ("Invalid request body: " <> err)]
 
         Right payload -> do
-            result <- liftIO $ DockerRun.run dockerRunConfig (toRunRequest lang (languageDockerImage lang) payload)
+            result <- liftIO $ DockerRun.run dockerRunConfig (toRunRequest langConfig runConfig payload)
             case result of
                 Left err -> do
                     print (DockerRun.debugError err)
@@ -73,10 +92,10 @@ formatRunError err =
             Aeson.object ["message" .= (Aeson.String message)]
 
 
-toRunRequest :: Language -> Text -> RunPayload -> DockerRun.RunRequest
-toRunRequest language dockerImage RunPayload{..} =
+toRunRequest :: Glot.Language.LanguageConfig -> Glot.Language.RunConfig -> RunPayload -> DockerRun.RunRequest
+toRunRequest Glot.Language.LanguageConfig{..} Glot.Language.RunConfig{..} RunPayload{..} =
     DockerRun.RunRequest
-        { image = dockerImage
+        { image = containerImage
         , payload = DockerRun.RunRequestPayload{..}
         }
 

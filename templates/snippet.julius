@@ -14,7 +14,7 @@
         EditorFooter.showInfo("Running...");
 
         var version = Meta.getLanguageVersion();
-        var url = "@?{(RunR lang, [("snippet", slug)])}" + "&" + $.param({version: version});
+        var url = "@?{(RunR $ Glot.Language.language langConfig, [("snippet", slug)])}" + "&" + $.param({version: version});
         var payload = {
             files: Editor.getFiles(),
             stdin: EditorFooter.getStdin(),
@@ -46,12 +46,12 @@
         var files = Editor.getFiles();
         Fork.setFiles(files);
         Editor.clean();
-        Location.set("@{ComposeR lang}");
+        Location.set("@{ComposeR $ Glot.Language.language langConfig}");
     });
 
     function save() {
         var payload = {
-            language: #{toJSON $ show lang},
+            language: #{toJSON $ Glot.Language.language langConfig},
             title: getTitle(),
             public: Meta.isPublic(),
             files: Editor.getFiles(),

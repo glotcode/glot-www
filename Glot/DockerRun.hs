@@ -24,6 +24,7 @@ import qualified Data.Bifunctor as Bifunctor
 import qualified Network.HTTP.Client as Http
 import qualified Network.HTTP.Types.Status as Status
 import qualified Text.URI as URI
+import qualified Glot.Language
 
 import Data.Function ((&))
 
@@ -38,7 +39,7 @@ instance Aeson.ToJSON RunRequest
 
 
 data RunRequestPayload = RunRequestPayload
-    { language :: Language
+    { language :: Glot.Language.Language
     , files :: NonEmpty.NonEmpty Snippet.FilePayload
     , stdin :: Maybe Text
     , command :: Maybe Text

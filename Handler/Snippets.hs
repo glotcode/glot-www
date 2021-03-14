@@ -9,11 +9,13 @@ import qualified Util.Snippet as Snippet
 import qualified Util.Multiline as Multiline
 import qualified Data.Time.Format.ISO8601 as ISO8601
 import qualified Util.Handler as Handler
+import qualified Glot.Language
 
 
 
 getSnippetsR :: Handler Html
 getSnippetsR = do
+    App{..} <- getYesod
     currentPage <- pageNo <$> lookupGetParam "page"
     maybeLanguageParam <- lookupGetParam "language"
     let snippetsPerPage = 20

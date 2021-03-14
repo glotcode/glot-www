@@ -16,6 +16,7 @@ import qualified Data.Time.Clock.POSIX as PosixClock
 import qualified Data.Time.Clock as Clock
 import qualified Numeric
 import qualified Data.List.NonEmpty as NonEmpty
+import qualified Glot.Language
 import Data.Function ((&))
 import Prelude ((!!))
 
@@ -24,41 +25,43 @@ import Prelude ((!!))
 getComposeLanguagesR :: Handler Html
 getComposeLanguagesR = do
     defaultLayout $ do
+        App{..} <- getYesod
         setTitle $ Handler.title "New snippet - Choose language"
         Handler.setCanonicalUrl ComposeLanguagesR
         $(widgetFile "new")
 
-getComposeR :: Language -> Handler Html
+getComposeR :: Glot.Language.Language -> Handler Html
 getComposeR lang = do
+    langConfig <- Handler.getLanguageConfig (Glot.Language.FindByLanguage lang)
     now <- liftIO getCurrentTime
     let snippet = defaultSnippet lang now
-    let files = defaultSnippetFiles lang
+    let files = defaultSnippetFiles langConfig
     defaultLayout $ do
-        setTitle (composeTitle lang)
-        setDescription (composeDescription lang)
-        Handler.setCanonicalUrl (ComposeR lang)
+        setTitle (composeTitle langConfig)
+        setDescription (composeDescription langConfig)
+        Handler.setCanonicalUrl (ComposeR (Glot.Language.language langConfig))
         $(widgetFile "compose")
 
 
-composeTitle :: Language -> Blaze.Markup
-composeTitle lang =
-    if languageIsRunnable lang then
-        Handler.titleConcat ["Run ", languageName lang, " in the browser"]
+composeTitle :: Glot.Language.LanguageConfig -> Blaze.Markup
+composeTitle langConfig =
+    if Glot.Language.isRunnable langConfig then
+        Handler.titleConcat ["Run ", Glot.Language.name langConfig, " in the browser"]
 
     else
-        Handler.titleConcat ["New ", languageName lang, " snippet"]
+        Handler.titleConcat ["New ", Glot.Language.name langConfig, " snippet"]
 
 
-composeDescription :: Language -> Text
-composeDescription lang =
-    if languageIsRunnable lang then
-        concat ["Run ", languageName lang, " online in the browser. No installation required."]
+composeDescription :: Glot.Language.LanguageConfig -> Text
+composeDescription langConfig =
+    if Glot.Language.isRunnable langConfig then
+        concat ["Run ", Glot.Language.name langConfig, " online in the browser. No installation required."]
 
     else
-        concat ["Create a new ", languageName lang, " snippet"]
+        concat ["Create a new ", Glot.Language.name langConfig, " snippet"]
 
 
-postComposeR :: Language -> Handler Value
+postComposeR :: Glot.Language.Language -> Handler Value
 postComposeR _ = do
     langVersion <- fromMaybe "latest" <$> lookupGetParam "version"
     runCommand <- Handler.urlDecode' <$> fromMaybe "" <$> lookupGetParam "command"
@@ -87,11 +90,11 @@ postComposeR _ = do
 
 
 
-defaultSnippet :: Language -> UTCTime -> CodeSnippet
-defaultSnippet lang now =
+defaultSnippet :: Glot.Language.Language -> UTCTime -> CodeSnippet
+defaultSnippet language now =
     CodeSnippet
         { codeSnippetSlug = ""
-        , codeSnippetLanguage = pack (show lang)
+        , codeSnippetLanguage = Glot.Language.toText language
         , codeSnippetTitle = "Untitled"
         , codeSnippetPublic = True
         , codeSnippetUserId = Nothing
@@ -100,12 +103,12 @@ defaultSnippet lang now =
         }
 
 
-defaultSnippetFiles :: Language -> [CodeFile]
-defaultSnippetFiles lang =
+defaultSnippetFiles :: Glot.Language.LanguageConfig -> [CodeFile]
+defaultSnippetFiles Glot.Language.LanguageConfig{..} =
     pure CodeFile
         { codeFileCodeSnippetId = Sql.toSqlKey 0
-        , codeFileName = languageDefaultFname lang
-        , codeFileContent = Encoding.encodeUtf8 $ pack $ languageDefaultContent lang
+        , codeFileName = Glot.Language.defaultFilename editorConfig
+        , codeFileContent = Encoding.encodeUtf8 (Glot.Language.exampleCode editorConfig)
         }
 
 

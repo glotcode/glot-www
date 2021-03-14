@@ -42,7 +42,7 @@
 
     function save(options) {
         var payload = {
-            language: #{toJSON $ show lang},
+            language: #{toJSON lang},
             title: getTitle(),
             public: options.public,
             files: Editor.getFiles(),

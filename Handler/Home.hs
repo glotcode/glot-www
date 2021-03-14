@@ -5,28 +5,26 @@ import Util.Handler (title)
 import Widget.Languages (languagesWidget)
 import Data.Function ((&))
 import qualified Util.Handler as Handler
+import qualified Glot.Language
 
 getHomeR :: Handler Html
 getHomeR = do
     defaultLayout $ do
+        App{..} <- getYesod
         setTitle $ title "Home"
-        setDescription metaDescription
+        setDescription (metaDescription languageConfigs)
         Handler.setCanonicalUrl HomeR
         $(widgetFile "homepage")
 
 
-metaDescription :: Text
-metaDescription =
+metaDescription :: [Glot.Language.LanguageConfig] -> Text
+metaDescription languageConfigs =
     [ "Run code online in the browser. "
-    , pack $ show $ length allLanguages
+    , pack $ show $ length languageConfigs
     , " languages supported: "
-    , supportedLanguages
+    , languageConfigs
+        & map Glot.Language.name
+        & intercalate ","
+
     ]
     & concat
-
-
-supportedLanguages :: Text
-supportedLanguages =
-    allLanguages
-        & map languageName
-        & intercalate ", "

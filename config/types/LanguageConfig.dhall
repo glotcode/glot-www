@@ -1,0 +1,7 @@
+{ language : ./Language.dhall
+, name : Text
+, logoName : Text
+, fileExtension : Text
+, editorConfig : ./EditorConfig.dhall
+, runConfig : Optional ./RunConfig.dhall
+}

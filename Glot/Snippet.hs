@@ -16,12 +16,13 @@ import qualified Data.Time.Clock as Clock
 import qualified Numeric
 import qualified Data.List.NonEmpty as NonEmpty
 import qualified Prelude
+import qualified Glot.Language
 import Data.Function ((&))
 import Prelude ((!!))
 
 
 data SnippetPayload = SnippetPayload
-    { language :: Language
+    { language :: Glot.Language.Language
     , title :: Title
     , public :: Bool
     , files :: NonEmpty.NonEmpty FilePayload
@@ -34,7 +35,7 @@ toCodeSnippet :: Text -> UTCTime -> UTCTime -> Maybe UserId -> SnippetPayload ->
 toCodeSnippet slug createdAt modifiedAt maybeUserId SnippetPayload{..} =
     CodeSnippet
         { codeSnippetSlug = slug
-        , codeSnippetLanguage = pack (show language)
+        , codeSnippetLanguage = Glot.Language.toText language
         , codeSnippetTitle = titleToText title
         , codeSnippetPublic = public
         , codeSnippetUserId = maybeUserId

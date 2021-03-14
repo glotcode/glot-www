@@ -9,10 +9,12 @@ import qualified Util.Snippet as Snippet
 import qualified Util.Multiline as Multiline
 import qualified Data.Time.Format.ISO8601 as ISO8601
 import qualified Util.Handler as Handler
+import qualified Glot.Language
 
 
 getUserSnippetsR :: Text -> Handler Html
 getUserSnippetsR username = do
+    App{..} <- getYesod
     Entity _ profile <- runDB $ getBy404 $ UniqueUsername username
     maybeLoggedInUserId <- maybeAuthId
     currentPage <- pageNo <$> lookupGetParam "page"

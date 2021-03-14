@@ -4,7 +4,6 @@ module Import.NoFoundation
 
 import ClassyPrelude.Yesod   as Import
 import Model                 as Import
-import Model.Language        as Import
 import Model.Snippet         as Import
 import Model.Pagination      as Import
 import Settings              as Import
