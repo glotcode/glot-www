@@ -39,7 +39,7 @@ instance Aeson.ToJSON RunRequest
 
 
 data RunRequestPayload = RunRequestPayload
-    { language :: Glot.Language.Language
+    { language :: Glot.Language.Id
     , files :: NonEmpty.NonEmpty Snippet.FilePayload
     , stdin :: Maybe Text
     , command :: Maybe Text

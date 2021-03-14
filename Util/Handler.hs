@@ -21,30 +21,21 @@ import qualified Data.Text as Text
 import qualified Glot.Language
 
 
-lookupLanguageConfig :: Glot.Language.FindBy -> Handler (Maybe Glot.Language.LanguageConfig)
-lookupLanguageConfig findBy = do
+lookupLanguageConfig :: Glot.Language.Id -> Handler (Maybe Glot.Language.LanguageConfig)
+lookupLanguageConfig langId = do
     App{..} <- getYesod
-    pure (Glot.Language.find languageConfigs findBy)
+    pure (Glot.Language.find languageConfigs langId)
 
 
-getLanguageConfig :: Glot.Language.FindBy -> Handler Glot.Language.LanguageConfig
-getLanguageConfig findBy =
-    let
-        languageName =
-            case findBy of
-                Glot.Language.FindByLanguage language ->
-                    Glot.Language.toText language
-
-                Glot.Language.FindByText name ->
-                    name
-    in do
-    maybeLangConfig <- lookupLanguageConfig findBy
+getLanguageConfig :: Glot.Language.Id -> Handler Glot.Language.LanguageConfig
+getLanguageConfig langId = do
+    maybeLangConfig <- lookupLanguageConfig langId
     case maybeLangConfig of
         Just langConfig ->
             pure langConfig
 
         Nothing -> do
-            html <- defaultLayout [whamlet|Language #{languageName} not configured|]
+            html <- defaultLayout [whamlet|Language #{Glot.Language.idToText langId} not supported|]
             sendResponseStatus status500 html
 
 

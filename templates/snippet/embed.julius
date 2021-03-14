@@ -5,7 +5,7 @@
         RunResult.showInfo("Running...");
 
         var version = Meta.getLanguageVersion();
-        var url = "@?{(RunR $ Glot.Language.language langConfig, [("snippet", slug)])}" + "&" + $.param({version: version, persist: false});
+        var url = "@?{(RunR $ Glot.Language.id langConfig, [("snippet", slug)])}" + "&" + $.param({version: version, persist: false});
         var payload = {
             files: Editor.getFiles(),
             stdin: "",

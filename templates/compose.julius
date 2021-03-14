@@ -14,7 +14,7 @@
         EditorFooter.showInfo("Running...");
 
         var version = Meta.getLanguageVersion();
-        var url = "@{RunR lang}" + "?" + $.param({version: version});
+        var url = "@{RunR langId}" + "?" + $.param({version: version});
         var payload = {
             files: Editor.getFiles(),
             stdin: EditorFooter.getStdin(),
@@ -42,14 +42,14 @@
 
     function save(options) {
         var payload = {
-            language: #{toJSON lang},
+            language: #{toJSON langId},
             title: getTitle(),
             public: options.public,
             files: Editor.getFiles(),
         };
 
         var version = Meta.getLanguageVersion();
-        var url = "@{ComposeR lang}" + "?" + $.param({
+        var url = "@{ComposeR langId}" + "?" + $.param({
             version: version,
             command: Meta.getRunCommand(),
             stdin: EditorFooter.getStdin(),

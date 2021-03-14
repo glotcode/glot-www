@@ -17,6 +17,7 @@ import qualified Text.Read as Read
 import qualified Data.Text.Encoding as Encoding
 import qualified Data.Text.Encoding.Error as Encoding.Error
 import qualified Glot.Snippet as Snippet
+import qualified Glot.Language
 import qualified Network.Wai as Wai
 import qualified Data.List.NonEmpty as NonEmpty
 
@@ -26,7 +27,7 @@ import Data.Function ((&))
 data ApiListSnippet = ApiListSnippet
     { id :: Text
     , url :: Text
-    , language :: Text
+    , language :: Glot.Language.Id
     , title :: Text
     , public :: Bool
     , owner :: Text
@@ -42,7 +43,7 @@ instance Aeson.ToJSON ApiListSnippet
 data ApiSnippet = ApiSnippet
     { id :: Text
     , url :: Text
-    , language :: Text
+    , language :: Glot.Language.Id
     , title :: Text
     , public :: Bool
     , owner :: Text

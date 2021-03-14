@@ -42,9 +42,9 @@ fromMaybeOrJsonError maybeValue JsonErrorResponse{..} =
             sendResponseStatus status (Aeson.object ["message" .= Aeson.String message])
 
 
-postRunR :: Glot.Language.Language -> Handler Value
-postRunR lang = do
-    maybeLangConfig <- Handler.lookupLanguageConfig (Glot.Language.FindByLanguage lang)
+postRunR :: Glot.Language.Id -> Handler Value
+postRunR langId = do
+    maybeLangConfig <- Handler.lookupLanguageConfig langId
     langConfig <- fromMaybeOrJsonError maybeLangConfig $ JsonErrorResponse status400 "Language not configured"
     runConfig <- fromMaybeOrJsonError (Glot.Language.runConfig langConfig) $ JsonErrorResponse status400 "Language is not runnable"
     req <- reqWaiRequest <$> getRequest
@@ -55,7 +55,7 @@ postRunR lang = do
             sendResponseStatus status400 $ object ["message" .= ("Invalid request body: " <> err)]
 
         Right payload -> do
-            result <- liftIO $ DockerRun.run dockerRunConfig (toRunRequest langConfig runConfig payload)
+            result <- liftIO $ DockerRun.run dockerRunConfig (toRunRequest langId runConfig payload)
             case result of
                 Left err -> do
                     print (DockerRun.debugError err)
@@ -92,8 +92,8 @@ formatRunError err =
             Aeson.object ["message" .= (Aeson.String message)]
 
 
-toRunRequest :: Glot.Language.LanguageConfig -> Glot.Language.RunConfig -> RunPayload -> DockerRun.RunRequest
-toRunRequest Glot.Language.LanguageConfig{..} Glot.Language.RunConfig{..} RunPayload{..} =
+toRunRequest :: Glot.Language.Id -> Glot.Language.RunConfig -> RunPayload -> DockerRun.RunRequest
+toRunRequest language Glot.Language.RunConfig{..} RunPayload{..} =
     DockerRun.RunRequest
         { image = containerImage
         , payload = DockerRun.RunRequestPayload{..}

@@ -30,16 +30,16 @@ getComposeLanguagesR = do
         Handler.setCanonicalUrl ComposeLanguagesR
         $(widgetFile "new")
 
-getComposeR :: Glot.Language.Language -> Handler Html
-getComposeR lang = do
-    langConfig <- Handler.getLanguageConfig (Glot.Language.FindByLanguage lang)
+getComposeR :: Glot.Language.Id -> Handler Html
+getComposeR langId = do
+    langConfig <- Handler.getLanguageConfig langId
     now <- liftIO getCurrentTime
-    let snippet = defaultSnippet lang now
+    let snippet = defaultSnippet langConfig now
     let files = defaultSnippetFiles langConfig
     defaultLayout $ do
         setTitle (composeTitle langConfig)
         setDescription (composeDescription langConfig)
-        Handler.setCanonicalUrl (ComposeR (Glot.Language.language langConfig))
+        Handler.setCanonicalUrl (ComposeR langId)
         $(widgetFile "compose")
 
 
@@ -61,7 +61,7 @@ composeDescription langConfig =
         concat ["Create a new ", Glot.Language.name langConfig, " snippet"]
 
 
-postComposeR :: Glot.Language.Language -> Handler Value
+postComposeR :: Glot.Language.Id -> Handler Value
 postComposeR _ = do
     langVersion <- fromMaybe "latest" <$> lookupGetParam "version"
     runCommand <- Handler.urlDecode' <$> fromMaybe "" <$> lookupGetParam "command"
@@ -90,11 +90,11 @@ postComposeR _ = do
 
 
 
-defaultSnippet :: Glot.Language.Language -> UTCTime -> CodeSnippet
+defaultSnippet :: Glot.Language.LanguageConfig -> UTCTime -> CodeSnippet
 defaultSnippet language now =
     CodeSnippet
         { codeSnippetSlug = ""
-        , codeSnippetLanguage = Glot.Language.toText language
+        , codeSnippetLanguage = Glot.Language.id language
         , codeSnippetTitle = "Untitled"
         , codeSnippetPublic = True
         , codeSnippetUserId = Nothing

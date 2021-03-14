@@ -30,7 +30,7 @@ getSnippetR slug = do
         -- TODO: fix
         runResult <- pure Nothing -- getBy $ UniqueRunResultHash slug $ (snippetHash snippet $ formatRunParams runParams)
         pure (snippet, map entityVal files, profile, runParams, runResult)
-    langConfig <- Handler.getLanguageConfig (Glot.Language.FindByText (codeSnippetLanguage snippet))
+    langConfig <- Handler.getLanguageConfig (codeSnippetLanguage snippet)
     let userIsSnippetOwner = mUserId == codeSnippetUserId snippet
     defaultLayout $ do
         setTitle $ titleConcat [Snippet.title snippet, " - ", Glot.Language.name langConfig, " Snippet"]
@@ -113,7 +113,7 @@ getSnippetEmbedR slug = do
         profile <- maybe (pure Nothing) (getBy . UniqueProfile) (codeSnippetUserId snippet)
         runParams <- getBy $ UniqueRunParams slug
         pure (snippet, map entityVal files, profile, runParams)
-    langConfig <- Handler.getLanguageConfig (Glot.Language.FindByText (codeSnippetLanguage snippet))
+    langConfig <- Handler.getLanguageConfig (codeSnippetLanguage snippet)
     defaultLayout $ do
         setTitle $ titleConcat [Snippet.title snippet, " - ", Glot.Language.name langConfig, " Snippet"]
         Handler.setCanonicalUrl (SnippetEmbedR slug)
@@ -132,7 +132,7 @@ getSnippetRawR slug = do
                 & redirect
 
         _ -> do
-            langConfig <- Handler.getLanguageConfig (Glot.Language.FindByText (codeSnippetLanguage snippet))
+            langConfig <- Handler.getLanguageConfig (codeSnippetLanguage snippet)
             defaultLayout $ do
                 setTitle $ titleConcat [Snippet.title snippet, " - ", Glot.Language.name langConfig, " Snippet"]
                 Handler.setCanonicalUrl (SnippetRawR slug)

@@ -19,12 +19,12 @@ $newline never
           $forall snippet <- snippets
             <tr>
               <td>
-                $maybe langConfig <- Glot.Language.find languageConfigs (Glot.Language.FindByText (codeSnippetLanguage snippet))
+                $maybe langConfig <- Glot.Language.find languageConfigs (codeSnippetLanguage snippet)
                   <img class="logo" src=@{StaticR $ Glot.Language.svgLogo langConfig} alt="#{Glot.Language.name langConfig} logo">
-                  <a class="language" href="@?{(UserSnippetsR username, [("language", codeSnippetLanguage snippet)])}">#{Glot.Language.name langConfig}
+                  <a class="language" href="@?{(UserSnippetsR username, [("language", Glot.Language.idToText $ codeSnippetLanguage snippet)])}">#{Glot.Language.name langConfig}
 
                 $nothing
-                  #{codeSnippetLanguage snippet}
+                  #{Glot.Language.idToText $ codeSnippetLanguage snippet}
               <td>
                 <a href="@{SnippetR $ codeSnippetSlug snippet}" title="#{Snippet.title snippet}">#{Snippet.title snippet}
               <td data-iso-date="#{ISO8601.iso8601Show $ codeSnippetCreated snippet}">

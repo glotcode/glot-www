@@ -22,7 +22,7 @@ import Prelude ((!!))
 
 
 data SnippetPayload = SnippetPayload
-    { language :: Glot.Language.Language
+    { language :: Glot.Language.Id
     , title :: Title
     , public :: Bool
     , files :: NonEmpty.NonEmpty FilePayload
@@ -35,7 +35,7 @@ toCodeSnippet :: Text -> UTCTime -> UTCTime -> Maybe UserId -> SnippetPayload ->
 toCodeSnippet slug createdAt modifiedAt maybeUserId SnippetPayload{..} =
     CodeSnippet
         { codeSnippetSlug = slug
-        , codeSnippetLanguage = Glot.Language.toText language
+        , codeSnippetLanguage = language
         , codeSnippetTitle = titleToText title
         , codeSnippetPublic = public
         , codeSnippetUserId = maybeUserId

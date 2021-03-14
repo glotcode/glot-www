@@ -1,4 +1,4 @@
-{ language : ./Language.dhall
+{ identifier : Text
 , name : Text
 , logoName : Text
 , fileExtension : Text
