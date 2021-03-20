@@ -1,7 +1,7 @@
 $newline never
 <nav>
   <ul class="pagination">
-    $maybe prevPage <- paginationPrevPage pagination
+    $maybe prevPage <- Pagination.paginationPrevPage pagination
       <li>
         <a href="@?{(route, query prevPage queryExtra)}" aria-label="Previous">
           <span aria-hidden="true">--
@@ -11,7 +11,7 @@ $newline never
           <span aria-hidden="true">--
     <li class="disabled">
       <span>page = #{currentPage}
-    $maybe nextPage <- paginationNextPage pagination
+    $maybe nextPage <- Pagination.paginationNextPage pagination
       <li>
         <a href="@?{(route, query nextPage queryExtra)}" aria-label="Next">
           <span aria-hidden="true">++

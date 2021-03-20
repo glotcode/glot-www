@@ -36,7 +36,7 @@ $newline never
 
                   $nothing
                     <span>Anonymous
-      $if paginationRequired pagination
+      $if Pagination.paginationRequired pagination
         $maybe languageParam <- maybeLanguageParam
           ^{paginationWidget SnippetsR pagination currentPage [("language", languageParam)]}
 

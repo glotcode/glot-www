@@ -7,7 +7,14 @@ module Model.Pagination
     , toPageLinks
     ) where
 
-import ClassyPrelude.Yesod
+
+import Prelude
+import Data.Int (Int64)
+import Data.Text (Text)
+
+import qualified Data.Maybe as Maybe
+import qualified Data.Text as Text
+
 
 data Pagination = Pagination {
     paginationNextPage :: Maybe Text,
@@ -18,8 +25,8 @@ data Pagination = Pagination {
 
 paginationRequired :: Pagination -> Bool
 paginationRequired p = hasNext || hasPrev
-    where hasNext = isJust $ paginationNextPage p
-          hasPrev = isJust $ paginationPrevPage p
+    where hasNext = Maybe.isJust $ paginationNextPage p
+          hasPrev = Maybe.isJust $ paginationPrevPage p
 
 
 data PageLink = PageLink
@@ -29,7 +36,7 @@ data PageLink = PageLink
 
 toPageLinks :: Pagination -> [PageLink]
 toPageLinks Pagination{..} =
-    catMaybes
+    Maybe.catMaybes
         [ fmap (PageLink "next") paginationNextPage
         , fmap (PageLink "prev") paginationPrevPage
         , fmap (PageLink "first") paginationFirstPage
@@ -92,4 +99,4 @@ fromPageData PageData{..} =
 
 intToText :: Int -> Text
 intToText n =
-    pack (show n)
+    Text.pack (show n)

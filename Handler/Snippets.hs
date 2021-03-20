@@ -165,5 +165,5 @@ snippetEntryFromEntity codeSnippetEntity profileEntity =
 
 data SnippetEntriesWithPagination = SnippetEntriesWithPagination
     { entries :: [SnippetEntry]
-    , pagination :: Pagination
+    , pagination :: Pagination.Pagination
     }

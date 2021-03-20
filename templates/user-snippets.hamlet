@@ -30,7 +30,7 @@ $newline never
               <td data-iso-date="#{ISO8601.iso8601Show $ codeSnippetCreated snippet}">
                 <span class="formated-date">
               <td>#{Snippet.visibility snippet}
-      $if paginationRequired pagination
+      $if Pagination.paginationRequired pagination
         $maybe languageParam <- maybeLanguageParam
           ^{paginationWidget (UserSnippetsR username) pagination currentPage [("language", languageParam)]}
         $nothing
