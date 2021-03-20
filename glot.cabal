@@ -34,7 +34,6 @@ library
                      Handler.Api.Snippets
                      Handler.Api.Run
                      Model.Pagination
-                     Model.Snippet
                      Util.Shakespare
                      Util.Handler
                      Util.Multiline

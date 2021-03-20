@@ -4,7 +4,6 @@ module Import.NoFoundation
 
 import ClassyPrelude.Yesod   as Import hiding (languages)
 import Model                 as Import
-import Model.Snippet         as Import
 import Model.Pagination      as Import
 import Settings              as Import
 import Settings.StaticFiles  as Import
