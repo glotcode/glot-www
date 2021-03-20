@@ -45,7 +45,6 @@ library
                      Util.Alert
                      Util.Persistent
                      Widget.Editor
-                     Widget.RunResult
                      Widget.Languages
                      Widget.Pagination
                      Widget.Share

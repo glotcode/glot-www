@@ -6,7 +6,7 @@ module Widget.Editor (
 import Import
 import Util.Snippet (formatRunParams)
 import Widget.CarbonAds (carbonAdsWidget)
-import Settings.Environment (disableAds)
+import qualified Settings.Environment
 import qualified Util.Snippet as Snippet
 import qualified Data.Text.Encoding as Encoding
 import qualified Data.Text.Encoding.Error as Encoding.Error
@@ -33,13 +33,15 @@ metaWidget userIsSnippetOwner language snippet mProfile runParams = do
 settingsWidget :: Widget
 settingsWidget = $(widgetFile "widgets/editor/settings")
 
-footerWidget :: Bool -> Bool -> Bool -> Maybe (Entity RunParams) -> Maybe (Entity RunResult) -> Widget
-footerWidget isComposingSnippet isRunnable isOwner runParams runResult =
+-- TODO: Fix bool blindness
+footerWidget :: Bool -> Bool -> Bool -> Bool -> Maybe (Entity RunParams) -> Maybe (Entity RunResult) -> Widget
+footerWidget isEmbeded isComposingSnippet isRunnable isOwner runParams runResult =
     let
         (stdinData, _, _) = formatRunParams runParams
         (stdoutRes, stderrRes, errorRes, hasRunResult) = formatRunResult runResult
     in do
-        showAds <- liftIO $ not <$> disableAds
+        disableAds <- liftIO $ Settings.Environment.disableAds
+        let hideAds = isEmbeded || disableAds
         $(widgetFile "widgets/editor/footer")
 
 formatRunResult :: Maybe (Entity RunResult) -> (Text, Text, Text, Bool)

@@ -2,7 +2,6 @@ module Handler.Snippet where
 
 import Import hiding (pack)
 import Widget.Editor (editorWidget, footerWidget)
-import Widget.RunResult (runResultWidget)
 import Widget.Share (shareWidget)
 import Util.Handler (titleConcat, urlDecode')
 import Util.Alert (successHtml)

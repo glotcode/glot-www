@@ -1,23 +1,24 @@
 (function() {
 
     $(document).on("click", ".run", function(e) {
-        RunResult.clear();
-        RunResult.showInfo("Running...");
+        EditorFooter.showOutputTab(true);
+        EditorFooter.clear();
+        EditorFooter.showInfo("Running...");
 
         var version = Meta.getLanguageVersion();
         var url = "@?{(RunR $ Language.identifier language, [("snippet", slug)])}" + "&" + $.param({version: version, persist: false});
         var payload = {
             files: Editor.getFiles(),
-            stdin: "",
+            stdin: EditorFooter.getStdin(),
             command: Meta.getRunCommand(),
         };
 
         XHR.jsonPost(url, payload).done(function(data) {
-            RunResult.show(data);
+            EditorFooter.show(data);
         }).fail(function(xhr) {
             Alert.danger(xhr.responseJSON.message);
         }).always(function() {
-            RunResult.hideInfo();
+            EditorFooter.hideInfo();
         });
     });
 

@@ -12,4 +12,4 @@ $newline never
   <label for="share-embed">Embed
   <div class="input-group">
     <div class="input-group-addon"><i for="share-embed" class="fa fa-html5"></i>
-    <input type="text" class="form-control" id="share-embed" value="<iframe src='@{SnippetEmbedR slug}' frameborder='0' scrolling='no' sandbox='allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts' width='600' height='400'></iframe>" readonly>
+    <input type="text" class="form-control" id="share-embed" value="<iframe src='@{SnippetEmbedR slug}' frameborder='0' scrolling='no' sandbox='allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts' width='600' height='520'></iframe>" readonly>

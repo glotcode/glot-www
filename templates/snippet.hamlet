@@ -11,7 +11,7 @@ $newline never
           $else
             <h2 id="snippet-title">#{Snippet.title snippet}
       ^{editorWidget userIsSnippetOwner language snippet files profile runParams}
-      ^{footerWidget False (Language.isRunnable language) userIsSnippetOwner runParams runResult}
+      ^{footerWidget False False (Language.isRunnable language) userIsSnippetOwner runParams runResult}
       <div class="hide">
         <div id="share-content">
           ^{shareWidget slug}

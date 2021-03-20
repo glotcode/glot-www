@@ -1,7 +1,4 @@
 $newline never
 
 ^{editorWidget False language snippet files profile runParams}
-<div class="actions">
-  $if Language.isRunnable language
-    <button class="btn btn-primary run"><i class="fa fa-play"></i> Run
-^{runResultWidget Nothing}
+^{footerWidget True False (Language.isRunnable language) False runParams Nothing}
