@@ -33,7 +33,6 @@ library
                      Handler.Meta
                      Handler.Api.Snippets
                      Handler.Api.Run
-                     Model.Pagination
                      Util.Shakespare
                      Util.Handler
                      Util.Multiline
@@ -49,6 +48,7 @@ library
                      Widget.Share
                      Widget.CarbonAds
                      Yesod.Auth.Simple
+                     Glot.Pagination
                      Glot.Snippet
                      Glot.DockerRun
                      Glot.Language

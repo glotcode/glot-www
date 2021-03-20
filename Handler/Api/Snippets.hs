@@ -9,7 +9,7 @@ import qualified GHC.Generics as GHC
 import qualified Handler.Snippets as SnippetsHandler
 import qualified Handler.Snippet as SnippetHandler
 import qualified Handler.UserSnippets as UserSnippetsHandler
-import qualified Model.Pagination as Pagination
+import qualified Glot.Pagination as Pagination
 import qualified Util.Persistent as Persistent
 import qualified Util.Handler as HandlerUtils
 import qualified Data.Time.Format.ISO8601 as ISO8601

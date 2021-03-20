@@ -1,4 +1,4 @@
-module Model.Pagination
+module Glot.Pagination
     ( Pagination(..)
     , paginationRequired
     , PageData(..)

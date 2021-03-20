@@ -3,7 +3,7 @@ module Widget.Pagination (
 ) where
 
 import Import
-import qualified Model.Pagination as Pagination
+import qualified Glot.Pagination as Pagination
 
 paginationWidget :: Route App -> Pagination.Pagination -> Int -> [(Text, Text)] -> Widget
 paginationWidget route pagination currentPage queryExtra =

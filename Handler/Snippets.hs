@@ -3,7 +3,7 @@ module Handler.Snippets where
 import Import
 import Util.Handler (pageNo, title)
 import Widget.Pagination (paginationWidget)
-import qualified Model.Pagination as Pagination
+import qualified Glot.Pagination as Pagination
 import qualified Util.Persistent as Persistent
 import qualified Util.Snippet as Snippet
 import qualified Util.Multiline as Multiline
