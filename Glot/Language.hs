@@ -36,8 +36,6 @@ import qualified Data.Either.Combinators as Either
 import qualified Data.Either as Either
 import qualified Control.Exception as Exception
 
-import Data.Function ((&))
-
 
 Dhall.TH.makeHaskellTypes
     [ Dhall.TH.SingleConstructor "EditorConfig" "EditorConfig" "./config/types/EditorConfig.dhall"
@@ -110,11 +108,9 @@ readLanguages :: IO [Language]
 readLanguages = do
     langConfigs <- Dhall.input Dhall.auto "./config/languages.dhall"
     eitherLanguages <- mapM fromConfigIO langConfigs
-    let warnings = map formatConfigError (Either.lefts eitherLanguages)
-    mapM_ (\err -> TextIO.putStrLn $ "WARNING: " <> err) warnings
-    eitherLanguages
-        & Either.rights
-        & pure
+    let (errors, languages) = Either.partitionEithers eitherLanguages
+    mapM_ (\err -> TextIO.putStrLn $ "WARNING: " <> err) (map formatConfigError errors)
+    pure languages
 
 
 data ConfigError
