@@ -8,7 +8,7 @@ $newline never
       $if n == 1
         <li class="active" data-editor="editor-#{n}">
           <a href="#">
-            <span class="filename" contenteditable>#{getFilename language file n}
+            <span class="filename">#{getFilename language file n}
       $elseif n <= fileCount
         <li data-editor="editor-#{n}">
           <a href="#">

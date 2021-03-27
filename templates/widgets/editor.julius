@@ -96,10 +96,6 @@ window.Editor = (function() {
     }
 
     function setActiveTab(elem) {
-        // Ensure only selected tab is contentediable
-        $(".filename").removeAttr("contenteditable");
-        elem.find(".filename").attr("contenteditable", true);
-
         // Ensure selected tab is active and visible
         $(".editor-widget li.active").removeClass("active");
         elem.removeClass("hide");
@@ -293,6 +289,16 @@ window.Fork = (function() {
     // Prevent default on # href's
     $(document).on("click", '.nav-tabs a[href="#"]', function(e) {
         e.preventDefault();
+    });
+
+    // Show filename prompt when clicking on the active tab
+    $(document).on("click", "li.active .filename", function(e) {
+        var elem = $(e.target);
+        var filename = prompt("Enter a new filename", elem.text())
+
+        if (filename) {
+            elem.text(filename);
+        }
     });
 
     if (Fork.hasFiles()) {
