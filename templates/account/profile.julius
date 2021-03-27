@@ -16,10 +16,10 @@
             name: getName(),
         };
 
-        XHR.jsonPut("@{AccountProfileR}", payload).done(function(data) {
+        XHR.jsonPut("@{AccountProfileR}", payload).then(function(data) {
             Location.reload();
-        }).fail(function(xhr) {
-            Alert.danger(xhr.responseJSON.message);
+        }).catch(function(msg) {
+            Alert.danger(msg);
         });
     }
 

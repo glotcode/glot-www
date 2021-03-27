@@ -48,11 +48,11 @@
             command: Meta.getRunCommand(),
         };
 
-        XHR.jsonPost(url, payload).done(function(data) {
+        XHR.jsonPost(url, payload).then(function(data) {
             EditorFooter.show(data);
-        }).fail(function(xhr) {
-            Alert.danger(xhr.responseJSON.message);
-        }).always(function() {
+        }).catch(function(msg) {
+            Alert.danger(msg);
+        }).finally(function() {
             EditorFooter.hideInfo();
         });
     }
@@ -72,20 +72,20 @@
             stdin: EditorFooter.getStdin(),
         });
 
-        XHR.jsonPut(url, payload).done(function(data) {
+        XHR.jsonPut(url, payload).then(function(data) {
             Editor.clean();
             Location.reload();
-        }).fail(function(xhr) {
-            Alert.danger("Failed to save snippet");
+        }).catch(function(msg) {
+            Alert.danger(msg);
         });
     }
 
     function deleteSnippet() {
-        XHR.delete("@{SnippetR slug}").done(function(data) {
+        XHR.delete("@{SnippetR slug}").then(function(data) {
             Editor.clean();
             Location.set("@{SnippetsR}");
-        }).fail(function(xhr) {
-            Alert.danger("Failed to delete snippet");
+        }).catch(function(msg) {
+            Alert.danger(msg);
         });
     }
 

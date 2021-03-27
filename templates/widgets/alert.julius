@@ -28,7 +28,7 @@ window.Alert = (function() {
     }
 
     function render(url, msg) {
-        XHR.jsonPost(url, {message: msg}).done(function(res) {
+        XHR.jsonPost(url, {message: msg}).then(function(res) {
             show(res.message);
         });
     }

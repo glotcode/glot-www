@@ -7,10 +7,10 @@
     });
 
     function generate() {
-        XHR.jsonPut("@{AccountTokenR}", {}).done(function(data) {
+        XHR.jsonPut("@{AccountTokenR}", {}).then(function(data) {
             Location.reload();
-        }).fail(function(xhr) {
-            Alert.danger(xhr.responseJSON.message);
+        }).catch(function(msg) {
+            Alert.danger(msg);
         });
     }
 })();

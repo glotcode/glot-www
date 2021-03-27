@@ -39,11 +39,11 @@
             command: Meta.getRunCommand(),
         };
 
-        XHR.jsonPost(url, payload).done(function(data) {
+        XHR.jsonPost(url, payload).then(function(data) {
             EditorFooter.show(data);
-        }).fail(function(xhr) {
-            Alert.danger(xhr.responseJSON.message);
-        }).always(function() {
+        }).catch(function(msg) {
+            Alert.danger(msg);
+        }).finally(function() {
             EditorFooter.hideInfo();
         });
     }
@@ -63,11 +63,11 @@
             stdin: EditorFooter.getStdin(),
         });
 
-        XHR.jsonPost(url, payload).done(function(data) {
+        XHR.jsonPost(url, payload).then(function(data) {
             Editor.clean();
             Location.set(data.url);
-        }).fail(function(xhr) {
-            Alert.danger("Failed to save snippet");
+        }).catch(function(msg) {
+            Alert.danger(msg);
         });
     }
 
