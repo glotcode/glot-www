@@ -4,7 +4,7 @@ $newline never
   <div class="panel panel-default">
     <div class="panel-heading">
       $if isRunnable
-        <button class="btn btn-primary item run"><i class="fa fa-play"></i> Run
+        <button class="btn btn-primary item run" title="cmd+enter / ctrl+enter"><i class="fa fa-play"></i> Run
         <div class="btn-group item" data-toggle="buttons">
           $if hasRunResult
             <label class="btn btn-primary show-input-label"><input type="radio" name="options" class="show-input" autocomplete="off"> Input
