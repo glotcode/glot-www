@@ -84,7 +84,6 @@ instance Yesod App where
             addStylesheet $ StaticR lib_font_awesome_css_font_awesome_min_css
             addStylesheet $ StaticR lib_bootstrap_bootstrap_min_css
             addScript $ StaticR lib_jquery_jquery_min_js
-            addScript $ StaticR lib_moment_moment_min_js
             addScript $ StaticR lib_bootstrap_bootstrap_min_js
             addScript $ StaticR js_location_js
             addScript $ StaticR js_xhr_js
