@@ -1,6 +1,14 @@
 (function() {
 
     $(document).on("click", ".run", function(e) {
+        run();
+    });
+
+    Editor.onRunCodeKeyComboPressed(function() {
+        run();
+    });
+
+    function run() {
         EditorFooter.showOutputTab(true);
         EditorFooter.clear();
         EditorFooter.showInfo("Running...");
@@ -20,6 +28,6 @@
         }).always(function() {
             EditorFooter.hideInfo();
         });
-    });
+    }
 
 })();

@@ -9,6 +9,24 @@
     });
 
     $(document).on("click", ".run", function(e) {
+        run();
+    });
+
+    Editor.onRunCodeKeyComboPressed(function() {
+        run();
+    });
+
+    $(document).on("click", ".save-public", function(e) {
+        e.preventDefault();
+        save({public: true});
+    });
+
+    $(document).on("click", ".save-secret", function(e) {
+        e.preventDefault();
+        save({public: false});
+    });
+
+    function run() {
         EditorFooter.showOutputTab(true);
         EditorFooter.clear();
         EditorFooter.showInfo("Running...");
@@ -28,17 +46,7 @@
         }).always(function() {
             EditorFooter.hideInfo();
         });
-    });
-
-    $(document).on("click", ".save-public", function(e) {
-        e.preventDefault();
-        save({public: true});
-    });
-
-    $(document).on("click", ".save-secret", function(e) {
-        e.preventDefault();
-        save({public: false});
-    });
+    }
 
     function save(options) {
         var payload = {

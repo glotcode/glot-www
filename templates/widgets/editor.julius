@@ -183,6 +183,22 @@ window.Editor = (function() {
         return ace.edit(editorId);
     }
 
+    function onRunCodeKeyComboPressed(callback) {
+        // Trigger callback when the keys cmd-enter (mac) or ctrl-enter (non-mac) is pressed
+        $(document).on('keydown', function (e) {
+            var isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+            var enterKeyPressed = e.which === 13;
+            var metaKeyPressed = e.metaKey;
+            var ctrlKeyPressed = e.ctrlKey
+            var shouldRunCode = enterKeyPressed && ((isMac && metaKeyPressed) || (!isMac && ctrlKeyPressed))
+
+            if (shouldRunCode) {
+                e.preventDefault();
+                callback();
+            }
+        });
+    }
+
     return {
         initEditor: initEditor,
         resetEditor: resetEditor,
@@ -199,6 +215,7 @@ window.Editor = (function() {
         getFiles: getFiles,
         clean: clean,
         isClean: isClean,
+        onRunCodeKeyComboPressed: onRunCodeKeyComboPressed,
     };
 
 })();

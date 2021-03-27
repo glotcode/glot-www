@@ -9,25 +9,11 @@
     });
 
     $(document).on("click", ".run", function(e) {
-        EditorFooter.showOutputTab(true);
-        EditorFooter.clear();
-        EditorFooter.showInfo("Running...");
+        run();
+    });
 
-        var version = Meta.getLanguageVersion();
-        var url = "@?{(RunR $ Language.identifier language, [("snippet", slug)])}" + "&" + $.param({version: version});
-        var payload = {
-            files: Editor.getFiles(),
-            stdin: EditorFooter.getStdin(),
-            command: Meta.getRunCommand(),
-        };
-
-        XHR.jsonPost(url, payload).done(function(data) {
-            EditorFooter.show(data);
-        }).fail(function(xhr) {
-            Alert.danger(xhr.responseJSON.message);
-        }).always(function() {
-            EditorFooter.hideInfo();
-        });
+    Editor.onRunCodeKeyComboPressed(function() {
+        run();
     });
 
     $(document).on("click", ".save", function(e) {
@@ -48,6 +34,28 @@
         Editor.clean();
         Location.set("@{ComposeR $ Language.identifier language}");
     });
+
+    function run() {
+        EditorFooter.showOutputTab(true);
+        EditorFooter.clear();
+        EditorFooter.showInfo("Running...");
+
+        var version = Meta.getLanguageVersion();
+        var url = "@?{(RunR $ Language.identifier language, [("snippet", slug)])}" + "&" + $.param({version: version});
+        var payload = {
+            files: Editor.getFiles(),
+            stdin: EditorFooter.getStdin(),
+            command: Meta.getRunCommand(),
+        };
+
+        XHR.jsonPost(url, payload).done(function(data) {
+            EditorFooter.show(data);
+        }).fail(function(xhr) {
+            Alert.danger(xhr.responseJSON.message);
+        }).always(function() {
+            EditorFooter.hideInfo();
+        });
+    }
 
     function save() {
         var payload = {
