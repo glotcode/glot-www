@@ -66,6 +66,8 @@ getSnippetsWithCountQuery Persistent.LimitOffset{..} =
                 where
                     code_snippet.public is true
                 and
+                    code_snippet.user_id is not null
+                and
                     code_snippet.language <> 'plaintext'
                 and
                     lower(code_snippet.title) <> 'untitled'
@@ -88,6 +90,8 @@ getSnippetsWithCountQuery Persistent.LimitOffset{..} =
                     code_snippet
                 where
                     code_snippet.public is true
+                and
+                    code_snippet.user_id is not null
                 and
                     code_snippet.language <> 'plaintext'
                 and
@@ -113,6 +117,8 @@ getSnippetsByLanguageWithCountQuery language Persistent.LimitOffset{..} =
                 where
                     code_snippet.public is true
                 and
+                    code_snippet.user_id is not null
+                and
                     code_snippet.language = ?
                 and
                     lower(code_snippet.title) <> 'untitled'
@@ -136,6 +142,8 @@ getSnippetsByLanguageWithCountQuery language Persistent.LimitOffset{..} =
                     code_snippet
                 where
                     code_snippet.public is true
+                and
+                    code_snippet.user_id is not null
                 and
                     code_snippet.language = ?
                 and
