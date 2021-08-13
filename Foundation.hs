@@ -295,20 +295,22 @@ mkUsername email name = do
             slug
 
 
-navbarWidget :: Widget
-navbarWidget = do
+navbarWidget :: Maybe Language.Id -> Widget
+navbarWidget maybeLangId = do
     auth <- handlerToWidget $ maybeAuth
     mProfile <- case auth of
         Just (Entity userId _) -> do
             Entity _ p <- handlerToWidget $ runDB $ getBy404 $ UniqueProfile userId
             return $ Just p
         Nothing -> return Nothing
-    currentPage <- getCurrentPage mProfile <$> getCurrentRoute
+    currentRoute <- getCurrentRoute
+    let currentPage = getCurrentPage mProfile currentRoute
     $(widgetFile "widgets/navbar")
 
 
 data Page = HomePage |
             ComposeLanguagesPage |
+            LearnPage |
             SnippetsPage |
             MySnippetsPage |
             UserSnippetsPage |
@@ -320,6 +322,7 @@ data Page = HomePage |
 getCurrentPage :: Maybe Profile -> Maybe (Route App) -> Page
 getCurrentPage _ (Just HomeR) = HomePage
 getCurrentPage _ (Just ComposeLanguagesR) = ComposeLanguagesPage
+getCurrentPage _ (Just LearnR) = LearnPage
 getCurrentPage _ (Just SnippetsR) = SnippetsPage
 getCurrentPage _ (Just MetaApiDocsR) = MetaPage
 getCurrentPage _ (Just MetaAboutR) = MetaPage

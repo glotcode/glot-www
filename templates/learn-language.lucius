@@ -1,0 +1,30 @@
+.books {
+    margin-bottom: 30px;
+}
+
+.book {
+    margin-top: 30px;
+    display: flex;
+    max-width: 600px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding-right: 30px;
+}
+
+.book img {
+    max-width: 192px;
+    height: 250px;
+}
+
+.image-container {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    width: 222px;
+    min-width: 222px;
+    height: 282px;
+}
+
+.text-container {
+    padding-left: 30px;
+    padding-top: 10px;
+}

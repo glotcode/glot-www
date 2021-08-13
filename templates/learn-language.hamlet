@@ -1,0 +1,20 @@
+$newline never
+^{navbarWidget Nothing}
+
+<div class="container content-container">
+  <div class="row">
+    <div class="col-lg-12">
+      $if length (Language.books language) == 0
+        <h1>Nothing yet, check again later
+
+      $else
+        <h1>Best books for learning #{Language.name language}
+        <div class="books">
+          $forall book <- Language.books language
+            <div class="book">
+              <div class="image-container">
+                <a target="_blank" href="#{Language.purchaseLink book}">
+                  <img border="0" src="#{Language.imgLink book}">
+              <div class="text-container">
+                <a target="_blank" href="#{Language.purchaseLink book}">
+                  <h4 class="title">#{Language.bookTitle book}

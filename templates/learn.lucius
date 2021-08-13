@@ -1,0 +1,46 @@
+.languages-prompt {
+  font-size: 16px;
+  padding-top: 30px;
+}
+
+.language-badge {
+    float: left;
+    width: 140px;
+    height: 160px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.language-badge:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.languages {
+    margin-top: 20px;
+}
+
+.languages a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.language-badge .logo {
+    width: 80px;
+    height: 80px;
+}
+
+.language-badge-icon {
+    height: 80px;
+    padding: 10px;
+    padding-top: 24px;
+}
+
+.language-badge-text {
+    margin-top: 42px;
+    text-align: center;
+}

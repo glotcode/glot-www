@@ -1,5 +1,5 @@
 $newline never
-^{navbarWidget}
+^{navbarWidget Nothing}
 
 $maybe err <- mErr
   <div class="alert alert-danger" role="alert">#{err}

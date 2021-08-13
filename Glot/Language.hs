@@ -13,6 +13,7 @@ module Glot.Language
     , EditorConfig(..)
     , RunConfig(..)
     , Language(..)
+    , Book(..)
     , readLanguages
     , isRunnable
     , find
@@ -40,12 +41,15 @@ import qualified Control.Exception as Exception
 Dhall.TH.makeHaskellTypes
     [ Dhall.TH.SingleConstructor "EditorConfig" "EditorConfig" "./config/types/EditorConfig.dhall"
     , Dhall.TH.SingleConstructor "RunConfig" "RunConfig" "./config/types/RunConfig.dhall"
+    , Dhall.TH.SingleConstructor "Book" "Book" "./config/types/Book.dhall"
     , Dhall.TH.SingleConstructor "LanguageConfig" "LanguageConfig" "./config/types/Language.dhall"
     ]
 
 deriving instance Show EditorConfig
 
 deriving instance Show RunConfig
+
+deriving instance Show Book
 
 deriving instance Show LanguageConfig
 
@@ -99,6 +103,7 @@ data Language = Language
     , fileExtension :: Text.Text
     , editorConfig :: EditorConfig
     , runConfig :: Maybe RunConfig
+    , books :: [Book]
     }
     deriving (Show)
 

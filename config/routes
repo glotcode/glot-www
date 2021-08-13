@@ -6,6 +6,8 @@
 
 / HomeR GET
 /new ComposeLanguagesR GET
+/learn LearnR GET
+/learn/#Language.Id LearnLanguageR GET
 /new/#Language.Id ComposeR GET POST
 /snippets SnippetsR GET
 /snippets/#Text SnippetR GET PUT DELETE

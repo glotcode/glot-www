@@ -24,6 +24,7 @@ library
                      Handler.Common
                      Handler.Home
                      Handler.Compose
+                     Handler.Learn
                      Handler.Snippet
                      Handler.Snippets
                      Handler.UserSnippets

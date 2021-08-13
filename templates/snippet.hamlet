@@ -1,5 +1,5 @@
 $newline never
-^{navbarWidget}
+^{navbarWidget (Just (Language.identifier language))}
 
 <div class="container content-container">
   <div class="row">

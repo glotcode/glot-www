@@ -33,6 +33,7 @@ import System.Log.FastLogger                (defaultBufSize, newStdoutLoggerSet,
 import Handler.Common
 import Handler.Home
 import Handler.Compose
+import Handler.Learn
 import Handler.Snippet
 import Handler.Snippets
 import Handler.UserSnippets

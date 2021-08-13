@@ -1,0 +1,16 @@
+$newline never
+^{navbarWidget Nothing}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <p class="text-center languages-prompt">Choose a programming langauge you want to learn:
+
+    <div class="col-lg-12 languages">
+      $forall language <- languages
+        $if length (Language.books language) > 0
+          <a href="@{LearnLanguageR (Language.identifier language)}">
+            <div class="language-badge">
+              <div class="language-icon-large language-badge-icon">
+                <img class="logo" src=@{StaticR $ Language.svgLogoRoute language} alt="#{Language.name language} logo">
+              <div class="language-badge-text #{Language.idToText $ Language.identifier language}">#{Language.name language}
