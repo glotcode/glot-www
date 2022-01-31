@@ -16,27 +16,23 @@
     <g
        id="g9079"
        transform="translate(3.5219969,-5.5438176)">
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:semi-condensed;font-size:117.604px;line-height:100%;font-family:'NotoSans Nerd Font Mono';-inkscape-font-specification:'NotoSans Nerd Font Mono, Bold Semi-Condensed';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.94009px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="-2.0047052"
-         y="121.96166"
+      <g
+         aria-label="C"
+         transform="scale(1.0622289,0.94141667)"
          id="text1351"
-         transform="scale(1.0622289,0.94141667)"><tspan
-           id="tspan1349"
-           x="-2.0047052"
-           y="121.96166"
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:semi-condensed;font-size:117.604px;font-family:'NotoSans Nerd Font Mono';-inkscape-font-specification:'NotoSans Nerd Font Mono, Bold Semi-Condensed';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:2.94009px">C</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:73.8305px;line-height:100%;font-family:'NotoSans Nerd Font Mono';-inkscape-font-specification:'NotoSans Nerd Font Mono, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#ffc02e;fill-opacity:1;stroke:none;stroke-width:1.84577px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="65.472488"
-         y="71.717911"
-         id="text4731"><tspan
-           id="tspan4729"
-           x="65.472488"
-           y="71.717911"
-           style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:73.8305px;font-family:'NotoSans Nerd Font Mono';-inkscape-font-specification:'NotoSans Nerd Font Mono, Semi-Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffc02e;fill-opacity:1;stroke-width:1.84577px">λ</tspan></text>
+         style="font-weight:bold;font-stretch:semi-condensed;font-size:117.604px;line-height:100%;font-family:'NotoSans Nerd Font Mono';-inkscape-font-specification:'NotoSans Nerd Font Mono, Bold Semi-Condensed';letter-spacing:0px;word-spacing:0px;stroke-width:2.94009px">
+        <path
+           id="path596"
+           d="m 40.214844,36.816406 c -7.761864,0 -14.348029,1.842419 -19.757813,5.527344 -5.331381,3.684925 -9.407973,8.781642 -12.2304685,15.289062 -2.7440933,6.507422 -4.1152344,13.99345 -4.1152344,22.460938 0,8.781098 1.2935715,16.426172 3.8808594,22.93359 2.5872875,6.42902 6.4680025,11.40743 11.6425785,14.93555 5.174576,3.44971 11.642433,5.17578 19.404296,5.17578 7.605059,0 14.505409,-1.41188 20.699219,-4.23437 v -14.70118 c -3.371314,1.33285 -6.586827,2.43055 -9.644531,3.29297 -2.979301,0.78403 -6.037721,1.17579 -9.173828,1.17579 -6.507421,0 -11.328737,-2.46884 -14.464844,-7.40821 -3.057704,-4.939367 -4.585937,-11.956071 -4.585937,-21.050779 0,-8.702696 1.567018,-15.680615 4.703125,-20.933594 3.214509,-5.331381 7.880686,-7.998047 13.996093,-7.998047 2.822496,0 5.644301,0.510063 8.466797,1.529297 2.822496,0.940832 5.566731,2.156834 8.232422,3.646484 L 62.677734,42.460938 C 55.386286,38.697609 47.898305,36.816406 40.214844,36.816406 Z" />
+      </g>
+      <g
+         aria-label="λ"
+         id="text4731"
+         style="font-weight:600;font-size:73.8305px;line-height:100%;font-family:'NotoSans Nerd Font Mono';-inkscape-font-specification:'NotoSans Nerd Font Mono, Semi-Bold';letter-spacing:0px;word-spacing:0px;fill:#ffc02e;stroke-width:1.84577px">
+        <path
+           id="path638"
+           d="m 74.996094,15.164062 c -0.885966,1e-6 -1.870278,0.07304 -2.953125,0.220704 -1.033628,0.09844 -1.8949,0.22148 -2.583985,0.36914 v 7.605469 c 0.492204,-0.09844 1.059354,-0.196481 1.699219,-0.294922 0.689085,-0.09844 1.40232,-0.148437 2.140625,-0.148437 1.968813,0 3.495278,0.442159 4.578125,1.328125 1.132067,0.885966 2.164423,2.535469 3.099609,4.947265 l 1.550782,4.134766 -17.054688,38.392578 h 9.597656 l 8.046876,-18.753906 c 0.639864,-1.42739 1.232014,-2.9769 1.773437,-4.650391 0.590644,-1.722711 1.0828,-3.299172 1.476563,-4.726562 h 0.294921 c 0.246102,1.181288 0.663263,2.682754 1.253907,4.503906 0.590644,1.771932 1.182793,3.494477 1.773437,5.167969 l 4.207031,11.8125 c 0.836746,2.362576 1.921051,4.185115 3.25,5.464843 1.37817,1.279729 3.346796,1.919922 5.906246,1.919922 0.93519,0 1.9445,-0.09999 3.02735,-0.296875 1.13206,-0.196881 1.96834,-0.442959 2.50976,-0.738281 v -7.087891 c -0.83674,0.246102 -1.62497,0.369141 -2.36328,0.369141 -0.9844,0 -1.87068,-0.392163 -2.6582,-1.179687 -0.78753,-0.836747 -1.6238,-2.461251 -2.50977,-4.873047 L 89.910156,27.863281 c -0.984406,-2.756338 -2.091757,-5.071033 -3.322265,-6.941406 -1.181288,-1.919593 -2.682754,-3.346063 -4.503907,-4.28125 -1.821152,-0.984407 -4.183891,-1.476563 -7.08789,-1.476563 z" />
+      </g>
     </g>
   </g>
 </svg>
