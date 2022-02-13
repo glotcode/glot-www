@@ -1041,7 +1041,7 @@ in    [ { id = "assembly"
           , exampleCode =
             ''
             int main () {
-                StdIO::show ("Hello World!);
+                StdIO::show ("Hello World!");
                 return 0;
             }''
           }
