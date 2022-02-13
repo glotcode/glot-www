@@ -1029,28 +1029,6 @@ in    [ { id = "assembly"
             }
           ] : List Book
         }
-      , { id = "sac"
-        , name = "Single-Assignment C"
-        , logoName = "sac"
-        , fileExtension = "sac"
-        , editorConfig =
-          { defaultFilename = "main.sac"
-          , mode = "ace/mode/sac"
-          , useSoftTabs = True
-          , softTabSize = 4
-          , exampleCode =
-            ''
-            int main () {
-                StdIO::show ("Hello World!");
-                return 0;
-            }''
-          }
-        , runConfig = Some
-          { containerImage = "glot/sac:latest"
-          , runCommand = "sac2c -t seq -o a.out main.sac && ./a.out"
-          }
-        , books = [] : List Book
-        }
       , { id = "rust"
         , name = "Rust"
         , logoName = "rust"
@@ -1088,6 +1066,28 @@ in    [ { id = "assembly"
             , bookTitle = "Programming WebAssembly with Rust"
             }
           ] : List Book
+        }
+      , { id = "sac"
+        , name = "Single-Assignment C"
+        , logoName = "sac"
+        , fileExtension = "sac"
+        , editorConfig =
+          { defaultFilename = "main.sac"
+          , mode = "ace/mode/sac"
+          , useSoftTabs = True
+          , softTabSize = 4
+          , exampleCode =
+            ''
+            int main () {
+                StdIO::show ("Hello World!");
+                return 0;
+            }''
+          }
+        , runConfig = Some
+          { containerImage = "glot/sac:latest"
+          , runCommand = "sac2c -t seq -o a.out main.sac && ./a.out"
+          }
+        , books = [] : List Book
         }
       , { id = "scala"
         , name = "Scala"
