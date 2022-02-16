@@ -1068,7 +1068,7 @@ in    [ { id = "assembly"
           ] : List Book
         }
       , { id = "sac"
-        , name = "Single-Assignment C"
+        , name = "SaC"
         , logoName = "sac"
         , fileExtension = "sac"
         , editorConfig =
@@ -1079,7 +1079,7 @@ in    [ { id = "assembly"
           , exampleCode =
             ''
             int main () {
-                StdIO::show ("Hello World!");
+                StdIO::printf ("Hello World!");
                 return 0;
             }''
           }
