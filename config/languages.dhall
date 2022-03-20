@@ -932,7 +932,7 @@ in    [ { id = "assembly"
               ''
               <?php
 
-              echo "Hello World\n";''
+              echo "Hello World!\n";''
           }
         , runConfig = Some
           { containerImage = "glot/php:latest", runCommand = "php main.php" }

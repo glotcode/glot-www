@@ -138,3 +138,14 @@ executable         glot
     build-depends:     base, glot
 
     ghc-options:       -threaded -O2 -rtsopts -with-rtsopts=-N
+
+
+executable         glot-image-tester
+    if flag(library-only)
+        Buildable: False
+
+    main-is:           image-tester.hs
+    hs-source-dirs:    app
+    build-depends:     base, process, text, bytestring, aeson, glot
+
+    ghc-options:       -threaded -O2 -rtsopts -with-rtsopts=-N

@@ -6,6 +6,8 @@ module Glot.Snippet
     , FilePayload(..)
     , toCodeFile
     , newSlug
+    , titleFromText
+    , fileContentFromText
     ) where
 
 import Import
