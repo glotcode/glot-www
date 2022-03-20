@@ -34,6 +34,7 @@ in    [ { id = "assembly"
           { containerImage = "glot/assembly:latest"
           , runCommand =
               "nasm -f elf64 -o a.o main.asm && ld -o a.out a.o && ./a.out"
+          , versionCommand = "nasm --version"
           }
         , books =
             [ { purchaseLink = "https://www.amazon.com/Art-64-Bit-Assembly-Language/dp/1718501080?_encoding=UTF8&psc=1&refRID=W4Q0JX99S7MPZ4TCAY8P&linkCode=li3&tag=glot06-20&linkId=90bd558a8d5b707f298624be26ca60ff&language=en_US&ref_=as_li_ss_il"
@@ -62,7 +63,10 @@ in    [ { id = "assembly"
           , exampleCode = "implement main0 () = print\"Hello World!\\n\""
           }
         , runConfig = Some
-          { containerImage = "glot/ats:latest", runCommand = "make" }
+          { containerImage = "glot/ats:latest"
+          , runCommand = "make"
+          , versionCommand = "patscc --version"
+          }
         , books = [] : List Book
         }
       , { id = "bash"
@@ -77,7 +81,10 @@ in    [ { id = "assembly"
           , exampleCode = "echo Hello World!"
           }
         , runConfig = Some
-          { containerImage = "glot/bash:latest", runCommand = "bash main.sh" }
+          { containerImage = "glot/bash:latest"
+          , runCommand = "bash main.sh"
+          , versionCommand = "bash --version"
+          }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Linux-Command-Line-2nd-Introduction/dp/1593279523?_encoding=UTF8&psc=1&refRID=S4EBY2GK1KE0GSDTTGC8&linkCode=li3&tag=glot06-20&linkId=5405bdf8362076ee739b8f8fd6c94c77&language=en_US&ref_=as_li_ss_il"
             , imgLink = "https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1593279523&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=glot06-20&language=en_US"
@@ -114,6 +121,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/clang:latest"
           , runCommand = "clang main.c && ./a.out"
+          , versionCommand = "clang --version"
           }
         , books =
             [ { purchaseLink = "https://www.amazon.com/gp/product/1718501048?ie=UTF8&linkCode=li3&tag=glot06-20&linkId=69c65136c9167d29dd8ea3408c7891f8&language=en_US&ref_=as_li_ss_il"
@@ -141,6 +149,7 @@ in    [ { id = "assembly"
           { containerImage = "glot/clojure:latest"
           , runCommand =
               "java -cp /usr/share/java/clojure.jar clojure.main main.clj"
+          , versionCommand = "clj --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Clojure-Brave-True-Ultimate-Programmer/dp/1593275919?pd_rd_w=GPBWG&pf_rd_p=016e3697-91be-4dc2-9533-ef9350e7e73d&pf_rd_r=XCYC213587F3DVQWRQ8Y&pd_rd_r=4fee5800-ae25-4ebf-b7ad-9c965655554c&pd_rd_wg=Tbdhl&pd_rd_i=1593275919&psc=1&linkCode=li3&tag=glot06-20&linkId=14b1c1cc7a8a85e66d5640fb0d9f30dd&language=en_US&ref_=as_li_ss_il"
@@ -176,6 +185,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/cobol:latest"
           , runCommand = "cobc -x -o a.out main.cob && ./a.out"
+          , versionCommand = "cobc --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Beginning-COBOL-Programmers-Michael-Coughlan/dp/1430262532?dchild=1&keywords=cobol&qid=1628536294&s=books&sr=1-2&linkCode=li3&tag=glot06-20&linkId=d35e630e95c2a3abd79717a5f7f15c47&language=en_US&ref_=as_li_ss_il"
@@ -206,6 +216,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/coffeescript:latest"
           , runCommand = "coffee main.coffee"
+          , versionCommand = "coffee --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/CoffeeScript-Action-Patrick-Lee-dp-1617290629/dp/1617290629?_encoding=UTF8&me=&qid=1628536743&linkCode=li3&tag=glot06-20&linkId=094602c0bcd00b44672ec45a5ccb1895&language=en_US&ref_=as_li_ss_il"
@@ -240,6 +251,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/clang:latest"
           , runCommand = "clang++ main.cpp && ./a.out"
+          , versionCommand = "clang --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/C-Crash-Course-Josh-Lospinoso/dp/1593278888?_encoding=UTF8&psc=1&refRID=TRZ40JZX0TJC99RWRNC3&linkCode=li3&tag=glot06-20&linkId=9cd26766aa6c95c953d27ef1315e6094&language=en_US&ref_=as_li_ss_il"
@@ -270,6 +282,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/crystal:latest"
           , runCommand = "crystal run main.cr"
+          , versionCommand = "crystal --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Programming-Crystal-Create-High-Performance-Concurrent/dp/1680502867?dchild=1&keywords=crystal+programming&qid=1628537031&s=books&sr=1-1&linkCode=li3&tag=glot06-20&linkId=1bd258ef044713bfa0b53f85994e27e1&language=en_US&ref_=as_li_ss_il"
@@ -302,6 +315,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/csharp:latest"
           , runCommand = "mcs -out:a.exe main.cs && mono a.exe"
+          , versionCommand = "mcs --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Head-First-Learners-Real-World-Programming/dp/1491976705?_encoding=UTF8&psc=1&refRID=38VQ15A9W6GCP70CM4XZ&linkCode=li3&tag=glot06-20&linkId=4d5638a8b80d87c1bd000bac08553d41&language=en_US&ref_=as_li_ss_il"
@@ -343,6 +357,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/dlang:latest"
           , runCommand = "dmd -ofa.out main.d && ./a.out"
+          , versionCommand = "dmd --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Learn-Programming-Designed-individuals-starting/dp/B096LPVFRV?crid=2N3L2UVNJTXPR&keywords=d+programming+language&qid=1628537854&sprefix=d+programming%2Cstripbooks-intl-ship%2C230&sr=8-2&linkCode=li3&tag=glot06-20&linkId=4139afc8480f81b0deba542c3c053d26&language=en_US&ref_=as_li_ss_il"
@@ -368,7 +383,8 @@ in    [ { id = "assembly"
           }
         , runConfig = Some
           { containerImage = "glot/elixir:latest"
-          , runCommand = "elixirc main.ex"
+          , versionCommand = "elixirc main.ex"
+          , runCommand = "elixirc --version | tail -n 1"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Programming-Elixir-1-6-Functional-Concurrent/dp/1680502999?crid=UMBVK47J54SP&dchild=1&keywords=elixir+programming&qid=1628538085&sprefix=elixir+pro%2Caps%2C252&sr=8-1&linkCode=li3&tag=glot06-20&linkId=5f9081f924492b5e576aa0b7ff1b9778&language=en_US&ref_=as_li_ss_il"
@@ -414,6 +430,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/elm:latest"
           , runCommand = "elm make --output a.js Main.elm && elm-runner a.js"
+          , versionCommand = "elm --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Elm-Action-Richard-Feldman/dp/1617294047?dchild=1&keywords=elm+programming&qid=1628706527&sr=8-2&linkCode=li3&tag=glot06-20&linkId=b6b92c7a4d93eea5aeb0db4e0711600f&language=en_US&ref_=as_li_ss_il"
@@ -445,6 +462,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/erlang:latest"
           , runCommand = "escript main.erl"
+          , versionCommand = "erl -version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Learn-Some-Erlang-Great-Good/dp/1593274351?dchild=1&keywords=erlang&qid=1628707667&sr=8-3&linkCode=li3&tag=glot06-20&linkId=fd3bfc4884b0b89c6c0d6bb09b479223&language=en_US&ref_=as_li_ss_il"
@@ -475,6 +493,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/fsharp:latest"
           , runCommand = "fsharpc --out:a.exe main.fs > /dev/null && mono a.exe"
+          , versionCommand = "fsharpc --version 2>/dev/null | head -n 1"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Book-Breaking-Managed-Functional-Programming-dp-1593275528/dp/1593275528?_encoding=UTF8&me=&qid=1628708061&linkCode=li3&tag=glot06-20&linkId=a24070f56054af8cc7a752b95730d371&language=en_US&ref_=as_li_ss_il"
@@ -519,6 +538,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/golang:latest"
           , runCommand = "go run main.go"
+          , versionCommand = "go version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Learning-Go-Idiomatic-Real-World-Programming/dp/1492077216?dchild=1&keywords=go+programming&qid=1628708371&sr=8-1&linkCode=li3&tag=glot06-20&linkId=7fe6d90c38d824f16540be09465fd618&language=en_US&ref_=as_li_ss_il"
@@ -553,6 +573,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/groovy:latest"
           , runCommand = "groovy main.groovy"
+          , versionCommand = "groovy --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Groovy-Action-Covers-2-4/dp/1935182447?dchild=1&keywords=groovy+programming&qid=1628791946&sr=8-1&linkCode=li3&tag=glot06-20&linkId=e72d94d55a8ee745816b9ff5801be120&language=en_US&ref_=as_li_ss_il"
@@ -579,6 +600,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/haskell:latest"
           , runCommand = "runghc main.hs"
+          , versionCommand = "ghc --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Learn-You-Haskell-Great-Good/dp/1593272839?crid=2XXTJEG1T25RZ&dchild=1&keywords=haskell+programming&qid=1628793572&sprefix=haskell+programming%2Caps%2C248&sr=8-2&linkCode=li3&tag=glot06-20&linkId=132e2be928817a68937b2843e46ff46a&language=en_US&ref_=as_li_ss_il"
@@ -617,7 +639,8 @@ in    [ { id = "assembly"
           }
         , runConfig = Some
           { containerImage = "glot/idris:latest"
-          , runCommand = "idris -o a.out main.idr && ./a.out"
+          , runCommand = "idris2 -o a.out --output-dir . main.idr && ./a.out"
+          , versionCommand = "idris2 --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Type-driven-Development-Idris-Edwin-Brady/dp/1617293024?dchild=1&keywords=idris+programming&qid=1628794133&sr=8-9&linkCode=li3&tag=glot06-20&linkId=c4a34168c6d0e221131eb437484a2e43&language=en_US&ref_=as_li_ss_il"
@@ -650,6 +673,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/java:latest"
           , runCommand = "javac Main.java && java Main"
+          , versionCommand = "javac --version"
           }
         , books =
             [ { purchaseLink = "https://www.amazon.com/gp/product/0133957055/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0133957055&linkCode=as2&tag=glot06-20&linkId=20f61a0cc1750b41d670ca1de188bd36"
@@ -676,6 +700,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/javascript:latest"
           , runCommand = "node main.js"
+          , versionCommand = "node --version"
           }
         , books =
             [ { purchaseLink = "https://www.amazon.com/gp/product/1593279507/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1593279507&linkCode=as2&tag=glot06-20&linkId=2ae36f5e284f23d54c7c7cfe4fd9e71f"
@@ -712,7 +737,10 @@ in    [ { id = "assembly"
           , exampleCode = "println(\"Hello world!\")"
           }
         , runConfig = Some
-          { containerImage = "glot/julia:latest", runCommand = "julia main.jl" }
+          { containerImage = "glot/julia:latest"
+          , runCommand = "julia main.jl"
+          , versionCommand = "julia --version"
+          }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Think-Julia-Like-Computer-Scientist/dp/1492045039?dchild=1&keywords=julia+programming&qid=1628794356&sr=8-2&linkCode=li3&tag=glot06-20&linkId=eaa64ef339d522e9e056efcfcaad01f1&language=en_US&ref_=as_li_ss_il"
             , imgLink = "https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1492045039&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=glot06-20&language=en_US"
@@ -746,6 +774,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/kotlin:latest"
           , runCommand = "kotlinc main.kt && kotlin MainKt"
+          , versionCommand = "kotlinc -version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Kotlin-Programming-Nerd-Ranch-Guide-dp-0135161630/dp/0135161630?_encoding=UTF8&me=&qid=1628794627&linkCode=li3&tag=glot06-20&linkId=25e5e39ee5039db9c2477a3dd66a0ee6&language=en_US&ref_=as_li_ss_il"
@@ -778,7 +807,10 @@ in    [ { id = "assembly"
           , exampleCode = "print(\"Hello World!\");"
           }
         , runConfig = Some
-          { containerImage = "glot/lua:latest", runCommand = "lua main.lua" }
+          { containerImage = "glot/lua:latest"
+          , runCommand = "lua main.lua"
+          , versionCommand = "lua -v"
+          }
         , books = 
           [ { purchaseLink = "https://www.amazon.com/Programming-Lua-Fourth-Roberto-Ierusalimschy/dp/8590379868?dchild=1&keywords=lua+programming&qid=1628798275&sr=8-1&linkCode=li3&tag=glot06-20&linkId=4481a5b6ec6ec9e24399112aa76a911e&language=en_US&ref_=as_li_ss_il"
             , imgLink = "https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=8590379868&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=glot06-20&language=en_US"
@@ -819,6 +851,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/mercury:latest"
           , runCommand = "mmc -o a.out main.m && ./a.out"
+          , versionCommand = "mmc --version | head -n 1"
           }
         , books =
           [
@@ -838,6 +871,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/nim:latest"
           , runCommand = "nim --verbosity:0 compile --run main.nim"
+          , versionCommand = "nim --version | head -n 1"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Nim-Action-Dominik-Picheta/dp/1617293431?dchild=1&keywords=nim+programming&qid=1628796010&sr=8-1&linkCode=li3&tag=glot06-20&linkId=590c24fdaaf5685cbc35123f1830dc81&language=en_US&ref_=as_li_ss_il"
@@ -865,6 +899,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/nix:latest"
           , runCommand = "nix-instantiate --eval main.nix"
+          , versionCommand = "nix --version"
           }
         , books = [] : List Book
         }
@@ -882,6 +917,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/ocaml:latest"
           , runCommand = "ocamlc -o a.out main.ml && ./a.out"
+          , versionCommand = "ocamlc --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/OCaml-Very-Beginning-John-Whitington/dp/0957671105?dchild=1&keywords=ocaml+programming&qid=1628796089&sr=8-2&linkCode=li3&tag=glot06-20&linkId=634e3d2d801abff055b6cd37ed22b348&language=en_US&ref_=as_li_ss_il"
@@ -906,7 +942,10 @@ in    [ { id = "assembly"
           , exampleCode = "print \"Hello World!\\n\";"
           }
         , runConfig = Some
-          { containerImage = "glot/perl:latest", runCommand = "perl main.pl" }
+          { containerImage = "glot/perl:latest"
+          , runCommand = "perl main.pl"
+          , versionCommand = "perl --version | head -n 2 | tail -n 1"
+          }
         , books =
           [
             { purchaseLink = "https://www.amazon.com/Modern-Perl-chromatic/dp/1680500880?dchild=1&keywords=perl+programming&qid=1628796261&sr=8-4&linkCode=li3&tag=glot06-20&linkId=eae8370312860449bd63e03a9cdbd4b5&language=en_US&ref_=as_li_ss_il"
@@ -935,7 +974,10 @@ in    [ { id = "assembly"
               echo "Hello World!\n";''
           }
         , runConfig = Some
-          { containerImage = "glot/php:latest", runCommand = "php main.php" }
+          { containerImage = "glot/php:latest"
+          , runCommand = "php main.php"
+          , versionCommand = "php --version | head -n 1"
+          }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Programming-PHP-Creating-Dynamic-Pages/dp/1492054135?dchild=1&keywords=php+programming&qid=1628796402&sr=8-1&linkCode=li3&tag=glot06-20&linkId=e561bea66f79cacd6d211e4bde676e3a&language=en_US&ref_=as_li_ss_il"
             , imgLink = "https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1492054135&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=glot06-20&language=en_US"
@@ -961,6 +1003,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/python:latest"
           , runCommand = "python main.py"
+          , versionCommand = "python --version"
           }
         , books =
             [ { purchaseLink = "https://www.amazon.com/gp/product/1593279280/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=1593279280&linkCode=as2&tag=glot06-20&linkId=b93c6d5810ce111c2137299b3498c3c2"
@@ -985,7 +1028,10 @@ in    [ { id = "assembly"
           , exampleCode = "say 'Hello World!';"
           }
         , runConfig = Some
-          { containerImage = "glot/raku:latest", runCommand = "raku main.raku" }
+          { containerImage = "glot/raku:latest"
+          , runCommand = "raku main.raku"
+          , versionCommand = "raku --version | head -n 1"
+          }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Learning-Perl-Keeping-Impossible-Within/dp/149197768X?dchild=1&keywords=raku+programming&qid=1628796842&s=books&sr=1-3&linkCode=li3&tag=glot06-20&linkId=eeaaa6de0b55ca2ac9e5d5e2108e8afc&language=en_US&ref_=as_li_ss_il"
             , imgLink = "https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=149197768X&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=glot06-20&language=en_US"
@@ -1013,7 +1059,10 @@ in    [ { id = "assembly"
           , exampleCode = "puts \"Hello World!\""
           }
         , runConfig = Some
-          { containerImage = "glot/ruby:latest", runCommand = "ruby main.rb" }
+          { containerImage = "glot/ruby:latest"
+          , runCommand = "ruby main.rb"
+          , versionCommand = "ruby --version"
+          }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Well-Grounded-Rubyist-David-Black/dp/1617295213?dchild=1&keywords=ruby+programming&qid=1628797009&sr=8-4&linkCode=li3&tag=glot06-20&linkId=e85f7916dca0153c1e57c5dfbcde4639&language=en_US&ref_=as_li_ss_il"
             , imgLink = "https://ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1617295213&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=glot06-20&language=en_US"
@@ -1047,6 +1096,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/rust:latest"
           , runCommand = "rustc -o a.out main.rs && ./a.out"
+          , versionCommand = "rustc --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Rust-Programming-Language-Covers-2018/dp/1718500440?dchild=1&keywords=rust+programming&qid=1628797278&sr=8-2&linkCode=li3&tag=glot06-20&linkId=01ca357d12026b1921c0279402c3c6de&language=en_US&ref_=as_li_ss_il"
@@ -1086,6 +1136,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/sac:latest"
           , runCommand = "sac2c -t seq -o a.out main.sac && ./a.out"
+          , versionCommand = "sac2c -V | head -n 1"
           }
         , books = [] : List Book
         }
@@ -1107,6 +1158,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/scala:latest"
           , runCommand = "scalac main.scala && scala Main"
+          , versionCommand = "scalac --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Programming-Scala-Fifth-Odersky/dp/0997148004?dchild=1&keywords=scala+programming&qid=1628797515&sr=8-1&linkCode=li3&tag=glot06-20&linkId=5b2b1fa15a903f9544b00a32ffee3a5e&language=en_US&ref_=as_li_ss_il"
@@ -1137,6 +1189,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/swift:latest"
           , runCommand = "swift main.swift"
+          , versionCommand = "swift --version | head -n 1"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Swift-Programming-Ranch-Guide-Guides/dp/0135264200?dchild=1&keywords=swift+programming&qid=1628797723&sr=8-1&linkCode=li3&tag=glot06-20&linkId=bdeaf1be97d16725c840525b75eaf813&language=en_US&ref_=as_li_ss_il"
@@ -1170,6 +1223,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/typescript:latest"
           , runCommand = "tsc main.ts && node main.js"
+          , versionCommand = "tsc --version"
           }
         , books =
           [ { purchaseLink = "https://www.amazon.com/Programming-TypeScript-Making-JavaScript-Applications/dp/1492037656?dchild=1&keywords=typescript+programming&qid=1628797879&sr=8-1&linkCode=li3&tag=glot06-20&linkId=9074045b5b2933f9e857434dbf4b241a&language=en_US&ref_=as_li_ss_il"
