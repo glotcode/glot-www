@@ -1240,6 +1240,31 @@ in    [ { id = "assembly"
             }
           ] : List Book
         }
+      , { id = "zig"
+        , name = "Zig"
+        , logoName = "zig"
+        , fileExtension = "zig"
+        , editorConfig =
+          { defaultFilename = "main.zig"
+          , mode = "ace/mode/plain_text"
+          , useSoftTabs = True
+          , softTabSize = 4
+          , exampleCode =
+              ''
+              const std = @import("std");
+
+              pub fn main() !void {
+                  const stdout = std.io.getStdOut().writer();
+                  try stdout.print("{s}\n", .{"Hello World!"});
+              }''
+          }
+        , runConfig = Some
+          { containerImage = "glot/zig:latest"
+          , runCommand = "zig run main.zig"
+          , versionCommand = "zig --version"
+          }
+        , books = [] : List Book
+        }
       , { id = "plaintext"
         , name = "Plaintext"
         , logoName = "generic"
