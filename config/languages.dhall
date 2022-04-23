@@ -1261,7 +1261,7 @@ in    [ { id = "assembly"
         , runConfig = Some
           { containerImage = "glot/zig:latest"
           , runCommand = "zig run main.zig"
-          , versionCommand = "zig --version"
+          , versionCommand = "zig version"
           }
         , books = [] : List Book
         }
