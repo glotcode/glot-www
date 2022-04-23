@@ -10,6 +10,7 @@
 module Glot.Language
     ( Id
     , idToText
+    , idFromText
     , EditorConfig(..)
     , RunConfig(..)
     , Language(..)

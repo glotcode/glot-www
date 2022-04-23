@@ -18,19 +18,39 @@ import qualified Data.Aeson as Aeson
 import qualified Glot.Language as Language
 import qualified Glot.DockerRun as DockerRun
 import qualified Glot.Snippet as Snippet
+import qualified System.Environment as Env
 
 
 main :: IO ()
 main =
     let
+        prepareIds :: [String] -> [Language.Id]
+        prepareIds languageIds =
+            languageIds
+                & map Text.pack
+                & map Language.idFromText
+                & Maybe.catMaybes
+
+        filterLanguages :: [Language.Id] -> [Language] -> [Language]
+        filterLanguages languageIds languages =
+            if null languageIds then
+                languages
+            else
+                languages
+                    & filter (\lang -> elem (Language.identifier lang) languageIds)
+
         prepareLanguages :: [Language] -> [LanguageData]
         prepareLanguages languages =
             languages
                 & map languageDataFromLanguage
                 & Maybe.catMaybes
     in do
+    languageIdsToRun <- Env.getArgs
     languages <- Language.readLanguages
-    mapM_ runLanguage (prepareLanguages languages)
+    languages
+        & filterLanguages (prepareIds languageIdsToRun)
+        & prepareLanguages
+        & mapM_ runLanguage
 
 
 data LanguageData = LanguageData
