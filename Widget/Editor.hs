@@ -6,6 +6,7 @@ module Widget.Editor (
 import Import
 import Util.Snippet (formatRunParams)
 import Widget.CarbonAds (carbonAdsWidget)
+import qualified Text.Julius as Julius
 import qualified Settings.Environment
 import qualified Util.Snippet as Snippet
 import qualified Data.Text.Encoding as Encoding
@@ -20,6 +21,17 @@ editorWidget userIsSnippetOwner language snippet files profile runParams =
     let
         fileCount =
             length files
+
+        editorConfig =
+            Language.editorConfig language
+
+        useSoftTabs :: Bool
+        useSoftTabs =
+            Language.useSoftTabs editorConfig
+
+        tabSize :: Int
+        tabSize =
+            fromIntegral (Language.softTabSize editorConfig)
     in do
     addScript $ StaticR lib_ace_ace_js
     $(widgetFile "widgets/editor")

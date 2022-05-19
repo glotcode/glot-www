@@ -10,6 +10,8 @@ window.Editor = (function() {
         editor.setKeyboardHandler(keybindings);
         editor.getSession().setMode(#{toJSON $ Language.mode $ Language.editorConfig language});
         editor.setOptions({
+            useSoftTabs: #{Julius.rawJS useSoftTabs},
+            tabSize: #{toJSON tabSize},
             minLines: lineCount,
             maxLines: lineCount,
         });
