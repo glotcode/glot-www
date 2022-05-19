@@ -20,3 +20,4 @@ convert_svg.sh
 release
 notes.txt
 result
+dev_prod.sh
