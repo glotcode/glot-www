@@ -586,6 +586,31 @@ in    [ { id = "assembly"
             }
           ] : List Book
         }
+      , { id = "hare"
+        , name = "Hare"
+        , logoName = "hare"
+        , fileExtension = "hare"
+        , editorConfig =
+          { defaultFilename = "main.ha"
+          , mode = "ace/mode/plain_text"
+          , useSoftTabs = False
+          , softTabSize = 8
+          , exampleCode =
+              ''
+              use fmt;
+
+              export fn main() void = {
+              	fmt::println("Hello World!")!;
+              };
+              ''
+          }
+        , runConfig = Some
+          { containerImage = "glot/hare:latest"
+          , runCommand = "hare run main.ha"
+          , versionCommand = "hare version"
+          }
+        , books = [] : List Book
+        }
       , { id = "haskell"
         , name = "Haskell"
         , logoName = "haskell"
