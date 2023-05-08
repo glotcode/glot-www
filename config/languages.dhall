@@ -598,7 +598,7 @@ in    [ { id = "assembly"
           }
         , runConfig = Some
           { containerImage = "glot/guile:latest"
-          , runCommand = "guile main.scm"
+          , runCommand = "guile --no-debug --fresh-auto-compile --no-auto-compile -s main.scm"
           , versionCommand = "guile --version"
           }
         , books = [] : List Book
