@@ -969,7 +969,7 @@ in    [ { id = "assembly"
               Program Main;
 
               begin
-                writeln('Hello, World!');
+                writeln('Hello World!');
               end.
               ''
           }
