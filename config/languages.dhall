@@ -134,6 +134,23 @@ in    [ { id = "assembly"
               }
             ] : List Book
         }
+      , { id = "clisp"
+        , name = "Common Lisp"
+        , logoName = "clisp"
+        , fileExtension = "lsp"
+        , editorConfig =
+          { defaultFilename = "main.lsp"
+          , mode = "ace/mode/lisp"
+          , useSoftTabs = True
+          , exampleCode = "(format t \"Hello World!\")"
+          }
+        , runConfig = Some
+          { containerImage = "glot/clisp:latest"
+          , runCommand = "sbcl --noinform --non-interactive --load main.lsp"
+          , versionCommand = "sbcl --version"
+          }
+        , books = [] : List Book
+        }
       , { id = "clojure"
         , name = "Clojure"
         , logoName = "clojure"
@@ -228,23 +245,6 @@ in    [ { id = "assembly"
             , bookTitle = "The Little Book on CoffeeScript"
             }
           ] : List Book
-        }
-      , { id = "clisp"
-        , name = "Common Lisp"
-        , logoName = "clisp"
-        , fileExtension = "lsp"
-        , editorConfig =
-          { defaultFilename = "main.lsp"
-          , mode = "ace/mode/lisp"
-          , useSoftTabs = True
-          , exampleCode = "(format t \"Hello World!\")"
-          }
-        , runConfig = Some
-          { containerImage = "glot/clisp:latest"
-          , runCommand = "sbcl --noinform --non-interactive --load main.lsp"
-          , versionCommand = "sbcl --version"
-          }
-        , books = [] : List Book
         }
       , { id = "cpp"
         , name = "C++"
