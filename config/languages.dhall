@@ -594,7 +594,7 @@ in    [ { id = "assembly"
           { defaultFilename = "main.scm"
           , mode = "ace/mode/scheme"
           , useSoftTabs = True
-          , exampleCode = "(display "Hello World!")"
+          , exampleCode = "(display \"Hello World!\")"
           }
         , runConfig = Some
           { containerImage = "glot/guile:latest"
