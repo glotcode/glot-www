@@ -594,6 +594,7 @@ in    [ { id = "assembly"
           { defaultFilename = "main.scm"
           , mode = "ace/mode/scheme"
           , useSoftTabs = True
+          , softTabSize = 4
           , exampleCode = "(display \"Hello World!\")"
           }
         , runConfig = Some
