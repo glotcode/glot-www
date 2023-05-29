@@ -142,6 +142,7 @@ in    [ { id = "assembly"
           { defaultFilename = "main.lsp"
           , mode = "ace/mode/lisp"
           , useSoftTabs = True
+          , softTabSize = 4
           , exampleCode = "(format t \"Hello World!\")"
           }
         , runConfig = Some
