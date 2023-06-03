@@ -955,6 +955,31 @@ in    [ { id = "assembly"
             }
           ] : List Book
         }
+      , { id = "pascal"
+        , name = "Pascal"
+        , logoName = "pascal"
+        , fileExtension = "pp"
+        , editorConfig =
+          { defaultFilename = "main.pp"
+          , mode = "ace/mode/pascal"
+          , useSoftTabs = True
+          , softTabSize = 4
+          , exampleCode =
+              ''
+              Program Main;
+
+              begin
+                writeln('Hello World!');
+              end.
+              ''
+          }
+        , runConfig = Some
+          { containerImage = "glot/pascal:latest"
+          , runCommand = "fpc main.pp -oa.out && ./a.out"
+          , versionCommand = "fpc -iW"
+          }
+        , books = [] : List Book
+        }
       , { id = "perl"
         , name = "Perl"
         , logoName = "perl"
