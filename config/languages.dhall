@@ -586,6 +586,24 @@ in    [ { id = "assembly"
             }
           ] : List Book
         }
+      , { id = "guile"
+        , name = "Guile"
+        , logoName = "guile"
+        , fileExtension = "scm"
+        , editorConfig =
+          { defaultFilename = "main.scm"
+          , mode = "ace/mode/scheme"
+          , useSoftTabs = True
+          , softTabSize = 4
+          , exampleCode = "(display \"Hello World!\")"
+          }
+        , runConfig = Some
+          { containerImage = "glot/guile:latest"
+          , runCommand = "guile --no-debug --fresh-auto-compile --no-auto-compile -s main.scm"
+          , versionCommand = "guile --version"
+          }
+        , books = [] : List Book
+        }
       , { id = "hare"
         , name = "Hare"
         , logoName = "hare"
