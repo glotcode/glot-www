@@ -388,6 +388,29 @@ in    [ { id = "assembly"
             }
           ] : List Book
         }
+        , { id = "dart"
+          , name = "Dart"
+          , logoName = "dart"
+          , fileExtension = "dart"
+          , editorConfig =
+            { defaultFilename = "main.dart"
+            , mode = "ace/mode/dart"
+            , useSoftTabs = True
+            , softTabSize = 4
+            , exampleCode =
+              ''
+              void main() {
+                  print('Hello, World!');
+              }
+              ''
+            }
+          , runConfig = Some
+            { containerImage = "glot/dart:latest"
+            , runCommand = "dart main.dart"
+            , versionCommand = "dart --version"
+            }
+          , books = [] : List Book
+          }
       , { id = "elixir"
         , name = "Elixir"
         , logoName = "elixir"
