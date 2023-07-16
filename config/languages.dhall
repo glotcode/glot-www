@@ -400,7 +400,7 @@ in    [ { id = "assembly"
             , exampleCode =
               ''
               void main() {
-                  print('Hello, World!');
+                  print('Hello World!');
               }
               ''
             }
