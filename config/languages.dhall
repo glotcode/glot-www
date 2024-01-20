@@ -1374,19 +1374,5 @@ in    [ { id = "assembly"
           }
         , books = [] : List Book
         }
-      , { id = "plaintext"
-        , name = "Plaintext"
-        , logoName = "generic"
-        , fileExtension = "txt"
-        , editorConfig =
-          { defaultFilename = "main.txt"
-          , mode = "ace/mode/plain_text"
-          , useSoftTabs = True
-          , softTabSize = 4
-          , exampleCode = "Hello world!"
-          }
-        , runConfig = None RunConfig
-        , books = [] : List Book
-        }
       ]
     : List Language
